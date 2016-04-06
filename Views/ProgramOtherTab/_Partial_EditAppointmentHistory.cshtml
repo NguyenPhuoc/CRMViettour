@@ -8,7 +8,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Lịch hẹn</h4>
             </div>
-            @using (Ajax.BeginForm("UpdateAppointment", "CustomerOtherTab", null, new AjaxOptions { OnFailure = "OnFailureAppointment", OnSuccess = "OnSuccessAppointment", UpdateTargetId = "lichhen" }))
+            @using (Ajax.BeginForm("UpdateAppointment", "ProgramOtherTab", null, new AjaxOptions { OnFailure = "OnFailureAppointment", OnSuccess = "OnSuccessAppointment", UpdateTargetId = "lichhen" }))
             {
                 @Html.HiddenFor(model => model.Id)
                 @Html.HiddenFor(model => model.CustomerId)

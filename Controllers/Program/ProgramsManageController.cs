@@ -197,16 +197,16 @@ namespace CRMViettour.Controllers
                         Session["ProgramFile"] = null;
                         CustomerFileSize = null;
                         var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId.ToString() == id).ToList();
-                        return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml", list);
+                        return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml", list);
                     }
                     else
                     {
-                        return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml");
+                        return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml");
                     }
                 }
             }
             catch { }
-            return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml");
+            return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml");
         }
 
         //[ChildActionOnly]
@@ -261,11 +261,11 @@ namespace CRMViettour.Controllers
                         Session["ProgramFile"] = null;
                         Session["CustomerFileSize"] = null;
                         var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == model.ProgramId).ToList();
-                        return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml", list);
+                        return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml", list);
                     }
                     else
                     {
-                        return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml");
+                        return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml");
                     }
                 }
             }
@@ -273,7 +273,7 @@ namespace CRMViettour.Controllers
             {
             }
 
-            return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml");
+            return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml");
         }
 
         [HttpPost]
@@ -291,16 +291,16 @@ namespace CRMViettour.Controllers
                 if (await _documentFileRepository.Delete(id, true))
                 {
                     var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId).ToList();
-                    return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml", list);
+                    return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml", list);
                 }
                 else
                 {
-                    return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml");
+                    return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml");
                 }
             }
             catch
             {
-                return PartialView("~/Views/ProgramTabInfo/_HoSoLienQuan.cshtml");
+                return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml");
             }
         }
 

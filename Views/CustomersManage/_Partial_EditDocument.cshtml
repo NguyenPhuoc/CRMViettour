@@ -29,8 +29,9 @@
                                         @Html.HiddenFor(model => model.CreatedDate)
                                         @Html.HiddenFor(model => model.PermissionStaff)
                                         @Html.HiddenFor(model => model.FileName)
+                                        @Html.HiddenFor(model => model.FileSize)
 
-                                        @Html.TextBoxFor(model => model.FileName, new { id="edit-file", type = "file", @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.FileName, new { id = "edit-file", type = "file", @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -65,4 +66,3 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-

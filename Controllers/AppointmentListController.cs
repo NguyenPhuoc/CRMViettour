@@ -11,6 +11,7 @@ namespace CRMViettour.Controllers
         //demo
         // GET: /AppointmentList/
         //vd bây giờ chị sửa cái file này -> chị lưu lại 
+        //e mới sửa tiếp nk
         public ActionResult Index()
         {
             return View();

@@ -8,9 +8,9 @@ namespace CRMViettour.Controllers
 {
     public class AppointmentListController : Controller
     {
-        //
+        //demo
         // GET: /AppointmentList/
-
+        //vd bây giờ chị sửa cái file này -> chị lưu lại 
         public ActionResult Index()
         {
             return View();

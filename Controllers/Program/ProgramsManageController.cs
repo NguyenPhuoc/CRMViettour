@@ -180,6 +180,7 @@ namespace CRMViettour.Controllers
                     model.IsRead = false;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
+                    model.StaffId = 9;
                     //file
                     HttpPostedFileBase FileName = Session["ProgramFile"] as HttpPostedFileBase;
                     string CustomerFileSize = Common.ConvertFileSize(FileName.ContentLength);

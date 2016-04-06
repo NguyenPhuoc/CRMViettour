@@ -139,7 +139,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'thongtinchitiet':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoThongTinChiTiet',
+                url: '/ContractTabInfo/InfoThongTinChiTiet',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -151,7 +151,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'lichhen':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoLichHen',
+                url: '/ContractTabInfo/InfoLichHen',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -163,7 +163,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'chitiettour':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoChiTietTour',
+                url: '/ContractTabInfo/InfoChiTietTour',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -175,7 +175,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'lichsulienhe':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoLichSuLienHe',
+                url: '/ContractTabInfo/InfoLichSuLienHe',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -187,7 +187,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'congno':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoCongNo',
+                url: '/ContractTabInfo/InfoCongNo',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -199,7 +199,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'lichsuinvoicedoitac':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoLichSuInvoiceDoiTac',
+                url: '/ContractTabInfo/InfoLichSuInvoiceDoiTac',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -211,7 +211,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'tailieumau':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoTaiLieuMau',
+                url: '/ContractTabInfo/InfoTaiLieuMau',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -223,7 +223,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'phieuthu':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoPhieuThu',
+                url: '/ContractTabInfo/InfoPhieuThu',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -235,7 +235,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'nhatkyxuly':
             $.ajax({
                 type: "POST",
-                url: '/ContactTabInfo/InfoNhatKyXuLy',
+                url: '/ContractTabInfo/InfoNhatKyXuLy',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -256,7 +256,7 @@ $("#tabthongtinchitiet").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoThongTinChiTiet',
+            url: '/ContractTabInfo/InfoThongTinChiTiet',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -276,7 +276,7 @@ $("#tablichhen").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoLichHen',
+            url: '/ContractTabInfo/InfoLichHen',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -295,7 +295,7 @@ $("#tabchitiettour").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoChiTietTour',
+            url: '/ContractTabInfo/InfoChiTietTour',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -314,7 +314,7 @@ $("#tabtailieumau").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoTaiLieuMau',
+            url: '/ContractTabInfo/InfoTaiLieuMau',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -333,7 +333,7 @@ $("#tablichsulienhe").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoLichSuLienHe',
+            url: '/ContractTabInfo/InfoLichSuLienHe',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -352,7 +352,7 @@ $("#tabcongno").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoCongNo',
+            url: '/ContractTabInfo/InfoCongNo',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -371,7 +371,7 @@ $("#tabphieuthu").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoPhieuThu',
+            url: '/ContractTabInfo/InfoPhieuThu',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -390,7 +390,7 @@ $("#tablichsuinvoicedoitac").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoLichSuInvoiceDoiTac',
+            url: '/ContractTabInfo/InfoLichSuInvoiceDoiTac',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -409,7 +409,7 @@ $("#tabnhatkyxuly").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/ContactTabInfo/InfoNhatKyXuLy',
+            url: '/ContractTabInfo/InfoNhatKyXuLy',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -419,3 +419,18 @@ $("#tabnhatkyxuly").click(function () {
         });
     }
 });
+
+
+
+/** success ajax form **/
+function OnSuccessCustomerFile() {
+    $("#modal-insert-document").modal("hide");
+    $("#modal-edit-document").modal("hide");
+}
+
+/** failure ajax form **/
+function OnFailureCustomerFile() {
+    alert("Lỗi, vui lòng kiểm tra lại!");
+    $("#modal-insert-document").modal("hide");
+    $("#modal-edit-document").modal("hide");
+}

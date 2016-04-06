@@ -177,12 +177,12 @@
 
     <!--tab Tài Liệu Mẫu-->
     @Html.Partial("~/Views/ContractOtherTab/_Partial_InsertDocument.cshtml", new tbl_DocumentFile())
-    <div id="info-data-doc">
+    <div id="info-data-document">
     </div>
 
     <!--tab Lịch Sử Liên Hệ-->
     @Html.Partial("~/Views/ContractOtherTab/_Partial_InsertContactHistory.cshtml", new tbl_ContactHistory())
-    <div id="info-data-contact">
+    <div id="info-data-contacthistory">
     </div>
 
     <!----- lịch hẹn ----->
@@ -226,6 +226,23 @@
                     });
                 }
             }
+
+            $('#FileName').change(function () {
+                var data = new FormData();
+                data.append('FileName', $('#FileName')[0].files[0]);
+
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: 'ContractsManage/UploadFile',
+                    contentType: false,
+                    processData: false,
+                    data: data
+                });
+
+                ajaxRequest.done(function (xhr, textStatus) {
+                    // Onsuccess
+                });
+            });
 
             function btnAddLichSuLienHe() {
                 if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
@@ -299,5 +316,84 @@
                 }
             }
 
+            /** cập nhật tài liệu **/
+            function updateDocument(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/ContractsManage/EditInfoDocument',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#info-data-document").html(data);
+                        $("#edit-tag-document").select2();
+                        $("#edit-document-type").select2();
+                        CKEDITOR.replace("edit-document-note");
+                        $("#modal-edit-document").modal("show");
+                        /**** update in tab file của khách hàng ****/
+                        $("#btnUpdateFile").click(function () {
+                            var $this = $(this);
+                            var $form = $("#frmUpdateFile");
+                            var $parent = $form.parent();
+                            var options = {
+                                url: $form.attr("action"),
+                                type: $form.attr("method"),
+                                data: $form.serialize()
+                            };
+
+                            $.ajax(options).done(function (data) {
+                                $("#modal-edit-document").modal("hide");
+                                alert("Lưu dữ liệu thành công!");
+                                $("#tailieumau").html(data);
+                            });
+                            return false;
+                        });
+
+                        /** upload file **/
+                        $("#edit-file").change(function () {
+                            var data = new FormData();
+                            data.append('FileName', $('#edit-file')[0].files[0]);
+                            var ajaxRequest = $.ajax({
+                                type: "POST",
+                                url: 'ContractsManage/UploadFile',
+                                contentType: false,
+                                processData: false,
+                                data: data
+                            });
+
+                            ajaxRequest.done(function (xhr, textStatus) {
+                                // Onsuccess
+                            });
+                        });
+                    }
+                });
+            }
+
+            $('#insert-service-lichhen').change(function () {
+                $.getJSON('/ContractOtherTab/LoadPartner/' + $('#insert-service-lichhen').val(), function (data) {
+                    var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                    $.each(data, function (i, ward) {
+                        items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                    });
+                    $('#insert-partner-lichhen').html(items);
+                });
+            });
+
+            /** xóa tài liệu **/
+            function deleteDocument(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/ContractsManage/DeleteDocument',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#tailieumau").html(data);
+                    }
+                });
+            }
         </script>
     }

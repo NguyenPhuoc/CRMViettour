@@ -17,3 +17,5 @@ E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.csprojResolveAs
 E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.dll
 E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.pdb
 C:\DIP\CRMVT\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache
+C:\DIP\CRMVT\CRMViettour\bin\CRM.Core.pdb
+C:\DIP\CRMVT\CRMViettour\bin\CRM.Infrastructure.pdb

@@ -13,7 +13,7 @@ namespace CRMViettour.Controllers.Contract
     public class ContractTabInfoController : BaseController
     {
         // GET: ContractTabInfo
-       #region Init
+        #region Init
 
         private IGenericRepository<tbl_Contract> _contractRepository;
         private IGenericRepository<tbl_Staff> _staffRepository;
@@ -84,7 +84,25 @@ namespace CRMViettour.Controllers.Contract
         [HttpPost]
         public async Task<ActionResult> InfoLichHen(int id)
         {
-            var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToListAsync();
+            //var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).Select(p => new tbl_AppointmentHistory
+            //    {
+            //        Id = p.Id,
+            //        Time = p.Time,
+            //        Note = p.Note,
+            //        tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId),
+            //        tbl_Staff = _staffRepository.FindId(p.StaffId),
+            //        OtherStaff = p.OtherStaff
+            //    }).ToListAsync();
+            var model = _db.tbl_AppointmentHistory.AsEnumerable().Where(p => p.ContractId == id).Select(p => new tbl_AppointmentHistory
+            {
+                Id = p.Id,
+                Time = p.Time,
+                Title = p.Title,
+                Note = p.Note,
+                tbl_DictionaryStatus = _dictionaryRepository.FindId(p.DictionaryId),
+                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                OtherStaff = p.OtherStaff
+            }).ToList();
             return PartialView("_LichHen", model);
         }
         #endregion
@@ -99,7 +117,17 @@ namespace CRMViettour.Controllers.Contract
         [HttpPost]
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
-            var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToListAsync();
+            //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToListAsync();
+            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ContractId == id)
+                      .Select(p => new tbl_ContactHistory
+                      {
+                          Id = p.Id,
+                          ContactDate = p.ContactDate,
+                          Request = p.Request,
+                          Note = p.Note,
+                          tbl_Staff = _staffRepository.FindId(p.StaffId),
+                          tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId)
+                      }).ToList();
             return PartialView("_LichSuLienHe", model);
         }
         #endregion
@@ -128,7 +156,18 @@ namespace CRMViettour.Controllers.Contract
         [HttpPost]
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
-            var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToListAsync();
+            // var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToListAsync();
+            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == id)
+                      .Select(p => new tbl_DocumentFile
+                      {
+                          Id = p.Id,
+                          FileName = p.FileName,
+                          FileSize = p.FileSize,
+                          Note = p.Note,
+                          CreatedDate = p.CreatedDate,
+                          TagsId = p.TagsId,
+                          tbl_Staff = _staffRepository.FindId(p.StaffId)
+                      }).ToList();
             return PartialView("_TaiLieuMau", model);
         }
         #endregion

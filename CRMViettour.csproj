@@ -2440,6 +2440,7 @@
     <Content Include="Views\ProgramOtherTab\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\ContractOtherTab\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\ProgramsManage\_Partial_EditDocument.cshtml" />
+    <Content Include="Views\ContractsManage\_Partial_EditDocument.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

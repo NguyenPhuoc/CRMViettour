@@ -1,0 +1,125 @@
+﻿@using CRM.Core;
+@model IEnumerable<tbl_Quotation>
+
+@{
+    ViewBag.Title = "Quản lý Báo giá";
+    string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>DANH SÁCH BÁO GIÁ</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</button>
+                <button class="btn btn-primary" data-toggle="modal" href="#modal-insert-quotation"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                <form action="@Url.Action("Delete", "QuotationManage")" method="post" style="position:absolute">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="listItemId" name="listItemId" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
+                        <table class="table table-striped table-bordered table-hover dataTable" id="tableDictionary">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                                    </th>
+                                    <th>CODE</th>
+                                    <th>Tên file</th>
+                                    <th>Tour</th>
+                                    <th>Quốc gia</th>
+                                    <th>Ngày</th>
+                                    <th>Giá tour</th>
+                                    <th>Khách hàng</th>
+                                    <th>Người báo giá</th>
+                                    <th>Người upload</th>
+                                    <th>Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" value="@item.Id" id="cb@(item.Id)" class="cbItem" name="cb" onclick="CheckSelect()" />
+                                        </td>
+                                        <td>@item.Code</td>
+                                        <td>
+                                            <a style="cursor:pointer" onclick="viewFileOnline(@item.Id)">@item.FileName</a>
+                                            <input type="hidden" value="@domain/Upload/file/@item.FileName" id="txtURL@(item.Id)" />
+                                        </td>
+                                        <td>@item.tbl_Tour.Code</td>
+                                        <td>@item.tbl_TagsCountry.Tag</td>
+                                        <td>@string.Format("{0:dd-MM-yyyy}", item.QuotationDate)</td>
+                                        <td>@string.Format("{0:0,0}", item.PriceTour).Replace(",", ".")</td>
+                                        <td>@item.tbl_Customer.Code</td>
+                                        <td>@item.tbl_StaffQuotation.FullName</td>
+                                        <td>@item.tbl_Staff.FullName</td>
+                                        <td>@Html.Raw(item.Note)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+@Html.Partial("_Partial_Insert_Quotation", new tbl_Quotation())
+
+<div id="data-quotation">
+</div>
+
+<div id="viewfile"></div>
+
+@section scripts{
+    <script src="~/Scripts/controller/quotation.js"></script>
+}

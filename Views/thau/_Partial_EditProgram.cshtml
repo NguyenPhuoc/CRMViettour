@@ -1,0 +1,94 @@
+﻿<div class="modal fade  bs-modal-lg" id="modal-edit-program" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Thầu</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Tên thầu</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <input type="text" value="" class="form-control" name="ProgramName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Ngày lập thầu</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control" readonly id="edit-ngaylapthau-chiendich" name="ProgramDate">
+                                        <span class="input-group-btn">
+                                            <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Giá cả</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <input type="text" class="form-control" name="ProgramPrice" />
+                                </div>
+                                <label class="control-label col-lg-3 col-md-3">Số lượng khách</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <input type="number" class="form-control" name="ProgramNumberCustomer" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Ngày mở</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control" readonly id="insert-ngaymo-chiendich" name="ProgramDateStart">
+                                        <span class="input-group-btn">
+                                            <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <label class="control-label col-lg-3 col-md-3">Ngày đóng</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control" readonly id="insert-ngaydong-chiendich" name="ProgramDateEnd">
+                                        <span class="input-group-btn">
+                                            <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Ngày hoàn thành</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <input type="text" class="form-control" readonly="readonly" name="ProgramDateFinish" />
+                                </div>
+                                <label class="control-label col-lg-3 col-md-3">% hoàn thành</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <input type="number" class="form-control" name="ProgramPercentFinish" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Yêu cầu cụ thể</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <textarea class="form-control" name="ProgramNoteEdit"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn blue" id="btnLuuThem">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+

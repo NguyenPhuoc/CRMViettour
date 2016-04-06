@@ -1,0 +1,61 @@
+﻿<div class="modal fade" id="modal-edit-schedule" role="document" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Lịch hẹn</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Chủ đề</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Phân công</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <select id="edit-staff-tour" class="form-control" multiple="multiple" style="width: 100%">
+                                        <option>A</option>
+                                        <option>B</option>
+                                        <option>C</option>
+                                        <option>D</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Thời gian</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control" readonly id="edit-ngayhen-schedule">
+                                        <span class="input-group-btn">
+                                            <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Ghi chú</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <textarea class="form-control" name="edit-note-schedule"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn blue" id="btnLuuThem">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+

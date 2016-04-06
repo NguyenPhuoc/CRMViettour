@@ -1,0 +1,84 @@
+﻿@using CRM.Core;
+@using CRMViettour.Utilities;
+@model tbl_QuotationForm
+
+<div class="modal fade" id="modal-edit-quotationform" role="document" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Cập nhật mẫu báo giá</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Update", "QuotationFormManage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.StaffId)
+                    @Html.HiddenFor(model => model.CreatedDate)
+                    @Html.HiddenFor(model => model.ModifiedDate)
+                    @Html.HiddenFor(model => model.DownloadNumber)
+                    @Html.HiddenFor(model => model.FileName)
+                    
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Code</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">File</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.FileName, new { @class = "form-control", type = "file" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Tên công ty</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <select id="edit-company" class="form-control" name="CompanyId" style="width: 100%">
+                                            @foreach (var item in LoadData.CompanyList())
+                                            {
+                                                <option value="@item.Id" @(Model != null && Model.CompanyId == item.Id ? "selected" : "")>@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Số lượng option</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.OptionNumber, new { @class = "form-control", type = "number" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Ghi chú</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "edit-note-quotationform" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Phân quyền</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <select id="edit-permission" multiple class="form-control" name="Permission" style="width: 100%">
+                                            @foreach (var item in LoadData.StaffList())
+                                            {
+                                                <option value="@item.Id" @(Model.Permission != null && Model.Permission.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.FullName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div align="center" style="margin-bottom: 20px">
+                        <button type="submit" class="btn blue">Lưu</button>
+                        <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>

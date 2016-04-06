@@ -1,0 +1,22 @@
+﻿@using CRM.Core
+@model tbl_Partner
+
+<div class="row">
+    @if (Model != null)
+    {
+        <div class="col-md-6">
+            <p><b>Code:</b> @Model.Code</p>
+            <p><b>Dịch vụ:</b> @(Model.DictionaryId != null ? Model.tbl_Dictionary.Name : "")</p>
+            <p><b>Đối tác:</b> @Model.Name</p>
+            <p><b>Địa chỉ:</b> @Model.Address, @(Model.TagsLocationId != null ? CRMViettour.Utilities.LoadData.LocationTags(Model.TagsLocationId) : "")</p>
+            <p><b>Phong cách:</b> @(Model.StyleId != null ? Model.tbl_TagsStyle.Tag : "")</p>
+        </div>
+        <div class="col-md-6">
+            <p><b>Giám đốc:</b> @Model.Director</p>
+            <p><b>NV liên hệ:</b> @Model.StaffContact</p>
+            <p><b>Điện thoại:</b> @Model.Phone</p>
+            <p><b>Email:</b> @Model.Email</p>
+            <p><b>Skype:</b> @Model.Skype</p>
+        </div>
+    }
+</div>

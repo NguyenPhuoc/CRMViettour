@@ -1,0 +1,189 @@
+﻿<div class="col-md-12" style="border: 1px solid #ccc; margin: 15px 0; padding: 15px; padding-bottom: 0;">
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Mã hiệu</label>
+        <div class="col-lg-10 col-md-10">
+            <input type="text" value="" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Tên công ty</label>
+        <div class="col-lg-10 col-md-10">
+            <input type="text" value="" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Địa chỉ</label>
+        <div class="col-lg-4 col-md-4">
+            <input type="text" value="" class="form-control" />
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <select class="form-control" id="customer-tinhthanh-company" style="width: 100%">
+                <option value="0">-Tỉnh/Thành-</option>
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <select class="form-control" id="customer-quanhuyen-company" style="width: 100%">
+                <option value="0">-Quận/Huyện-</option>
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <select class="form-control" id="customer-xaphuong-company" style="width: 100%">
+                <option value="0">-Xã/Phường-</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Điện thoại</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Fax</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Email</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Website</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Quy mô</label>
+            <div class="col-lg-9 col-md-9">
+                <select class="form-control select2-dropdown" id="customer-quymo-company" style="width: 100%">
+                    <option value="0">Quy mô</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nhóm KH</label>
+            <div class="col-lg-9 col-md-9">
+                <select class="form-control select2-dropdown" id="customer-nhomkh-company" style="width: 100%">
+                    <option value="0">Nhóm khách hàng</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nguồn đến</label>
+            <div class="col-lg-9 col-md-9">
+                <select class="form-control" id="customer-nguonden-company" style="width: 100%">
+                    <option value="0">Nguồn đến</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Vốn điều lệ</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="number" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Số nợ tối đa</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="number" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Hạn nợ (ngày)</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="number" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Ghi chú</label>
+            <div class="col-lg-9 col-md-9">
+                <textarea class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Mã số thuế</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Ngày cấp</label>
+            <div class="col-lg-9 col-md-9">
+                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control" readonly id="ngaycapmst">
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nơi cấp</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Số tài khoản</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Mở tại NH</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Số GPKD</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="text" value="" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Ngày TLDN</label>
+            <div class="col-lg-9 col-md-9">
+                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control" readonly id="ngaytldn">
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Ngành nghề</label>
+            <div class="col-lg-9 col-md-9">
+                <textarea class="form-control" style="height: 127px"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nhận mail</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="checkbox" checked />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nhận SMS</label>
+            <div class="col-lg-9 col-md-9">
+                <input type="checkbox" />
+            </div>
+        </div>
+    </div>
+</div>

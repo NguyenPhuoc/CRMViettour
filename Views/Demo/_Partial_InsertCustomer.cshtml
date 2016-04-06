@@ -1,0 +1,75 @@
+﻿<div class="modal fade  bs-modal-lg" id="modal-insert-customer" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Khách hàng - Doanh nghiệp</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="tabbable-custom" id="tab-insert-customer">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#thongtinchung" data-toggle="tab">Thông tin chung</a>
+                            </li>
+                            <li>
+                                <a href="#nguoilienhe" data-toggle="tab">Người liên hệ</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="thongtinchung">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="radio-list">
+                                            <label>
+                                                <input type="radio" name="radioCustomerType" id="rdoCompany" value="1" onclick="$('#detail-company').show(); $('#detail-personal').hide();" checked="checked" />
+                                                Doanh nghiệp
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="radioCustomerType" id="rdoPersonal" value="2" onclick="$('#detail-company').hide(); $('#detail-personal').show();" />
+                                                Cá nhân
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="radio-list">
+                                            <label>
+                                                <input type="radio" name="radioCustomerGroup" id="rdoCustomer" value="1" checked="checked" />
+                                                Khách hàng
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="radioCustomerGroup" id="rdoAgency" value="2" />
+                                                Đại lý
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="radioCustomerGroup" id="rdoCusAgency" value="3" />
+                                                Khách hàng/Đại lý
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="detail-company">
+                                        @Html.Partial("_Partial_DetailCompany")
+                                    </div>
+                                    <div id="detail-personal" style="display: none">
+                                        @Html.Partial("_Partial_DetailPersonal")
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="nguoilienhe">
+                                <div class="row">
+                                    @Html.Partial("_Partial_DetailContact")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn blue" onclick="clickbtnLuuThem()">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

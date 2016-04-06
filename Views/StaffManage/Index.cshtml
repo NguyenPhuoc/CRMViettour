@@ -1,0 +1,558 @@
+﻿@using CRM.Core;
+@using CRMViettour.Models;
+@model IEnumerable<StaffListViewModel>
+
+    @{
+        ViewBag.Title = "Quản lý Nhân viên";
+    }
+
+    <div class="page-content">
+        <!-- BEGIN PAGE HEAD-->
+        <div class="page-head">
+            <!-- BEGIN PAGE TITLE -->
+            <div class="page-title">
+                <h1>DANH SÁCH NHÂN VIÊN</h1>
+            </div>
+            <!-- END PAGE TITLE -->
+
+        </div>
+        <!-- END PAGE HEAD-->
+        <!-- BEGIN PAGE BREADCRUMB -->
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Page Layouts</span>
+            </li>
+        </ul>
+        <!-- END PAGE BREADCRUMB -->
+        <!-- BEGIN PAGE BASE CONTENT -->
+        <div class="note note-info">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="">
+                        <a href="@Url.Action("Index", "StaffManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                        <button class="btn btn-primary" href="#modal-insert-staff" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                        <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                        <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                        <form action="@Url.Action("Delete", "StaffManage")" method="post" style="position:absolute">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="listItemId" name="listItemId" />
+                        </form>
+                        <button class="btn yellow" id="btnPassword" onclick="confirm('Bạn có muốn khởi tạo lại mật khẩu không?');"><i class="fa fa-key"></i>&nbsp;Mật khẩu</button>
+                        <button class="btn red" id="btnLock" onclick="confirm('Bạn có chắc chắn khóa tài khoản này không?');"><i class="fa fa-lock"></i>&nbsp;Khóa</button>
+                        <button class="btn grey" id="btnUnLock" onclick="confirm('Bạn có chắc chắn mở khóa tài khoản này không?');"><i class="fa fa-unlock"></i>&nbsp;Mở khóa</button>
+                        <a class="btn green" data-toggle="modal" href="#modal-import-staff"><i class="icon-action-redo"></i>&nbsp;Import</a>
+                        <label class="btn btn-info fileContainer">
+                            <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" class="form-control" />&nbsp;Export</a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-body">
+                        <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
+                            <table class="table table-bordered table-hover dataTable" id="tableDictionary">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="table-checkbox">
+                                            <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                                        </th>
+                                        <th>CODE</th>
+                                        <th>Họ tên</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Passport</th>
+                                        <th>Ngày hiệu lực</th>
+                                        <th>Ngày hết hạn</th>
+                                        <th>Điện thoại</th>
+                                        <th>Số nội bộ</th>
+                                        <th>Email</th>
+                                        <th>Skype</th>
+                                        <th>Phòng ban</th>
+                                        <th>Chức vụ</th>
+                                        <th>Khóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="odd gradeX">
+                                            <td><input type="checkbox" id="cb@(item.Id)" class="cbItem" value="@item.Id" name="cb" onclick="CheckSelect()" /></td>
+                                            <td>@item.Code</td>
+                                            <td>@item.Fullname</td>
+                                            <td>@item.Birthday</td>
+                                            <td>@item.Passport</td>
+                                            <td>@item.CreateDatePassport</td>
+                                            <td>@item.ExpiredDatePassport</td>
+                                            <td>@item.Phone</td>
+                                            <td>@item.InternalNumber</td>
+                                            <td>@item.Email</td>
+                                            <td>@item.Skype</td>
+                                            <td>@item.Department</td>
+                                            <td>@item.Position</td>
+                                            <td>
+                                                <input type="checkbox" disabled="disabled" @(item.IsLock == true ? "checked" : "") />
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet light bordered">
+                    <div class="portlet-body">
+                        <div class="tabbable-custom" id="tabbable-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#thongtinchitiet" data-toggle="tab" id="tabthongtinchitiet">Thông tin chi tiết </a>
+                                </li>
+                                <li>
+                                    <a href="#lichhen" data-toggle="tab" id="tablichhen">Lịch hẹn</a>
+                                </li>
+                                <li>
+                                    <a href="#nhiemvu" data-toggle="tab" id="tabnhiemvu">Nhiệm vụ</a>
+                                </li>
+                                <li>
+                                    <a href="#lichsulienhe" data-toggle="tab" id="tablichsulienhe">Lịch sử liên hệ</a>
+                                </li>
+                                <li>
+                                    <a href="#thautour" data-toggle="tab" id="tabthautour">Thầu/tour</a>
+                                </li>
+                                <li>
+                                    <a href="#hosolienquan" data-toggle="tab" id="tabhosolienquan">Hồ sơ liên quan</a>
+                                </li>
+                                <li>
+                                    <a href="#khachhang" data-toggle="tab" id="tabkhachhang">Khách hàng</a>
+                                </li>
+                                <li>
+                                    <a href="#lichsuditour" data-toggle="tab" id="tablichsuditour">Lịch sử đi tour</a>
+                                </li>
+                                <li>
+                                    <a href="#visa" data-toggle="tab" id="tabvisa">VISA</a>
+                                </li>
+                                <li>
+                                    <a href="#capnhatthaydoi" data-toggle="tab" id="tabcapnhatthaydoi">Cập nhật thay đổi</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="thongtinchitiet" data-id="thongtinchitiet">
+                                    @*Thông tin chi tiết*@
+                                    @Html.Action("_ThongTinChiTiet", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="lichhen" data-id="lichhen">
+                                    @Html.Action("_LichHen", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="nhiemvu" data-id="nhiemvu">
+                                    @*Nhiệm vụ*@
+                                    @Html.Action("_NhiemVu", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="lichsulienhe" data-id="lichsulienhe">
+                                    @*Lịch sử liên hệ*@
+                                    @Html.Action("_LichSuLienHe", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="thautour" data-id="thautour">
+                                    @*Thầu/tour*@
+                                    @Html.Action("_ThauTour", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="hosolienquan" data-id="hosolienquan">
+                                    @*Hồ sơ liên quan*@
+                                    @Html.Action("_HoSoLienQuan", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="khachhang" data-id="khachhang">
+                                    @Html.Action("_KhachHang", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="lichsuditour" data-id="lichsuditour">
+                                    @*Lịch sử đi tour*@
+                                    @Html.Action("_LichSuDiTour", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="visa" data-id="visa">
+                                    @*VISA*@
+                                    @Html.Action("_Visa", "StaffTabInfo")
+                                </div>
+                                <div class="tab-pane" id="capnhatthaydoi" data-id="capnhatthaydoi">
+                                    @*Cập nhật thay đổi*@
+                                    @Html.Action("_CapNhatThayDoi", "StaffTabInfo")
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE BASE CONTENT -->
+    </div>
+
+    <!----- staff ----->
+    @Html.Partial("_Partial_InsertStaff", new StaffViewModel())
+    <div class="info-data-staff">
+    </div>
+
+    <!----- tab document ----->
+    @Html.Partial("_Partial_InsertDocument", new tbl_DocumentFile())
+    <div id="info-data-doc">
+    </div>
+
+    <!----- view file ----->
+    <div id="viewfile"></div>
+
+    <!----- tab visa ----->
+    @Html.Partial("_Partial_InsertVisa", new tbl_StaffVisa())
+    <div id="info-data-visa">
+    </div>
+    <!----- lịch hẹn ----->
+    @Html.Partial("~/Views/StaffOtherTab/_Partial_InsertAppointmentHistory.cshtml", new tbl_AppointmentHistory())
+    <div id="info-data-appoinment">
+    </div>
+
+    <!----- lịch sử liên hệ ----->
+    @Html.Partial("~/Views/StaffOtherTab/_Partial_InsertContactHistory.cshtml", new tbl_ContactHistory())
+    <div id="info-data-contacthistory">
+    </div>
+    @Html.Partial("_Partial_EditSchedule")
+    @Html.Partial("_Partial_InsertSchedule")
+
+    @Html.Partial("_Partial_ImportStaff")
+
+    @section scripts{
+        <script src="~/Scripts/controller/staff.js"></script>
+        <script src="~/Scripts/controller/staffothertab.js"></script>
+        <script>
+            CKEDITOR.replace("insert-document-note");
+            CKEDITOR.replace("insert-note-lichhen");
+            CKEDITOR.replace("insert-note-lienhe");
+        </script>
+        <script>
+            ///****** cập nhật nhân viên ******/
+            $("#btnEdit").click(function () {
+                var dataPost = {
+                    id: $("input[type='checkbox']:checked").val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: '/StaffManage/StaffInformation',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        console.log(data);
+                        $(".info-data-staff").html(data);
+                        $("#edit-nametype").select2();
+                        $("#edit-address").select2();
+                        $("#edit-position").select2();
+                        $("#edit-staffgroup").select2();
+                        $("#edit-headquarter").select2();
+                        $("#edit-placeidentity").select2();
+                        $("#edit-department").select2();
+                        $("#edit-identity").datepicker();
+                        $("#edit-birthplace").select2();
+                        $("#edit-birthday").datepicker();
+                        $("#edit-createpassport").datepicker();
+                        $("#edit-expiredPassport").datepicker();
+                        $("#edit-placepassport").select2();
+                        $("#edit-nation").select2();
+                        $("#edit-religion").select2();
+                        $("#edit-marriage").select2();
+                        $("#edit-certificate").select2();
+
+                        ///*** modal ***/
+                        $("#modal-edit-staff").modal("show");
+
+                        ///*** duplicate form visa (edit) ***/
+                        $(function () {
+                            $('#btnAddE').click(function () {
+                                var num = $('.clonedInputE').length, // how many "duplicatable" input fields we currently have
+                                    newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+                                    newElem = $('#entryE' + num).clone().attr('id', 'entryE' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+                                // manipulate the name/id values of the input inside the new element
+
+                                newElem.find('.visacardE').attr('name', 'VisaNumber' + newNum).val('');
+                                newElem.find('.ngaycapvisaE').attr('id', 'ngaycapvisaE' + newNum).attr('name', 'CreatedDateVisa' + newNum).val('');
+                                newElem.find('.ngayhethanvisaE').attr('id', 'ngayhethanvisaE' + newNum).attr('name', 'ExpiredDateVisa' + newNum).val('');
+                                newElem.find('.countryvisaE').attr('id', 'countryvisaE' + newNum).attr('name', 'TagsId' + newNum).val('');
+
+                                // insert the new element after the last "duplicatable" input field
+                                $('#entryE' + num).after(newElem);
+                                $("#ngaycapvisaE" + newNum).datepicker();
+                                $("#ngayhethanvisaE" + newNum).datepicker();
+                                $("#countryvisaE" + newNum).select2();
+
+                                for (var i = 1; i < newNum; i++) {
+                                    $("#entryE" + newNum + " #select2-countryvisaE" + i + "-container").parent().parent().parent().remove();
+                                }
+
+                                // enable the "remove" button
+                                $('#btnDelE').attr('disabled', false);
+
+                            });
+
+                            $('#btnDelE').click(function () {
+                                // confirmation
+                                var num = $('.clonedInputE').length;
+                                // how many "duplicatable" input fields we currently have
+                                $('#entryE' + num).slideUp('slow', function () {
+                                    $(this).remove();
+                                    // if only one element remains, disable the "remove" button
+                                    if (num - 1 === 1)
+                                        $('#btnDelE').attr('disabled', true);
+                                    // enable the "add" button
+                                    $('#btnAddE').attr('disabled', false).prop('value', "add section");
+                                });
+                                return false;
+
+                                $('#btnAddE').attr('disabled', false);
+                            });
+                            $('#btnDelE').attr('disabled', true);
+                        });
+                    }
+                });
+            });
+
+            /** button thêm tài liệu của công ty **/
+            function btnCreateFile() {
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 nhân viên!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/StaffManage/GetIdStaff',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#insert-document-type").select2();
+                            $("#insert-tag-document").select2();
+                            $("#modal-insert-document").modal("show");
+                        }
+                    });
+                }
+            }
+
+            function btnCreateVisa() {
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 nhân viên!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+                    $.ajax({
+                        type: "POST",
+                        url: '/StaffManage/GetIdStaff',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#insert-country-visa").select2();
+                            $("#insert-type-visa").select2();
+                            $("#insert-status-visa").select2();
+                            $("#insert-createdatevisa").datepicker();
+                            $("#insert-expiredatevisa").datepicker();
+                            $("#modal-insert-visa").modal("show");
+                        }
+                    });
+                }
+            }
+
+            function btnAddLichHen() {
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 nhân viên!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/StaffManage/GetIdStaff',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#insert-tour-lichhen").select2();
+                            $("#insert-program-lichhen").select2();
+                            $("#insert-task-lichhen").select2();
+                            $("#insert-status-lichhen").select2();
+                            $("#insert-service-lichhen").select2();
+                            $("#insert-partner-lichhen").select2();
+                            $("#insert-type-lichhen").select2();
+                            $("#insert-partner-lichhen").select2();
+                            $("#insert-ngayhen-lichhen").datepicker();
+                            $("#modal-insert-appointment").modal("show");
+                        }
+                    });
+                }
+            }
+
+            function btnAddLichSuLienHe() {
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 nhân viên!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/StaffManage/GetIdStaff',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#insert-type-lienhe").select2();
+                            $("#insert-ngay-lienhe").datepicker();
+                            $("#modal-insert-contacthistory").modal("show");
+                        }
+                    });
+                }
+            }
+
+            function viewFileOnline(id) {
+                $("#viewfile").html("<div id='modal-view-file' class='modal fade' role='dialog'>" +
+                "<div class='modal-dialog'><div class='modal-content'>" +
+                "<iframe src='" + $("#txtURL" + id) + "' width='500px' height='350px' frameborder='0'></iframe>" +
+                "</div></div></div>");
+                $("#modal-view-file").modal("show");
+            }
+
+            $('#insert-service-lichhen').change(function () {
+                $.getJSON('/StaffOtherTab/LoadPartner/' + $('#insert-service-lichhen').val(), function (data) {
+                    var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                    $.each(data, function (i, ward) {
+                        items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                    });
+                    $('#insert-partner-lichhen').html(items);
+                });
+            });
+
+            /** cập nhật lịch hẹn **/
+            function updateAppointment(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/StaffOtherTab/EditAppointment',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#info-data-appoinment").html(data);
+                        $("#edit-tour-lichhen").select2();
+                        $("#edit-program-lichhen").select2();
+                        $("#edit-task-lichhen").select2();
+                        $("#edit-status-lichhen").select2();
+                        $("#edit-service-lichhen").select2();
+                        $("#edit-partner-lichhen").select2();
+                        $("#edit-type-lichhen").select2();
+                        $("#edit-partner-lichhen").select2();
+                        $("#edit-ngayhen-lichhen").datepicker();
+                        CKEDITOR.replace("edit-note-lichhen");
+                        $("#edit-check-notify").click(function () {
+                            if (this.checked) {
+                                $("#edit-nhactruoc-lichhen").removeAttr("disabled", "disabled");
+                                $("#edit-nhactruoc-lichhen").select2();
+                            }
+                            else {
+                                $("#edit-nhactruoc-lichhen").attr("disabled", "disabled");
+                            }
+                        });
+
+                        $("#edit-check-repeat").click(function () {
+                            if (this.checked) {
+                                $("#edit-laplai-lichhen").removeAttr("disabled", "disabled");
+                                $("#edit-laplai-lichhen").select2();
+                            }
+                            else {
+                                $("#edit-laplai-lichhen").attr("disabled", "disabled");
+                            }
+                        });
+
+                        $('#edit-service-lichhen').change(function () {
+                            $.getJSON('/StaffOtherTab/LoadPartner/' + $('#edit-service-lichhen').val(), function (data) {
+                                var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                                $.each(data, function (i, ward) {
+                                    items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                                });
+                                $('#edit-partner-lichhen').html(items);
+                            });
+                        });
+
+                        $("#modal-edit-appointment").modal("show");
+                    }
+                });
+            }
+
+            /** xóa lịch hẹn **/
+            function deleteAppointment(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/StaffOtherTab/DeleteAppointment',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#lichhen").html(data);
+                    }
+                });
+            }
+
+            /** xóa lịch sử liên hệ **/
+            function deleteContactHistory(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/StaffOtherTab/DeleteContactHistory',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#lichsulienhe").html(data);
+                    }
+                });
+            }
+
+            /** cập nhật lịch sử liên hệ **/
+            function updateContactHistory(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/StaffOtherTab/EditContactHistory',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#info-data-contacthistory").html(data);
+                        $("#edit-ngay-lienhe").datepicker();
+                        $("#edit-type-lienhe").select2();
+                        CKEDITOR.replace("edit-note-lienhe");
+                        $("#modal-edit-contacthistory").modal("show");
+                    }
+                });
+            }
+        </script>
+    }

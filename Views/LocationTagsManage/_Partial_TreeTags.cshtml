@@ -1,0 +1,20 @@
+﻿@using CRMViettour.Models
+@model SeededTagsViewModel
+
+@if (Model.Tags.Where(s => s.ParentId == Model.Seed).Any())
+{
+    <ul>
+        @foreach (var node in Model.Tags)
+        {
+            if (node.ParentId == Model.Seed)
+            {
+                var inner = new SeededTagsViewModel { Seed = node.Id, Tags = Model.Tags };
+                <li>
+                    <input type="checkbox" value="@node.Id" class="cbItem" id="cb@(node.Id)" name="cb" onclick="CheckSelectTag()" />
+                    <label>@node.Tags</label>
+                    @Html.Partial("_Partial_TreeTags", inner)
+                </li>
+            }
+        }
+    </ul>
+}

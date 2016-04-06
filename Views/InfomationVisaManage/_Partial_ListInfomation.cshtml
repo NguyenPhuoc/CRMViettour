@@ -1,0 +1,46 @@
+﻿@using CRM.Core
+@model IEnumerable<tbl_VisaInfomation>
+
+<div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
+    <table class="table table-striped table-bordered table-hover dataTable" id="tableDictionary">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th class="table-checkbox">
+                    <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                </th>
+                <th>Quốc gia</th>
+                <th>Phí visa cơ bản (VNĐ)</th>
+                <th>Phí dịch vụ (VNĐ)</th>
+                <th>Thời gian cấp trung bình (ngày)</th>
+                <th>Địa chỉ nộp</th>
+                <th>Nơi nộp</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" id="cb@(item.Id)" class="cbItem" value="@item.Id" name="cb" onclick="CheckSelect()" />
+                    </td>
+                    <td>@item.tbl_Tags.Tag</td>
+                    <td>@string.Format("{0:0,0}", item.BasicPrice).Replace(",",".")</td>
+                    <td>@string.Format("{0:0,0}", item.BasicService).Replace(",", ".")</td>
+                    <td>@item.NumberDay</td>
+                    <td>@item.Address</td>
+                    <td>@item.PlaceIn</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

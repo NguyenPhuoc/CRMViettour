@@ -1,0 +1,112 @@
+﻿@using CRMViettour.Utilities
+@using CRM.Core
+@model tbl_Program
+
+<div class="modal fade  bs-modal-lg" id="modal-insert-program" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Chương trình</h4>
+            </div>
+            @using (Html.BeginForm("Create", "ProgramsManage"))
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Code</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Tour</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <select class="form-control" id="insert-tour" name="TourId" style="width: 100%">
+                                            @foreach (var item in LoadData.TourList())
+                                            {
+                                                <option value="@item.Id">@item.Code</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Tên chương trình</label>
+                                    <div class="col-lg-10 col-md-10">
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Khách hàng</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <select class="form-control" id="insert-customer" name="CustomerId" style="width: 100%">
+                                            @foreach (var item in LoadData.CustomerList())
+                                            {
+                                                <option value="@item.Id">@item.FullName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Địa điểm</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <select class="form-control" id="insert-address" name="TagsId" multiple style="width: 100%">
+                                            @foreach (var item in LoadData.DropdownlistLocation())
+                                            {
+                                                <option value="@item.Id">@item.Tags</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Ngày bắt đầu</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                            <input type="text" class="form-control" id="insert-startdate" name="StartDate" style="width: 100%" readonly="readonly" />
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Ngày kết thúc</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                            <input type="text" class="form-control" id="insert-enddate" name="EndDate" style="width: 100%" readonly="readonly" />
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Số ngày</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number" })
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Tổng giá trị</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        @Html.TextBoxFor(model => model.TotalPrice, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                    <div class="col-lg-10 col-md-10">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

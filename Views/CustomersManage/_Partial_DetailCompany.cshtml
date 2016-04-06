@@ -1,0 +1,205 @@
+﻿@using CRMViettour.Models
+@using CRMViettour.Utilities
+@model CustomerViewModel
+
+<div class="col-md-12" style="border: 1px solid #ccc; margin: 15px 0; padding: 15px; padding-bottom: 0;">
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Mã khách hàng</label>
+        <div class="col-lg-10 col-md-10">
+            @Html.TextBoxFor(model => model.SingleCompany.Code, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Tên công ty</label>
+        <div class="col-lg-10 col-md-10">
+            <select class="form-control" style="width: 100%" id="insert-customer-company" name="SingleCompany.CompanyId">
+                <option value="0">-- Chọn công ty --</option>
+                @foreach (var item in LoadData.CompanyList())
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Giám đốc</label>
+        <div class="col-lg-10 col-md-10">
+            @Html.TextBoxFor(model => model.SingleCompany.Director, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Địa chỉ</label>
+        <div class="col-lg-4 col-md-4">
+            @Html.TextBoxFor(model => model.SingleCompany.Address, new { @class = "form-control" })
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <select class="form-control" multiple="multiple" style="width: 100%" id="insert-address-company" name="SingleCompany.TagsId">
+                @foreach (var item in LoadData.DropdownlistLocation())
+                {
+                    <option value="@item.Id">@item.Tags</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Điện thoại</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.Phone, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Fax</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.Fax, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Email cá nhân</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.PersonalEmail, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Email công ty</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.CompanyEmail, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Skype</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.Skype, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nhóm KH</label>
+            <div class="col-lg-9 col-md-9">
+                <select class="form-control" style="width: 100%" id="customer-nhomkh-company" name="SingleCompany.CustomerGroupId">
+                    @foreach (var item in LoadData.CustomerGroupList())
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nguồn đến</label>
+            <div class="col-lg-9 col-md-9">
+                <select class="form-control" style="width: 100%" id="customer-nguonden-company" name="SingleCompany.OriginId">
+                    @foreach (var item in LoadData.OriginList())
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Chức vụ</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.Position, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Phòng ban</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.Department, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Mã số thuế</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.TaxCode, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Ngày cấp</label>
+            <div class="col-lg-9 col-md-9">
+                <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control" id="ngaycapmst" readonly="readonly" name="SingleCompany.CreatedDateTaxCode" />
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nơi cấp</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.CreatedPlaceTaxCode, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Số tài khoản</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.AccountNumber, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Mở tại NH</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.Bank, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Số GPKD</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleCompany.BusinessLicense, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Ngày TLDN</label>
+            <div class="col-lg-9 col-md-9">
+                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control" id="ngaytldn" readonly="readonly" name="SingleCompany.FoundingDate" />
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Ngành nghề</label>
+            <div class="col-lg-9 col-md-9">
+                <select class="form-control" style="width: 100%" id="edit-customer-company" name="SingleCompany.CareerId">
+                    @foreach (var item in LoadData.CareerList())
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nhận mail</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.CheckBoxFor(model => model.SingleCompany.SubscribeEmail)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nhận SMS</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.CheckBoxFor(model => model.SingleCompany.SubscribeSMS)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-lg-12 col-md-12" style="text-align: left">Ghi chú</label>
+            <div class="col-lg-12 col-md-12">
+                @Html.TextAreaFor(model => model.SingleCompany.Note, new { @class = "form-control", id = "insert-note-company" })
+            </div>
+        </div>
+    </div>
+</div>

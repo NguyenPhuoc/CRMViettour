@@ -1,0 +1,115 @@
+﻿<div class="modal fade  bs-modal-lg" id="modal-insert-tourtask" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Phân công nhiệm vụ</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Loại nhiệm vụ</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" style="width: 100%" name="TourTaskType">
+                                        <option value="0">-------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Tên nhiệm vụ</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="text" value="" class="form-control" name="TourTaskName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Phòng ban</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" id="insert-department-tasktour" style="width: 100%" name="TourTaskDepartment">
+                                        <option value="0">-------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Người thực hiện</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" id="insert-staff-tasktour" style="width: 100%" name="TourTaskStaff">
+                                        <option value="0">-------</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Ngày bắt đầu</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control" readonly id="insert-ngaybdau-task" name="TourTaskStartDate">
+                                        <span class="input-group-btn">
+                                            <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Thời hạn</label>
+                                <div class="col-lg-4 col-md-4">
+                                    <input type="number" value="" class="form-control" name="TourTaskDeadline" />
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <select class="form-control" style="width: 100%" name="TourTaskDeadlineType">
+                                        <option value="1">Ngày</option>
+                                        <option value="2">Giờ</option>
+                                        <option value="3">Phút</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Ngày kết thúc</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control" readonly id="insert-ngaykt-task" name="TourTaskEndDate">
+                                        <span class="input-group-btn">
+                                            <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Mức độ</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" style="width: 100%" name="TourTaskLevel">
+                                        <option value="1">Dễ</option>
+                                        <option value="2">Bình thường</option>
+                                        <option value="3">Khó</option>
+                                        <option value="4">Phức tạp</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2 col-md-2">Nội dung</label>
+                                <div class="col-lg-10 col-md-10">
+                                    <textarea name="TourTaskNote" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn blue" id="btnLuuThem">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+

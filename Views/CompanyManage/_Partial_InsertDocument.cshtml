@@ -1,0 +1,71 @@
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@model tbl_DocumentFile
+
+<div class="modal fade " id="modal-insert-document" role="document" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Thêm mới tài liệu</h4>
+            </div>
+            @using (Html.BeginForm("CreateDocument", "CompanyManage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Code</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">File</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.FileName, new { type = "file", @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Loại tài liệu</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <select class="form-control" name="DictionaryId" id="insert-document-type" style="width: 100%">
+                                            @foreach (var item in LoadData.DocumentTypeList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Tags</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <select id="insert-tag-document" required="required" name="TagsId" class="form-control" multiple="multiple" style="width: 100%">
+                                            @foreach (var item in LoadData.DropdownlistLocation())
+                                            {
+                                                <option value="@item.Id">@item.Tags</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Diễn giải</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-document-note" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue" id="btnLuuThem">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

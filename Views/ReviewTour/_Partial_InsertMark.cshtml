@@ -1,0 +1,84 @@
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@model tbl_ReviewTour
+
+<div class="modal fade  bs-modal-lg" id="modal-insert-mark" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Đánh giá</h4>
+            </div>
+            @using (Html.BeginForm("Create", "ReviewTour"))
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Tour</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <select class="form-control" id="insert-tour" name="TourId" style="width: 100%">
+                                            @foreach (var item in LoadData.TourList())
+                                        {
+                                        <option value="@item.Id">@item.Name</option>
+                                        }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Khách hàng</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <select class="form-control" id="insert-customer" name="CustomerId" style="width: 100%">
+                                            @foreach (var item in LoadData.CustomerList())
+                                            {
+                                                <option value="@item.Id">@item.FullName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group clonedInput" id="entry1">
+                                    <label class="control-label col-lg-3 col-md-3">Dịch vụ</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <select class="form-control service" id="insert-service1" name="DictionaryId1" style="width: 100%">
+                                            @foreach (var item in LoadData.ServiceList())
+                                        {
+                                        <option value="@item.Id">@item.Name</option>
+                                        }
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Điểm</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <input type="number" class="form-control mark" name="Mark1" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3"></label>
+                                    <div class="col-md-2">
+                                        <button type="button" id="btnAddR" class="btn btn-default">Thêm dịch vụ</button>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <button type="button" id="btnDel" class="btn btn-danger">Xóa dịch vụ</button>
+                                        <input type="hidden" name="countService" id="countService" value="1" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Ghi chú</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

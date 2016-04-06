@@ -1,0 +1,169 @@
+﻿<div class="modal fade  bs-modal-lg" id="modal-insert-plane" role="document" aria-hidden="true" ng-controller="itemCtrl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Vé máy bay</h4>
+            </div>
+            <div class="modal-body" ng-repeat="pl in items">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <a data-toggle="collapse" data-target="#demo-restaurant{{pl}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                                        <span class="caption-subject bold uppercase font-purple">OPTION {{pl}}</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button style="cursor: pointer" class="btn btn-danger"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                                <div class="portlet-body" id="demo-restaurant{{pl}}">
+                                    <div class="form-horizontal">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <input ng-model="pl.name" name="contacter-plane{{pl}}" type="text" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-4 col-md-4">Hãng</label>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <select class="form-control" id="insert-hang-plane" style="width: 100%" ng-model="pl.name" name="sel{{pl}}">
+                                                            <option value=" 0">
+                                                                -------
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-4 col-md-4">SL vé</label>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <input ng-model="pl.name" name="quantity-plane{{pl}}" type="text" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-4 col-md-4">Code</label>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <input ng-model="pl.name" name="code-plane{{pl}}" type="text" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-4 col-md-4">Giá</label>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <input ng-model="pl.name" name="price-code{{pl}}" type="text" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Chuyến bay</label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <input ng-model="pl.name" name="flight-plane{{pl}}" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <input ng-model="pl.name" name="note-plane{{pl}}" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12" ng-controller="subitemCtrl">
+                                                <div class="portlet light bordered" ng-repeat="dl in subitems">
+                                                    <div class="portlet-title">
+                                                        <div class="caption">
+                                                            <a data-toggle="collapse" data-target="#demo-deadline1-plane{{dl}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                                                            <span class="caption-subject bold uppercase font-purple">Deadline {{dl}}</span>
+                                                        </div>
+                                                        <div class="actions">
+                                                            <button class="btn btn-default" ng-show="$last" ng-click="addNewItem1()"> <i class="fa fa-plus"></i></button>
+                                                            <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem1()"><i class="fa fa-times"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="portlet-body" id="demo-deadline1-plane{{dl}}">
+                                                        <div class="form-horizontal">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-lg-2 col-md-2">Tên</label>
+                                                                        <div class="col-lg-4 col-md-4">
+                                                                            <input ng-model="dl.name" name="tb{{dl}}" type="text" class="form-control" />
+                                                                        </div>
+                                                                        <label class="control-label col-lg-2 col-md-2">Số tiền</label>
+                                                                        <div class="col-lg-4 col-md-4">
+                                                                            <input ng-model="dl.name" name="tb{{dl}}" type="text" class="form-control" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-lg-2 col-md-2">Thời gian</label>
+                                                                        <div class="col-lg-4 col-md-4">
+                                                                            <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                                                <input type="text" class="form-control" readonly id="insert-thoigian1-plane" />
+                                                                                <span class="input-group-btn">
+                                                                                    <button class="btn default date-set" type="button">
+                                                                                        <i class="fa fa-calendar"></i>
+                                                                                    </button>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
+                                                                        <div class="col-lg-4 col-md-4">
+                                                                            <select class="form-control" ng-model="dl.name" name="sel{{dl}}">
+                                                                                <option>-----------</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-lg-2 col-md-2">File</label>
+                                                                        <div class="col-lg-10 col-md-10">
+                                                                            <input ng-model="dl.name" name="tb{{dl}}" type="file" class="form-control" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                                        <div class="col-lg-10 col-md-10">
+                                                                            <textarea ng-model="dl.name" name="ta{{dl}}" class="form-control" id="PlaneNoteD{{dl}}"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn btn-success" ng-click="addNewItem()">Thêm option</button>
+                <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+

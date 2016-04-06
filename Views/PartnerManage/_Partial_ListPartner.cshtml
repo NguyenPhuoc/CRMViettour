@@ -1,0 +1,45 @@
+﻿@using CRMViettour.Models;
+@using CRMViettour.Utilities;
+@model IEnumerable<PartnerViewModel>
+
+<div class="table-scrollable table-custom-format" id="tableDictionary-Wrapper">
+    <table class="table table-bordered table-hover dataTable" id="tableDictionary">
+        <thead>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th class="table-checkbox">
+                    <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                </th>
+                <th>CODE</th>
+                <th>Tên đối tác</th>
+                <th>Quốc gia</th>
+                <th>Tags</th>
+                <th>Nhân viên liên hệ</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="odd gradeX">
+                    <td><input type="checkbox" id="cb@(item.Id)" class="cbItem" value="@item.Id" name="cb" onclick="CheckSelect()" /></td>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@item.Country</td>
+                    <td>@item.Tags</td>
+                    <td>@item.Contact</td>
+                    <td>@item.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

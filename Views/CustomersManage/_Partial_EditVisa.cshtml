@@ -1,0 +1,90 @@
+﻿@using CRM.Core
+@using CRM.Enum
+@using CRMViettour.Utilities
+@model tbl_CustomerVisa
+
+<div class="modal fade " id="modal-edit-visa" role="document" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Cập nhật visa</h4>
+            </div>
+            @using (Html.BeginForm("UpdateVisa", "CustomersManage", FormMethod.Post, new { id = "frmUpdateVisa", enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Mã visa</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.HiddenFor(model=> model.Id)
+                                        @Html.HiddenFor(model => model.CustomerId)
+                                        @Html.TextBoxFor(model => model.VisaNumber, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Quốc gia</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.DropDownList("TagsId", null, new { @class = "form-control", id = "edit-country-visa", required = "required", style = "width: 100%" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Tình trạng</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.DropDownList("DictionaryId", null, new { @class = "form-control", id = "edit-status-visa", required = "required", style = "width: 100%" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Loại visa</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <select class="form-control" name="VisaType" id="edit-type-visa" style="width: 100%">
+                                            @foreach (var item in LoadData.VisaTypeList())
+                                            {
+                                                <option value="@item.Id" @((VisaType)item.Id == Model.VisaType ? "selected" : "")>@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Ngày hiệu lực</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                            @Html.TextBoxFor(model => model.CreatedDateVisa, new { @class = "form-control", @readonly = "readonly", @id = "edit-createdate-visa" })
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Ngày hết hạn</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                            @Html.TextBoxFor(model => model.ExpiredDateVisa, new { @class = "form-control", @readonly = "readonly", @id = "edit-expiredate-visa" })
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="button" class="btn blue" id="btnUpdateVisa">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+

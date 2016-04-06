@@ -1,0 +1,15 @@
+﻿@using CRM.Core
+@model tbl_Program
+
+@if (Model != null)
+{
+    <p>
+        <label><b>Mã tour:</b> @Model.tbl_Tour.Code</label>
+        <br />
+        <label><b>Tên tour:</b> @Model.tbl_Tour.Name</label>
+        <br />
+        <label><b>Khách hàng/doanh nghiệp:</b> @Model.tbl_Customer.FullName</label>
+        <br />
+        .....
+    </p>
+}

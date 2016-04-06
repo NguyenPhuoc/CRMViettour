@@ -1,0 +1,39 @@
+﻿@using CRM.Core
+@model tbl_PartnerNote
+
+<div class="modal fade  bs-modal-lg" id="modal-edit-note" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Ghi chú</h4>
+            </div>
+            @using (Ajax.BeginForm("UpdateNote", "PartnerManage", null, new AjaxOptions { OnSuccess = "OnSuccessPartner", OnFailure = "OnFailurePartner", UpdateTargetId = "ghichu" }))
+            {
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.PartnerId)
+                @Html.HiddenFor(model => model.StaffId)
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                    <div class="col-lg-10 col-md-10">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "edit-note-partner" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue" id="btnLuuThem">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

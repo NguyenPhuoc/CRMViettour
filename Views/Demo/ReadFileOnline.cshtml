@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Read file online";
+}
+
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>DEMO READ FILE ONLINE</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="#modal-word" id="word" data-toggle="modal" class="btn btn-primary"><i class="fa fa-file-word-o"></i>&nbsp;HD-Viettour.docx</a>
+                <a href="#modal-pdf" data-toggle="modal" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i>&nbsp;Tom-tat-yeu-cau-PM.pdf</a>
+                <a href="#modal-ppt" data-toggle="modal" class="btn btn-warning"><i class="fa fa-file-powerpoint-o"></i>&nbsp;VIETTOURS-CRM.pptx</a>
+                <a href="#modal-excel" data-toggle="modal" class="btn btn-success"><i class="fa fa-file-excel-o"></i>&nbsp;DS-Xin-Visa-Mau.xlsx</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-word" class="modal fade bs-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <iframe src='http://docs.google.com/viewer?url=http://viettour.dip.vn/Files/HD-Viettour.docx&embedded=true' style="width: 940px; height: 600px"></iframe>
+    </div>
+</div>
+
+<div id="modal-pdf" class="modal fade bs-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <iframe src='http://viettour.dip.vn/Files/Tom-tat-yeu-cau-PM.pdf' style="width: 940px; height: 600px"></iframe>
+    </div>
+</div>
+
+
+<div id="modal-ppt" class="modal fade bs-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <iframe src='http://docs.google.com/viewer?url=http://viettour.dip.vn/Files/VIETTOURS-CRM.pptx&embedded=true' style="width: 940px; height: 600px"></iframe>
+    </div>
+</div>
+
+
+<div id="modal-excel" class="modal fade bs-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <iframe src='http://docs.google.com/viewer?url=http://viettour.dip.vn/Files/DS-Xin-Visa-Mau.xlsx&embedded=true' style="width: 940px; height: 600px"></iframe>
+    </div>
+</div>

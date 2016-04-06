@@ -1,0 +1,64 @@
+﻿@using CRMViettour.Utilities
+@model CRM.Core.tbl_ContactHistory
+
+<div class="modal fade  bs-modal-lg" id="modal-insert-contacthistory" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Lịch sử liên hệ</h4>
+            </div>
+            @using (Ajax.BeginForm("CreateContactHistory", "CustomerOtherTab", null, new AjaxOptions { OnFailure = "OnFailureAppointment", OnSuccess = "OnSuccessAppointment", UpdateTargetId = "lichsulienhe" }))
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Yêu cầu</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.Request, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Ngày liên hệ</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                            <input type="text" class="form-control" readonly id="insert-ngay-lienhe" name="ContactDate" required>
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Trạng thái xử lý</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-type-lienhe" name="DictionaryId" style="width: 100%">
+                                            @foreach (var item in LoadData.StatusProcessList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Diễn giải</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note-lienhe" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

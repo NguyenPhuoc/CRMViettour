@@ -1,0 +1,145 @@
+﻿@using CRMViettour.Models
+@using CRMViettour.Utilities
+@model CustomerViewModel
+
+<div class="col-md-12" style="margin-bottom: -15px; padding-top: 10px;">
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-3">Liên hệ của</label>
+        <div class="col-lg-10 col-md-10">
+            <select class="form-control" style="width: 100%" id="customer-contact" name="SingleContact.CustomerId">
+                <option value="0">-- Chọn doanh nghiệp / cá nhân --</option>
+                @foreach (var item in LoadData.CustomerList())
+                {
+                    <option value="@item.Id">@item.FullName</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<div class="col-md-12" style="border: 1px solid #ccc; margin: 15px 0; padding: 15px; padding-bottom: 0;">
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Mã người liên hệ</label>
+        <div class="col-lg-10 col-md-10">
+            @Html.TextBoxFor(model => model.SingleContact.Code, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Họ tên</label>
+        <div class="col-lg-2 col-md-2">
+            <select class="form-control" id="customer-quydanh-contact" style="width: 100%" name="SingleContact.NameTypeId">
+                @foreach (var item in LoadData.NameTypeList())
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-lg-8 col-md-8">
+            @Html.TextBoxFor(model => model.SingleContact.FullName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">Địa chỉ</label>
+        <div class="col-lg-4 col-md-4">
+            @Html.TextBoxFor(model => model.SingleContact.Address, new { @class = "form-control" })
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <select class="form-control" multiple="multiple" style="width: 100%" id="insert-address-contact" name="SingleContact.TagsId">
+                @foreach (var item in LoadData.DropdownlistLocation())
+                {
+                    <option value="@item.Id">@item.Tags</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Di động</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleContact.Mobile, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Di động khác</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleContact.OtherMobile, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Điện thoại NR</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleContact.PhoneNR, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Email</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleContact.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Ngày sinh</label>
+            <div class="col-lg-9 col-md-9">
+                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control" id="ngaysinh-contact" readonly="readonly" name="SingleContact.Birthday" />
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Chức danh</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleContact.Position, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Phòng ban</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleContact.Department, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Điện thoại CQ</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleContact.CompanyPhone, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Fax CQ</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.TextBoxFor(model => model.SingleContact.CompanyFax, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nhận mail</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.CheckBoxFor(model => model.SingleContact.SubscribeEmail)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-3 col-md-3">Nhận SMS</label>
+            <div class="col-lg-9 col-md-9">
+                @Html.CheckBoxFor(model => model.SingleContact.SubscribeSMS)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-lg-12 col-md-12" style="text-align: left">Ghi chú</label>
+            <div class="col-lg-12 col-md-12">
+                @Html.TextBoxFor(model => model.SingleContact.Note, new { @class = "form-control", id = "insert-note-contact" })
+            </div>
+        </div>
+    </div>
+</div>

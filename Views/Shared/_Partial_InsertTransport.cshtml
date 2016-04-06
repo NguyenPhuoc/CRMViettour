@@ -1,0 +1,85 @@
+﻿<div class="modal fade bs-modal-lg" id="modal-insert-transport" role="document" aria-hidden="true" ng-controller="itemCtrl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Vận chuyển</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12" ng-repeat="trans in items">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <a data-toggle="collapse" data-target="#demo-transport{{trans}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                                        <span class="caption-subject bold uppercase font-purple">OPTION {{trans}}</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                                <div class="portlet-body" id="demo-transport{{trans}}">
+                                    <div class="form-horizontal">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Dịch vụ</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input ng-model="trans.name" name="service-transport{{trans}}" type="text" class="form-control" />
+                                                    </div>
+                                                    <label class="control-label col-lg-2 col-md-2">Mã đối tác</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input ng-model="trans.name" name="code-transport{{trans}}" type="text" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Tên đối tác</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input ng-model="trans.name" name="name-transport{{trans}}" type="text" class="form-control" />
+                                                    </div>
+                                                    <label class="control-label col-lg-2 col-md-2">Quốc gia</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input ng-model="trans.name" name="country-transport{{trans}}" type="text" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12" ng-controller="subitemCtrl">
+                                                <h4>Các dịch vụ cung cấp</h4>
+                                                <a class="btn btn-primary" ng-click="addNewItem1()"><i class="fa fa-plus"></i> Thêm mới dịch vụ</a><br /><br />
+                                                <div class="form-group" ng-repeat="name in subitems">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <input type="text" class="form-control" name="ServiceName{{name}}" placeholder="Tên dịch vụ..." />
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5">
+                                                        <input type="text" class="form-control" name="ServicePrice{{name}}" placeholder="Giá..." />
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-1">
+                                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem1()"><i class="fa fa-times"></i></button>
+                                                    </div>
+                                                    <br />
+                                                    <div class="col-lg-12 col-md-12" style="margin-top: 10px">
+                                                        <textarea class="form-control" name="ServiceNote{{name}}" placeholder="Ghi chú..."></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn btn-success" ng-click="addNewItem()">Thêm option</button>
+                <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

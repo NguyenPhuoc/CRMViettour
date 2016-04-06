@@ -1,0 +1,86 @@
+﻿<div class="modal fade  bs-modal-lg" id="modal-forms-module" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 20px;">
+                            <a class="btn btn-primary" href="#modal-insert-form" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm mới form</a>
+                            <button class="btn green" href="#modal-insert-function" data-toggle="modal" id="btnTinhNang"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới tính năng</button>
+                            <button class="btn grey" data-dismiss="modal"><i class="fa fa-ban"></i>&nbsp;Đóng</button>
+                        </div>
+                        <div class="col-md-7">
+                            <table class="table table-striped table-bordered table-hover">
+                                <caption>Danh sách các form</caption>
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="allcbform" name="allcbform" onclick="SelectAllCbForm()" /></th>
+                                        <th>STT</th>
+                                        <th>Tên form</th>
+                                        <th>Diễn giải</th>
+                                        <th>#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" id="cb1" name="cbform" onclick="CheckSelectForm()" /></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <a style="cursor: pointer" href="#modal-insert-form" data-toggle="modal">Sửa</a> | 
+                                            <a style="cursor: pointer" onclick="confirm('Bạn có chắc chắn xóa không?');">Xóa</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" id="cb2" name="cbform" onclick="CheckSelectForm()" /></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <a style="cursor: pointer" href="#modal-insert-form" data-toggle="modal">Sửa</a> | 
+                                            <a style="cursor: pointer" onclick="confirm('Bạn có chắc chắn xóa không?');">Xóa</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-5">
+                            <table class="table table-striped table-bordered table-hover">
+                                <caption>Danh sách tính năng</caption>
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên tính năng</th>
+                                        <th>#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <a style="cursor: pointer" href="#modal-insert-function" data-toggle="modal">Sửa</a> | 
+                                            <a style="cursor: pointer" onclick="confirm('Bạn có chắc chắn xóa không?');">Xóa</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn blue" id="btnLuuSua">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@Html.Partial("_Partial_InsertForm")
+@Html.Partial("_Partial_InsertFunction")

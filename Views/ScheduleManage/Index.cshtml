@@ -1,0 +1,260 @@
+﻿@{
+    ViewBag.Title = "Quản lý Lịch hẹn";
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>DANH SÁCH LỊCH HẸN</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Từ ngày</label>
+                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control" readonly id="tungay-lichhen">
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>Đến ngày</label>
+                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control" readonly id="denngay-lichhen">
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>Nhân viên</label>
+                <select class="form-control" id="nhanvien-lichhen">
+                    <option>---------</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Phòng ban</label>
+                <select class="form-control" id="phongban-lichhen">
+                    <option>---------</option>
+                </select>
+            </div>
+            <div class="col-md-12 margintop10">
+                <a class="btn btn-default" href="@Url.Action("Index", "ScheduleManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                <button class="btn btn-primary" id="btnAdd" href="#modal-insert-schedule" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                <button class="btn btn-warning" id="btnEdit" href="#modal-edit-schedule" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                <a class="btn green" id="btnWork" href="#modal-work-schedule" data-toggle="modal"><i class="fa fa-cog"></i>&nbsp;Xử lý</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="table-scrollable table-custom-format">
+                        <table class="table table-striped table-bordered table-hover" id="">
+                            <thead>
+                                <tr>
+                                    <th class="table-checkbox">
+                                        <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                                    </th>
+                                    <th>STT</th>
+                                    <th>Ngày hẹn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Email</th>
+                                    <th>Điện thoại</th>
+                                    <th>Diễn giải</th>
+                                    <th>Nhân viên</th>
+                                    <th>Trạng thái</th>
+                                    <th>Người nhập</th>
+                                    <th>Ngày nhập</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            <input type="checkbox" id="cb@(i)" name="cb@(i)" onclick="CheckSelect()" />
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="tabbable-custom ">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab1" data-toggle="tab">Thông tin chi tiết </a>
+                            </li>
+                            <li>
+                                <a href="#tab2" data-toggle="tab">Nhật ký xử lý</a>
+                            </li>
+                            <li>
+                                <a href="#tab3" data-toggle="tab">Lịch làm việc</a>
+                            </li>
+                            <li>
+                                <a href="#tab9" data-toggle="tab">Nhân viên liên hệ</a>
+                            </li>
+                            <li>
+                                <a href="#tab4" data-toggle="tab">Lịch sử giao dịch</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab1">
+                                @*Thông tin chi tiết*@
+                                <p>
+                                    Địa điểm:
+                                    <br />
+                                    Ngày bắt đầu:
+                                    <br />
+                                    Ngày kết thúc :
+                                    <br />
+                                </p>
+                            </div>
+                            <div class="tab-pane" id="tab2">
+                                @*Nhật ký xử lý*@
+                                <div class="table-scrollable table-custom-format">
+                                    <table class="table table-striped table-bordered table-hover" id="">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Thời gian</th>
+                                                <th>Diễn giải</th>
+                                                <th>Người nhập</th>
+                                                <th>Ngày nhập</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="odd gradeX">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab3">
+                                @*Lịch làm việc*@
+                                <div id="calendar"></div>
+                            </div>
+                            <div class="tab-pane" id="tab9">
+                                @*Nhân viên liên hệ*@
+                                <div class="table-scrollable table-custom-format">
+                                    <table class="table table-striped table-bordered table-hover" id="">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã nhân viên</th>
+                                                <th>Họ tên</th>
+                                                <th>Chức vụ</th>
+                                                <th>Phòng ban</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="odd gradeX">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab4">
+                                @*Lịch sử giao dịch*@
+                                <div class="table-scrollable table-custom-format">
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Đối tác</th>
+                                                <th>Dịch vụ</th>
+                                                <th>Ngày</th>
+                                                <th>Yêu cầu xử lý</th>
+                                                <th>Trạng thái xử lý</th>
+                                                <th>Diễn giải</th>
+                                                <th>Mã tour</th>
+                                                <th>Tên tour</th>
+                                                <th>Nhân viên xử lý</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="odd gradeX">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+@Html.Partial("_Partial_InsertSchedule")
+@Html.Partial("_Partial_EditSchedule")
+@Html.Partial("_Partial_WorkSchedule")
+
+@section scripts{
+    <script>
+        CKEDITOR.replace("insert-schedule-work");
+        CKEDITOR.replace("insert-note-schedule");
+        CKEDITOR.replace("edit-note-schedule");
+    </script>
+}

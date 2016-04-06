@@ -1,0 +1,183 @@
+﻿<div class="modal fade bs-modal-lg" id="modal-insert-hotel" role="document" aria-hidden="true" ng-controller="itemCtrl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Khách sạn</h4>
+            </div>
+            <div class="modal-body" ng-repeat="ht in items">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <a data-toggle="collapse" data-target="#demo-hotel{{ht}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                                        <span class="caption-subject bold uppercase font-purple">OPTION {{ht}}</span>
+                                    </div>
+                                    <div class="actions">
+                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                                <div class="portlet-body" id="demo-hotel{{ht}}">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Tên khách sạn</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select class="form-control" style="width: 100%" id="insert-hotel-tour" name="TourHotelName{{ht}}">
+                                                        <option>--------</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Tiêu chuẩn</label>
+                                                <div class="col-lg-3 col-md-3">
+                                                    <select class="form-control" ng-model="ht.name" name="star-hotel{{ht}}">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                                <label class="control-label col-lg-5 col-md-5" style="text-align: left">sao</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Từ ngày</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                        <input type="text" class="form-control" readonly id="insert-tungay-hotel">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Số lượng phòng</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <input ng-model="ht.name" name="room-hotel{{ht}}" type="number" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Code</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <input ng-model="ht.name" name="code-hotel{{ht}}" type="text" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Vị trí</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <input ng-model="ht.name" name="position-hotel{{ht}}" type="text" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Đêm</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <input ng-model="ht.name" name="night-hotel{{ht}}" type="number" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Giá/đơn vị:</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <input ng-model="ht.name" name="price-hotel{{ht}}" type="text" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    <textarea ng-model="ht.name" name="note-hotel{{ht}}" class="form-control"></textarea>
+                                                    <script>
+                                                        CKEDITOR.replace("note-hotel{{ht}}");
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" ng-controller="subitemCtrl">
+                                            <div class="portlet light bordered" ng-repeat="dl in subitems">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <a data-toggle="collapse" data-target="#demo-deadline-hotel{{dl}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                                                        <span class="caption-subject bold uppercase font-purple">Deadline {{dl}}</span>
+                                                    </div>
+                                                    <div class="actions">
+                                                        <button class="btn btn-default" ng-show="$last" ng-click="addNewItem1()"> <i class="fa fa-plus"></i></button>
+                                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem1()"><i class="fa fa-times"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body" id="demo-deadline-hotel{{dl}}">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-lg-2 col-md-2">Tên</label>
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <input ng-model="dl.name" name="deadline-name-hotel{{dl}}  text" class="form-control" />
+                                                                </div>
+                                                                <label class="control-label col-lg-2 col-md-2">Deposit</label>
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <input ng-model="dl.name" name="deadline-total-hotel{{dl}} type=" text" class="form-control" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-lg-2 col-md-2">Thời gian</label>
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                                        <input type="text" class="form-control" readonly id="insert-thoigian-hotel" />
+                                                                        <span class="input-group-btn">
+                                                                            <button class="btn default date-set" type="button">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <select class="form-control" ng-model="dl.name" name="deadline-status-hotel{{dl}}">
+                                                                        <option>-----------</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                                <div class="col-lg-10 col-md-10">
+                                                                    <textarea class="form-control" id="deadline-note-hotel{{dl}}" name="deadline-note-hotel{{dl}}"></textarea>
+                                                                    <script>
+                                                                        CKEDITOR.replace("deadline-note-hotel{{dl}}");
+                                                                    </script>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn btn-success" ng-click="addNewItem()">Thêm option</button>
+                <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

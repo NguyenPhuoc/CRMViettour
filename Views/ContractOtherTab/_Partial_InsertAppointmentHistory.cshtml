@@ -1,0 +1,155 @@
+﻿@using CRMViettour.Utilities
+@model CRM.Core.tbl_AppointmentHistory
+
+<div class="modal fade  bs-modal-lg" id="modal-insert-appointment" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Lịch hẹn</h4>
+            </div>
+            @using (Ajax.BeginForm("CreateAppointment", "ContractOtherTab", null, new AjaxOptions { OnFailure = "OnFailureAppointment", OnSuccess = "OnSuccessAppointment", UpdateTargetId = "lichhen" }))
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Tiêu đề</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.Title, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Tour</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        <select class="form-control" id="insert-tour-lichhen" name="TourId" style="width: 100%">
+                                            <option>-- Chọn tour --</option>
+                                            @foreach (var item in LoadData.TourList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Chương trình</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-program-lichhen" name="ProgramId" style="width: 100%">
+                                            <option>-- Chọn chương trình --</option>
+                                            @foreach (var item in LoadData.ProgramList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Nhiệm vụ</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-task-lichhen" name="TaskId" style="width: 100%">
+                                            <option>-- Chọn nhiệm vụ --</option>
+                                            @foreach (var item in LoadData.TaskList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-lg-3 col-md-3">Trạng thái</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-status-lichhen" name="StatusId" style="width: 100%">
+                                            @foreach (var item in LoadData.StatusProcessList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Dịch vụ</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-service-lichhen" name="ServiceId" style="width: 100%">
+                                            <option>-- Chọn dịch vụ --</option>
+                                            @foreach (var item in LoadData.ServiceList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-lg-3 col-md-3">Đối tác</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-partner-lichhen" name="PartnerId" style="width: 100%">
+                                           
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Diễn giải</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note-lichhen" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Loại lịch hẹn</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-type-lichhen" name="DictionaryId" style="width: 100%">
+                                            @foreach (var item in LoadData.AppointmentTypeList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-lg-3 col-md-3">Ngày hẹn</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                            <input type="text" class="form-control" readonly id="insert-ngayhen-lichhen" name="Time" required>
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">
+                                        @Html.CheckBoxFor(model => model.IsNotify, new { id = "insert-check-notify" })&nbsp;Nhắc trước
+                                    </label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-nhactruoc-lichhen" name="Notify" disabled="disabled">
+                                            <option value="5">5 phút</option>
+                                            <option value="10">10 phút</option>
+                                            <option value="15">15 phút</option>
+                                            <option value="20">20 phút</option>
+                                            <option value="25">25 phút</option>
+                                            <option value="30">30 phút</option>
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-lg-3 col-md-3">
+                                        @Html.CheckBoxFor(model => model.IsRepeat, new { id = "insert-check-repeat" })&nbsp;Lặp lại
+                                    </label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" id="insert-laplai-lichhen" name="Repeat" disabled="disabled">
+                                            <option value="5">5 phút</option>
+                                            <option value="10">10 phút</option>
+                                            <option value="15">15 phút</option>
+                                            <option value="20">20 phút</option>
+                                            <option value="25">25 phút</option>
+                                            <option value="30">30 phút</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

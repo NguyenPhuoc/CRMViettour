@@ -1,0 +1,15 @@
+﻿@using CRMViettour.Models
+@model SeededTagsViewModel
+
+@if (Model.Tags.Where(s => s.ParentId == Model.Seed).Any())
+{
+        foreach (var node in Model.Tags)
+        {
+            if (node.ParentId == Model.Seed)
+            {
+                var inner = new SeededTagsViewModel { Seed = node.Id, Tags = Model.Tags };
+                <option value="@node.Id">@node.Tags</option>
+                @Html.Partial("_Partial_DropdownlistTreeTags", inner)
+            }
+        }
+}

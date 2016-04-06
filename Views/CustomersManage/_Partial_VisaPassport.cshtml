@@ -1,0 +1,132 @@
+﻿@using CRMViettour.Models
+@using CRMViettour.Utilities
+@model CustomerViewModel
+
+<div class="col-md-6">
+    <label><b>CMND</b></label>
+    <div class="form-group">
+        <label class="control-label col-lg-4 col-md-4">Số CMND</label>
+        <div class="col-lg-8 col-md-8">
+            @Html.TextBoxFor(model => model.IdentityCard, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
+        <div class="col-lg-8 col-md-8">
+            <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                <input type="text" class="form-control" readonly id="insert-ngaycap" name="CreatedDateIdentity">
+                <span class="input-group-btn">
+                    <button class="btn default date-set" type="button">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-4 col-md-4">Nơi cấp</label>
+        <div class="col-lg-8 col-md-8">
+            <select class="form-control" style="width: 100%" id="country-insert-cmnd" name="IdentityTagId">
+                @foreach (var item in LoadData.DropdownlistCountry())
+                {
+                    <option value="@item.Id">@item.Tags</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <label><b>Passport</b></label>
+    <div class="form-group">
+        <label class="control-label col-lg-4 col-md-4">Số passport</label>
+        <div class="col-lg-8 col-md-8">
+            @Html.TextBoxFor(model => model.PassportCard, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
+        <div class="col-lg-8 col-md-8">
+            <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                <input type="text" class="form-control" readonly id="insert-ngaycap-passport" name="CreatedDatePassport">
+                <span class="input-group-btn">
+                    <button class="btn default date-set" type="button">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-4 col-md-4">Ngày hết hạn</label>
+        <div class="col-lg-8 col-md-8">
+            <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                <input type="text" class="form-control" readonly id="insert-ngayhethan-passport" name="ExpiredDatePassport">
+                <span class="input-group-btn">
+                    <button class="btn default date-set" type="button">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-4 col-md-4">Nơi cấp</label>
+        <div class="col-lg-8 col-md-8">
+            <select class="form-control" style="width: 100%" id="country-insert-passport" name="PassportTagId">
+                @foreach (var item in LoadData.DropdownlistCountry())
+                {
+                    <option value="@item.Id">@item.Tags</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <label class="col-md-12"><b>VISA</b></label>
+    <div class="col-md-12">
+        <button type="button" class="btn btn-default" id="btnAdd"><i class="fa fa-plus"></i></button>
+        <button type="button" class="btn btn-danger" id="btnDel"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="col-md-12 clonedInput" id="entry1">
+        <div class=" form-group">
+            <label class="control-label col-lg-2 col-md-2">Visa card</label>
+            <div class="col-lg-4 col-md-4">
+                <input type="text" value="" class="form-control visacard" name="VisaNumber1" />
+            </div>
+            <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
+            <div class="col-lg-4 col-md-4">
+                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control ngaycapvisa" readonly id="ngaycapvisa1" name="CreatedDateVisa1">
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-2 col-md-2">Quốc gia</label>
+            <div class="col-lg-4 col-md-4">
+                <select class="form-control countryvisa" style="width: 100%" id="countryvisa1" name="TagsId1">
+                    @foreach (var item in LoadData.DropdownlistCountry())
+                    {
+                        <option value="@item.Id">@item.Tags</option>
+                    }
+                </select>
+            </div>
+            <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
+            <div class="col-lg-4 col-md-4">
+                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control ngayhethanvisa" readonly id="ngayhethanvisa1" name="ExpiredDateVisa1">
+                    <span class="input-group-btn">
+                        <button class="btn default date-set" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

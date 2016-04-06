@@ -1,0 +1,436 @@
+﻿@using CRMViettour.Utilities
+
+@{
+    ViewBag.Title = "Quản lý Đối tác";
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>QUẢN LÝ ĐỐI TÁC</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-3">
+                <select class="form-control" id="partner-services" onchange="clickChangeService()">
+                    @foreach (var item in LoadData.ServiceList())
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <select class="form-control" multiple id="partner-tags">
+                        @foreach (var item in LoadData.DropdownlistLocation())
+                        {
+                            <option value="@item.Id">@item.Tags</option>
+                        }
+                    </select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="btnSearchTags"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="pull-right">
+                    <a href="@Url.Action("Partners", "PartnerManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                    <button class="btn btn-primary" href="#modal-insert-partner" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                    <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                    <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                    <form action="@Url.Action("Delete", "PartnerManage")" method="post" style="position:absolute">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="listItemId" name="listItemId" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body" id="data-partner">
+                    @Html.Action("_Partial_ListPartner", "PartnerManage")
+                </div>
+            </div>
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="tabbable-custom" id="tabbable-custom">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#thongtinchitiet" data-toggle="tab" id="tabthongtinchitiet">Thông tin chi tiết </a>
+                            </li>
+                            <li>
+                                <a href="#dichvucungcap" data-toggle="tab" id="tabdichvucungcap">Dịch vụ cung cấp</a>
+                            </li>
+                            <li>
+                                <a href="#tourtuyen" data-toggle="tab" id="tabtourtuyen">Tour tuyến</a>
+                            </li>
+                            <li>
+                                <a href="#invoice" data-toggle="tab" id="tabinvoice">Invoice</a>
+                            </li>
+                            <li>
+                                <a href="#danhgia" data-toggle="tab" id="tabdanhgia">Đánh giá</a>
+                            </li>
+                            <li>
+                                <a href="#tailieumau" data-toggle="tab" id="tabtailieumau">Tài liệu mẫu</a>
+                            </li>
+                            <li>
+                                <a href="#lichhen" data-toggle="tab" id="tablichhen">Lịch hẹn</a>
+                            </li>
+                            <li>
+                                <a href="#lichsulienhe" data-toggle="tab" id="tablichsulienhe">Lịch sử liên hệ</a>
+                            </li>
+                            <li>
+                                <a href="#ghichu" data-toggle="tab" id="tabghichu">Ghi chú</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="thongtinchitiet" data-id="thongtinchitiet">
+                                @*Thông tin chi tiết*@
+                                @Html.Action("_ThongTinChiTiet", "PartnerTabInfo")
+                            </div>
+                            <div class="tab-pane" id="dichvucungcap" data-id="dichvucungcap">
+                                @*Dịch vụ cung cấp*@
+                                @Html.Action("_DichVuCungCap", "PartnerTabInfo")
+                            </div>
+                            <div class="tab-pane" id="tourtuyen" data-id="tourtuyen">
+                                @*Tour tuyến*@
+                                @Html.Action("_TourTuyen", "PartnerTabInfo")
+                            </div>
+                            <div class="tab-pane" id="invoice" data-id="invoice">
+                                @*Invoice*@
+                                @Html.Action("_Invoice", "PartnerTabInfo")
+                            </div>
+                            <div class="tab-pane" id="danhgia" data-id="danhgia">
+                                @*Đánh giá*@
+                                @Html.Action("_DanhGia", "PartnerTabInfo")
+                            </div>
+                            <div class="tab-pane" id="tailieumau" data-id="tailieumau">
+                                @*Tài liệu mẫu*@
+                                @Html.Action("_TaiLieuMau", "PartnerTabInfo")
+                            </div>
+                            <div class="tab-pane" id="lichhen" data-id="lichhen">
+                                @*Lịch hẹn*@
+                                @Html.Action("_LichHen", "PartnerTabInfo")
+                            </div>
+                            <div class="tab-pane" id="lichsulienhe" data-id="lichsulienhe">
+                                @*Lịch sử liên hệ*@
+                                @Html.Action("_LichSuLienHe", "PartnerTabInfo")
+                            </div>
+                            <div class="tab-pane" id="ghichu" data-id="ghichu">
+                                @*Ghi chú*@
+                                @Html.Action("_GhiChu", "PartnerTabInfo")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+@Html.Partial("_Partial_InsertPartner")
+<div id="edit-partner">
+</div>
+
+<!----- tab document ----->
+@Html.Partial("_Partial_InsertDocument", new CRM.Core.tbl_DocumentFile())
+<div id="info-data-doc">
+</div>
+
+<!----- tab note ----->
+@Html.Partial("_Partial_InsertNote", new CRM.Core.tbl_PartnerNote())
+<div id="info-data-note">
+</div>
+
+<!----- view file ----->
+<div id="viewfile"></div>
+
+<!----- lịch sử liên hệ ----->
+@Html.Partial("~/Views/PartnerOtherTab/_Partial_InsertContactHistory.cshtml", new CRM.Core.tbl_ContactHistory())
+<div id="info-data-contacthistory">
+</div>
+
+<!----- lịch hẹn ----->
+@Html.Partial("~/Views/PartnerOtherTab/_Partial_InsertAppointmentHistory.cshtml", new CRM.Core.tbl_AppointmentHistory())
+<div id="info-data-appoinment">
+</div>
+
+
+
+@Html.Partial("_Partial_InsertNote")
+@Html.Partial("_Partial_EditSchedule")
+@Html.Partial("_Partial_InsertSchedule")
+@section scripts{
+    <script src="~/Scripts/controller/partner.js"></script>
+    <script>
+        CKEDITOR.replace("insert-note-partner");
+        CKEDITOR.replace("insert-document-note");
+        CKEDITOR.replace("insert-note-lienhe");
+        CKEDITOR.replace("insert-note-lichhen");
+    </script>
+    <script>
+        function OnFailureAppointment() {
+            alert("Lỗi, vui lòng kiểm tra lại!");
+            $("#modal-insert-appointment").modal("hide");
+            $("#modal-edit-appointment").modal("hide");
+        }
+
+        function OnSuccessAppointment() {
+            $("#modal-insert-appointment").modal("hide");
+            $("#modal-edit-appointment").modal("hide");
+        }
+        //history
+        function OnFailureContactHistory() {
+            alert("Lỗi, vui lòng kiểm tra lại!");
+            $("#modal-insert-contacthistory").modal("hide");
+            $("#modal-edit-contacthistory").modal("hide");
+        }
+
+        function OnSuccessContactHistory() {
+            $("#modal-insert-contacthistory").modal("hide");
+            $("#modal-edit-contacthistory").modal("hide");
+        }
+    </script>
+    <script>
+        function btnAddLichSuLienHe() {
+            if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                alert("Vui lòng chọn 1 đối tác!");
+            }
+            else {
+                var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                $.ajax({
+                    type: "POST",
+                    url: '/PartnerManage/GetIdPartner',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#insert-ngay-lienhe").datepicker();
+                        $("#insert-type-lienhe").select2();
+                        $("#modal-insert-contacthistory").modal("show");
+                    }
+                });
+
+            }
+        }
+
+        function btnAddLichHen() {
+            if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                alert("Vui lòng chọn 1 nhân viên!");
+            }
+            else {
+                var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                $.ajax({
+                    type: "POST",
+                    url: '/PartnerManage/GetIdPartner',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#insert-tour-lichhen").select2();
+                        $("#insert-program-lichhen").select2();
+                        $("#insert-task-lichhen").select2();
+                        $("#insert-status-lichhen").select2();
+                        $("#insert-service-lichhen").select2();
+                        $("#insert-partner-lichhen").select2();
+                        $("#insert-type-lichhen").select2();
+                        $("#insert-partner-lichhen").select2();
+                        $("#insert-ngayhen-lichhen").datepicker();
+                        $("#modal-insert-appointment").modal("show");
+                    }
+                });
+            }
+        }
+
+        $('#insert-service-lichhen').change(function () {
+            $.getJSON('/CustomerOtherTab/LoadPartner/' + $('#insert-service-lichhen').val(), function (data) {
+                var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                $.each(data, function (i, ward) {
+                    items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                });
+                $('#insert-partner-lichhen').html(items);
+            });
+        });
+
+        function btnCreateNote() {
+            if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                alert("Vui lòng chọn 1 đối tác!");
+            }
+            else {
+                var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                $.ajax({
+                    type: "POST",
+                    url: '/PartnerManage/GetIdPartner',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#modal-insert-note").modal("show");
+                    }
+                });
+            }
+        }
+
+        function btnCreateFile() {
+            if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                alert("Vui lòng chọn 1 đối tác!");
+            }
+            else {
+                var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+                $.ajax({
+                    type: "POST",
+                    url: '/PartnerManage/GetIdPartner',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#insert-document-type").select2();
+                        $("#insert-tag-document").select2();
+                        $("#modal-insert-document").modal("show");
+                    }
+                });
+            }
+        }
+
+        function viewFileOnline(id) {
+            $("#viewfile").html("<div id='modal-view-file' class='modal fade' role='dialog'>" +
+            "<div class='modal-dialog'><div class='modal-content'>" +
+            "<iframe src='" + $("#txtURL" + id) + "' width='500px' height='350px' frameborder='0'></iframe>" +
+            "</div></div></div>");
+            $("#modal-view-file").modal("show");
+        }
+
+        /** cập nhật lịch hẹn **/
+        function updateAppointment(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/PartnerOtherTab/EditAppointment',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#info-data-appoinment").html(data);
+                    $("#edit-tour-lichhen").select2();
+                    $("#edit-program-lichhen").select2();
+                    $("#edit-task-lichhen").select2();
+                    $("#edit-status-lichhen").select2();
+                    $("#edit-service-lichhen").select2();
+                    $("#edit-partner-lichhen").select2();
+                    $("#edit-type-lichhen").select2();
+                    $("#edit-partner-lichhen").select2();
+                    $("#edit-ngayhen-lichhen").datepicker();
+                    $("#edit-check-notify").click(function () {
+                        if (this.checked) {
+                            $("#edit-nhactruoc-lichhen").removeAttr("disabled", "disabled");
+                            $("#edit-nhactruoc-lichhen").select2();
+                        }
+                        else {
+                            $("#edit-nhactruoc-lichhen").attr("disabled", "disabled");
+                        }
+                    });
+
+                    $("#edit-check-repeat").click(function () {
+                        if (this.checked) {
+                            $("#edit-laplai-lichhen").removeAttr("disabled", "disabled");
+                            $("#edit-laplai-lichhen").select2();
+                        }
+                        else {
+                            $("#edit-laplai-lichhen").attr("disabled", "disabled");
+                        }
+                    });
+
+                    $('#edit-service-lichhen').change(function () {
+                        $.getJSON('/CustomerOtherTab/LoadPartner/' + $('#edit-service-lichhen').val(), function (data) {
+                            var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                            $.each(data, function (i, ward) {
+                                items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                            });
+                            $('#edit-partner-lichhen').html(items);
+                        });
+                    });
+
+                    CKEDITOR.replace("edit-note-lichhen");
+                    $("#modal-edit-appointment").modal("show");
+                }
+            });
+        }
+
+        /** xóa lịch hẹn **/
+        function deleteAppointment(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/PartnerOtherTab/DeleteAppointment',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    alert("Xóa dữ liệu thành công!!!");
+                    $("#lichhen").html(data);
+                }
+            });
+        }
+
+        /** cập nhật lịch sử liên hệ **/
+        function updateContactHistory(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/PartnerOtherTab/EditContactHistory',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#info-data-contacthistory").html(data);
+                    $("#edit-ngay-lienhe").datepicker();
+                    $("#edit-type-lienhe").select2();
+                    CKEDITOR.replace("edit-note-lienhe");
+                    $("#modal-edit-contacthistory").modal("show");
+                }
+            });
+        }
+
+        /** xóa lịch sử liên hệ **/
+        function deleteContactHistory(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/PartnerOtherTab/DeleteContactHistory',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    alert("Xóa dữ liệu thành công!!!");
+                    $("#lichsulienhe").html(data);
+                }
+            });
+        }
+    </script>
+}

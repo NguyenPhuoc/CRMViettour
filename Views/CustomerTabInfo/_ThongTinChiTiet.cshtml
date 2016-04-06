@@ -1,0 +1,37 @@
+﻿@using CRM.Core
+@using CRMViettour.Models
+@using CRMViettour.Utilities
+@model tbl_Customer
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <p><b>Khách hàng:</b> @Model.FullName</p>
+            <p><b>Mã số thuế:</b> @Model.TaxCode</p>
+            <p><b>Điện thoại:</b> @Model.Phone</p>
+            <p><b>Email:</b> @(Model.CompanyEmail == null ? Model.PersonalEmail : Model.CompanyEmail)</p>
+            <p><b>Skype:</b> @Model.Skype</p>
+            <p><b>Giám đốc:</b> @Model.Director</p>
+            <p><b>Di động:</b> @Model.MobilePhone</p>
+            <p><b>Ngày cập nhật:</b> @string.Format("{0:dd-MM-yyy}", Model.ModifiedDate)</p>
+        </div>
+        <div class="col-md-6">
+            <p><b>CMND:</b> @Model.IdentityCard</p>
+            @if (Model.PassportCard != null)
+            {
+                <p><b>Passport:</b> @Model.PassportCard</p>
+                <p><b>Ngày cấp:</b> @string.Format("{0:dd-MM-yyyy}", Model.CreatedDatePassport)</p>
+                <p><b>Nơi cấp:</b> @Model.tbl_TagsPassport.Tag</p>
+                <p><b>Ngày hiệu lực:</b> @string.Format("{0:dd-MM-yyyy}", Model.CreatedDatePassport)</p>
+                <p><b>Ngày hết hạn:</b> @string.Format("{0:dd-MM-yyyy}", Model.ExpiredDatePassport)</p>
+            }
+            else
+            {
+                <p><b>Ngày cấp:</b> @string.Format("{0:dd-MM-yyyy}", Model.CreatedDateIdentity)</p>
+                <p><b>Nơi cấp:</b> @Model.tbl_TagsIdentity.Tag</p>
+            }
+        </div>
+    </div>
+}
+

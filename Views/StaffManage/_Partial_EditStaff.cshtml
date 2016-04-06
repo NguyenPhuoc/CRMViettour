@@ -1,0 +1,445 @@
+﻿@using CRMViettour.Utilities
+@using CRMViettour.Models
+@model StaffViewModel
+@{
+    int i = 1;
+}
+
+<div class="modal fade  bs-modal-lg" id="modal-edit-staff" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Nhân viên</h4>
+            </div>
+            @using (Html.BeginForm("Update", "StaffManage"))
+            {
+                @Html.HiddenFor(model => model.SingleStaff.Id)
+                @Html.HiddenFor(model => model.SingleStaff.CreatedDate)
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="tabbable-custom" id="tab-edit-customer">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#thongtincobanE" data-toggle="tab">Thông tin cơ bản</a>
+                                </li>
+                                <li>
+                                    <a href="#visapassportE" data-toggle="tab">Visa - Passport</a>
+                                </li>
+                                <li>
+                                    <a href="#thongtinkhacE" data-toggle="tab">Thông tin khác</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="thongtincobanE">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Mã số</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.Code, new { @class = "form-control" })
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Mã số thuế</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.TaxCode, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Họ tên</label>
+                                                <div class="col-lg-3 col-md-3">
+                                                    <select class="form-control" id="edit-nametype" name="SingleStaff.NameTypeId" style="width: 100%">
+                                                        @foreach (var item in LoadData.NameTypeList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.NameTypeId == item.Id ? "selected" : "")>@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.FullName, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Ngày sinh</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                        @Html.TextBoxFor(model => model.SingleStaff.Birthday, new { @class = "form-control", @readonly = "readonly", @id = "edit-birthday" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Nơi sinh</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-birthplace" name="SingleStaff.Birthplace" style="width: 100%">
+                                                        @foreach (var item in LoadData.DropdownlistCountry())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.Birthplace == item.Id ? "selected" : "")>@item.Tags</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Địa chỉ</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.Address, new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <select class="form-control" multiple="multiple" style="width: 100%" id="edit-address" name="SingleStaff.TagsId">
+                                                        @foreach (var item in LoadData.DropdownlistLocation())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Email</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.Email, new { @class = "form-control" })
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Điện thoại</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.Phone, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Chức vụ</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-position" name="SingleStaff.PositionId" style="width: 100%">
+                                                        @foreach (var item in LoadData.PositionList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.PositionId == item.Id ? "selected" : "")>@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Nhóm</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-staffgroup" name="SingleStaff.StaffGroupId" style="width: 100%">
+                                                        @foreach (var item in LoadData.StaffGroupList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.StaffGroupId == item.Id ? "selected" : "")>@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Trụ sở, chi nhánh</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-headquarter" name="SingleStaff.HeadquarterId" style="width: 100%">
+                                                        @foreach (var item in LoadData.HeadquarterList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.HeadquarterId == item.Id ? "selected" : "")>@item.ShortName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Phòng ban</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-department" name="SingleStaff.DepartmentId" style="width: 100%">
+                                                        @foreach (var item in LoadData.DepartmentList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.DepartmentId == item.Id ? "selected" : "")>@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Giới tính</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.RadioButtonFor(model => model.SingleStaff.Gender, 0) Nam
+                                                    @Html.RadioButtonFor(model => model.SingleStaff.Gender, 1) Nữ
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Khóa tài khoản</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.CheckBoxFor(model => model.SingleStaff.IsLock)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="visapassportE">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label><b>CMND</b></label>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Số CMND</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.IdentityCard, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                        @Html.TextBoxFor(model => model.CreatedDateIdentity, "{0:dd/MM/yyyy}", new { @class = "form-control", id = "edit-identity", @readonly = "readonly" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Nơi cấp</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select class="form-control" style="width: 100%" id="edit-placeidentity" name="IdentityTagId">
+                                                        @foreach (var item in LoadData.DropdownlistCountry())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.IdentityTagId == item.Id ? "selected" : "")>@item.Tags</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label><b>Passport</b></label>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Số passport</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.PassportCard, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                        @Html.TextBoxFor(model => model.CreatedDatePassport, "{0:dd/MM/yyyy}", new { @class = "form-control", id = "edit-createpassport", @readonly = "readonly" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Ngày hết hạn</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                        @Html.TextBoxFor(model => model.ExpiredDatePassport, "{0:dd/MM/yyyy}", new { @class = "form-control", id = "edit-expiredPassport", @readonly = "readonly" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Nơi cấp</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select class="form-control" style="width: 100%" id="edit-placepassport" name="PassportTagId">
+                                                        @foreach (var item in LoadData.DropdownlistCountry())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.PassportTagId == item.Id ? "selected" : "")>@item.Tags</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="col-md-12"><b>VISA</b></label>
+                                            <div class="col-md-12">
+                                                <button type="button" class="btn btn-default" id="btnAddE"><i class="fa fa-plus"></i></button>
+                                                <button type="button" class="btn btn-danger" id="btnDelE"><i class="fa fa-times"></i></button>
+                                            </div>
+                                            @if (Model.ListStaffVisa != null)
+                                            {
+                                                foreach (var visa in Model.ListStaffVisa)
+                                                {
+                                                    <div class="col-md-12 clonedInputE" id="entryE@(i)">
+                                                        <div class=" form-group">
+                                                            <label class="control-label col-lg-2 col-md-2">Visa card</label>
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <input type="text" value="@visa.VisaNumber" class="form-control visacardE" name="VisaNumber@(i)" />
+                                                            </div>
+                                                            <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <div class="input-group date form_datetime date date-picker" data-date-format="dd/MM/yyyy">
+                                                                    <input type="text" class="form-control ngaycapvisaE" value="@visa.CreatedDateVisa" readonly id="ngaycapvisaE@(i)" name="CreatedDateVisa@(i)">
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn default date-set" type="button">
+                                                                            <i class="fa fa-calendar"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-lg-2 col-md-2">Quốc gia</label>
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <select class="form-control countryvisaE" style="width: 100%" id="countryvisaE@(i)" name="TagsId@(i)">
+                                                                    @foreach (var item in LoadData.DropdownlistCountry())
+                                                                    {
+                                                                        <option value="@item.Id" @(Model.SingleStaffVisa != null && Model.SingleStaffVisa.TagsId == item.Id ? "selected" : "")>@item.Tags</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                            <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <div class="input-group date form_datetime date date-picker" data-date-format="dd/MM/yyyy">
+                                                                    <input type="text" class="form-control ngayhethanvisaE" value="@visa.ExpiredDateVisa" readonly id="ngayhethanvisaE@(i)" name="ExpiredDateVisa@(i)">
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn default date-set" type="button">
+                                                                            <i class="fa fa-calendar"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <script>
+                                                        $("#ngaycapvisaE@(i)").datepicker();
+                                                        $("#ngayhethanvisaE@(i)").datepicker();
+                                                        $("#countryvisaE@(i)").select2();
+                                                    </script>
+                                                                    i++;
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-12 clonedInputE" id="entryE1">
+                                                    <div class=" form-group">
+                                                        <label class="control-label col-lg-2 col-md-2">Visa card</label>
+                                                        <div class="col-lg-4 col-md-4">
+                                                            <input type="text" value="" class="form-control visacardE" name="VisaNumber1" />
+                                                        </div>
+                                                        <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
+                                                        <div class="col-lg-4 col-md-4">
+                                                            <div class="input-group date form_datetime date date-picker" data-date-format="dd/MM/yyyy">
+                                                                <input type="text" class="form-control ngaycapvisaE" readonly id="ngaycapvisaE1" name="CreatedDateVisa1">
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn default date-set" type="button">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-2 col-md-2">Quốc gia</label>
+                                                        <div class="col-lg-4 col-md-4">
+                                                            <select class="form-control countryvisaE" style="width: 100%" id="countryvisaE1" name="TagsId1">
+                                                                @foreach (var item in LoadData.DropdownlistCountry())
+                                                                {
+                                                                    <option value="@item.Id">@item.Tags</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
+                                                        <div class="col-lg-4 col-md-4">
+                                                            <div class="input-group date form_datetime date date-picker" data-date-format="dd/MM/yyyy">
+                                                                <input type="text" class="form-control ngayhethanvisaE" readonly id="ngayhethanvisaE1" name="ExpiredDateVisa1">
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn default date-set" type="button">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="thongtinkhacE">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Dân tộc</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-nation" name="SingleStaff.NationalId" style="width: 100%">
+                                                        @foreach (var item in LoadData.NationList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.NationalId == item.Id ? "selected" : "")>@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Tôn giáo</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-religion" name="SingleStaff.ReligionId" style="width: 100%">
+                                                        @foreach (var item in LoadData.ReligionList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.ReligionId == item.Id ? "selected" : "")>@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Hộ khẩu TT</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.HouseholdAdress, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Hôn nhân</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-marriage" name="SingleStaff.Marriage" style="width: 100%">
+                                                        <option value="0">Độc thân</option>
+                                                        <option value="1">Kết hôn</option>
+                                                    </select>
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Số nội bộ</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.InternalNumber, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Bằng cấp</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select class="form-control" id="edit-certificate" name="SingleStaff.CertificateId" style="width: 100%">
+                                                        @foreach (var item in LoadData.CertificateList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleStaff != null && Model.SingleStaff.CertificateId == item.Id ? "selected" : "")>@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Chuyên môn</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.Technique, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Ngoại ngữ</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.Language, new { @class = "form-control" })
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Tin học</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.InformationTechnology, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Số TKNH</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.AccountNumber, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Ngân hàng</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    @Html.TextBoxFor(model => model.SingleStaff.Bank, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+

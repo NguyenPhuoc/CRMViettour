@@ -1,0 +1,29 @@
+﻿@using CRM.Core
+@using CRMViettour.Models
+@model tbl_Staff
+
+<div class="row">
+    @if (Model != null)
+    {
+        <div class="col-md-6">
+            <p><b>Họ tên:</b>&nbsp;@Model.FullName</p>
+            <p><b>Ngày sinh:</b>&nbsp;@(Model.Birthday != null ? Model.Birthday.Value.ToString("dd-MM-yyyy") : "")</p>
+            <p><b>Nguyên quán:</b>&nbsp;@Model.HouseholdAdress</p>
+            <p><b>Địa chỉ:</b>&nbsp;@Model.Address</p>
+            <p><b>CMND:</b>&nbsp;@Model.IdentityCard</p>
+            <p><b>Ngày cấp:</b>&nbsp;@(Model.CreatedDateIdentity != null ? Model.CreatedDateIdentity.Value.ToString("dd-MM-yyyy") : "")</p>
+            <p><b>Nơi cấp:</b>@(Model.IdentityTagId != null ? Model.tbl_TagsIdentity.Tag : "")</p>
+            <p><b>Số TKNH:</b>@Model.AccountNumber</p>
+        </div>
+        <div class="col-md-6">
+            <p><b>Mã số:</b>&nbsp;@Model.Code</p>
+            <p><b>Điện thoại:</b>&nbsp;@Model.Phone</p>
+            <p><b>Số nội bộ:</b>&nbsp;@Model.InternalNumber</p>
+            <p><b>Email:</b>&nbsp;@Model.Email</p>
+            <p><b>Chức vụ:</b>&nbsp;@(Model.PositionId != null ? Model.tbl_DictionaryPosition.Name : "")</p>
+            <p><b>Phòng ban:</b>&nbsp;@(Model.DepartmentId != null ? Model.tbl_DictionaryDepartment.Name : "")</p>
+            <p><b>Nhóm:</b>&nbsp;@(Model.StaffGroupId != null ? Model.tbl_DictionaryStaffGroup.Name : "")</p>
+            <p><b>Ngân hàng:</b>&nbsp;@Model.Bank</p>
+        </div>
+    }
+</div>

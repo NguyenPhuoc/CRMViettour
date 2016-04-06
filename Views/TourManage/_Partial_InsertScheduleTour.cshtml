@@ -1,0 +1,84 @@
+﻿<div class="modal fade  bs-modal-lg" id="modal-insert-tourschedule" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Thêm lịch đi tour</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Ngày</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control" readonly id="insert-ngaydi-tour" name="TourScheduleDate">
+                                        <span class="input-group-btn">
+                                            <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Bắt đầu</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control timepicker timepicker-no-seconds" id="time-start" name="TourScheduleStartTime">
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button"><i class="fa fa-clock-o"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Kết thúc</label>
+                                <div class="col-lg-9 col-md-9">
+                                     <div class="input-group">
+                                         <input type="text" class="form-control timepicker timepicker-no-seconds" id="time-end" name="TourScheduleEndTime">
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button"><i class="fa fa-clock-o"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Dịch vụ</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <select class="form-control" id="insert-service-tour" style="width: 100%" name="TourScheduleService">
+                                        <option value="0">-------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Địa điểm</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <select class="form-control" id="insert-location-tour" style="width: 100%" name="TourSchedulePlace">
+                                        <option value="0">-------</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12">
+                                    <textarea name="insert-schedule-tour" class="form-control" nam="TourScheduleNote"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn blue" id="btnLuuThem">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

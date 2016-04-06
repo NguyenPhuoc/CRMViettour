@@ -1,0 +1,126 @@
+﻿<div class="modal fade  bs-modal-lg" id="modal-edit-appointment" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Lịch hẹn</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Khách hàng</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <select class="form-control" id="edit-customer-schedule" name="AppointmentCustomer" style="width: 100%">
+                                        <option>--------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Tour</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <select class="form-control" id="edit-tour-schedule" name="AppointmentTour" style="width: 100%">
+                                        <option>--------</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Chiến dịch</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" id="edit-program-appointment" name="AppointmentProgram" style="width: 100%">
+                                        <option>----------</option>
+                                    </select>
+                                </div>
+                                <label class="control-label col-lg-3 col-md-3">Nhiệm vụ</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" id="edit-task-appointment" name="AppointmentTask" style="width: 100%">
+                                        <option>----------</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Dịch vụ</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" id="edit-service-appointment" name="AppointmentService" style="width: 100%">
+                                        <option>----------</option>
+                                    </select>
+                                </div>
+                                <label class="control-label col-lg-3 col-md-3">Đối tác</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" id="edit-partner-appointment" name="AppointmentPartner" style="width: 100%">
+                                        <option>----------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Diễn giải</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <textarea class="form-control" name="AppointmentNoteEdit"></textarea> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Ngày hẹn</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control" readonly id="edit-ngayhen-schedule" name="AppointmentDate">
+                                        <span class="input-group-btn">
+                                            <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <label class="control-label col-lg-3 col-md-3">Trạng thái</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" name="AppointmentStatus">
+                                        <option>----------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Loại lịch hẹn</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" name="AppointmentType">
+                                        <option>----------</option>
+                                    </select>
+                                </div>
+                                <label class="control-label col-lg-3 col-md-3">Thời điểm</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" name="AppointmentTime">
+                                        <option>----------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3"><input type="checkbox" />&nbsp;Nhắc trước</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" name="AppointmentNotice">
+                                        <option>5 phút</option>
+                                        <option>10 phút</option>
+                                        <option>-------</option>
+                                    </select>
+                                </div>
+                                <label class="control-label col-lg-3 col-md-3"><input type="checkbox" />&nbsp;Lặp lại</label>
+                                <div class="col-lg-3 col-md-3">
+                                    <select class="form-control" name="AppointmentRepeat">
+                                        <option>5 phút</option>
+                                        <option>10 phút</option>
+                                        <option>-------</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn blue" id="btnLuuThem">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+

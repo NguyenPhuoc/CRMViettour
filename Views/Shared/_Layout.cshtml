@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html ng-app="insertItem">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - CRM Viettours</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link rel="shortcut icon" href="~/Images/logo_viettours.png" />
+    @Styles.Render("~/Content/website")
+    <link href="~/Content/assets/datatable/dataTables.bootstrap.css" rel="stylesheet" />
+</head>
+<!-- END HEAD -->
+
+<body class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo">
+    <!-- BEGIN HEADER -->
+    @Html.Partial("_Partial_Header")
+    <!-- END HEADER -->
+    <!-- BEGIN HEADER & CONTENT DIVIDER -->
+    <div class="clearfix"></div>
+    <!-- END HEADER & CONTENT DIVIDER -->
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+        <!-- BEGIN SIDEBAR -->
+        @Html.Partial("_Partial_Navigation")
+        <!-- END SIDEBAR -->
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <!-- BEGIN CONTENT BODY -->
+            @RenderBody()
+            <!-- END CONTENT BODY -->
+        </div>
+        <!-- END CONTENT -->
+        <!-- BEGIN QUICK SIDEBAR -->
+        <a href="javascript:;" class="page-quick-sidebar-toggler">
+            <i class="icon-login"></i>
+        </a>
+        @Html.Partial("_Partial_Notice")
+        <!-- END QUICK SIDEBAR -->
+    </div>
+    <!-- END CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer">
+        <div class="page-footer-inner">
+            2015 &copy; CRM VIETTOURS
+            <a href="#" title="CRM VIETTOURS" target="_blank">CRM Viettours!</a>
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
+    </div>
+    <!-- END FOOTER -->
+    @Html.Partial("_Partial_ChangePassword")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryui")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/website")
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/app/app.js"></script>
+    <script src="~/Content/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/assets/datatable/jquery.dataTables.js"></script>
+    <script src="~/Content/assets/datatable/dataTables.bootstrap.js"></script>
+    <script src="~/Content/assets/datatable/jquery.dataTables.columnFilter.js"></script>
+    @*<script src="//cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>*@
+    <div id="loading" style="width: 200px">
+        <div class="alert alert-block alert-danger fade in" align="absmiddle" style="height: 55px; padding: 8px 15px;">
+            <button type="button" class="close" data-dismiss="alert"></button>
+            <p><strong>Thông báo!</strong></p>
+            <p>Lưu thành công</p>
+        </div>
+    </div>
+    <script src="~/Scripts/SelectCheckbox.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input:radio[name=selectServiceTour]').change(function () {
+                var id = $(this).val();
+                switch (id) {
+                    case "1":
+                        $("#modal-insert-services-tour").modal("hide");
+                        $("#modal-insert-restaurant").modal("show");
+                        break;
+                    case "2":
+                        $("#modal-insert-services-tour").modal("hide");
+                        $("#modal-insert-hotel").modal("show");
+                        break;
+                    case "3":
+                        $("#modal-insert-services-tour").modal("hide");
+                        $("#modal-insert-transport").modal("show");
+                        break;
+                    case "4":
+                        $("#modal-insert-services-tour").modal("hide");
+                        $("#modal-insert-plane").modal("show");
+                        break;
+                    case "5":
+                        $("#modal-insert-services-tour").modal("hide");
+                        $("#modal-insert-event").modal("show");
+                        break;
+                }
+            });
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/scriptTemplate.js"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,151 @@
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@model tbl_Partner
+
+<div class="modal fade  bs-modal-lg" id="modal-insert-partner" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Đối tác</h4>
+            </div>
+            @using (Html.BeginForm("Create", "PartnerManage"))
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Dịch vụ</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <select class="form-control" id="insert-servicepartner" name="DictionaryId" style="width: 100%">
+                                            @foreach (var item in LoadData.ServiceList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Mã đối tác</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Quốc gia</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <select class="form-control" id="insert-countrypartner" name="CountryId" style="width: 100%">
+                                            @foreach (var item in LoadData.DropdownlistCountry())
+                                            {
+                                                <option value="@item.Id">@item.Tags</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Tên đối tác</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Địa chỉ</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control", required = "required" })
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <select id="insert-addresspartner" class="form-control" name="TagsLocationId" multiple="multiple" style="width: 100%">
+                                            @foreach (var item in LoadData.DropdownlistLocation())
+                                            {
+                                                <option value="@item.Id">@item.Tags</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Phong cách</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <select class="form-control" id="insert-stylepartner" style="width: 100%" name="StyleId">
+                                            @foreach (var item in LoadData.DropdownlistCountry())
+                                            {
+                                                <option value="@item.Id">@item.Tags</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Giám đốc</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        @Html.TextBoxFor(model => model.Director, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Nhân viên liên hệ</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.TextBoxFor(model => model.StaffContact, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Điện thoại</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Email</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Skype</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.TextBoxFor(model => model.Skype, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h4>Các dịch vụ cung cấp</h4>
+                                <button class="btn btn-danger" id="btnDel"><i class="fa fa-times"></i></button>
+                                <br />
+                                <div class="clonedInput" id="entry1">
+                                    <div class="form-group">
+                                        <div class="col-lg-6 col-md-6">
+                                            <input type="text" class="form-control servicename" placeholder="Tên dịch vụ..." name="PartnerServiceName1" />
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <input type="text" class="form-control serviceprice" placeholder="Giá..." name="PartnerServicePrice1" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-12 col-md-12">
+                                            <textarea class="form-control servicenote" placeholder="Ghi chú..." id="insert-noteservicepartner1" name="PartnerServiceNote1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="countService" name="countService" value="1" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="button" class="btn btn-success" id="btnAdd">Thêm dịch vụ cung cấp</button>
+                    <button type="submit" class="btn blue">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

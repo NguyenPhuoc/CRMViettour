@@ -1,0 +1,61 @@
+﻿@using CRMViettour.Models
+@model SeededTagsViewModel
+
+@{
+    ViewBag.Title = "Quản lý Tag Địa điểm";
+    int i = 1;
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>QUẢN LÝ TAG ĐỊA ĐIỂM</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+    </div>
+    <!-- END PAGE HEAD -->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-default" href="@Url.Action("Index", "LocationTagsManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                <button class="btn btn-primary" id="btnAdd" data-toggle="modal" data-target="#modal-insert-location"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                <button class="btn btn-warning" onclick="updateRow2Colum()" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                <button class="btn btn-danger" onclick="confirm('Bạn thực sự muốn xóa những mục đã chọn ?')" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                <button class="btn green" href="@Url.Action("Index", "LocationTagsManage")" id="btnSave"><i class="fa fa-floppy-o"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
+                        @Html.Partial("_Partial_TreeTags", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+@Html.Partial("_Partial_InsertLocation", Model)
+
+@section scripts{
+<script src="~/Scripts/controller/locationtags.js"></script>
+}

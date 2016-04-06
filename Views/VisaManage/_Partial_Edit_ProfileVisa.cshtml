@@ -1,0 +1,116 @@
+﻿<div class="modal fade bs-modal-lg" id="modal-edit-profilevisa" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Cập nhật hồ sơ VISA</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Tour</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" id="tour-edit-profilevisa" style="width: 100%" name="ProfileVisaTour">
+                                        <option value="HN">Tour Hà Nội - Hạ Long 4N3Đ</option>
+                                        <option value="SG">Tour Đà Lạt - Nha Trang 6N5Đ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Ký hiệu</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="text" value="" class="form-control" name="ProfileVisaCode" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Tiêu đề</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="text" value="" class="form-control" name="ProfileVisaTitle" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Khách hàng</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" id="customer-edit-profilevisa" style="width: 100%" name="ProfileVisaCustomer">
+                                        <option value="HN">Võ Ái Duy</option>
+                                        <option value="SG">-----------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Quốc gia</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" id="country-edit-profilevisa" style="width: 100%" name="ProfileVisaCountry">
+                                        <option value="HN">Mỹ</option>
+                                        <option value="SG">Anh</option>
+                                        <option value="SG">Úc</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Tình trạng</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" id="status-edit-profilevisa" style="width: 100%" name="ProfileVisaStatus">
+                                        <option value="HN">Chưa nộp hồ sơ</option>
+                                        <option value="SG">Đã nhận hồ sơ</option>
+                                        <option value="SG">Đang xét</option>
+                                        <option>Rớt</option>
+                                        <option>Đậu</option>
+                                        <option>Xin nộp lại</option>
+                                        <option>Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Trạng thái</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="text" value="" class="form-control" name="ProfileVisaState" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Thời hạn nộp</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="text" value="" class="form-control" id="edit-thoihannophoso" name="ProfileVisaDeadline" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Ngày hiệu lực</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="text" value="" class="form-control" id="edit-ngayhieuluc" name="ProfileVisaEffect" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Ngày hết hạn</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="text" value="" class="form-control" id="edit-ngayhethan" name="ProfileVisaExpired" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Thời gian VISA đoàn</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type="text" value="" class="form-control" id="edit-thoigiandukien" name="ProfileVisaTime" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Diễn giải</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <textarea class="form-control" style="height: 95px" name="ProfileVisaNote"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div align="center" style="margin-bottom: 20px">
+                            <button type="button" class="btn blue" onclick="clickbtnLuuThem()">Lưu</button>
+                            <button type="button" class="btn default" data-dismiss="modal">Hủy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿@using CRM.Core
+
+@{
+    ViewBag.Title = "Thông tin VISA";
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>THÔNG TIN VISA</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-4">
+                <select class="form-control" id="customer-select2" onchange="btnSearchCountryVisa()">
+                    @foreach (var item in CRMViettour.Utilities.LoadData.DropdownlistCountry())
+                    {
+                        <option value="@item.Id">@item.Tags</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-8">
+                <div class="pull-right">
+                    <a class="btn btn-default" href="@Url.Action("Index", "InfomationVisaManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                    <button class="btn btn-primary" data-toggle="modal" href="#modal-insert-infovisa"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                    <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                    <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                    <form action="@Url.Action("Delete", "InfomationVisaManage")" method="post" style="position:absolute">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="listItemId" name="listItemId" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div id="table-document">
+                        @Html.Action("_Partial_ListInfomation", "InfomationVisaManage")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+@Html.Partial("_Partial_InsertInfomationVisa", new tbl_VisaInfomation())
+<div id="info-data">
+</div>
+<div id="viewfile"></div>
+
+@section scripts{
+    <script src="~/Scripts/controller/infomationvisa.js"></script>
+}

@@ -1,0 +1,187 @@
+﻿<div class="modal fade  bs-modal-lg" id="modal-edit-tour" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Cập nhật tour</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="tabbable-custom" id="tab-insert-customer">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#thongtinchung1" data-toggle="tab">Thông tin chung</a>
+                            </li>
+                            <li>
+                                <a href="#huongdanvien1" data-toggle="tab">Hướng dẫn viên</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="thongtinchung1">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-2 col-md-2">Tên tour</label>
+                                            <div class="col-lg-10 col-md-10">
+                                                <input type="text" value="" class="form-control" name="TourName" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Code tour</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <input type="text" value="" class="form-control" name="TourCode" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Từ ngày</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                    <input type="text" class="form-control" readonly id="edit-ngaydi-tour" name="TourStartDate" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default date-set" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Đến ngày</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                    <input type="text" class="form-control" readonly id="edit-ngayden-tour" name="TourEndDate" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default date-set" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Người liên hệ</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <input type="text" value="" class="form-control" name="TourContacter" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Số ngày</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <input type="text" value="" class="form-control" name="TourDateNumber" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Nơi đi</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <select class="form-control" id="edit-tinhthanh1-tour" style="width: 100%" name="TourStartPlace">
+                                                    <option value="0">-------</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Nơi đến</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <select class="form-control" id="edit-tinhthanh2-tour" style="width: 100%" name="TourEndPlace">
+                                                    <option value="0">-------</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Điện thoại</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <input type="text" value="" class="form-control" name="TourPhone" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-2 col-md-2">Phân quyền</label>
+                                            <div class="col-lg-10 col-md-10">
+                                                <select id="edit-staff-tour" class="form-control" multiple="multiple" style="width: 100%" name="TourPermission">
+                                                    <option>A</option>
+                                                    <option>B</option>
+                                                    <option>C</option>
+                                                    <option>D</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                            <div class="col-lg-10 col-md-10">
+                                                <textarea class="form-control" name="TourNoteEdit"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="huongdanvien1">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Nhân viên</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <select class="form-control" id="edit-guide-tour" style="width: 100%" name="TourStaffGuide">
+                                                    <option value="0">A</option>
+                                                    <option value="0">B</option>
+                                                    <option value="0">C</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Ngày đi</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                    <input type="text" class="form-control" readonly id="edit-ngaydi-tourhdv" name="TourStartDateHDV">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default date-set" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Ngày về</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
+                                                    <input type="text" class="form-control" readonly id="edit-ngayden-tourhdv" name="TourEndDateHDV">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn default date-set" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4 col-md-4">Điểm khởi hành</label>
+                                            <div class="col-lg-8 col-md-8">
+                                                <select class="form-control" id="edit-departure-tour" style="width: 100%" name="TourDeparture">
+                                                    <option value="0">A</option>
+                                                    <option value="0">B</option>
+                                                    <option value="0">C</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="button" class="btn blue" id="btnLuuSua">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

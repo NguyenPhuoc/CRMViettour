@@ -1,0 +1,86 @@
+﻿@using CRMViettour.Models
+@model IEnumerable<DictionaryViewModel>
+
+@{
+    ViewBag.Title = "Quản lý Phòng ban";
+    int i = 1;
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>QUẢN LÝ PHÒNG BAN</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-default" href="@Url.Action("Index", "DepartmentManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                <button class="btn btn-primary" onclick="addRow2Colum()" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                <button class="btn btn-warning" onclick="updateRow2Colum()" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                <form action="@Url.Action("Delete", "DepartmentManage")" method="post" style="position:absolute">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="listItemId" name="listItemId" />
+                </form>
+                <button class="btn green" id="btnSave"><i class="fa fa-floppy-o"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
+                        <table class="table table-striped table-bordered table-hover table-addrow" id="tableDictionary">
+                            <thead>
+                                <tr>
+                                    <th id="ID" hidden="hidden"></th>
+                                    <th class="table-checkbox">
+                                        <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                                    </th>
+                                    <th>STT</th>
+                                    <th>Phòng ban</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><input type="checkbox" value="@item.Id" class="cbItem" id="cb@(item.Id)" name="cb" onclick="CheckSelect()" /></td>
+                                        <td>@i</td>
+                                        <td>@item.Name</td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+@section scripts{
+    <script src="~/Scripts/controller/department.js"></script>
+}

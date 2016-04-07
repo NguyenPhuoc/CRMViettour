@@ -16,13 +16,6 @@ E:\WORK\DIP VIETNAM\viettours2\CRMViettour\bin\Microsoft.Web.Infrastructure.xml
 E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache
 E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.dll
 E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.pdb
-<<<<<<< HEAD
-E:\WORK\DIP VIETNAM\viettours2\CRMViettour\bin\CRM.Core.dll
-E:\WORK\DIP VIETNAM\viettours2\CRMViettour\bin\CRM.Infrastructure.dll
-E:\WORK\DIP VIETNAM\viettours2\CRMViettour\bin\CRM.Core.pdb
-E:\WORK\DIP VIETNAM\viettours2\CRMViettour\bin\CRM.Infrastructure.pdb
-=======
-C:\DIP\CRMVT\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache
 C:\DIP\CRMVT\CRMViettour\bin\CRM.Core.pdb
 C:\DIP\CRMVT\CRMViettour\bin\CRM.Infrastructure.pdb
->>>>>>> origin/master
+C:\DIP\CRMVT\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache

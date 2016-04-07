@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers
 {
-    public class TaskManageController : BaseController
+    public class TaskManageController : Controller
     {
         //
         // GET: /TaskManage/

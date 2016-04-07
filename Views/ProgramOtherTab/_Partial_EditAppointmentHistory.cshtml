@@ -14,7 +14,8 @@
                 @Html.HiddenFor(model => model.CustomerId)
                 @Html.HiddenFor(model => model.StaffId)
                 @Html.HiddenFor(model => model.CreatedDate)
-                
+                @Html.HiddenFor(model => model.ProgramId)
+
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="row">
@@ -125,7 +126,7 @@
                                     </label>
                                     <div class="col-lg-3 col-md-3">
                                         <select class="form-control" id="edit-nhactruoc-lichhen" name="Notify" disabled="@(Model != null && Model.IsNotify == true ? "" : "disabled")">
-                                            <option value="5" @(Model != null && Model.Notify == 5 ? "selected" :"")>5 phút</option>
+                                            <option value="5" @(Model != null && Model.Notify == 5 ? "selected" : "")>5 phút</option>
                                             <option value="10" @(Model != null && Model.Notify == 10 ? "selected" : "")>10 phút</option>
                                             <option value="15" @(Model != null && Model.Notify == 15 ? "selected" : "")>15 phút</option>
                                             <option value="20" @(Model != null && Model.Notify == 20 ? "selected" : "")>20 phút</option>

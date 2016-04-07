@@ -29,6 +29,7 @@
                                         @Html.HiddenFor(model => model.CreatedDate)
                                         @Html.HiddenFor(model => model.PermissionStaff)
                                         @Html.HiddenFor(model => model.FileName)
+                                        @Html.HiddenFor(model => model.FileSize)
 
                                         @Html.TextBoxFor(model => model.FileName, new { id = "edit-file", type = "file", @class = "form-control" })
                                     </div>
@@ -42,7 +43,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Tags</label>
                                     <div class="col-lg-9 col-md-9">
-                                       @Html.DropDownList("TagsId", null, new { @class = "form-control", @multiple = "multiple", id = "edit-tag-document", required = "required", style = "width: 100%" })
+                                        @Html.DropDownList("TagsId", null, new { @class = "form-control", @multiple = "multiple", id = "edit-tag-document", required = "required", style = "width: 100%" })
                                     </div>
                                 </div>
                                 <div class="form-group">

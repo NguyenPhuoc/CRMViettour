@@ -32,6 +32,7 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
         private IGenericRepository<tbl_ContactHistory> _contactHistoryRepository;
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
+        private IGenericRepository<tbl_Staff> _staffRepository;
         private DataContext _db;
 
         public CustomersManageController(
@@ -47,6 +48,7 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_UpdateHistory> updateHistoryRepository,
             IGenericRepository<tbl_ContactHistory> contactHistoryRepository,
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
+            IGenericRepository<tbl_Staff> staffRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -62,6 +64,7 @@ namespace CRMViettour.Controllers
             this._contactHistoryRepository = contactHistoryRepository;
             this._appointmentHistoryRepository = appointmentHistoryRepository;
             this._updateHistoryRepository = updateHistoryRepository;
+            this._staffRepository = staffRepository;
             _db = new DataContext();
         }
 
@@ -382,21 +385,32 @@ namespace CRMViettour.Controllers
                     model.TagsId = form["TagsId"].ToString();
                     //file
                     HttpPostedFileBase FileName = Session["CustomerFile"] as HttpPostedFileBase;
-                    string CustomerFileSize = Common.ConvertFileSize(FileName.ContentLength);
+                    string FileSize = Common.ConvertFileSize(FileName.ContentLength);
                     String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
                     String path = Server.MapPath("~/Upload/file/" + newName);
                     FileName.SaveAs(path);
-                    if (newName != null && CustomerFileSize != null)
+                    //end file
+                    if (newName != null && FileSize != null)
                     {
                         model.FileName = newName;
-                        model.FileSize = CustomerFileSize;
+                        model.FileSize = FileSize;
                     }
 
                     if (await _documentFileRepository.Create(model))
                     {
                         Session["CustomerFile"] = null;
-                        CustomerFileSize = null;
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id).ToList();
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id)
+                     .Select(p => new tbl_DocumentFile
+                     {
+                         Id = p.Id,
+                         FileName = p.FileName,
+                         FileSize = p.FileSize,
+                         Note = p.Note,
+                         CreatedDate = p.CreatedDate,
+                         TagsId = p.TagsId,
+                         tbl_Staff = _staffRepository.FindId(p.StaffId)
+                     }).ToList();
                         return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml", list);
                     }
                     else
@@ -449,18 +463,40 @@ namespace CRMViettour.Controllers
                     model.IsRead = true;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
-
-                    if (Session["CustomerFile"] != null && Session["CustomerFileSize"] != null)
+                    if (Session["CustomerFile"] != null)
                     {
-                        model.FileName = Session["CustomerFile"].ToString();
-                        model.FileSize = Session["CustomerFileSize"].ToString();
-                    }
+                        //file
+                        HttpPostedFileBase FileName = Session["CustomerFile"] as HttpPostedFileBase;
+                        string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                        String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
+                        String path = Server.MapPath("~/Upload/file/" + newName);
+                        FileName.SaveAs(path);
+                        //end file
 
+                        if (FileName != null && FileSize != null)
+                        {
+                            String pathOld = Server.MapPath("~/Upload/file/" + model.FileName);
+                            if (System.IO.File.Exists(pathOld))
+                                System.IO.File.Delete(pathOld);
+                            model.FileName = newName;
+                            model.FileSize = FileSize;
+                        }
+                    }
                     if (await _documentFileRepository.Update(model))
                     {
                         Session["CustomerFile"] = null;
-                        Session["CustomerFileSize"] = null;
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).ToList();
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                     .Select(p => new tbl_DocumentFile
+                     {
+                         Id = p.Id,
+                         FileName = p.FileName,
+                         FileSize = p.FileSize,
+                         Note = p.Note,
+                         CreatedDate = p.CreatedDate,
+                         TagsId = p.TagsId,
+                         tbl_Staff = _staffRepository.FindId(p.StaffId)
+                     }).ToList();
                         return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml", list);
                     }
                     else
@@ -482,15 +518,26 @@ namespace CRMViettour.Controllers
             try
             {
                 int cusId = _documentFileRepository.FindId(id).CustomerId ?? 0;
-
+                //file
                 tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
                 String path = Server.MapPath("~/Upload/file/" + documentFile.FileName);
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
-
+                //end file
                 if (await _documentFileRepository.Delete(id, true))
                 {
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId).ToList();
+                    //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId).ToList();
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == id)
+                     .Select(p => new tbl_DocumentFile
+                     {
+                         Id = p.Id,
+                         FileName = p.FileName,
+                         FileSize = p.FileSize,
+                         Note = p.Note,
+                         CreatedDate = p.CreatedDate,
+                         TagsId = p.TagsId,
+                         tbl_Staff = _staffRepository.FindId(p.StaffId)
+                     }).ToList();
                     return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml", list);
                 }
                 else

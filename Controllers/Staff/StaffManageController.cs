@@ -465,10 +465,7 @@ namespace CRMViettour.Controllers
         {
             if (FileName != null && FileName.ContentLength > 0)
             {
-                String path = Server.MapPath("~/Upload/file/" + FileName.FileName);
-                FileName.SaveAs(path);
-                Session["StaffFile"] = FileName.FileName;
-                Session["StaffFileSize"] = Common.ConvertFileSize(FileName.ContentLength);
+                Session["StaffFile"] = FileName;
             }
             return Json(JsonRequestBehavior.AllowGet);
         }
@@ -487,19 +484,35 @@ namespace CRMViettour.Controllers
                     model.IsRead = false;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
-
-                    if (Session["StaffFile"] != null && Session["StaffFileSize"] != null)
+                    //file
+                    HttpPostedFileBase FileName = Session["StaffFile"] as HttpPostedFileBase;
+                    string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
+                    String path = Server.MapPath("~/Upload/file/" + newName);
+                    FileName.SaveAs(path);
+                    //end file
+                    if (newName != null && FileSize != null)
                     {
-                        model.FileName = Session["StaffFile"].ToString();
-                        model.FileSize = Session["StaffFileSize"].ToString();
+                        model.FileName = newName;
+                        model.FileSize = FileSize;
                     }
 
                     if (await _documentFileRepository.Create(model))
                     {
                         Session["StaffFile"] = null;
-                        Session["StaffFileSize"] = null;
                         UpdateHistory.SaveStaff(9, "Thêm mới tài liêu, code: " + model.Code);
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId.ToString() == id).ToList();
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId.ToString() == id).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId.ToString() == id)
+                    .Select(p => new tbl_DocumentFile
+                    {
+                        Id = p.Id,
+                        FileName = p.FileName,
+                        FileSize = p.FileSize,
+                        Note = p.Note,
+                        CreatedDate = p.CreatedDate,
+                        TagsId = p.TagsId,
+                        tbl_Staff = _staffRepository.FindId(p.StaffId)
+                    }).ToList();
                         return PartialView("~/Views/StaffTabInfo/_HoSoLienQuan.cshtml", list);
                     }
                     else
@@ -553,18 +566,43 @@ namespace CRMViettour.Controllers
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
 
-                    if (Session["StaffFile"] != null && Session["StaffFileSize"] != null)
+                    //file
+                    if (Session["StaffFile"] != null)
                     {
-                        model.FileName = Session["StaffFile"].ToString();
-                        model.FileSize = Session["StaffFileSize"].ToString();
+                        HttpPostedFileBase FileName = Session["StaffFile"] as HttpPostedFileBase;
+                        string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                        String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
+                        String path = Server.MapPath("~/Upload/file/" + newName);
+                        FileName.SaveAs(path);
+
+                        //end file
+
+                        if (FileName != null && FileSize != null)
+                        {
+                            String pathOld = Server.MapPath("~/Upload/file/" + model.FileName);
+                            if (System.IO.File.Exists(pathOld))
+                                System.IO.File.Delete(pathOld);
+                            model.FileName = newName;
+                            model.FileSize = FileSize;
+                        }
                     }
 
                     if (await _documentFileRepository.Update(model))
                     {
                         Session["StaffFile"] = null;
-                        Session["StaffFileSize"] = null;
                         UpdateHistory.SaveStaff(9, "Cập nhật tài liệu, code: " + model.Code);
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == model.StaffId).ToList();
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == model.StaffId).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == model.StaffId)
+                    .Select(p => new tbl_DocumentFile
+                    {
+                        Id = p.Id,
+                        FileName = p.FileName,
+                        FileSize = p.FileSize,
+                        Note = p.Note,
+                        CreatedDate = p.CreatedDate,
+                        TagsId = p.TagsId,
+                        tbl_Staff = _staffRepository.FindId(p.StaffId)
+                    }).ToList();
                         return PartialView("~/Views/StaffTabInfo/_HoSoLienQuan.cshtml", list);
                     }
                     else
@@ -586,10 +624,27 @@ namespace CRMViettour.Controllers
             try
             {
                 var sId = _documentFileRepository.FindId(id).StaffId;
+                //file
+                tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
+                String path = Server.MapPath("~/Upload/file/" + documentFile.FileName);
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+                //end file
                 if (await _documentFileRepository.Delete(id, true))
                 {
                     UpdateHistory.SaveStaff(9, "Xóa danh sách tài liệu của nhân viên");
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == sId).ToList();
+                    //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == sId).ToList();
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == id)
+                    .Select(p => new tbl_DocumentFile
+                    {
+                        Id = p.Id,
+                        FileName = p.FileName,
+                        FileSize = p.FileSize,
+                        Note = p.Note,
+                        CreatedDate = p.CreatedDate,
+                        TagsId = p.TagsId,
+                        tbl_Staff = _staffRepository.FindId(p.StaffId)
+                    }).ToList();
                     return PartialView("~/Views/StaffTabInfo/_HoSoLienQuan.cshtml", list);
                 }
                 else

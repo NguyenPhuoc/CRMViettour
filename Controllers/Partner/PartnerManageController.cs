@@ -24,6 +24,7 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_Partner> _partnerRepository;
         private IGenericRepository<tbl_ServicesPartner> _servicesPartnerRepository;
+        private IGenericRepository<tbl_Staff> _staffRepository;
         private DataContext _db;
 
         public PartnerManageController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
@@ -32,6 +33,7 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_Tags> tagRepository,
             IGenericRepository<tbl_Partner> partnerRepository,
             IGenericRepository<tbl_ServicesPartner> servicesPartnerRepository,
+            IGenericRepository<tbl_Staff> staffRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -41,6 +43,7 @@ namespace CRMViettour.Controllers
             this._partnerRepository = partnerRepository;
             this._servicesPartnerRepository = servicesPartnerRepository;
             this._tagRepository = tagRepository;
+            this._staffRepository = staffRepository;
             _db = new DataContext();
         }
 
@@ -257,10 +260,7 @@ namespace CRMViettour.Controllers
         {
             if (FileName != null && FileName.ContentLength > 0)
             {
-                String path = Server.MapPath("~/Upload/file/" + FileName.FileName);
-                FileName.SaveAs(path);
-                Session["PartnerFile"] = FileName.FileName;
-                Session["PartnerFileSize"] = Common.ConvertFileSize(FileName.ContentLength);
+                Session["PartnerFile"] = FileName;
             }
             return Json(JsonRequestBehavior.AllowGet);
         }
@@ -280,18 +280,35 @@ namespace CRMViettour.Controllers
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
 
-                    if (Session["PartnerFile"] != null && Session["PartnerFileSize"] != null)
+                    //file
+                    HttpPostedFileBase FileName = Session["PartnerFile"] as HttpPostedFileBase;
+                    string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
+                    String path = Server.MapPath("~/Upload/file/" + newName);
+                    FileName.SaveAs(path);
+                    //end file
+                    if (newName != null && FileSize != null)
                     {
-                        model.FileName = Session["PartnerFile"].ToString();
-                        model.FileSize = Session["PartnerFileSize"].ToString();
+                        model.FileName = newName;
+                        model.FileSize = FileSize;
                     }
 
                     if (await _documentFileRepository.Create(model))
                     {
                         UpdateHistory.SavePartner(model.PartnerId ?? 0, 9, "Thêm mới tài liệu đối tác, code: " + model.Code);
                         Session["PartnerFile"] = null;
-                        Session["PartnerFileSize"] = null;
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId.ToString() == id).ToList();
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId.ToString() == id).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId.ToString() == id)
+                    .Select(p => new tbl_DocumentFile
+                    {
+                        Id = p.Id,
+                        FileName = p.FileName,
+                        FileSize = p.FileSize,
+                        Note = p.Note,
+                        CreatedDate = p.CreatedDate,
+                        TagsId = p.TagsId,
+                        tbl_Staff = _staffRepository.FindId(p.StaffId)
+                    }).ToList();
                         return PartialView("~/Views/PartnerTabInfo/_TaiLieuMau.cshtml", list);
                     }
                     else
@@ -344,19 +361,41 @@ namespace CRMViettour.Controllers
                     model.IsRead = true;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
-
-                    if (Session["PartnerFile"] != null && Session["PartnerFileSize"] != null)
+                    if (Session["PartnerFile"] != null)
                     {
-                        model.FileName = Session["PartnerFile"].ToString();
-                        model.FileSize = Session["PartnerFileSize"].ToString();
-                    }
+                        //file
+                        HttpPostedFileBase FileName = Session["PartnerFile"] as HttpPostedFileBase;
+                        string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                        String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
+                        String path = Server.MapPath("~/Upload/file/" + newName);
+                        FileName.SaveAs(path);
+                        //end file
 
+                        if (FileName != null && FileSize != null)
+                        {
+                            String pathOld = Server.MapPath("~/Upload/file/" + model.FileName);
+                            if (System.IO.File.Exists(pathOld))
+                                System.IO.File.Delete(pathOld);
+                            model.FileName = newName;
+                            model.FileSize = FileSize;
+                        }
+                    }
                     if (await _documentFileRepository.Update(model))
                     {
                         UpdateHistory.SavePartner(model.PartnerId ?? 0, 9, "Cập nhật tài liệu đối tác, code: " + model.Code);
                         Session["PartnerFile"] = null;
-                        Session["PartnerFileSize"] = null;
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).ToList();
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == model.PartnerId)
+                    .Select(p => new tbl_DocumentFile
+                    {
+                        Id = p.Id,
+                        FileName = p.FileName,
+                        FileSize = p.FileSize,
+                        Note = p.Note,
+                        CreatedDate = p.CreatedDate,
+                        TagsId = p.TagsId,
+                        tbl_Staff = _staffRepository.FindId(p.StaffId)
+                    }).ToList();
                         return PartialView("~/Views/PartnerTabInfo/_TaiLieuMau.cshtml", list);
                     }
                     else
@@ -378,9 +417,26 @@ namespace CRMViettour.Controllers
             try
             {
                 int partnerId = _documentFileRepository.FindId(id).PartnerId ?? 0;
+                //file
+                tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
+                String path = Server.MapPath("~/Upload/file/" + documentFile.FileName);
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+                //end file
                 if (await _documentFileRepository.Delete(id, true))
                 {
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == partnerId).ToList();
+                    //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == partnerId).ToList();
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == partnerId)
+                    .Select(p => new tbl_DocumentFile
+                    {
+                        Id = p.Id,
+                        FileName = p.FileName,
+                        FileSize = p.FileSize,
+                        Note = p.Note,
+                        CreatedDate = p.CreatedDate,
+                        TagsId = p.TagsId,
+                        tbl_Staff = _staffRepository.FindId(p.StaffId)
+                    }).ToList();
                     return PartialView("~/Views/PartnerTabInfo/_TaiLieuMau.cshtml", list);
                 }
                 else

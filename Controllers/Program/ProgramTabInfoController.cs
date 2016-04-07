@@ -64,6 +64,11 @@ namespace CRMViettour.Controllers.Program
         [ChildActionOnly]
         public ActionResult _ThongTinChiTiet()
         {
+            var st = DateTime.Now;
+            var test = _documentFileRepository.FindId(49);
+            var en = DateTime.Now;
+            var zz = (en - st).TotalMilliseconds;
+
             return PartialView("_ThongTinChiTiet");
         }
 
@@ -85,7 +90,18 @@ namespace CRMViettour.Controllers.Program
         [HttpPost]
         public async Task<ActionResult> InfoLichHen(int id)
         {
-            var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
+            // var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ProgramId == id)
+                           .Select(p => new tbl_AppointmentHistory
+                           {
+                               Id = p.Id,
+                               Title = p.Title,
+                               Time = p.Time,
+                               tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusId),
+                               tbl_Staff = _staffRepository.FindId(p.StaffId),
+                               Note = p.Note,
+                               OtherStaff = p.OtherStaff
+                           }).ToList();
             return PartialView("_LichHen", model);
         }
         #endregion
@@ -100,7 +116,17 @@ namespace CRMViettour.Controllers.Program
         [HttpPost]
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
-            var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
+            //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
+            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ProgramId == id)
+                      .Select(p => new tbl_ContactHistory
+                      {
+                          Id = p.Id,
+                          ContactDate = p.ContactDate,
+                          Request = p.Request,
+                          Note = p.Note,
+                          tbl_Staff = _staffRepository.FindId(p.StaffId),
+                          tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId)
+                      }).ToList();
             return PartialView("_LichSuLienHe", model);
         }
         #endregion

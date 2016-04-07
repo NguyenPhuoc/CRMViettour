@@ -211,7 +211,18 @@ namespace CRMViettour.Controllers.Partner
         [HttpPost]
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
-            var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
+            // var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
+            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == id)
+                    .Select(p => new tbl_DocumentFile
+                    {
+                        Id = p.Id,
+                        FileName = p.FileName,
+                        FileSize = p.FileSize,
+                        Note = p.Note,
+                        CreatedDate = p.CreatedDate,
+                        TagsId = p.TagsId,
+                        tbl_Staff = _staffRepository.FindId(p.StaffId)
+                    }).ToList();
             return PartialView("_TaiLieuMau", model);
         }
         #endregion

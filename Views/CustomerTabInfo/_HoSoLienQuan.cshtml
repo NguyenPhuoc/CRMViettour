@@ -38,7 +38,7 @@
                             </td>
                             <td>@Html.Raw(item.Note)</td>
                             <td>@item.FileSize</td>
-                            <td></td>
+                            <td>@item.tbl_Staff.FullName</td>
                             <td>@string.Format("{0:dd-M-yyyy}", item.CreatedDate)</td>
                             <td>
                                 <a style="cursor: pointer" onclick="updateDocument(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />

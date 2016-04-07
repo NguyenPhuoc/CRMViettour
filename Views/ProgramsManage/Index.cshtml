@@ -192,9 +192,13 @@
 
     <!--tab Lịch Hẹn-->
     @Html.Partial("~/Views/ProgramOtherTab/_Partial_InsertAppointmentHistory.cshtml", new tbl_AppointmentHistory())
-    <div id="info-data-appointment">
+    <div id="info-data-appoinment">
     </div>
 
+    <!----- lịch sử liên hệ ----->
+    @Html.Partial("~/Views/ProgramOtherTab/_Partial_InsertContactHistory.cshtml", new tbl_ContactHistory())
+    <div id="info-data-contacthistory">
+    </div>
 
     @Html.Partial("_Partial_InsertProgram", new tbl_Program())
     <div id="edit-data">
@@ -208,6 +212,7 @@
         <script>
             CKEDITOR.replace("insert-document-note");
             CKEDITOR.replace("insert-note-lichhen");
+            CKEDITOR.replace("insert-note-lienhe");
         </script>
         <script>
             function btnCreateFile() {
@@ -386,6 +391,38 @@
                         });
                     }
                 });
+            }
+
+            $('#insert-service-lichhen').change(function () {
+                $.getJSON('/ProgramOtherTab/LoadPartner/' + $('#insert-service-lichhen').val(), function (data) {
+                    var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                    $.each(data, function (i, ward) {
+                        items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                    });
+                    $('#insert-partner-lichhen').html(items);
+                });
+            });
+
+            function btnAddLichSuLienHe() {
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 khách hàng!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/ProgramsManage/GetIdProgram',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#insert-type-lienhe").select2();
+                            $("#insert-ngay-lienhe").datepicker();
+                            $("#modal-insert-contacthistory").modal("show");
+                        }
+                    });
+                }
             }
         </script>
     }

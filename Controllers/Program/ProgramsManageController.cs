@@ -22,12 +22,14 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_Tags> _tagRepository;
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
+        private IGenericRepository<tbl_Staff> _staffRepository;
         private DataContext _db;
 
         public ProgramsManageController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_Program> programRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
             IGenericRepository<tbl_Tags> tagRepository,
+            IGenericRepository<tbl_Staff> staffRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -35,6 +37,7 @@ namespace CRMViettour.Controllers
             this._documentFileRepository = documentFileRepository;
             this._dictionaryRepository = dictionaryRepository;
             this._tagRepository = tagRepository;
+            this._staffRepository = staffRepository;
             _db = new DataContext();
         }
 
@@ -187,6 +190,7 @@ namespace CRMViettour.Controllers
                     String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
                     String path = Server.MapPath("~/Upload/file/" + newName);
                     FileName.SaveAs(path);
+                    //end file
                     if (newName != null && CustomerFileSize != null)
                     {
                         model.FileName = newName;
@@ -196,8 +200,18 @@ namespace CRMViettour.Controllers
                     if (await _documentFileRepository.Create(model))
                     {
                         Session["ProgramFile"] = null;
-                        CustomerFileSize = null;
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId.ToString() == id).ToList();
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId.ToString() == id).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId.ToString() == id)
+                     .Select(p => new tbl_DocumentFile
+                     {
+                         Id = p.Id,
+                         FileName = p.FileName,
+                         FileSize = p.FileSize,
+                         Note = p.Note,
+                         CreatedDate = p.CreatedDate,
+                         TagsId = p.TagsId,
+                         tbl_Staff = _staffRepository.FindId(p.StaffId)
+                     }).ToList();
                         return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml", list);
                     }
                     else
@@ -250,18 +264,40 @@ namespace CRMViettour.Controllers
                     model.IsRead = true;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
-
-                    if (Session["ProgramFile"] != null && Session["CustomerFileSize"] != null)
+                    if (Session["ProgramFile"] != null)
                     {
-                        model.FileName = Session["CustomerFile"].ToString();
-                        model.FileSize = Session["CustomerFileSize"].ToString();
-                    }
+                        //file
+                        HttpPostedFileBase FileName = Session["ProgramFile"] as HttpPostedFileBase;
+                        string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                        String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
+                        String path = Server.MapPath("~/Upload/file/" + newName);
+                        FileName.SaveAs(path);
+                        //end file
 
+                        if (FileName != null && FileSize != null)
+                        {
+                            String pathOld = Server.MapPath("~/Upload/file/" + model.FileName);
+                            if (System.IO.File.Exists(pathOld))
+                                System.IO.File.Delete(pathOld);
+                            model.FileName = newName;
+                            model.FileSize = FileSize;
+                        }
+                    }
                     if (await _documentFileRepository.Update(model))
                     {
                         Session["ProgramFile"] = null;
-                        Session["CustomerFileSize"] = null;
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == model.ProgramId).ToList();
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == model.ProgramId).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == model.ProgramId)
+                     .Select(p => new tbl_DocumentFile
+                     {
+                         Id = p.Id,
+                         FileName = p.FileName,
+                         FileSize = p.FileSize,
+                         Note = p.Note,
+                         CreatedDate = p.CreatedDate,
+                         TagsId = p.TagsId,
+                         tbl_Staff = _staffRepository.FindId(p.StaffId)
+                     }).ToList();
                         return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml", list);
                     }
                     else
@@ -283,15 +319,27 @@ namespace CRMViettour.Controllers
             try
             {
                 int proId = _documentFileRepository.FindId(id).ProgramId ?? 0;
-
+                //file
                 tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
                 String path = Server.MapPath("~/Upload/file/" + documentFile.FileName);
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
+                //end file
 
                 if (await _documentFileRepository.Delete(id, true))
                 {
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId).ToList();
+                    //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId).ToList();
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId)
+                     .Select(p => new tbl_DocumentFile
+                     {
+                         Id = p.Id,
+                         FileName = p.FileName,
+                         FileSize = p.FileSize,
+                         Note = p.Note,
+                         CreatedDate = p.CreatedDate,
+                         TagsId = p.TagsId,
+                         tbl_Staff = _staffRepository.FindId(p.StaffId)
+                     }).ToList();
                     return PartialView("~/Views/ProgramTabInfo/_TaiLieuMau.cshtml", list);
                 }
                 else

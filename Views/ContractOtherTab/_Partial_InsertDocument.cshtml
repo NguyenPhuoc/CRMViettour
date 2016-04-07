@@ -9,7 +9,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Thêm mới tài liệu</h4>
             </div>
-            @using (Ajax.BeginForm("CreateDocument", "ContractsManage", null, new AjaxOptions { OnFailure = "OnFailureCustomerFile", OnSuccess = "OnSuccessCustomerFile", UpdateTargetId  = "hosolienquan"}, new { id = "frmInsertFile", enctype = "multipart/form-data" }))
+            @using (Ajax.BeginForm("CreateDocument", "ContractsManage", null, new AjaxOptions { OnFailure = "OnFailureCustomerFile", OnSuccess = "OnSuccessCustomerFile", UpdateTargetId = "tailieumau" }, new { id = "frmInsertFile", enctype = "multipart/form-data" }))
             {
                 <div class="modal-body">
                     <div class="form-horizontal">

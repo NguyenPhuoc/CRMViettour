@@ -8,7 +8,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Lịch hẹn</h4>
             </div>
-            @using (Ajax.BeginForm("CreateContactHistory", "CustomerOtherTab", null, new AjaxOptions { OnFailure = "OnFailureAppointment", OnSuccess = "OnSuccessAppointment", UpdateTargetId = "lichsulienhe" }))
+            @using (Ajax.BeginForm("CreateContactHistory", "ProgramOtherTab", null, new AjaxOptions { OnFailure = "OnFailureAppointment", OnSuccess = "OnSuccessAppointment", UpdateTargetId = "lichsulienhe" }))
             {
                 <div class="modal-body">
                     <div class="form-horizontal">

@@ -61,3 +61,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.csproj
+obj/Debug/CRMViettour.csproj.FileListAbsolute.txt
+obj/Debug/CRMViettour.csprojResolveAssemblyReference.cache
+*.dll
+*.pdb
+bin/CRMViettour.dll
+*.dll

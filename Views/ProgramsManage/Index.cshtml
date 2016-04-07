@@ -204,6 +204,7 @@
 
     @section scripts{
         <script src="~/Scripts/controller/program.js"></script>
+        <script src="~/Scripts/controller/programother.js"></script>
         <script>
             CKEDITOR.replace("insert-document-note");
             CKEDITOR.replace("insert-note-lichhen");
@@ -277,6 +278,114 @@
                     });
                 }
             }
-        </script>
 
+            $('#FileName').change(function () {
+                var data = new FormData();
+                data.append('FileName', $('#FileName')[0].files[0]);
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: 'ProgramsManage/UploadFile',
+                    contentType: false,
+                    processData: false,
+                    data: data
+                });
+
+                ajaxRequest.done(function (xhr, textStatus) {
+                    // Onsuccess
+                });
+            });
+
+            function OnSuccessAppointment() {
+                $("#modal-insert-appointment").modal("hide");
+                $("#modal-edit-appointment").modal("hide");
+
+                $("#modal-insert-contacthistory").modal("hide");
+                $("#modal-edit-contacthistory").modal("hide");
+
+                $("#modal-insert-document").modal("hide");
+                $("#modal-edit-document").modal("hide");
+            }
+
+            function OnFailureAppointment() {
+                alert("Lỗi, vui lòng kiểm tra lại!");
+                $("#modal-insert-appointment").modal("hide");
+                $("#modal-edit-appointment").modal("hide");
+
+                $("#modal-insert-contacthistory").modal("hide");
+                $("#modal-edit-contacthistory").modal("hide");
+
+                $("#modal-insert-document").modal("hide");
+                $("#modal-edit-document").modal("hide");
+            }
+
+            /** xóa tài liệu **/
+            function deleteDocument(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/ProgramsManage/DeleteDocument',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#tailieumau").html(data);
+                    }
+                });
+            }
+
+            /** cập nhật tài liệu **/
+            function updateDocument(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/ProgramsManage/EditInfoDocument',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#info-data-document").html(data);
+                        $("#edit-tag-document").select2();
+                        $("#edit-document-type").select2();
+                        CKEDITOR.replace("edit-document-note");
+                        $("#modal-edit-document").modal("show");
+                        /**** update in tab file của khách hàng ****/
+                        $("#btnUpdateFile").click(function () {
+                            var $this = $(this);
+                            var $form = $("#frmUpdateFile");
+                            var $parent = $form.parent();
+                            var options = {
+                                url: $form.attr("action"),
+                                type: $form.attr("method"),
+                                data: $form.serialize()
+                            };
+
+                            $.ajax(options).done(function (data) {
+                                $("#modal-edit-document").modal("hide");
+                                alert("Lưu dữ liệu thành công!");
+                                $("#tailieumau").html(data);
+                            });
+                            return false;
+                        });
+
+                        /** upload file **/
+                        $("#edit-file").change(function () {
+                            var data = new FormData();
+                            data.append('FileName', $('#edit-file')[0].files[0]);
+                            var ajaxRequest = $.ajax({
+                                type: "POST",
+                                url: 'CustomersManage/UploadFile',
+                                contentType: false,
+                                processData: false,
+                                data: data
+                            });
+
+                            ajaxRequest.done(function (xhr, textStatus) {
+                                // Onsuccess
+                            });
+                        });
+                    }
+                });
+            }
+        </script>
     }

@@ -5,6 +5,9 @@ function OnSuccessAppointment() {
 
     $("#modal-insert-contacthistory").modal("hide");
     $("#modal-edit-contacthistory").modal("hide");
+
+    $("#modal-insert-document").modal("hide");
+    $("#modal-edit-document").modal("hide");
 }
 
 function OnFailureAppointment() {
@@ -14,6 +17,9 @@ function OnFailureAppointment() {
 
     $("#modal-insert-contacthistory").modal("hide");
     $("#modal-edit-contacthistory").modal("hide");
+
+    $("#modal-insert-document").modal("hide");
+    $("#modal-edit-document").modal("hide");
 }
 
 /** xóa lịch hẹn **/

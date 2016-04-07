@@ -76,14 +76,14 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
-                model.CustomerId = Convert.ToInt32(Session["idCustomer"].ToString());
+                model.ContractId = Convert.ToInt32(Session["idContract"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.StaffId = 9;
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ContractId == model.ContractId)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -113,7 +113,7 @@ namespace CRMViettour.Controllers.Customer
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-       
+
 
         [HttpPost]
         [ValidateInput(false)]
@@ -132,7 +132,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ContractId == model.ContractId)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -159,12 +159,12 @@ namespace CRMViettour.Controllers.Customer
         [HttpPost]
         public async Task<ActionResult> DeleteAppointment(int id)
         {
-            int cusId = _appointmentHistoryRepository.FindId(id).CustomerId ?? 0;
+            int conId = _appointmentHistoryRepository.FindId(id).ContractId ?? 0;
             try
             {
                 if (await _appointmentHistoryRepository.Delete(id, true))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == cusId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ContractId == conId)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -199,11 +199,13 @@ namespace CRMViettour.Controllers.Customer
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.StaffId = 9;
+                model.ContractId = Int32.Parse(Session["idContract"].ToString());
                 if (await _contactHistoryRepository.Create(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ContractId == model.ContractId)
                        .Select(p => new tbl_ContactHistory
                        {
+                           Id = p.Id,
                            ContactDate = p.ContactDate,
                            Request = p.Request,
                            Note = p.Note,
@@ -223,7 +225,7 @@ namespace CRMViettour.Controllers.Customer
             }
         }
 
-       
+
 
         [HttpPost]
         [ValidateInput(false)]
@@ -241,9 +243,10 @@ namespace CRMViettour.Controllers.Customer
                 model.ModifiedDate = DateTime.Now;
                 if (await _contactHistoryRepository.Update(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ContractId == model.ContractId)
                         .Select(p => new tbl_ContactHistory
                         {
+                            Id = p.Id,
                             ContactDate = p.ContactDate,
                             Request = p.Request,
                             Note = p.Note,
@@ -268,12 +271,13 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
-                int cusId = _contactHistoryRepository.FindId(id).CustomerId ?? 0;
+                int conId = _contactHistoryRepository.FindId(id).ContractId ?? 0;
                 if (await _contactHistoryRepository.Delete(id, true))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == cusId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ContractId == conId)
                         .Select(p => new tbl_ContactHistory
                         {
+                            Id = p.Id,
                             ContactDate = p.ContactDate,
                             Request = p.Request,
                             Note = p.Note,

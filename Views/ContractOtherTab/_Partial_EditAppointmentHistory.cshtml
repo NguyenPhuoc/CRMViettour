@@ -11,7 +11,7 @@
             @using (Ajax.BeginForm("UpdateAppointment", "ContractOtherTab", null, new AjaxOptions { OnFailure = "OnFailureAppointment", OnSuccess = "OnSuccessAppointment", UpdateTargetId = "lichhen" }))
             {
                 @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.CustomerId)
+                @Html.HiddenFor(model => model.ContractId)
                 @Html.HiddenFor(model => model.StaffId)
                 @Html.HiddenFor(model => model.CreatedDate)
                 

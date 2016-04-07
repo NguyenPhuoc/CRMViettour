@@ -6,15 +6,23 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers
 {
-    public class MapManageController : Controller
+    public class TaskManageController : BaseController
     {
         //
-        // GET: /MapManage/
+        // GET: /TaskManage/
 
         public ActionResult Index()
         {
             return View();
         }
-        
+
+        #region Create
+        #endregion
+
+        #region Update
+        #endregion
+
+        #region Delete
+        #endregion
     }
 }

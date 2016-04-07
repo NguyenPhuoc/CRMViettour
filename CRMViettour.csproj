@@ -45,7 +45,7 @@
   <ItemGroup>
     <Reference Include="CRM.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CRM.Core.dll</HintPath>
+      <HintPath>..\..\CRM VIETTOURS\web_CRMViettours\Viettour\CRM.Core\bin\Debug\CRM.Core.dll</HintPath>
     </Reference>
     <Reference Include="CRM.Enum, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -53,7 +53,7 @@
     </Reference>
     <Reference Include="CRM.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CRM.Infrastructure.dll</HintPath>
+      <HintPath>..\..\CRM VIETTOURS\web_CRMViettours\Viettour\CRM.Infrastructure\bin\Debug\CRM.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -203,7 +203,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AppointmentListController.cs" />
+    <Compile Include="Controllers\Appointment\AppointmentManageController.cs" />
     <Compile Include="Controllers\Appointment\AppointmentTypeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryManageController.cs" />
@@ -225,7 +225,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapManageController.cs" />
     <Compile Include="Controllers\MarketingManageController.cs" />
-    <Compile Include="Controllers\MissionManageController.cs" />
+    <Compile Include="Controllers\TaskManageController.cs" />
     <Compile Include="Controllers\OpportunityManageController.cs" />
     <Compile Include="Controllers\Other\DocumentTypeManageController.cs" />
     <Compile Include="Controllers\Other\LocationTagsManageController.cs" />
@@ -246,6 +246,9 @@
     <Compile Include="Controllers\ReportsManageController.cs" />
     <Compile Include="Controllers\Staff\StaffOtherTabController.cs" />
     <Compile Include="Controllers\Staff\StaffTabInfoController.cs" />
+    <Compile Include="Controllers\Task\TaskPriorityManageController.cs" />
+    <Compile Include="Controllers\Task\TaskStatusManageController.cs" />
+    <Compile Include="Controllers\Task\TaskTypeManageController.cs" />
     <Compile Include="Controllers\Tour\ReviewTourController.cs" />
     <Compile Include="Controllers\ScheduleManageController.cs" />
     <Compile Include="Controllers\Staff\StaffManageController.cs" />
@@ -2028,10 +2031,14 @@
     <Content Include="Scripts\ammap\themes\patterns.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\controller\appointmentlist.js" />
     <Content Include="Scripts\controller\appointmenttype.js" />
     <Content Include="Scripts\controller\career.js" />
     <Content Include="Scripts\controller\company.js" />
     <Content Include="Scripts\controller\contract.js" />
+    <Content Include="Scripts\controller\tasktype.js" />
+    <Content Include="Scripts\controller\taskpriority.js" />
+    <Content Include="Scripts\controller\taskstatus.js" />
     <Content Include="Scripts\controller\customer.js" />
     <Content Include="Scripts\controller\contractother.js" />
     <Content Include="Scripts\controller\staffothertab.js" />
@@ -2168,10 +2175,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\AppointmentList\AppointmentType.cshtml" />
-    <Content Include="Views\AppointmentList\Index.cshtml" />
-    <Content Include="Views\AppointmentList\_Partial_EditAppointment.cshtml" />
-    <Content Include="Views\AppointmentList\_Partial_InsertAppointment.cshtml" />
     <Content Include="Views\CategoryManage\Calendar.cshtml" />
     <Content Include="Views\CategoryManage\Continents.cshtml" />
     <Content Include="Views\CategoryManage\Country.cshtml" />
@@ -2212,14 +2215,11 @@
     <Content Include="Views\DocumentManage\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\LivechatManage\Index.cshtml" />
     <Content Include="Views\MapManage\Index.cshtml" />
-    <Content Include="Views\MissionManage\Index.cshtml" />
-    <Content Include="Views\MissionManage\PriorityTask.cshtml" />
-    <Content Include="Views\MissionManage\StatusTask.cshtml" />
-    <Content Include="Views\MissionManage\TypeTask.cshtml" />
-    <Content Include="Views\MissionManage\_Partial_AssignTask.cshtml" />
-    <Content Include="Views\MissionManage\_Partial_EditTask.cshtml" />
-    <Content Include="Views\MissionManage\_Partial_InsertTask.cshtml" />
-    <Content Include="Views\MissionManage\_Partial_WorkTask.cshtml" />
+    <Content Include="Views\TaskManage\Index.cshtml" />
+    <Content Include="Views\TaskManage\_Partial_AssignTask.cshtml" />
+    <Content Include="Views\TaskManage\_Partial_EditTask.cshtml" />
+    <Content Include="Views\TaskManage\_Partial_InsertTask.cshtml" />
+    <Content Include="Views\TaskManage\_Partial_WorkTask.cshtml" />
     <Content Include="Views\OpportunityManage\Index.cshtml" />
     <Content Include="Views\OpportunityManage\_Partial_EditOpportunity.cshtml" />
     <Content Include="Views\OpportunityManage\_Partial_InsertOpportunity.cshtml" />
@@ -2439,6 +2439,11 @@
     <Content Include="Views\ProgramOtherTab\_LichSuLienHe.cshtml" />
     <Content Include="Views\ProgramOtherTab\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\ContractOtherTab\_Partial_InsertDocument.cshtml" />
+    <Content Include="Views\TaskPriorityManage\Index.cshtml" />
+    <Content Include="Views\TaskStatusManage\Index.cshtml" />
+    <Content Include="Views\TaskTypeManage\Index.cshtml" />
+    <Content Include="Views\AppointmentManage\Index.cshtml" />
+    <Content Include="Views\AppointmentManage\_Partial_AppointmentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

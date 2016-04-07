@@ -16,7 +16,7 @@ namespace CRMViettour.Controllers
         //
         // GET: /ContractsManage/
 
-       #region Init
+        #region Init
 
         private IGenericRepository<tbl_Contract> _contractRepository;
         private IGenericRepository<tbl_Tags> _tagRepository;
@@ -85,7 +85,7 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region Update
-       
+
 
         [HttpPost]
         public ActionResult ContractInfomation(int id)
@@ -106,7 +106,7 @@ namespace CRMViettour.Controllers
                 if (await _contractRepository.Update(model))
                 {
                     UpdateHistory.SavePartner(model.Id, 9, "Cập nhật hợp đồng, code: " + model.Code);
-                    return RedirectToAction("Index");        
+                    return RedirectToAction("Index");
                 }
             }
             catch { }

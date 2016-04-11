@@ -52,7 +52,6 @@ namespace CRMViettour.App_Start
             container.RegisterType<IGenericRepository<tbl_Module>, GenericRepository<tbl_Module>>();
             container.RegisterType<IGenericRepository<tbl_Partner>, GenericRepository<tbl_Partner>>();
             container.RegisterType<IGenericRepository<tbl_PartnerNote>, GenericRepository<tbl_PartnerNote>>();
-            container.RegisterType<IGenericRepository<tbl_Role>, GenericRepository<tbl_Role>>();
             container.RegisterType<IGenericRepository<tbl_RoleGroup>, GenericRepository<tbl_RoleGroup>>();
             container.RegisterType<IGenericRepository<tbl_ServicesPartner>, GenericRepository<tbl_ServicesPartner>>();
             container.RegisterType<IGenericRepository<tbl_Staff>, GenericRepository<tbl_Staff>>();

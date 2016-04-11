@@ -225,6 +225,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapManageController.cs" />
     <Compile Include="Controllers\MarketingManageController.cs" />
+    <Compile Include="Controllers\Permission\PermissionManageController.cs" />
     <Compile Include="Controllers\TaskManageController.cs" />
     <Compile Include="Controllers\OpportunityManageController.cs" />
     <Compile Include="Controllers\Other\DocumentTypeManageController.cs" />
@@ -2271,18 +2272,18 @@
     <Content Include="Views\StaffManage\Index.cshtml" />
     <Content Include="Views\StaffManage\Permission.cshtml" />
     <Content Include="Views\StaffManage\StaffGroup.cshtml" />
-    <Content Include="Views\StaffManage\_Partial_AddUser.cshtml" />
+    <Content Include="Views\PermissionManage\_Partial_AddUser.cshtml" />
     <Content Include="Views\HeadquarterManage\_Partial_EditHeadquarter.cshtml" />
-    <Content Include="Views\StaffManage\_Partial_EditRoleGroup.cshtml" />
+    <Content Include="Views\PermissionManage\_Partial_EditRoleGroup.cshtml" />
     <Content Include="Views\StaffManage\_Partial_EditStaff.cshtml" />
     <Content Include="Views\StaffManage\_Partial_FormModule.cshtml" />
     <Content Include="Views\StaffManage\_Partial_ImportStaff.cshtml" />
     <Content Include="Views\StaffManage\_Partial_InsertForm.cshtml" />
     <Content Include="Views\StaffManage\_Partial_InsertFunction.cshtml" />
     <Content Include="Views\HeadquarterManage\_Partial_InsertHeadquarter.cshtml" />
-    <Content Include="Views\StaffManage\_Partial_InsertRoleGroup.cshtml" />
+    <Content Include="Views\PermissionManage\_Partial_InsertRoleGroup.cshtml" />
     <Content Include="Views\StaffManage\_Partial_InsertStaff.cshtml" />
-    <Content Include="Views\StaffManage\_Partial_SetupRole.cshtml" />
+    <Content Include="Views\PermissionManage\_Partial_SetupRole.cshtml" />
     <Content Include="Views\SystemManage\AccountInfo.cshtml" />
     <Content Include="Views\SystemManage\ChangePassword.cshtml" />
     <Content Include="Views\TourManage\History.cshtml" />
@@ -2444,6 +2445,7 @@
     <Content Include="Views\TaskTypeManage\Index.cshtml" />
     <Content Include="Views\AppointmentManage\Index.cshtml" />
     <Content Include="Views\AppointmentManage\_Partial_AppointmentList.cshtml" />
+    <Content Include="Views\PermissionManage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2731,6 +2733,9 @@
     <Content Include="Scripts\ammap\plugins\responsive\readme.md" />
     <Content Include="Scripts\ammap\plugins\responsive\responsive.min.js.map" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

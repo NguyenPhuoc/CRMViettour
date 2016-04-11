@@ -88,17 +88,6 @@ namespace CRMViettour.Controllers.Visa
         public async Task<ActionResult> EditInfoDocument(int id)
         {
             var model = await _documentFileRepository.GetById(id);
-            List<SelectListItem> lstTag = new List<SelectListItem>();
-            foreach (var t in _db.tbl_Tags.Where(p => p.TypeTag == 3).ToList())
-            {
-                lstTag.Add(new SelectListItem()
-                {
-                    Text = t.Tag,
-                    Value = t.Id.ToString(),
-                    Selected = model.TagsId.Split(',').Contains(t.Id.ToString()) ? true : false
-                });
-            }
-            ViewBag.TagsId = lstTag;
             return PartialView("_Partial_EditDocumentVisa", model);
         }
 

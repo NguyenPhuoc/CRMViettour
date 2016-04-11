@@ -113,7 +113,6 @@ namespace CRMViettour.Controllers.Customer
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpPost]
         [ValidateInput(false)]
         public async Task<ActionResult> EditAppointment(int id)

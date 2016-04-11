@@ -2073,8 +2073,7 @@
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -2090,6 +2089,7 @@
     <Content Include="Scripts\scriptTemplate.js" />
     <Content Include="Scripts\select2\css\select2.css" />
     <Content Include="Scripts\select2\css\select2.min.css" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\select2\js\i18n\ar.js" />
     <Content Include="Scripts\select2\js\i18n\az.js" />
     <Content Include="Scripts\select2\js\i18n\bg.js" />

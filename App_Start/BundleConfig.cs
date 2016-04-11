@@ -27,8 +27,11 @@ namespace CRMViettour
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            //bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+            //            "~/Scripts/jquery-ui-{version}.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-                        "~/Scripts/jquery-ui-{version}.js"));
+                        "~/Scripts/jquery-ui.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.unobtrusive*",
@@ -76,7 +79,7 @@ namespace CRMViettour
                         "~/Content/themes/base/jquery.ui.dialog.css",
                         "~/Content/themes/base/jquery.ui.slider.css",
                         "~/Content/themes/base/jquery.ui.tabs.css",
-                        "~/Content/themes/base/jquery.ui.datepicker.css",
+                        //"~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
@@ -89,8 +92,8 @@ namespace CRMViettour
                         "~/Content/assets/global/plugins/select2/css/select2.css",
                         "~/Content/assets/global/plugins/select2/css/select2-bootstrap.css",
                         "~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css",
-                        "~/Content/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.css",
-                        "~/Content/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css",
+                //"~/Content/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.css",
+                //"~/Content/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css",
                         "~/Content/assets/global/plugins/fullcalendar/fullcalendar.css",
                         "~/Scripts/ammap/ammap.css",
                         "~/Content/assets/global/plugins/jquery-nestable/jquery.nestable.css",

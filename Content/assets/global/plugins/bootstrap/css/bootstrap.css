@@ -162,10 +162,10 @@ td, th {
     }
 
     *, :after, :before {
-        background: 0 0!important;
-        color: #000!important;
-        box-shadow: none!important;
-        text-shadow: none!important;
+        background: 0 0 !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
     }
 
     a, a:visited {
@@ -193,7 +193,7 @@ td, th {
     }
 
     img {
-        max-width: 100%!important;
+        max-width: 100% !important;
     }
 
     h2, h3, p {
@@ -210,7 +210,7 @@ td, th {
     }
 
     .btn > .caret, .dropup > .btn > .caret {
-        border-top-color: #000!important;
+        border-top-color: #000 !important;
     }
 
     .label {
@@ -218,15 +218,15 @@ td, th {
     }
 
     .table {
-        border-collapse: collapse!important;
+        border-collapse: collapse !important;
     }
 
         .table td, .table th {
-            background-color: #fff!important;
+            background-color: #fff !important;
         }
 
     .table-bordered td, .table-bordered th {
-        border: 1px solid #ddd!important;
+        border: 1px solid #ddd !important;
     }
 }
 
@@ -3196,8 +3196,9 @@ textarea.form-control {
 
     .form-inline .form-control {
         display: inline-block;
-        width: auto;
+        /*width: auto;*/
         vertical-align: middle;
+        width: 100%;
     }
 
     .form-inline .input-group {
@@ -4214,10 +4215,10 @@ tbody.collapse.in {
     }
 
         .navbar-collapse.collapse {
-            display: block!important;
-            height: auto!important;
+            display: block !important;
+            height: auto !important;
             padding-bottom: 0;
-            overflow: visible!important;
+            overflow: visible !important;
         }
 
         .navbar-collapse.in {
@@ -4513,11 +4514,11 @@ tbody.collapse.in {
     }
 
     .navbar-left {
-        float: left!important;
+        float: left !important;
     }
 
     .navbar-right {
-        float: right!important;
+        float: right !important;
         margin-right: -15px;
     }
 
@@ -6521,23 +6522,23 @@ button.close {
 }
 
 .pull-right {
-    float: right!important;
+    float: right !important;
 }
 
 .pull-left {
-    float: left!important;
+    float: left !important;
 }
 
 .hide {
-    display: none!important;
+    display: none !important;
 }
 
 .show {
-    display: block!important;
+    display: block !important;
 }
 
 .hidden, .visible-lg, .visible-lg-block, .visible-lg-inline, .visible-lg-inline-block, .visible-md, .visible-md-block, .visible-md-inline, .visible-md-inline-block, .visible-sm, .visible-sm-block, .visible-sm-inline, .visible-sm-inline-block, .visible-xs, .visible-xs-block, .visible-xs-inline, .visible-xs-inline-block {
-    display: none!important;
+    display: none !important;
 }
 
 .invisible {
@@ -6561,198 +6562,198 @@ button.close {
 
 @media (max-width:767px) {
     .visible-xs {
-        display: block!important;
+        display: block !important;
     }
 
     table.visible-xs {
-        display: table!important;
+        display: table !important;
     }
 
     tr.visible-xs {
-        display: table-row!important;
+        display: table-row !important;
     }
 
     td.visible-xs, th.visible-xs {
-        display: table-cell!important;
+        display: table-cell !important;
     }
 
     .visible-xs-block {
-        display: block!important;
+        display: block !important;
     }
 
     .visible-xs-inline {
-        display: inline!important;
+        display: inline !important;
     }
 
     .visible-xs-inline-block {
-        display: inline-block!important;
+        display: inline-block !important;
     }
 }
 
 @media (min-width:768px) and (max-width:991px) {
     .visible-sm {
-        display: block!important;
+        display: block !important;
     }
 
     table.visible-sm {
-        display: table!important;
+        display: table !important;
     }
 
     tr.visible-sm {
-        display: table-row!important;
+        display: table-row !important;
     }
 
     td.visible-sm, th.visible-sm {
-        display: table-cell!important;
+        display: table-cell !important;
     }
 
     .visible-sm-block {
-        display: block!important;
+        display: block !important;
     }
 
     .visible-sm-inline {
-        display: inline!important;
+        display: inline !important;
     }
 
     .visible-sm-inline-block {
-        display: inline-block!important;
+        display: inline-block !important;
     }
 }
 
 @media (min-width:992px) and (max-width:1199px) {
     .visible-md {
-        display: block!important;
+        display: block !important;
     }
 
     table.visible-md {
-        display: table!important;
+        display: table !important;
     }
 
     tr.visible-md {
-        display: table-row!important;
+        display: table-row !important;
     }
 
     td.visible-md, th.visible-md {
-        display: table-cell!important;
+        display: table-cell !important;
     }
 
     .visible-md-block {
-        display: block!important;
+        display: block !important;
     }
 
     .visible-md-inline {
-        display: inline!important;
+        display: inline !important;
     }
 
     .visible-md-inline-block {
-        display: inline-block!important;
+        display: inline-block !important;
     }
 }
 
 @media (min-width:1200px) {
     .visible-lg {
-        display: block!important;
+        display: block !important;
     }
 
     table.visible-lg {
-        display: table!important;
+        display: table !important;
     }
 
     tr.visible-lg {
-        display: table-row!important;
+        display: table-row !important;
     }
 
     td.visible-lg, th.visible-lg {
-        display: table-cell!important;
+        display: table-cell !important;
     }
 
     .visible-lg-block {
-        display: block!important;
+        display: block !important;
     }
 
     .visible-lg-inline {
-        display: inline!important;
+        display: inline !important;
     }
 
     .visible-lg-inline-block {
-        display: inline-block!important;
+        display: inline-block !important;
     }
 
     .hidden-lg {
-        display: none!important;
+        display: none !important;
     }
 }
 
 @media (max-width:767px) {
     .hidden-xs {
-        display: none!important;
+        display: none !important;
     }
 }
 
 @media (min-width:768px) and (max-width:991px) {
     .hidden-sm {
-        display: none!important;
+        display: none !important;
     }
 }
 
 @media (min-width:992px) and (max-width:1199px) {
     .hidden-md {
-        display: none!important;
+        display: none !important;
     }
 }
 
 .visible-print {
-    display: none!important;
+    display: none !important;
 }
 
 @media print {
     .visible-print {
-        display: block!important;
+        display: block !important;
     }
 
     table.visible-print {
-        display: table!important;
+        display: table !important;
     }
 
     tr.visible-print {
-        display: table-row!important;
+        display: table-row !important;
     }
 
     td.visible-print, th.visible-print {
-        display: table-cell!important;
+        display: table-cell !important;
     }
 }
 
 .visible-print-block {
-    display: none!important;
+    display: none !important;
 }
 
 @media print {
     .visible-print-block {
-        display: block!important;
+        display: block !important;
     }
 }
 
 .visible-print-inline {
-    display: none!important;
+    display: none !important;
 }
 
 @media print {
     .visible-print-inline {
-        display: inline!important;
+        display: inline !important;
     }
 }
 
 .visible-print-inline-block {
-    display: none!important;
+    display: none !important;
 }
 
 @media print {
     .visible-print-inline-block {
-        display: inline-block!important;
+        display: inline-block !important;
     }
 
     .hidden-print {
-        display: none!important;
+        display: none !important;
     }
 }

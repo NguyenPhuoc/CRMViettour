@@ -40,6 +40,7 @@
                     @Html.AntiForgeryToken()
                     <input type="hidden" id="listItemId" name="listItemId" />
                 </form>
+
                 <a class="btn green" data-toggle="modal" href="#modal-import-customer"><i class="icon-action-redo"></i>&nbsp;Import</a>
                 <label class="btn btn-info fileContainer">
                     <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" class="form-control" />&nbsp;Export</a>
@@ -235,6 +236,27 @@
 
 @Html.Partial("_Partial_EditSchedule")
 @Html.Partial("_Partial_InsertSchedule")
+@*<style>
+    /*filter date*/
+    #tableDictionary > thead > tr:last-child > th:nth-child(4) input, #tableDictionary > thead > tr:last-child > th:nth-child(11) input, #tableDictionary > thead > tr:last-child > th:nth-child(12) input {
+        width: 120px;
+    }
+
+    /*filter phone*/
+    #tableDictionary > thead > tr:last-child > th:nth-child(6) input, #tableDictionary > thead > tr:last-child > th:nth-child(7) input {
+        width: 130px;
+    }
+
+    /*filter passport*/
+    #tableDictionary > thead > tr:last-child > th:nth-child(10) input {
+        width: 100px;
+    }
+
+    /*filter address*/
+    #tableDictionary > thead > tr:last-child > th:nth-child(8) input {
+        width: 100%;
+    }
+</style>*@
 
 @section scripts{
     <script src="~/Scripts/controller/customer.js"></script>
@@ -290,6 +312,8 @@
                         $("#insert-status-visa").select2();
                         $("#insert-createdate-visa").datepicker();
                         $("#insert-expiredate-visa").datepicker();
+                        //$('#insert-expiredate-visa').datetimepicker();
+
                         $("#modal-insert-visa").modal("show");
                     }
                 });
@@ -389,7 +413,7 @@
         $('#FileName').change(function () {
             var data = new FormData();
             data.append('FileName', $('#FileName')[0].files[0]);
-           
+
             var ajaxRequest = $.ajax({
                 type: "POST",
                 url: 'CustomersManage/UploadFile',

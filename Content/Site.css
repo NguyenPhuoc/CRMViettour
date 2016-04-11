@@ -24,8 +24,8 @@
     color: #ccc;
 }
 
-.fontweight-normal{
-    font-weight: normal
+.fontweight-normal {
+    font-weight: normal;
 }
 
 .fileContainer {
@@ -149,5 +149,5 @@ table tr td p {
 
 
 .oneselected {
-    background-color: #eef1f5 
+    background-color: #eef1f5;
 }

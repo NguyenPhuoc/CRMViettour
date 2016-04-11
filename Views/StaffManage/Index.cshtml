@@ -232,6 +232,8 @@
     @Html.Partial("~/Views/StaffOtherTab/_Partial_InsertContactHistory.cshtml", new tbl_ContactHistory())
     <div id="info-data-contacthistory">
     </div>
+
+
     @Html.Partial("_Partial_EditSchedule")
     @Html.Partial("_Partial_InsertSchedule")
 
@@ -402,6 +404,26 @@
                             $("#insert-type-lichhen").select2();
                             $("#insert-partner-lichhen").select2();
                             $("#insert-ngayhen-lichhen").datepicker();
+                            ///
+                            $("#insert-check-notify").click(function () {
+                                if (this.checked) {
+                                    $("#insert-nhactruoc-lichhen").removeAttr("disabled", "disabled");
+                                    $("#insert-nhactruoc-lichhen").select2();
+                                }
+                                else {
+                                    $("#insert-nhactruoc-lichhen").attr("disabled", "disabled");
+                                }
+                            });
+
+                            $("#insert-check-repeat").click(function () {
+                                if (this.checked) {
+                                    $("#insert-laplai-lichhen").removeAttr("disabled", "disabled");
+                                    $("#insert-laplai-lichhen").select2();
+                                }
+                                else {
+                                    $("#insert-laplai-lichhen").attr("disabled", "disabled");
+                                }
+                            });
                             $("#modal-insert-appointment").modal("show");
                         }
                     });

@@ -6884,7 +6884,8 @@ h1 .label, h2 .label, h3 .label, h4 .label, h5 .label, h6 .label {
 }
 
 .modal-open {
-    overflow-y: auto!important;
+    /*overflow-y: auto!important;*/
+    overflow-y: hidden;
 }
 
 .modal-open-noscroll {

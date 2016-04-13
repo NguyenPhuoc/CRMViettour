@@ -842,4 +842,6 @@ function OnFailureCustomerFile() {
     $("#modal-edit-document").modal("hide");
 }
 
-
+$("#btnExport").click(function () {
+    $("#exportForm").submit();
+});

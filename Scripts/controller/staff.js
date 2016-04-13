@@ -6,19 +6,19 @@ $("#insert-staffgroup").select2();
 $("#insert-headquarter").select2();
 $("#insert-placeidentity").select2();
 $("#insert-department").select2();
-$("#insert-identity").datepicker();
+//$("#insert-identity").datepicker();
 $("#insert-birthplace").select2();
-$("#insert-birthday").datepicker();
-$("#insert-createpassport").datepicker();
-$("#insert-expiredPassport").datepicker();
+//$("#insert-birthday").datepicker();
+//$("#insert-createpassport").datepicker();
+//$("#insert-expiredPassport").datepicker();
 $("#insert-placepassport").select2();
 $("#insert-nation").select2();
 $("#insert-religion").select2();
 $("#insert-marriage").select2();
 $("#insert-certificate").select2();
-$("#ngaycapvisa1").datepicker();
+//$("#ngaycapvisa1").datepicker();
 $("#countryvisa1").select2();
-$("#ngayhethanvisa1").datepicker();
+//$("#ngayhethanvisa1").datepicker();
 
 $('.dataTable').dataTable({
     order: [],
@@ -58,8 +58,8 @@ $(function () {
 
         // insert the new element after the last "duplicatable" input field
         $('#entry' + num).after(newElem);
-        $("#ngaycapvisa" + newNum).datepicker();
-        $("#ngayhethanvisa" + newNum).datepicker();
+        //$("#ngaycapvisa" + newNum).datepicker();
+        //$("#ngayhethanvisa" + newNum).datepicker();
         $("#countryvisa" + newNum).select2();
 
         for (var i = 1; i < newNum; i++) {
@@ -677,8 +677,8 @@ function updateVisa(id) {
             $("#edit-country-visa").select2();
             $("#edit-type-visa").select2();
             $("#edit-status-visa").select2();
-            $("#edit-createdatevisa").datepicker();
-            $("#edit-expiredatevisa").datepicker();
+            //$("#edit-createdatevisa").datepicker();
+            //$("#edit-expiredatevisa").datepicker();
             $("#modal-edit-visa").modal("show");
 
             /**** update in tab visa của khách hàng ****/

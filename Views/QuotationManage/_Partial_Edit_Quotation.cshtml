@@ -23,13 +23,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">Code báo giá</label>
                                     <div class="col-md-10">
-                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required", @readonly = "readonly" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-2">Code tour</label>
                                     <div class="col-md-4">
-                                        <select id="edit-code-tour" class="form-control" name="TourId" style="width: 100%">
+                                        <select id="edit-code-tour" class="form-control" name="TourId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.TourList())
                                             {
                                                 <option value="@item.Id" @(Model != null && Model.TourId == item.Id ? "selected" : "")>@item.Name</option>
@@ -61,7 +61,7 @@
                                         <select id="edit-tags" class="form-control" multiple="multiple" name="TagsId" style="width: 100%">
                                             @foreach (var item in LoadData.DropdownlistLocation())
                                             {
-                                                <option value="@item.Id" @(Model.TagsId != null && Model.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
+                                                <option value="@item.Id" @(Model.TagsId != null && Model.TagsId != null && Model.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
                                             }
                                         </select>
                                     </div>
@@ -79,8 +79,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">Ngày báo giá</label>
                                     <div class="col-md-4">
-                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            @Html.TextBoxFor(model => model.QuotationDate, new { @class="form-control", @id="edit-ngaybaogia", @readonly="readonly"})
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            @Html.TextBoxFor(model => model.QuotationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @id = "edit-ngaybaogia", @type = "date" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>

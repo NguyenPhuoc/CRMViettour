@@ -27,8 +27,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Ngày liên hệ</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            @Html.TextBoxFor(model => model.ContactDate, new { @class = "form-control", @readonly = "readonly", id = "edit-ngay-lienhe" })
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            @Html.TextBoxFor(model => model.ContactDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", id = "edit-ngay-lienhe", required = "required" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -38,7 +38,7 @@
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Trạng thái xử lý</label>
                                     <div class="col-lg-3 col-md-3">
-                                        <select class="form-control" id="edit-type-lienhe" name="DictionaryId" style="width: 100%">
+                                        <select class="form-control" id="edit-type-lienhe" name="DictionaryId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.StatusProcessList())
                                             {
                                                 <option value="@item.Id" @(Model != null && Model.DictionaryId == item.Id ? "selected" : "")>@item.Name</option>

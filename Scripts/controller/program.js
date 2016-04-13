@@ -21,8 +21,8 @@ CKEDITOR.replace("insert-note");
 $("#insert-tour").select2();
 $("#insert-customer").select2();
 $("#insert-address").select2();
-$("#insert-startdate").datepicker();
-$("#insert-enddate").datepicker();
+//$("#insert-startdate").datepicker();
+//$("#insert-enddate").datepicker();
 
 function viewFileOnline(id) {
     $("#viewfile").html("<div id='modal-view-file' class='modal fade' role='dialog'>" +
@@ -49,8 +49,8 @@ $("#btnEdit").click(function () {
             $("#edit-tour").select2();
             $("#edit-customer").select2();
             $("#edit-address").select2();
-            $("#edit-startdate").datepicker();
-            $("#edit-enddate").datepicker();
+            //$("#edit-startdate").datepicker();
+            //$("#edit-enddate").datepicker();
             $("#modal-edit-program").modal("show");
         }
     });

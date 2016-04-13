@@ -22,7 +22,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Code</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required", @readonly = "readonly" })
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Tour</label>
                                     <div class="col-lg-4 col-md-4">
@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Tên chương trình</label>
                                     <div class="col-lg-10 col-md-10">
-                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -55,7 +55,7 @@
                                         <select class="form-control" id="edit-address" name="TagsId" multiple style="width: 100%">
                                             @foreach (var item in LoadData.DropdownlistLocation())
                                             {
-                                                <option value="@item.Id" @(Model.TagsId != null && Model.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
+                                                <option value="@item.Id" @(Model.TagsId != null && Model.TagsId != null && Model.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
                                             }
                                         </select>
                                     </div>
@@ -63,8 +63,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Ngày bắt đầu</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            @Html.TextBoxFor(model => model.StartDate, new {@class="form-control", @id="edit-startdate", @style="width: 100%", @readonly="readonly" })
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            @Html.TextBoxFor(model => model.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @id = "edit-startdate", @style = "width: 100%", @type = "date" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -74,8 +74,8 @@
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Ngày kết thúc</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control", @id = "edit-enddate", @style = "width: 100%", @readonly = "readonly" })
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            @Html.TextBoxFor(model => model.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @id = "edit-enddate", @style = "width: 100%", @type = "date" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>

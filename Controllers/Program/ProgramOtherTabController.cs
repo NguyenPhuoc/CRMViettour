@@ -69,8 +69,6 @@ namespace CRMViettour.Controllers.Customer
 
         #endregion
 
-
-
         #region Lịch hẹn
         [HttpPost]
         [ValidateInput(false)]

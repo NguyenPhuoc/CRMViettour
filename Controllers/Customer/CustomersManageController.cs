@@ -10,6 +10,7 @@ using CRM.Infrastructure;
 using System.Threading.Tasks;
 using CRM.Enum;
 using CRMViettour.Utilities;
+using System.IO;
 
 namespace CRMViettour.Controllers
 {
@@ -253,9 +254,6 @@ namespace CRMViettour.Controllers
                     model.SingleContact.TagsId = form["SinglePersonal.TagsId"];
                     model.SingleContact.CreatedDate = DateTime.Now;
                     model.SingleContact.ModifiedDate = DateTime.Now;
-                    model.SingleContact.CreatedDateIdentity = model.CreatedDateIdentity;
-                    model.SingleContact.CreatedDatePassport = model.CreatedDatePassport;
-                    model.SingleContact.ExpiredDatePassport = model.ExpiredDatePassport;
                     model.SingleContact.IdentityCard = model.IdentityCard;
                     model.SingleContact.IdentityTagId = model.IdentityTagId;
                     model.SingleContact.PassportCard = model.PassportCard;
@@ -373,8 +371,9 @@ namespace CRMViettour.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> CreateDocument(tbl_DocumentFile model, FormCollection form)
         {
-            try
-            {
+            //try
+            //{
+            
                 string id = Session["idCustomer"].ToString();
                 if (ModelState.IsValid)
                 {
@@ -383,10 +382,11 @@ namespace CRMViettour.Controllers
                     model.IsRead = false;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
+                    model.StaffId = 9;
                     //file
                     HttpPostedFileBase FileName = Session["CustomerFile"] as HttpPostedFileBase;
                     string FileSize = Common.ConvertFileSize(FileName.ContentLength);
-                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
+                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
                     String path = Server.MapPath("~/Upload/file/" + newName);
                     FileName.SaveAs(path);
                     //end file
@@ -418,20 +418,10 @@ namespace CRMViettour.Controllers
                         return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml");
                     }
                 }
-            }
-            catch { }
+            //}
+            //catch { }
             return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml");
         }
-
-        //[ChildActionOnly]
-        //public ActionResult _Partial_EditDocument()
-        //{
-        //    List<SelectListItem> lstTag = new List<SelectListItem>();
-        //    List<SelectListItem> lstDictionary = new List<SelectListItem>();
-        //    ViewData["TagsId"] = lstTag;
-        //    ViewBag.DictionaryId = lstDictionary;
-        //    return PartialView("_Partial_EditDocument", new tbl_DocumentFile());
-        //}
 
         [HttpPost]
         public async Task<ActionResult> EditInfoDocument(int id)
@@ -487,16 +477,16 @@ namespace CRMViettour.Controllers
                         Session["CustomerFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).ToList();
                         var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
-                     .Select(p => new tbl_DocumentFile
-                     {
-                         Id = p.Id,
-                         FileName = p.FileName,
-                         FileSize = p.FileSize,
-                         Note = p.Note,
-                         CreatedDate = p.CreatedDate,
-                         TagsId = p.TagsId,
-                         tbl_Staff = _staffRepository.FindId(p.StaffId)
-                     }).ToList();
+                             .Select(p => new tbl_DocumentFile
+                             {
+                                 Id = p.Id,
+                                 FileName = p.FileName,
+                                 FileSize = p.FileSize,
+                                 Note = p.Note,
+                                 CreatedDate = p.CreatedDate,
+                                 TagsId = p.TagsId,
+                                 tbl_Staff = _staffRepository.FindId(p.StaffId)
+                             }).ToList();
                         return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml", list);
                     }
                     else
@@ -526,8 +516,7 @@ namespace CRMViettour.Controllers
                 //end file
                 if (await _documentFileRepository.Delete(id, true))
                 {
-                    //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId).ToList();
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == id)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,

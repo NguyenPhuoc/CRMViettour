@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Tour</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <select class="form-control" id="edit-tour" name="TourId" style="width: 100%">
+                                        <select class="form-control" id="edit-tour" name="TourId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.TourList())
                                             {
                                                 <option value="@item.Id" @(Model != null && Model.TourId == item.Id ? "selected" : "")>@item.Name</option>

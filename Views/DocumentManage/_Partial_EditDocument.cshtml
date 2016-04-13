@@ -21,7 +21,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Code</label>
                                     <div class="col-lg-9 col-md-9">
-                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required", @readonly = "readonly" })
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -33,7 +33,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Loại tài liệu</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <select class="form-control" style="width: 100%" id="edit-typefile" name="DictionaryId">
+                                        <select class="form-control" style="width: 100%" id="edit-typefile" name="DictionaryId" required="required">
                                             @foreach (var item in LoadData.DocumentTypeList())
                                             {
                                                 <option value="@item.Id" @(Model != null && Model.DictionaryId == item.Id ? "selected" : "")>@item.Name</option>
@@ -47,7 +47,7 @@
                                         <select class="form-control" multiple style="width: 100%" id="edit-tags" name="TagsId">
                                             @foreach (var item in LoadData.DropdownlistLocation())
                                             {
-                                                <option value="@item.Id" @(Model.TagsId != null && Model.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
+                                                <option value="@item.Id" @(Model.TagsId != null && Model.TagsId != null && Model.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
                                             }
                                         </select>
                                     </div>
@@ -63,7 +63,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Phân quyền</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <select class="form-control" style="width: 100%" id="edit-permission" name="PermissionStaff" multiple>
+                                        <select class="form-control" style="width: 100%" id="edit-permission" name="PermissionStaff" multiple required="required">
                                             @foreach (var item in LoadData.StaffList())
                                             {
                                                 <option value="@item.Id" @(Model.PermissionStaff != null && Model.PermissionStaff.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.FullName</option>

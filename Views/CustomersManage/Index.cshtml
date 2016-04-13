@@ -108,7 +108,7 @@
                                         <td>@item.Company</td>
                                         <td>@item.Phone</td>
                                         <td>@item.OtherPhone</td>
-                                        <td>@item.Address, @LoadData.LocationTags(item.TagsId)</td>
+                                        <td>@item.Address, @(item.TagsId != null ? LoadData.LocationTags(item.TagsId) : "")</td>
                                         <td>@item.Career</td>
                                         <td>@item.Passport</td>
                                         <td>@item.StartDate</td>
@@ -270,8 +270,8 @@
 
     <script>
         /** button thêm tài liệu của công ty **/
-        $("#insert-createdatevisa").datepicker();
-        $("#insert-expiredatevisa").datepicker();
+        //$("#insert-createdatevisa").datepicker();
+        //$("#insert-expiredatevisa").datepicker();
 
         function btnCreateFile() {
             if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
@@ -311,8 +311,8 @@
                         $("#insert-country-visa").select2();
                         $("#insert-type-visa").select2();
                         $("#insert-status-visa").select2();
-                        $("#insert-createdate-visa").datepicker();
-                        $("#insert-expiredate-visa").datepicker();
+                        //$("#insert-createdate-visa").datepicker();
+                        //$("#insert-expiredate-visa").datepicker();
                         //$('#insert-expiredate-visa').datetimepicker();
 
                         $("#modal-insert-visa").modal("show");
@@ -343,7 +343,7 @@
                         $("#insert-partner-lichhen").select2();
                         $("#insert-type-lichhen").select2();
                         $("#insert-partner-lichhen").select2();
-                        $("#insert-ngayhen-lichhen").datepicker();
+                        //$("#insert-ngayhen-lichhen").datepicker();
                         ///
                         $("#insert-check-notify").click(function () {
                             if (this.checked) {
@@ -386,7 +386,7 @@
                     dataType: "html",
                     success: function (data) {
                         $("#insert-type-lienhe").select2();
-                        $("#insert-ngay-lienhe").datepicker();
+                        //$("#insert-ngay-lienhe").datepicker();
                         $("#modal-insert-contacthistory").modal("show");
                     }
                 });
@@ -447,7 +447,7 @@
                     $("#edit-partner-lichhen").select2();
                     $("#edit-type-lichhen").select2();
                     $("#edit-partner-lichhen").select2();
-                    $("#edit-ngayhen-lichhen").datepicker();
+                    //$("#edit-ngayhen-lichhen").datepicker();
                     $("#edit-check-notify").click(function () {
                         if (this.checked) {
                             $("#edit-nhactruoc-lichhen").removeAttr("disabled", "disabled");
@@ -495,7 +495,7 @@
                 dataType: "html",
                 success: function (data) {
                     $("#info-data-contacthistory").html(data);
-                    $("#edit-ngay-lienhe").datepicker();
+                    //$("#edit-ngay-lienhe").datepicker();
                     $("#edit-type-lienhe").select2();
                     CKEDITOR.replace("edit-note-lienhe");
                     $("#modal-edit-contacthistory").modal("show");

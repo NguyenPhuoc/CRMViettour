@@ -18,11 +18,11 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-4 col-md-4">Quốc gia</label>
                                 <div class="col-lg-8 col-md-8">
-                                    <select class="form-control" id="country-insert-profilevisa" name="TagId" style="width: 100%">
-                                       @foreach (var item in CRMViettour.Utilities.LoadData.DropdownlistCountry())
-                                       {
-                                        <option value="@item.Id">@item.Tags</option>
-                                       }
+                                    <select class="form-control" id="country-insert-profilevisa" name="TagId" style="width: 100%" required="required">
+                                        @foreach (var item in CRMViettour.Utilities.LoadData.DropdownlistCountry())
+                                        {
+                                            <option value="@item.Id">@item.Tags</option>
+                                        }
                                     </select>
                                 </div>
                             </div>

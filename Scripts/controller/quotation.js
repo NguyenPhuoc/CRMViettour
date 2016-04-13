@@ -19,7 +19,7 @@ $("#insert-code-customer").select2();
 $("#insert-code-country").select2();
 $("#insert-staff-quotation").select2();
 $("#insert-tags").select2();
-$("#insert-ngaybaogia").datepicker();
+//$("#insert-ngaybaogia").datepicker();
 
 function viewFileOnline(id) {
     $("#viewfile").html("<div id='modal-view-file' class='modal fade' role='dialog'>" +
@@ -48,7 +48,7 @@ $("#btnEdit").click(function () {
             $("#edit-code-country").select2();
             $("#edit-tags").select2();
             $("#edit-staff-quotation").select2();
-            $("#edit-ngaybaogia").datepicker();
+            //$("#edit-ngaybaogia").datepicker();
             $("#modal-edit-quotation").modal("show");
         }
     });

@@ -1,4 +1,9 @@
-﻿$(".dataTable").dataTable().columnFilter({
+﻿$('.dataTable').dataTable({
+    order: [],
+    columnDefs: [{ orderable: false, targets: [0] }]
+});
+
+$(".dataTable").dataTable().columnFilter({
     sPlaceHolder: "head:after",
     aoColumns: [null,
                 { type: "text" },

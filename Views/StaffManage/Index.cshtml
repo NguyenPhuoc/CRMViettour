@@ -270,11 +270,11 @@
                         $("#edit-headquarter").select2();
                         $("#edit-placeidentity").select2();
                         $("#edit-department").select2();
-                        $("#edit-identity").datepicker();
+                        //$("#edit-identity").datepicker();
                         $("#edit-birthplace").select2();
-                        $("#edit-birthday").datepicker();
-                        $("#edit-createpassport").datepicker();
-                        $("#edit-expiredPassport").datepicker();
+                        //$("#edit-birthday").datepicker();
+                        //$("#edit-createpassport").datepicker();
+                        //$("#edit-expiredPassport").datepicker();
                         $("#edit-placepassport").select2();
                         $("#edit-nation").select2();
                         $("#edit-religion").select2();
@@ -299,8 +299,8 @@
 
                                 // insert the new element after the last "duplicatable" input field
                                 $('#entryE' + num).after(newElem);
-                                $("#ngaycapvisaE" + newNum).datepicker();
-                                $("#ngayhethanvisaE" + newNum).datepicker();
+                                //$("#ngaycapvisaE" + newNum).datepicker();
+                                //$("#ngayhethanvisaE" + newNum).datepicker();
                                 $("#countryvisaE" + newNum).select2();
 
                                 for (var i = 1; i < newNum; i++) {
@@ -373,8 +373,8 @@
                             $("#insert-country-visa").select2();
                             $("#insert-type-visa").select2();
                             $("#insert-status-visa").select2();
-                            $("#insert-createdatevisa").datepicker();
-                            $("#insert-expiredatevisa").datepicker();
+                            //$("#insert-createdatevisa").datepicker();
+                            //$("#insert-expiredatevisa").datepicker();
                             $("#modal-insert-visa").modal("show");
                         }
                     });
@@ -403,7 +403,7 @@
                             $("#insert-partner-lichhen").select2();
                             $("#insert-type-lichhen").select2();
                             $("#insert-partner-lichhen").select2();
-                            $("#insert-ngayhen-lichhen").datepicker();
+                            //$("#insert-ngayhen-lichhen").datepicker();
                             ///
                             $("#insert-check-notify").click(function () {
                                 if (this.checked) {
@@ -445,7 +445,7 @@
                         dataType: "html",
                         success: function (data) {
                             $("#insert-type-lienhe").select2();
-                            $("#insert-ngay-lienhe").datepicker();
+                            //$("#insert-ngay-lienhe").datepicker();
                             $("#modal-insert-contacthistory").modal("show");
                         }
                     });
@@ -489,7 +489,7 @@
                         $("#edit-partner-lichhen").select2();
                         $("#edit-type-lichhen").select2();
                         $("#edit-partner-lichhen").select2();
-                        $("#edit-ngayhen-lichhen").datepicker();
+                        //$("#edit-ngayhen-lichhen").datepicker();
                         CKEDITOR.replace("edit-note-lichhen");
                         $("#edit-check-notify").click(function () {
                             if (this.checked) {
@@ -569,7 +569,7 @@
                     dataType: "html",
                     success: function (data) {
                         $("#info-data-contacthistory").html(data);
-                        $("#edit-ngay-lienhe").datepicker();
+                        //$("#edit-ngay-lienhe").datepicker();
                         $("#edit-type-lienhe").select2();
                         CKEDITOR.replace("edit-note-lienhe");
                         $("#modal-edit-contacthistory").modal("show");

@@ -1,6 +1,9 @@
 ﻿@using CRM.Core
 @using CRMViettour.Utilities
 @model tbl_Partner
+@{
+    Random rd = new Random();
+}
 
 <div class="modal fade  bs-modal-lg" id="modal-insert-partner" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -18,7 +21,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Dịch vụ</label>
                                     <div class="col-lg-8 col-md-8">
-                                        <select class="form-control" id="insert-servicepartner" name="DictionaryId" style="width: 100%">
+                                        <select class="form-control" id="insert-servicepartner" name="DictionaryId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.ServiceList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>
@@ -29,15 +32,14 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Mã đối tác</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required" })
-                                    </div>
+                                        <input type="text" name="Code" id="Code" value="@rd.Next(1111,9999)" class="form-control" required="required" readonly="readonly" />                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Quốc gia</label>
                                     <div class="col-lg-8 col-md-8">
-                                        <select class="form-control" id="insert-countrypartner" name="CountryId" style="width: 100%">
+                                        <select class="form-control" id="insert-countrypartner" name="CountryId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.DropdownlistCountry())
                                             {
                                                 <option value="@item.Id">@item.Tags</option>
@@ -59,7 +61,7 @@
                                         @Html.TextBoxFor(model => model.Address, new { @class = "form-control", required = "required" })
                                     </div>
                                     <div class="col-lg-6 col-md-6">
-                                        <select id="insert-addresspartner" class="form-control" name="TagsLocationId" multiple="multiple" style="width: 100%">
+                                        <select id="insert-addresspartner" class="form-control" name="TagsLocationId" multiple="multiple" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.DropdownlistLocation())
                                             {
                                                 <option value="@item.Id">@item.Tags</option>
@@ -72,7 +74,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Phong cách</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <select class="form-control" id="insert-stylepartner" style="width: 100%" name="StyleId">
+                                        <select class="form-control" id="insert-stylepartner" style="width: 100%" name="StyleId" required="required">
                                             @foreach (var item in LoadData.DropdownlistCountry())
                                             {
                                                 <option value="@item.Id">@item.Tags</option>
@@ -81,7 +83,7 @@
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Giám đốc</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.Director, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Director, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
 
@@ -90,13 +92,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Nhân viên liên hệ</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.StaffContact, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.StaffContact, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Điện thoại</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                             </div>
@@ -104,13 +106,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Email</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Skype</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.Skype, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.Skype, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                             </div>

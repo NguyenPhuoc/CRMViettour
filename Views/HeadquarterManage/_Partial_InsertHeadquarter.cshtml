@@ -22,13 +22,13 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-3 col-md-3">Tên trụ sở, chi nhánh</label>
                                 <div class="col-lg-9 col-md-9">
-                                    @Html.TextBoxFor(model => model.HeadquarterName, new { @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.HeadquarterName, new { @class = "form-control", required = "required" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-lg-3 col-md-3">Mã số thuế</label>
                                 <div class="col-lg-9 col-md-9">
-                                    @Html.TextBoxFor(model => model.TaxCode, new { @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.TaxCode, new { @class = "form-control", required = "required" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -48,19 +48,19 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-3 col-md-3">Địa chỉ</label>
                                 <div class="col-lg-9 col-md-9">
-                                    @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.Address, new { @class = "form-control", required = "required" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-lg-3 col-md-3">Điện thoại</label>
                                 <div class="col-lg-9 col-md-9">
-                                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", required = "required" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-lg-3 col-md-3">Email</label>
                                 <div class="col-lg-9 col-md-9">
-                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", required = "required" })
                                 </div>
                             </div>
                             <div class="form-group">

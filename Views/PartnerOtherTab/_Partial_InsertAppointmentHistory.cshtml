@@ -66,22 +66,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-lg-3 col-md-3">Dịch vụ</label>
-                                    <div class="col-lg-3 col-md-3">
-                                        <select class="form-control" id="insert-service-lichhen" name="ServiceId" style="width: 100%">
-                                            <option>-- Chọn dịch vụ --</option>
-                                            @foreach (var item in LoadData.ServiceList())
-                                            {
-                                                <option value="@item.Id">@item.Name</option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <label class="control-label col-lg-3 col-md-3">Đối tác</label>
-                                    <div class="col-lg-3 col-md-3">
-                                        <select class="form-control" id="insert-partner-lichhen" name="PartnerId" style="width: 100%"></select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Diễn giải</label>
                                     <div class="col-lg-9 col-md-9">
                                         @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note-lichhen" })
@@ -90,7 +74,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Loại lịch hẹn</label>
                                     <div class="col-lg-3 col-md-3">
-                                        <select class="form-control" id="insert-type-lichhen" name="DictionaryId" style="width: 100%">
+                                        <select class="form-control" id="insert-type-lichhen" name="DictionaryId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.AppointmentTypeList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>
@@ -99,8 +83,8 @@
                                     </div>
                                     <label class="control-label col-lg-3 col-md-3">Ngày hẹn</label>
                                     <div class="col-lg-3 col-md-3">
-                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            <input type="text" class="form-control" readonly id="insert-ngayhen-lichhen" name="Time" required>
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" class="form-control" id="insert-ngayhen-lichhen" name="Time" required="required">
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>

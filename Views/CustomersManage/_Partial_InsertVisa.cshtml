@@ -35,7 +35,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Tình trạng</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <select class="form-control" name="DictionaryId" id="insert-status-visa" style="width: 100%">
+                                        <select class="form-control" name="DictionaryId" id="insert-status-visa" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.VisaStatusList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>
@@ -46,7 +46,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Loại visa</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <select class="form-control" name="VisaType" id="insert-type-visa" style="width: 100%">
+                                        <select class="form-control" name="VisaType" id="insert-type-visa" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.VisaTypeList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>
@@ -57,8 +57,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Ngày hiệu lực</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            <input type="text" class="form-control" readonly id="insert-createdate-visa" name="CreatedDateVisa">
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" class="form-control" id="insert-createdate-visa" name="CreatedDateVisa">
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -70,8 +70,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Ngày hết hạn</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            <input type="text" class="form-control" readonly id="insert-expiredate-visa" name="ExpiredDateVisa">
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" class="form-control" id="insert-expiredate-visa" name="ExpiredDateVisa">
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>

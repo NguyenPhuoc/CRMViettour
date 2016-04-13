@@ -1,6 +1,9 @@
 ﻿@using CRMViettour.Utilities
 @using CRMViettour.Models
 @model StaffViewModel
+@{
+    Random rd = new Random();
+}
 
 <div class="modal fade  bs-modal-lg" id="modal-insert-staff" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -30,13 +33,13 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-lg-2 col-md-2">Mã số</label>
+                                                <label class="control-label col-lg-2 col-md-2">Code</label>
                                                 <div class="col-lg-4 col-md-4">
-                                                    @Html.TextBoxFor(model => model.SingleStaff.Code, new { @class = "form-control" })
+                                                    <input type="text" class="form-control" value="@rd.Next(1111, 9999)" required="required" readonly="readonly" name="SingleStaff.Code" id="SingleStaff.Code" />
                                                 </div>
                                                 <label class="control-label col-lg-2 col-md-2">Mã số thuế</label>
                                                 <div class="col-lg-4 col-md-4">
-                                                    @Html.TextBoxFor(model => model.SingleStaff.TaxCode, new { @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.SingleStaff.TaxCode, new { @class = "form-control", required = "required" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -50,14 +53,14 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-lg-7 col-md-7">
-                                                    @Html.TextBoxFor(model => model.SingleStaff.FullName, new { @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.SingleStaff.FullName, new { @class = "form-control", required = "required" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-2 col-md-2">Ngày sinh</label>
                                                 <div class="col-lg-4 col-md-4">
-                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                                        @Html.TextBoxFor(model => model.SingleStaff.Birthday, new { @class = "form-control", @readonly = "readonly", @id = "insert-birthday" })
+                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                        @Html.TextBoxFor(model => model.SingleStaff.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @id = "insert-birthday" })
                                                         <span class="input-group-btn">
                                                             <button class="btn default date-set" type="button">
                                                                 <i class="fa fa-calendar"></i>
@@ -166,8 +169,8 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                                        <input type="text" class="form-control" name="CreatedDateIdentity" readonly="readonly" id="insert-identity" />
+                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                        <input type="date" class="form-control" name="CreatedDateIdentity" id="insert-identity" />
                                                         <span class="input-group-btn">
                                                             <button class="btn default date-set" type="button">
                                                                 <i class="fa fa-calendar"></i>
@@ -199,8 +202,8 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                                        <input type="text" class="form-control" name="CreatedDatePassport" readonly="readonly" id="insert-createpassport" />
+                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                        <input type="date" class="form-control" name="CreatedDatePassport"  id="insert-createpassport" />
                                                         <span class="input-group-btn">
                                                             <button class="btn default date-set" type="button">
                                                                 <i class="fa fa-calendar"></i>
@@ -212,8 +215,8 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày hết hạn</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                                        <input type="text" class="form-control" name="ExpiredDatePassport" readonly="readonly" id="insert-expiredPassport" />
+                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                        <input type="date" class="form-control" name="ExpiredDatePassport" id="insert-expiredPassport" />
                                                         <span class="input-group-btn">
                                                             <button class="btn default date-set" type="button">
                                                                 <i class="fa fa-calendar"></i>
@@ -249,8 +252,8 @@
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                                            <input type="text" class="form-control ngaycapvisa" readonly id="ngaycapvisa1" name="CreatedDateVisa1">
+                                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                            <input type="date" class="form-control ngaycapvisa" id="ngaycapvisa1" name="CreatedDateVisa1">
                                                             <span class="input-group-btn">
                                                                 <button class="btn default date-set" type="button">
                                                                     <i class="fa fa-calendar"></i>
@@ -271,8 +274,8 @@
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                                            <input type="text" class="form-control ngayhethanvisa" readonly id="ngayhethanvisa1" name="ExpiredDateVisa1">
+                                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                            <input type="date" class="form-control ngayhethanvisa" id="ngayhethanvisa1" name="ExpiredDateVisa1">
                                                             <span class="input-group-btn">
                                                                 <button class="btn default date-set" type="button">
                                                                     <i class="fa fa-calendar"></i>

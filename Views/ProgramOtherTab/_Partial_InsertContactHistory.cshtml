@@ -23,8 +23,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Ngày liên hệ</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            <input type="text" class="form-control" readonly id="insert-ngay-lienhe" name="ContactDate" required>
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" class="form-control"  id="insert-ngay-lienhe" name="ContactDate" required="required">
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -34,7 +34,7 @@
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Trạng thái xử lý</label>
                                     <div class="col-lg-3 col-md-3">
-                                        <select class="form-control" id="insert-type-lienhe" name="DictionaryId" style="width: 100%">
+                                        <select class="form-control" id="insert-type-lienhe" name="DictionaryId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.StatusProcessList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>

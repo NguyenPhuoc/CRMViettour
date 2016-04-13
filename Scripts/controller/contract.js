@@ -13,9 +13,9 @@ CKEDITOR.replace("insert-note");
 $("#insert-tour").select2();
 $("#insert-customer").select2();
 $("#insert-status").select2();
-$("#insert-startdate").datepicker();
-$("#insert-enddate").datepicker();
-$("#insert-contractdate").datepicker();
+//$("#insert-startdate").datepicker();
+//$("#insert-enddate").datepicker();
+//$("#insert-contractdate").datepicker();
 
 function viewFileOnline(id) {
     $("#viewfile").html("<div id='modal-view-file' class='modal fade' role='dialog'>" +
@@ -42,9 +42,9 @@ $("#btnEdit").click(function () {
             $("#edit-tour").select2();
             $("#edit-customer").select2();
             $("#edit-status").select2();
-            $("#edit-contractdate").datepicker();
-            $("#edit-startdate").datepicker();
-            $("#edit-enddate").datepicker();
+            //$("#edit-contractdate").datepicker();
+            //$("#edit-startdate").datepicker();
+            //$("#edit-enddate").datepicker();
             $("#modal-edit-contract").modal("show");
         }
     });

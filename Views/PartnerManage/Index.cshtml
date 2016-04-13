@@ -229,7 +229,7 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "html",
                     success: function (data) {
-                        $("#insert-ngay-lienhe").datepicker();
+                        //$("#insert-ngay-lienhe").datepicker();
                         $("#insert-type-lienhe").select2();
                         $("#modal-insert-contacthistory").modal("show");
                     }
@@ -260,7 +260,7 @@
                         $("#insert-partner-lichhen").select2();
                         $("#insert-type-lichhen").select2();
                         $("#insert-partner-lichhen").select2();
-                        $("#insert-ngayhen-lichhen").datepicker();
+                        //$("#insert-ngayhen-lichhen").datepicker();
                         $("#modal-insert-appointment").modal("show");
                     }
                 });
@@ -345,7 +345,7 @@
                     $("#edit-partner-lichhen").select2();
                     $("#edit-type-lichhen").select2();
                     $("#edit-partner-lichhen").select2();
-                    $("#edit-ngayhen-lichhen").datepicker();
+                    //$("#edit-ngayhen-lichhen").datepicker();
                     $("#edit-check-notify").click(function () {
                         if (this.checked) {
                             $("#edit-nhactruoc-lichhen").removeAttr("disabled", "disabled");
@@ -409,7 +409,7 @@
                 dataType: "html",
                 success: function (data) {
                     $("#info-data-contacthistory").html(data);
-                    $("#edit-ngay-lienhe").datepicker();
+                    //$("#edit-ngay-lienhe").datepicker();
                     $("#edit-type-lienhe").select2();
                     CKEDITOR.replace("edit-note-lienhe");
                     $("#modal-edit-contacthistory").modal("show");

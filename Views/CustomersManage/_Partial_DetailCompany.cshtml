@@ -1,12 +1,15 @@
 ﻿@using CRMViettour.Models
 @using CRMViettour.Utilities
 @model CustomerViewModel
+@{
+    Random rd = new Random();
+}
 
 <div class="col-md-12" style="border: 1px solid #ccc; margin: 15px 0; padding: 15px; padding-bottom: 0;">
     <div class="form-group">
         <label class="control-label col-lg-2 col-md-2">Mã khách hàng</label>
         <div class="col-lg-10 col-md-10">
-            @Html.TextBoxFor(model => model.SingleCompany.Code, new { @class = "form-control" })
+            <input type="text" name="SingleCompany.Code" id="SingleCompany.Code" value="@rd.Next(1111,9999)" class="form-control" readonly="readonly" required="required" />
         </div>
     </div>
     <div class="form-group">
@@ -121,8 +124,8 @@
         <div class="form-group">
             <label class="control-label col-lg-3 col-md-3">Ngày cấp</label>
             <div class="col-lg-9 col-md-9">
-                <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                    <input type="text" class="form-control" id="ngaycapmst" readonly="readonly" name="SingleCompany.CreatedDateTaxCode" />
+                <div class="input-group" data-date-format="mm/dd/yyyy">
+                    <input type="date" class="form-control" id="ngaycapmst" name="SingleCompany.CreatedDateTaxCode" />
                     <span class="input-group-btn">
                         <button class="btn default date-set" type="button">
                             <i class="fa fa-calendar"></i>
@@ -158,8 +161,8 @@
         <div class="form-group">
             <label class="control-label col-lg-3 col-md-3">Ngày TLDN</label>
             <div class="col-lg-9 col-md-9">
-                <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                    <input type="text" class="form-control" id="ngaytldn" readonly="readonly" name="SingleCompany.FoundingDate" />
+                <div class="input-group" data-date-format="mm/dd/yyyy">
+                    <input type="date" class="form-control" id="ngaytldn" name="SingleCompany.FoundingDate" />
                     <span class="input-group-btn">
                         <button class="btn default date-set" type="button">
                             <i class="fa fa-calendar"></i>

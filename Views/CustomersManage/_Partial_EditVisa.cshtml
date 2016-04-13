@@ -39,7 +39,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Loại visa</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <select class="form-control" name="VisaType" id="edit-type-visa" style="width: 100%">
+                                        <select class="form-control" name="VisaType" id="edit-type-visa" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.VisaTypeList())
                                             {
                                                 <option value="@item.Id" @((VisaType)item.Id == Model.VisaType ? "selected" : "")>@item.Name</option>
@@ -50,8 +50,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Ngày hiệu lực</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            @Html.TextBoxFor(model => model.CreatedDateVisa, new { @class = "form-control", @readonly = "readonly", @id = "edit-createdate-visa" })
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            @Html.TextBoxFor(model => model.CreatedDateVisa, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @id = "edit-createdate-visa" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -63,8 +63,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Ngày hết hạn</label>
                                     <div class="col-lg-9 col-md-9">
-                                        <div class="input-group date form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            @Html.TextBoxFor(model => model.ExpiredDateVisa, new { @class = "form-control", @readonly = "readonly", @id = "edit-expiredate-visa" })
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            @Html.TextBoxFor(model => model.ExpiredDateVisa, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @id = "edit-expiredate-visa" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>

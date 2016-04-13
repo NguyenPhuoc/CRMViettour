@@ -57,7 +57,7 @@ function updateAppointment(id) {
             $("#edit-partner-lichhen").select2();
             $("#edit-type-lichhen").select2();
             $("#edit-partner-lichhen").select2();
-            $("#edit-ngayhen-lichhen").datepicker();
+            //$("#edit-ngayhen-lichhen").datepicker();
             CKEDITOR.replace("edit-note-lichhen");
             $("#edit-check-notify").click(function () {
                 if (this.checked) {
@@ -121,7 +121,7 @@ function updateContactHistory(id) {
         dataType: "html",
         success: function (data) {
             $("#info-data-contacthistory").html(data);
-            $("#edit-ngay-lienhe").datepicker();
+            //$("#edit-ngay-lienhe").datepicker();
             $("#edit-type-lienhe").select2();
             CKEDITOR.replace("edit-note-lienhe");
             $("#modal-edit-contacthistory").modal("show");

@@ -56,6 +56,11 @@
       <HintPath>bin\CRM.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <HintPath>packages\ExcelPackage.1.0.0\lib\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -225,6 +230,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapManageController.cs" />
     <Compile Include="Controllers\MarketingManageController.cs" />
+    <Compile Include="Controllers\Other\CurrencyManageController.cs" />
     <Compile Include="Controllers\Permission\PermissionManageController.cs" />
     <Compile Include="Controllers\TaskManageController.cs" />
     <Compile Include="Controllers\OpportunityManageController.cs" />
@@ -2037,6 +2043,7 @@
     <Content Include="Scripts\controller\career.js" />
     <Content Include="Scripts\controller\company.js" />
     <Content Include="Scripts\controller\contract.js" />
+    <Content Include="Scripts\controller\currency.js" />
     <Content Include="Scripts\controller\tasktype.js" />
     <Content Include="Scripts\controller\taskpriority.js" />
     <Content Include="Scripts\controller\taskstatus.js" />
@@ -2446,6 +2453,9 @@
     <Content Include="Views\AppointmentManage\Index.cshtml" />
     <Content Include="Views\AppointmentManage\_Partial_AppointmentList.cshtml" />
     <Content Include="Views\PermissionManage\Index.cshtml" />
+    <Content Include="Views\CurrencyManage\Index.cshtml" />
+    <Content Include="Views\ContractsManage\_Partial_EditDocument.cshtml" />
+    <Content Include="Views\ProgramsManage\_Partial_EditDocument.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

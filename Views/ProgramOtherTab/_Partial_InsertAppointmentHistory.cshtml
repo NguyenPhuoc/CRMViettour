@@ -33,18 +33,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-lg-3 col-md-3">Chương trình</label>
-                                    <div class="col-lg-3 col-md-3">
-                                        <select class="form-control" id="insert-program-lichhen" name="ProgramId" style="width: 100%">
-                                            <option>-- Chọn chương trình --</option>
-                                            @foreach (var item in LoadData.ProgramList())
-                                            {
-                                                <option value="@item.Id">@item.Name</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Nhiệm vụ</label>
                                     <div class="col-lg-3 col-md-3">
                                         <select class="form-control" id="insert-task-lichhen" name="TaskId" style="width: 100%">
@@ -57,7 +45,7 @@
                                     </div>
                                     <label class="control-label col-lg-3 col-md-3">Trạng thái</label>
                                     <div class="col-lg-3 col-md-3">
-                                        <select class="form-control" id="insert-status-lichhen" name="StatusId" style="width: 100%">
+                                        <select class="form-control" id="insert-status-lichhen" name="StatusId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.StatusProcessList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>
@@ -90,7 +78,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3 col-md-3">Loại lịch hẹn</label>
                                     <div class="col-lg-3 col-md-3">
-                                        <select class="form-control" id="insert-type-lichhen" name="DictionaryId" style="width: 100%">
+                                        <select class="form-control" id="insert-type-lichhen" name="DictionaryId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.AppointmentTypeList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>
@@ -99,8 +87,8 @@
                                     </div>
                                     <label class="control-label col-lg-3 col-md-3">Ngày hẹn</label>
                                     <div class="col-lg-3 col-md-3">
-                                        <div class="input-group form_datetime date date-picker" data-date-format="dd/mm/yyyy">
-                                            <input type="text" class="form-control" readonly id="insert-ngayhen-lichhen" name="Time" required>
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" class="form-control"  id="insert-ngayhen-lichhen" name="Time" required="required">
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>

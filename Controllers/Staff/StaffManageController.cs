@@ -2,8 +2,12 @@
 using CRM.Infrastructure;
 using CRMViettour.Models;
 using CRMViettour.Utilities;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -658,6 +662,171 @@ namespace CRMViettour.Controllers
             }
         }
 
+        #endregion
+
+        #region Export
+        /// <summary>
+        /// Export file excel
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ExportFile()
+        {
+            var staffs = _staffRepository.GetAllAsQueryable().AsEnumerable()
+                 .Select(p => new StaffListViewModel
+                 {
+                     Code = p.Code == null ? "" : p.Code,
+                     Fullname = p.FullName == null ? "" : p.FullName,
+                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
+                     Address = p.Address == null ? "" : p.Address,
+                     Phone = p.Phone == null ? "" : p.Phone,
+                     InternalNumber = p.InternalNumber ?? 0,
+                     Email = p.Email == null ? "" : p.Email,
+                     Department = p.tbl_DictionaryDepartment.Name,
+                     Position = p.tbl_DictionaryPosition.Name,
+                     IsLock = p.IsLock
+                 }).ToList();
+
+            try
+            {
+                byte[] bytes;
+                using (var stream = new MemoryStream())
+                {
+                    ExportCustomersToXlsx(stream, staffs);
+                    bytes = stream.ToArray();
+                }
+                return File(bytes, "text/xls", "Staffs.xlsx");
+            }
+            catch (Exception)
+            {
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        public virtual void ExportCustomersToXlsx(Stream stream, IList<StaffListViewModel> staffs)
+        {
+            if (stream == null)
+                throw new ArgumentNullException("stream");
+
+            using (var xlPackage = new ExcelPackage(stream))
+            {
+
+                var worksheet = xlPackage.Workbook.Worksheets.Add("Staffs");
+
+                var properties = new[]
+                    {
+                        "Mã số",
+                        "Họ và tên",
+                        "Ngày sinh",
+                        "Địa chỉ",
+                        "Điện thoại",
+                        "Số nội bộ",
+                        "Email",
+                        "Phòng bạn",
+                        "Chức vụ",
+                        "Nhóm kinh doanh",
+                        "Chi nhánh",
+                        "Khóa"
+                        
+                    };
+
+
+
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = properties[i];
+                }
+
+
+                int row = 1;
+                foreach (var staff in staffs)
+                {
+                    row++;
+                    int col = 1;
+
+                    worksheet.Cells[row, col].Value = staff.Code;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = staff.Fullname;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = staff.Birthday;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = staff.Address;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = staff.Phone;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = staff.InternalNumber;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = staff.Email;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = staff.Department;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = staff.Position;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = string.Empty;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = string.Empty;
+                    col++;
+
+                    if (staff.IsLock)
+                        worksheet.Cells[row, col].Value = "Khóa";
+                    else
+                        worksheet.Cells[row, col].Value = string.Empty;
+
+                    col++;
+
+                }
+                worksheet.Cells["a1:l" + row].Style.Font.SetFromFont(new Font("Tahoma", 8));
+
+                worksheet.Cells["a1:l1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                worksheet.Cells["a1:l1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["a1:l1"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(192, 192, 192));
+
+
+                worksheet.Cells["a1:l" + row].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:l" + row].Style.Border.Top.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["a1:l" + row].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:l" + row].Style.Border.Left.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["a1:l" + row].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:l" + row].Style.Border.Bottom.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["a1:l" + row].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:l" + row].Style.Border.Right.Color.SetColor(Color.FromArgb(169, 169, 169));
+
+                row++;
+
+                worksheet.Cells["a" + row + ":l" + row].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["a" + row + ":l" + row].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(192, 192, 192));
+                worksheet.Cells["c" + row + ":l" + row].Merge = true;
+                worksheet.Cells["b" + row].Value = row - 2;
+
+                worksheet.Cells["a1:l" + row].AutoFitColumns();
+
+                worksheet.Column(1).Width = 12.86;
+                worksheet.Column(2).Width = 21.71;
+                worksheet.Column(3).Width = 9.86;
+                worksheet.Column(4).Width = 27.14;
+                worksheet.Column(5).Width = 11.86;
+                worksheet.Column(6).Width = 11.86;
+                worksheet.Column(7).Width = 20;
+                worksheet.Column(8).Width = 20;
+                worksheet.Column(9).Width = 20;
+                worksheet.Column(10).Width = 20;
+                worksheet.Column(11).Width = 20;
+                worksheet.Column(12).Width = 8;
+
+                xlPackage.Save();
+            }
+        }
         #endregion
     }
 }

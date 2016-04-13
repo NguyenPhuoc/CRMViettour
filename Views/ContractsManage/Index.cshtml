@@ -43,8 +43,9 @@
                     <button class="btn red" id="btnWork" href="#modal-work-Contract" data-toggle="modal"><i class="fa fa-cogs"></i>&nbsp;Xử lý</button>
                     <button class="btn green" id="btnUserSupport" href="#modal-support-Contract" data-toggle="modal"><i class="fa fa-user-plus"></i>&nbsp;Nhân viên hỗ trợ</button>
                     <label class="btn btn-info fileContainer">
-                        <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" class="form-control" />&nbsp;Export</a>
+                        <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" id="btnExport" class="form-control" />&nbsp;Export</a>
                     </label>
+                    @using (Html.BeginForm("ExportFile", "ContractsManage", FormMethod.Post, new { enctype = "multipart/form-data", id = "exportForm" })) { }
                 </div>
             </div>
         </div>

@@ -448,3 +448,8 @@ $("#tabnhatkyxuly").click(function () {
         });
     }
 });
+
+
+$("#btnExport").click(function () {
+    $("#exportForm").submit();
+});

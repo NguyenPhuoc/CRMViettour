@@ -2,9 +2,14 @@
 using CRM.Infrastructure;
 using CRMViettour.Models;
 using CRMViettour.Utilities;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -354,5 +359,146 @@ namespace CRMViettour.Controllers
         }
 
         #endregion
+
+
+        #region Export
+        /// <summary>
+        /// Export file excel
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ExportFile()
+        {
+            var programs = _programRepository.GetAllAsQueryable().ToList();
+
+            try
+            {
+                byte[] bytes;
+                using (var stream = new MemoryStream())
+                {
+                    ExportCustomersToXlsx(stream, programs);
+                    bytes = stream.ToArray();
+                }
+                return File(bytes, "text/xls", "Programs.xlsx");
+            }
+            catch (Exception)
+            {
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        public virtual void ExportCustomersToXlsx(Stream stream, IList<tbl_Program> programs)
+        {
+            if (stream == null)
+                throw new ArgumentNullException("stream");
+
+            using (var xlPackage = new ExcelPackage(stream))
+            {
+
+                var worksheet = xlPackage.Workbook.Worksheets.Add("Programs");
+
+                var properties = new[]
+                    {
+                        "Mã chương trình",
+                        "Tên chương trình",
+                        "Tour",
+                        "Khách hàng",
+                        "Địa điểm",
+                        "Ngày bắt đầu",
+                        "Ngày kết thúc",
+                        "Số ngày",
+                        "Tổng giá trị",
+                        "Ghi chú"
+                    };
+
+
+
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = properties[i];
+                }
+
+
+                int row = 1;
+                foreach (var program in programs)
+                {
+                    row++;
+                    int col = 1;
+
+                    worksheet.Cells[row, col].Value = program.Code;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.Name == null ? "" : program.Name;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.tbl_Tour.Name;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.tbl_Customer.FullName;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.TagsId != null ? LoadData.LocationTags(program.TagsId) : "";
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.StartDate.ToString("dd-MM-yyyy");
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.EndDate.ToString("dd-MM-yyyy");
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.NumberDay;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.TotalPrice;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = program.Note == null ? "" : Regex.Replace(program.Note, "<.*?>", string.Empty);
+
+                }
+                worksheet.Cells["A1:J" + row].Style.Font.SetFromFont(new Font("Arial", 12));
+
+                worksheet.Cells["A1:J1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                worksheet.Cells["A1:J1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["A1:J1"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(192, 192, 192));
+
+                row++;
+
+                worksheet.Cells["A1:J" + row].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["A1:J" + row].Style.Border.Top.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["A1:J" + row].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["A1:J" + row].Style.Border.Left.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["A1:J" + row].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["A1:J" + row].Style.Border.Bottom.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["A1:J" + row].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["A1:J" + row].Style.Border.Right.Color.SetColor(Color.FromArgb(169, 169, 169));
+
+
+                worksheet.Cells["A" + row + ":J" + row].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["A" + row + ":J" + row].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(192, 192, 192));
+                worksheet.Cells["C" + row + ":H" + row].Merge = true;
+                worksheet.Cells["B" + row].Value = row - 2;
+                worksheet.Cells["I" + row].Formula = String.Format("=SUM(I2:I{0})", row - 1);
+                worksheet.Cells["I2:I" + row].Style.Numberformat.Format = "#,#";
+
+                worksheet.Cells["A1:J" + row].AutoFitColumns();
+
+                worksheet.Column(1).Width = 20;
+                worksheet.Column(2).Width = 20;
+                worksheet.Column(3).Width = 25;
+                worksheet.Column(4).Width = 20;
+                worksheet.Column(5).Width = 15;
+                worksheet.Column(6).Width = 17;
+                worksheet.Column(7).Width = 17;
+                worksheet.Column(8).Width = 15;
+                worksheet.Column(9).Width = 25;
+                worksheet.Column(10).Width = 30;
+               
+
+                xlPackage.Save();
+            }
+        }
+        #endregion
+
     }
 }

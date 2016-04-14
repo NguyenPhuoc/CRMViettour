@@ -46,8 +46,9 @@
                         <button class="btn grey" id="btnUnLock" onclick="confirm('Bạn có chắc chắn mở khóa tài khoản này không?');"><i class="fa fa-unlock"></i>&nbsp;Mở khóa</button>
                         <a class="btn green" data-toggle="modal" href="#modal-import-staff"><i class="icon-action-redo"></i>&nbsp;Import</a>
                         <label class="btn btn-info fileContainer">
-                            <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" class="form-control" />&nbsp;Export</a>
+                            <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" id="btnExport" class="form-control" />&nbsp;Export</a>
                         </label>
+                        @using (Html.BeginForm("ExportFile", "StaffManage", FormMethod.Post, new { enctype = "multipart/form-data", id = "exportForm" })) { }
                     </div>
                 </div>
             </div>

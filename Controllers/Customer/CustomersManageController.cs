@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 using CRM.Enum;
 using CRMViettour.Utilities;
 using System.IO;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Drawing;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace CRMViettour.Controllers
 {
@@ -998,6 +1003,185 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region Export
+        /// <summary>
+        /// Export file excel
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ExportFile()
+        {
+            var customers = _customerRepository.GetAllAsQueryable().AsEnumerable()
+                 .Select(p => new CustomerListViewModel
+                 {
+                     Fullname = p.FullName == null ? "" : p.FullName,
+                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
+                     Passport = p.PassportCard == null ? "" : p.PassportCard,
+                     StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("dd-MM-yyyy"),
+                     EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("dd-MM-yyyy"),
+                     Phone = p.Phone == null ? "" : p.Phone,
+                     OtherPhone = p.MobilePhone == null ? "" : p.MobilePhone,
+                     Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,
+                     Career = p.CareerId != null ? p.tbl_DictionaryCareer.Name : "",
+                     Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
+                     Address = p.Address == null ? "" : p.Address,
+                     TagsId = p.TagsId == null ? "" : LoadData.LocationTags(p.TagsId),
+                     IdentityCard = p.IdentityCard == null ? "" : p.IdentityCard,
+                     NameCustomerContract = _db.tbl_CustomerContact.Where(s => s.CustomerId == p.Id).SingleOrDefault() == null ? "" : _db.tbl_CustomerContact.Where(s => s.CustomerId == p.Id).SingleOrDefault().FullName,
+                     PhoneCustomerContract = _db.tbl_CustomerContact.Where(s => s.CustomerId == p.Id).SingleOrDefault() == null ? "" : _db.tbl_CustomerContact.Where(s => s.CustomerId == p.Id).SingleOrDefault().PhoneNR,
+
+                     Note = p.Note == null ? "" : p.Note,
+                 }).ToList();
+
+            try
+            {
+                byte[] bytes;
+                using (var stream = new MemoryStream())
+                {
+                    ExportCustomersToXlsx(stream, customers);
+                    bytes = stream.ToArray();
+                }
+                return File(bytes, "text/xls", "Customers.xlsx");
+            }
+            catch (Exception)
+            {
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        public virtual void ExportCustomersToXlsx(Stream stream, IList<CustomerListViewModel> customers)
+        {
+            if (stream == null)
+                throw new ArgumentNullException("stream");
+
+            using (var xlPackage = new ExcelPackage(stream))
+            {
+
+                var worksheet = xlPackage.Workbook.Worksheets.Add("Customers");
+
+                var properties = new[]
+                    {
+                        "No.",
+                        "HỌ TÊN",
+                        "D.O.B",
+                        "PP NO.",
+                        "D.O.I",
+                        "D.O.E",
+                        "ĐIỆN THOẠI",
+                        "SỐ ĐT KHÁC",
+                        "EMAIL",
+                        "NGHỀ NGHIỆP",
+                        "CÔNG TY",
+                        "KHU VỰC",
+                        "ĐỊA CHỈ",
+                        "CMND",
+                        "TÊN NGƯỜI LIÊN LẠC",
+                        "SỐ ĐT LIÊN LẠC",
+                        "MỨC ĐỘ VIP",
+                        "GHI CHÚ"
+                        
+                    };
+
+                worksheet.Cells[4, 1].Value = "Tour Code:";
+                worksheet.Cells[5, 1].Value = "Flight details:";
+                worksheet.Cells[6, 1].Value = "NAME LIST OF OUR GROUP TO HONG KONG/  DAYS";
+
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    worksheet.Cells[8, i + 1].Value = properties[i];
+                }
+
+
+                int row = 9;
+                foreach (var customer in customers)
+                {
+                    int col = 1;
+
+                    worksheet.Cells[row, col].Value = row - 8;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Fullname;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Birthday;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Passport;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.StartDate;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.EndDate;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Phone;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.OtherPhone;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Email;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Career;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Company;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.TagsId;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Address;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.IdentityCard;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.NameCustomerContract;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.PhoneCustomerContract;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = string.Empty;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = customer.Note.ToUpperInvariant();
+                    col++;
+
+                    row++;
+                }
+                row--;
+                worksheet.Cells["a1:r" + row].Style.Font.SetFromFont(new Font("Arial", 12));
+                worksheet.Cells["a6:r6,a8:r8"].Style.Font.Bold = true;
+                worksheet.Cells["a8:r8"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                worksheet.Cells["a6:r6"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["a6:r6"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 255, 0));
+
+                worksheet.Cells["a9:a" + row].Style.Font.Bold = true;
+                worksheet.Cells["a9:a" + row].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                worksheet.Cells["j8:r" + row].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["j8:r" + row].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(217, 217, 217));
+
+
+
+                worksheet.Cells["a8:r" + row].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a8:r" + row].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a8:r" + row].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a8:r" + row].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a8:r" + row].AutoFitColumns();
+
+                worksheet.Row(6).Height = 18.75;
+                worksheet.Row(8).Height = 18;
+                worksheet.Column(1).Width = 4.5;
+                worksheet.Column(2).Width = 18;
+
+                xlPackage.Save();
+            }
+        }
         #endregion
     }
+
 }

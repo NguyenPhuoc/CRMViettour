@@ -702,3 +702,8 @@ function updateVisa(id) {
         }
     });
 }
+
+
+$("#btnExport").click(function () {
+    $("#exportForm").submit();
+});

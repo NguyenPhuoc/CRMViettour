@@ -2,9 +2,14 @@
 using CRM.Infrastructure;
 using CRMViettour.Models;
 using CRMViettour.Utilities;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -349,6 +354,202 @@ namespace CRMViettour.Controllers
             }
         }
 
+        #endregion
+
+        #region Export
+        /// <summary>
+        /// Export file excel
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ExportFile()
+        {
+            var contracts = _contractRepository.GetAllAsQueryable().ToList();
+
+            try
+            {
+                byte[] bytes;
+                using (var stream = new MemoryStream())
+                {
+                    ExportCustomersToXlsx(stream, contracts);
+                    bytes = stream.ToArray();
+                }
+                return File(bytes, "text/xls", "Contracts.xlsx");
+            }
+            catch (Exception)
+            {
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        public virtual void ExportCustomersToXlsx(Stream stream, IList<tbl_Contract> contracts)
+        {
+            if (stream == null)
+                throw new ArgumentNullException("stream");
+
+            using (var xlPackage = new ExcelPackage(stream))
+            {
+
+                var worksheet = xlPackage.Workbook.Worksheets.Add("Contracts");
+
+                var properties = new[]
+                    {
+                        "Mã họp đồng",
+                        "Ngày ký",
+                        "Tên hợp đồng",
+                        "khách hàng",
+                        "Điện thoại",
+                        "Cơ hội",
+                        "Báo giá",
+                        "Nhân viên quản lý",
+                        "Nhân viên hỗ trợ",
+                        "Ngày hiệu lực",
+                        "Thời hạn",
+                        "Tình trạng",
+                        "Phân loại",
+                        "Diễn giải",
+                        "Số tiền",
+                        "Loại tiền",
+                        "Người tạo",
+                        "Ngày tạo",
+                        "Người sửa",
+                        "Ngày sửa"
+                    };
+
+
+
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = properties[i];
+                }
+
+
+                int row = 1;
+                foreach (var contract in contracts)
+                {
+                    row++;
+                    int col = 1;
+
+                    worksheet.Cells[row, col].Value = contract.Code;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.ContractDate.ToString("dd-MM-yyyy");
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.Name == null ? "" : contract.Name;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.tbl_Customer.FullName;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.tbl_Customer.Phone;
+                    col++;
+
+                    //worksheet.Cells[row, col].Value = contract.;
+                    col++;
+
+                    //worksheet.Cells[row, col].Value = contract.;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.tbl_Staff.FullName;
+                    col++;
+
+                    //worksheet.Cells[row, col].Value = contract.Position;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.StartDate.ToString("dd-MM-yyyy");
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.NumberDay;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.tbl_DictionaryStatus.Name;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.tbl_Dictionary.Name;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.Note == null ? "" : Regex.Replace(contract.Note, "<.*?>", string.Empty);
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.TotalPrice;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = "VNĐ";
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.tbl_Staff.FullName;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.CreatedDate.ToString("dd-MM-yyyy");
+                    col++;
+
+                    //worksheet.Cells[row, col].Value = contract.tbl_UpdateHistory == null ? "" : contract.tbl_UpdateHistory.Last().tbl_Staff.FullName;
+                    col++;
+
+                    worksheet.Cells[row, col].Value = contract.ModifiedDate.ToString("dd-MM-yyyy");
+                    col++;
+                    //if (contract.IsLock)
+                    //    worksheet.Cells[row, col].Value = "Khóa";
+                    //else
+                    //    worksheet.Cells[row, col].Value = string.Empty;
+
+                    col++;
+
+                }
+                worksheet.Cells["a1:t" + row].Style.Font.SetFromFont(new Font("Tahoma", 8));
+
+                worksheet.Cells["a1:t1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                worksheet.Cells["a1:t1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["a1:t1"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(192, 192, 192));
+
+
+                worksheet.Cells["a1:t" + row].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:t" + row].Style.Border.Top.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["a1:t" + row].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:t" + row].Style.Border.Left.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["a1:t" + row].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:t" + row].Style.Border.Bottom.Color.SetColor(Color.FromArgb(169, 169, 169));
+                worksheet.Cells["a1:t" + row].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:t" + row].Style.Border.Right.Color.SetColor(Color.FromArgb(169, 169, 169));
+
+                row++;
+
+                worksheet.Cells["a" + row + ":t" + row].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["a" + row + ":t" + row].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(192, 192, 192));
+                worksheet.Cells["b" + row + ":n" + row].Merge = true;
+                worksheet.Cells["p" + row + ":t" + row].Merge = true;
+                worksheet.Cells["a" + row].Value = row - 2;
+                worksheet.Cells["o" + row].Formula = "=SUM(o2:o" + (row - 1) + ")";
+                worksheet.Cells["o2:o" + row].Style.Numberformat.Format = "#,#";
+
+                worksheet.Cells["a1:t" + row].AutoFitColumns();
+
+                worksheet.Column(1).Width = 12;
+                worksheet.Column(2).Width = 10;
+                worksheet.Column(3).Width = 25;
+                worksheet.Column(4).Width = 20;
+                worksheet.Column(5).Width = 15;
+                worksheet.Column(6).Width = 10;
+                worksheet.Column(7).Width = 10;
+                worksheet.Column(8).Width = 15;
+                worksheet.Column(9).Width = 25;
+                worksheet.Column(10).Width = 10;
+                worksheet.Column(11).Width = 7;
+                worksheet.Column(12).Width = 15;
+                worksheet.Column(13).Width = 10;
+                worksheet.Column(14).Width = 20;
+                worksheet.Column(15).Width = 15;
+                worksheet.Column(16).Width = 7;
+                worksheet.Column(17).Width = 15;
+                worksheet.Column(18).Width = 10;
+                worksheet.Column(19).Width = 15;
+                worksheet.Column(20).Width = 10;
+
+                xlPackage.Save();
+            }
+        }
         #endregion
     }
 }

@@ -43,8 +43,10 @@
 
                 <a class="btn green" data-toggle="modal" href="#modal-import-customer"><i class="icon-action-redo"></i>&nbsp;Import</a>
                 <label class="btn btn-info fileContainer">
-                    <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" class="form-control" />&nbsp;Export</a>
+                    <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" id="btnExport" class="form-control" />&nbsp;Export</a>
                 </label>
+                @using (Html.BeginForm("ExportFile", "CustomersManage", FormMethod.Post, new { enctype = "multipart/form-data", id = "exportForm" })) { }
+
                 <!--<button class="btn red"><i class="fa fa-cog"></i>&nbsp;Xử lý</button>-->
             </div>
         </div>

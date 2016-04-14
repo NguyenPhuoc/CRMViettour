@@ -25,6 +25,10 @@ namespace CRMViettour.Models
         public string Skype { get; set; }
         public string Department { get; set; }
         public string Position { get; set; }
+        public string IdentityCard { get; set; }
+        public string NameCustomerContract { get; set; }
+        public string PhoneCustomerContract { get; set; }
+        public string Note { get; set; }
     }
 
     public class CustomerViewModel

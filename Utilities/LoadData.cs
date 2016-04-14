@@ -143,6 +143,66 @@ namespace CRMViettour.Utilities
         }
 
         /// <summary>
+        /// danh sách loại nhiệm vụ
+        /// </summary>
+        /// <returns></returns>
+        public static List<DictionaryViewModel> TaskTypeList()
+        {
+            var model = CacheLayer.Get<List<DictionaryViewModel>>("taskTypeList");
+            if (model == null)
+            {
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 21).Select(p => new DictionaryViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).ToList();
+                CacheLayer.Add<List<DictionaryViewModel>>(model, "taskTypeList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách trạng thái nhiệm vụ
+        /// </summary>
+        /// <returns></returns>
+        public static List<DictionaryViewModel> TaskStatusList()
+        {
+            var model = CacheLayer.Get<List<DictionaryViewModel>>("taskStatusList");
+            if (model == null)
+            {
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 22).Select(p => new DictionaryViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).ToList();
+                CacheLayer.Add<List<DictionaryViewModel>>(model, "taskStatusList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách độ ưu tiên nhiệm vụ
+        /// </summary>
+        /// <returns></returns>
+        public static List<DictionaryViewModel> TaskPriorityList()
+        {
+            var model = CacheLayer.Get<List<DictionaryViewModel>>("taskPriorityList");
+            if (model == null)
+            {
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 23).Select(p => new DictionaryViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).ToList();
+                CacheLayer.Add<List<DictionaryViewModel>>(model, "taskPriorityList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
         /// danh sách loại lịch hẹn
         /// </summary>
         /// <returns></returns>

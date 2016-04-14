@@ -265,7 +265,7 @@
     <Compile Include="Controllers\Staff\PositionManageController.cs" />
     <Compile Include="Controllers\Staff\StaffGroupManageController.cs" />
     <Compile Include="Controllers\SystemManageController.cs" />
-    <Compile Include="Controllers\TourManageController.cs" />
+    <Compile Include="Controllers\Tour\TourManageController.cs" />
     <Compile Include="Controllers\VisaManageController.cs" />
     <Compile Include="Controllers\Visa\DocumentaryVisaManageController.cs" />
     <Compile Include="Controllers\Visa\InfomationVisaManageController.cs" />
@@ -283,6 +283,7 @@
     <Compile Include="Models\PartnerViewModel.cs" />
     <Compile Include="Models\StaffViewModel.cs" />
     <Compile Include="Models\TagsViewModel.cs" />
+    <Compile Include="Models\TourViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\Common.cs" />
@@ -2075,6 +2076,7 @@
     <Content Include="Scripts\controller\origin.js" />
     <Content Include="Scripts\controller\position.js" />
     <Content Include="Scripts\controller\servicetype.js" />
+    <Content Include="Scripts\controller\tour.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
@@ -2456,9 +2458,11 @@
     <Content Include="Views\CurrencyManage\Index.cshtml" />
     <Content Include="Views\ContractsManage\_Partial_EditDocument.cshtml" />
     <Content Include="Views\ProgramsManage\_Partial_EditDocument.cshtml" />
+    <Content Include="Views\TourManage\_Partial_ListTours.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="FakesAssemblies\" />
     <Folder Include="Views\ModuleManage\" />
   </ItemGroup>
   <ItemGroup>

@@ -83,8 +83,7 @@
                                         </td>
                                         <td>@item.Code</td>
                                         <td>
-                                            <a style="cursor:pointer" onclick="viewFileOnline(@item.Id)">@item.FileName</a>
-                                            <input type="hidden" value="@domain/Upload/file/@item.FileName" id="txtURL@(item.Id)" />
+                                            <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
                                         </td>
                                         <td>@item.tbl_Company.Name</td>
                                         <td>@item.OptionNumber</td>
@@ -100,15 +99,11 @@
             </div>
         </div>
     </div>
-
     <!-- END PAGE BASE CONTENT -->
 </div>
 
 @Html.Partial("_Partial_Insert_FormQuotation", new tbl_QuotationForm())
-
-<div id="data-quotationform">
-</div>
-
+<div id="data-quotationform"></div>
 <div id="viewfile"></div>
 
 @section scripts{

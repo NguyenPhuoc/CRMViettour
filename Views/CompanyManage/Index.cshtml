@@ -156,17 +156,9 @@
 @Html.Partial("_Partial_InsertDocument", new CRM.Core.tbl_DocumentFile())
 <div id="info-data-doc">
 </div>
+<!----- view file ----->
 <div id="viewfile"></div>
 
 @section scripts{
     <script src="~/Scripts/controller/company.js"></script>
-    <script>
-        function viewFileOnline(id) {
-            $("#viewfile").html("<div id='modal-view-file' class='modal fade' role='dialog'>" +
-            "<div class='modal-dialog'><div class='modal-content'>" +
-            "<iframe src='" + $("#txtURL" + id) + "' width='500px' height='350px' frameborder='0'></iframe>" +
-            "</div></div></div>");
-            $("#modal-view-file").modal("show");
-        }
-    </script>
 }

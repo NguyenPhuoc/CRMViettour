@@ -52,8 +52,9 @@
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">Loại tour
-                                                <i class="fa fa-angle-down"></i>
+                            <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                Loại tour
+                                <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 <li>
@@ -77,66 +78,7 @@
                 </div>
                 <div class="portlet-body">
                     <div class="table-responsive table-custom-format">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" /></th>
-                                    <th>STT</th>
-                                    <th>Code tour</th>
-                                    <th>Tên tour</th>
-                                    <th>Khách hàng</th>
-                                    <th>Điểm đến</th>
-                                    <th>Số lượng</th>
-                                    <th>Ngày khởi hành</th>
-                                    <th>Ngày về</th>
-                                    <th>Thời gian</th>
-                                    <th>Hướng dẫn viên</th>
-                                    <th>Loại tour</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                    <td>
-                                        <input type="text" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" id="cb1" name="cb" onclick="CheckSelect()" /></td>
-                                    <td>1</td>
-                                    <td>VTTO00115</td>
-                                    <td>HOI NGHI MALAY SAMNEC 2015</td>
-                                    <td>SAMNEC</td>
-                                    <td>MAL</td>
-                                    <td>60</td>
-                                    <td>15/12/2015</td>
-                                    <td>18/12/2015</td>
-                                    <td>4</td>
-                                    <td>HOÀNG ANH TUẤN</td>
-                                    <td>OUTBOUND</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        @Html.Action("_Partial_ListTours", "TourManage")
                     </div>
                 </div>
             </div>
@@ -309,7 +251,8 @@
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    <input type="checkbox" id="allcheck" name="allcheck" onclick="SelectAllCheckCus()" /></th>
+                                                    <input type="checkbox" id="allcheck" name="allcheck" onclick="SelectAllCheckCus()" />
+                                                </th>
                                                 <th>STT</th>
                                                 <th>Mã DN-KH</th>
                                                 <th>Tên DN-KH</th>
@@ -326,7 +269,8 @@
                                         <tbody>
                                             <tr class="odd gradeX">
                                                 <td>
-                                                    <input type="checkbox" id="check1" name="check" onclick="CheckSelectCus()" /></td>
+                                                    <input type="checkbox" id="check1" name="check" onclick="CheckSelectCus()" />
+                                                </td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -341,7 +285,8 @@
                                             </tr>
                                             <tr class="odd gradeX">
                                                 <td>
-                                                    <input type="checkbox" id="check2" name="check" onclick="CheckSelectCus()" /></td>
+                                                    <input type="checkbox" id="check2" name="check" onclick="CheckSelectCus()" />
+                                                </td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -529,7 +474,8 @@
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    <input type="checkbox" id="allcheckvisa" name="allcheck" onclick="SelectAllCheckVisa()" /></th>
+                                                    <input type="checkbox" id="allcheckvisa" name="allcheck" onclick="SelectAllCheckVisa()" />
+                                                </th>
                                                 <th>STT</th>
                                                 <th>Mã DN-KH</th>
                                                 <th>Tên DN-KH</th>
@@ -544,7 +490,8 @@
                                         <tbody>
                                             <tr class="odd gradeX">
                                                 <td>
-                                                    <input type="checkbox" id="checkvisa1" name="check" onclick="CheckSelectVisa()" /></td>
+                                                    <input type="checkbox" id="checkvisa1" name="check" onclick="CheckSelectVisa()" />
+                                                </td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -557,7 +504,8 @@
                                             </tr>
                                             <tr class="odd gradeX">
                                                 <td>
-                                                    <input type="checkbox" id="checkvisa2" name="check" onclick="CheckSelectVisa()" /></td>
+                                                    <input type="checkbox" id="checkvisa2" name="check" onclick="CheckSelectVisa()" />
+                                                </td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -775,33 +723,5 @@
 @Html.Partial("_Partial_ImportCustomer")
 
 @section scripts{
-    <script>
-        CKEDITOR.replace("TourNoteInsert");
-        CKEDITOR.replace("TourNoteEdit");
-        CKEDITOR.replace("ServiceTourNote");
-        CKEDITOR.replace("TourTaskNote");
-        CKEDITOR.replace("TourScheduleNote");
-        //CKEDITOR.replace("code");
-        CKEDITOR.replace("TourDocumentNote");
-        CKEDITOR.replace("TourCNNote");
-        CKEDITOR.replace("TourCustomerNote");
-        CKEDITOR.replace("CongNoDoiTacNote");
-        
-        //$("input[id~='RestaurantName']").select2();
-        //$("input[id~='insert-deadline-restaurant']").datepicker();
-        //$("input[id*='insert-partner']").select2();
-
-        $("#btnLuuThem").click(function () {
-            $("#loading").fadeIn();
-            setTimeout(function () { $("#loading").fadeOut(); }, 4000);
-            $("#modal-insert-tour").modal('hide');
-        });
-
-        $("#btnLuuSua").click(function () {
-            $("#loading").fadeIn();
-            setTimeout(function () { $("#loading").fadeOut(); }, 4000);
-            $("#modal-edit-tour").modal('hide');
-        });
-
-    </script>
+    <script src="~/Scripts/controller/tour.js"></script>
 }

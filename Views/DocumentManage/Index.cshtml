@@ -94,8 +94,7 @@
                                         <td>@string.Format("{0:dd-MM-yyyy}", item.ModifiedDate)</td>
                                         <td></td>
                                         <td>
-                                            <a style="cursor:pointer" onclick="viewFileOnline(@item.Id)">Xem online</a>
-                                            <input type="hidden" value="@domain/Upload/file/@item.FileName" id="txtURL@(item.Id)" />
+                                            <a target="_blank" href="@domain/Upload/file/@item.FileName">Xem online</a>
                                         </td>
                                     </tr>
                                 }
@@ -127,9 +126,8 @@
 
 @Html.Partial("_Partial_InsertDocument", new tbl_DocumentFile())
 
-<div id="data-document">
-</div>
-
+<div id="data-document"></div>
+<div id="viewfile"></div>
 <div id="data-staff">
     @Html.Action("_Partial_AddStaffDocument", "DocumentManage")
 </div>

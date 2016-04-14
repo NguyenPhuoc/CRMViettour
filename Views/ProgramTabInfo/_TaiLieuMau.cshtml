@@ -1,7 +1,8 @@
 ﻿@using CRM.Core
 @using CRMViettour.Utilities
 @model IEnumerable<tbl_DocumentFile>
-@{int i = 1;}
+@{int i = 1;
+  string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);}
 
 <a class="btn btn-primary" id="btnDocumentFile" onclick="btnCreateFile()"><i class="fa fa-plus"></i>&nbsp;Thêm</a>
 <br />
@@ -29,8 +30,7 @@
                         <td>@i</td>
                         <td>@LoadData.LocationTags(item.TagsId)</td>
                         <td>
-                            <a style="cursor:pointer" onclick="viewFileOnline(@item.Id)">@item.FileName</a>
-                            @*<input type="hidden" value="@item.URL" id="txtURL@(item.Id)" />*@
+                            <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
                         </td>
                         <td>@Html.Raw(item.Note)</td>
                         <td>@item.FileSize</td>

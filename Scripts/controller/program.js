@@ -24,13 +24,6 @@ $("#insert-address").select2();
 //$("#insert-startdate").datepicker();
 //$("#insert-enddate").datepicker();
 
-function viewFileOnline(id) {
-    $("#viewfile").html("<div id='modal-view-file' class='modal fade' role='dialog'>" +
-    "<div class='modal-dialog'><div class='modal-content'>" +
-    "<iframe src='" + $("#txtURL" + id) + "' width='500px' height='350px' frameborder='0'></iframe>" +
-    "</div></div></div>");
-    $("#modal-view-file").modal("show");
-}
 
 $("#btnEdit").click(function () {
     var dataPost = {

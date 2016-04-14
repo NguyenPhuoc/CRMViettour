@@ -20,6 +20,7 @@ namespace CRMViettour.Controllers.Appointment
         private IGenericRepository<tbl_Task> _taskRepository;
         private IGenericRepository<tbl_Partner> _partnerRepository;
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
+        private IGenericRepository<tbl_Tour> _tourRepository;
 
         private DataContext _db;
 
@@ -30,6 +31,7 @@ namespace CRMViettour.Controllers.Appointment
             IGenericRepository<tbl_Task> taskRepository,
             IGenericRepository<tbl_Partner> partnerRepository,
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
+            IGenericRepository<tbl_Tour> tourRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -40,6 +42,7 @@ namespace CRMViettour.Controllers.Appointment
             this._taskRepository = taskRepository;
             this._partnerRepository = partnerRepository;
             this._dictionaryRepository = dictionaryRepository;
+            this._tourRepository = tourRepository;
             _db = new DataContext();
         }
 
@@ -57,7 +60,17 @@ namespace CRMViettour.Controllers.Appointment
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Time = p.Time,
-                    
+                    tbl_Customer = _customerRepository.FindId(p.CustomerId),
+                    tbl_Program = _programRepository.FindId(p.ProgramId),
+                    tbl_Task = _taskRepository.FindId(p.TaskId),
+                    tbl_DictionaryService = _dictionaryRepository.FindId(p.tbl_DictionaryService),
+                    tbl_Partner = _partnerRepository.FindId(p.PartnerId),
+                    tbl_Tour = _tourRepository.FindId(p.TourId),
+                    Note = p.Note,
+                    OtherStaff = p.OtherStaff,
+                    tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusId),
+                    tbl_Staff = _staffRepository.FindId(p.StatusId),
+                    CreatedDate = p.CreatedDate
                 }).ToList();
             return PartialView("_Partial_AppointmentList", model);
         }

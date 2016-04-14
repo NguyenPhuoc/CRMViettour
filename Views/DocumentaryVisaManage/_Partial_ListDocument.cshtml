@@ -1,6 +1,9 @@
 ﻿@using CRMViettour.Models
 @using CRM.Core
 @model IEnumerable<DocumentFileViewModel>
+           @{
+               string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+           }
 
 <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
     <table class="table table-striped table-bordered table-hover dataTable" id="tableDictionary">
@@ -41,8 +44,7 @@
                     </td>
                     <td>@item.Code</td>
                     <td>
-                        <a style="cursor:pointer" onclick="viewFileOnline(@item.Id)">@item.FileName</a>
-                        <input type="hidden" value="@item.URL" id="txtURL@(item.Id)" />
+                        <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
                     </td>
                     <td>@item.DictionaryName</td>
                     <td>@Html.Raw(item.Note)</td>

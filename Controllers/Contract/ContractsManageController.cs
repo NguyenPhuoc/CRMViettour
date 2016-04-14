@@ -395,7 +395,7 @@ namespace CRMViettour.Controllers
 
                 var properties = new[]
                     {
-                        "Mã họp đồng",
+                        "Mã hợp đồng",
                         "Ngày ký",
                         "Tên hợp đồng",
                         "khách hàng",

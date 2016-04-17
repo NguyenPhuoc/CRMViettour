@@ -79,18 +79,19 @@ namespace CRMViettour.Controllers
         public ActionResult _Partial_ListTours()
         {
             var model = _tourRepository.GetAllAsQueryable()
-                .Select(p => new TourViewModel {
+                .Select(p => new TourViewModel
+                {
                     Id = p.Id,
                     Code = p.Code,
                     Name = p.Name,
                     CustomerName = p.tbl_Customer.FullName,
                     NumberCustomer = p.NumberCustomer ?? 0,
                     DestinationPlace = p.tbl_TagsDestinationPlace.Tag,
-                    StartDate = p.StartDate ,
+                    StartDate = p.StartDate,
                     EndDate = p.EndDate,
                     NumberDay = p.NumberDay ?? 0,
                     TourGuide = p.tbl_TourGuide.FirstOrDefault() == null ? "" : p.tbl_TourGuide.FirstOrDefault().tbl_Staff.FullName,
-                    TourType = p.tbl_DictionaryTypeTour.Name                   
+                    TourType = p.tbl_DictionaryTypeTour.Name
                 }).ToList();
             return PartialView("_Partial_ListTours", model);
         }

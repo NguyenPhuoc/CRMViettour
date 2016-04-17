@@ -1,79 +1,58 @@
-﻿<div class="modal fade  bs-modal-lg" id="modal-assign-task" role="document" aria-hidden="true">
+﻿@using CRMViettour.Utilities
+@using CRMViettour.Models
+@using CRM.Core
+@model tbl_TaskStaff
+<div class="modal fade  bs-modal-lg" id="modal-assign-task" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Chọn người nhận việc</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <label><b>Danh sách người nhận sẽ được chọn</b></label>
-                            <select class="form-control" id="phongban-task" style="width: 100%">
-                                <option>Phòng ban</option>
-                                <option>---------</option>
-                            </select>
-                            <div style="margin-top: 10px">
-                                <table class="table table-striped table-bordered table-hover" id="">
-                                    <thead>
-                                        <tr>
-                                            <th>Họ tên</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+        @using (Html.BeginForm("CreateAssign", "TaskManage"))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Chọn người nhận việc</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <button class="btn btn-danger" disabled id="btnDel"><i class="fa fa-times"></i></button>
+                                <br />
+                                <div class="clonedInput" id="entry1">
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2 col-md-2">Nhân viên</label>
+                                        <div class="col-lg-4 col-md-4">
+                                            <select class="form-control assigncustomer" style="width: 100%" name="Customer1" id="insert-assign-customer1">
+                                                @foreach (var item in LoadData.StaffList())
+                                                {
+                                                    <option value="@item.Id">@item.FullName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <label class="control-label col-lg-2 col-md-2">Vai trò</label>
+                                        <div class="col-lg-4 col-md-4">
+                                            <input type="text" name="Role1" class="form-control assignrole" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-12 col-md-12">
+                                            <textarea class="form-control assignnote" placeholder="Ghi chú..." id="insert-assign-note1" name="Note1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="countAssign" name="countAssign" value="1" />
                             </div>
-                        </div>
-                        <div class="col-md-2" style="padding-top: 100px;">
-                            <button type="button" class="btn green" id="btnThem">Thêm</button>
-                            <button type="button" class="btn grey" id="btnXoa">Xóa</button>
-                        </div>
-                        <div class="col-md-5">
-                            <label><b>Danh sách người nhận đã chọn</b></label>
-                            <div style="margin-top: 40px">
-                                <table class="table table-striped table-bordered table-hover" id="">
-                                    <thead>
-                                        <tr>
-                                            <th>Họ tên</th>
-                                            <th>Người giao</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+
                         </div>
                     </div>
                 </div>
+                <div align="right" style="margin-bottom: 20px; padding-right: 20px;">
+                    <button type="button" class="btn btn-success" id="btnAddAssign">Thêm nhân viên</button>
+                    <button type="submit" class="btn blue" id="btnLuuThem">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
             </div>
-            <div align="right" style="margin-bottom: 20px; padding-right: 20px;">
-                <button type="button" class="btn blue" id="btnLuuThem">Lưu</button>
-                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
+        }
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->

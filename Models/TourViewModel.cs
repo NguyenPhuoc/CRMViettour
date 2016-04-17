@@ -13,8 +13,8 @@ namespace CRMViettour.Models
         public string CustomerName { get; set; }
         public string DestinationPlace { get; set; }
         public int NumberDay { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public int NumberCustomer { get; set; }
         public string TourGuide { get; set; }
         public string TourType { get; set; }

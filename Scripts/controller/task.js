@@ -2,7 +2,10 @@
 $("#insert-task-type").select2();
 $("#insert-task-status").select2();
 $("#insert-customer-task").select2();
+$("#insert-tour-task").select2();
 $("#insert-task-priority").select2();
+CKEDITOR.replace("insert-assign-note1")
+
 /*** datepicker ***/
 //$("#ngaycapmst").datepicker();
 //$("#ngaytldn").datepicker();
@@ -34,13 +37,6 @@ $(".dataTable").dataTable().columnFilter({
                 { type: "text" },
                 { type: "text" },
                 { type: "text" },
-                { type: "text" },
-                { type: "text" },
-                { type: "text" },
-                { type: "text" },
-                { type: "text" },
-                { type: "text" },
-                { type: "text" },
                 { type: "text" }]
 });
 
@@ -52,52 +48,6 @@ function radPersonalClick() {
     $('#detail-company').hide(); $('#detail-personal').show();
 }
 
-///*** duplicate form visa ***/
-$(function () {
-    $('#btnAdd').click(function () {
-        var num = $('.clonedInput').length, // how many "duplicatable" input fields we currently have
-            newNum = new Number(num + 1),      // the numeric ID of the new input field being added
-            newElem = $('#entry' + num).clone().attr('id', 'entry' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
-        // manipulate the name/id values of the input inside the new element
-
-        newElem.find('.visacard').attr('name', 'VisaNumber' + newNum).val('');
-        newElem.find('.ngaycapvisa').attr('id', 'ngaycapvisa' + newNum).attr('name', 'CreatedDateVisa' + newNum).val('');
-        newElem.find('.ngayhethanvisa').attr('id', 'ngayhethanvisa' + newNum).attr('name', 'ExpiredDateVisa' + newNum).val('');
-        newElem.find('.countryvisa').attr('id', 'countryvisa' + newNum).attr('name', 'TagsId' + newNum).val('');
-
-        // insert the new element after the last "duplicatable" input field
-        $('#entry' + num).after(newElem);
-        //$("#ngaycapvisa" + newNum).datepicker();
-        //$("#ngayhethanvisa" + newNum).datepicker();
-        $("#countryvisa" + newNum).select2();
-
-        for (var i = 1; i < newNum; i++) {
-            $("#entry" + newNum + " #select2-countryvisa" + i + "-container").parent().parent().parent().remove();
-        }
-
-        // enable the "remove" button
-        $('#btnDel').attr('disabled', false);
-
-    });
-
-    $('#btnDel').click(function () {
-        // confirmation
-        var num = $('.clonedInput').length;
-        // how many "duplicatable" input fields we currently have
-        $('#entry' + num).slideUp('slow', function () {
-            $(this).remove();
-            // if only one element remains, disable the "remove" button
-            if (num - 1 === 1)
-                $('#btnDel').attr('disabled', true);
-            // enable the "add" button
-            $('#btnAdd').attr('disabled', false).prop('value', "add section");
-        });
-        return false;
-
-        $('#btnAdd').attr('disabled', false);
-    });
-    $('#btnDel').attr('disabled', true);
-});
 
 /** Xoa du lieu **/
 $("#btnRemove").on("click", function () {
@@ -530,277 +480,44 @@ $("#tabnguoilienhe").click(function () {
     }
 });
 
-/** upload file **/
-//$('#FileName').change(function () {
-//    var data = new FormData();
-//    data.append('FileName', $('#FileName')[0].files[0]);
-//    alert('aaaaaaaaaaaaaaaaaaa');
-//    var ajaxRequest = $.ajax({
-//        type: "POST",
-//        url: 'CustomersManage/UploadFile',
-//        contentType: false,
-//        processData: false,
-//        data: data
-//    });
-
-//    ajaxRequest.done(function (xhr, textStatus) {
-//        // Onsuccess
-//    });
-//});
-
-/** xóa tài liệu **/
-function deleteDocument(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/CustomersManage/DeleteDocument',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#hosolienquan").html(data);
-        }
-    });
-}
-
-/** cập nhật tài liệu **/
-function updateDocument(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/CustomersManage/EditInfoDocument',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            $("#info-data-doc").html(data);
-            $("#edit-tag-document").select2();
-            $("#edit-document-type").select2();
-            CKEDITOR.replace("edit-document-note");
-            $("#modal-edit-document").modal("show");
-            /**** update in tab file của khách hàng ****/
-            $("#btnUpdateFile").click(function () {
-                var $this = $(this);
-                var $form = $("#frmUpdateFile");
-                var $parent = $form.parent();
-                var options = {
-                    url: $form.attr("action"),
-                    type: $form.attr("method"),
-                    data: $form.serialize()
-                };
-
-                $.ajax(options).done(function (data) {
-                    $("#modal-edit-document").modal("hide");
-                    alert("Lưu dữ liệu thành công!");
-                    $("#hosolienquan").html(data);
-                });
-                return false;
-            });
-
-            /** upload file **/
-            $("#edit-file").change(function () {
-                var data = new FormData();
-                data.append('FileName', $('#edit-file')[0].files[0]);
-                var ajaxRequest = $.ajax({
-                    type: "POST",
-                    url: 'CustomersManage/UploadFile',
-                    contentType: false,
-                    processData: false,
-                    data: data
-                });
-
-                ajaxRequest.done(function (xhr, textStatus) {
-                    // Onsuccess
-                });
-            });
-        }
-    });
-}
-
-/**** insert in tab visa của khách hàng ****/
-$("#btnInsertVisa").click(function () {
-    var $this = $(this);
-    var $form = $("#frmInsertVisa");
-    var $parent = $form.parent();
-    var options = {
-        url: $form.attr("action"),
-        type: $form.attr("method"),
-        data: $form.serialize()
-    };
-
-    $.ajax(options).done(function (data) {
-        $("#modal-insert-visa").modal("hide");
-        alert("Lưu dữ liệu thành công!");
-        $("#visa").html(data);
-    });
-    return false;
-})
-
-/** xóa visa **/
-function deleteVisa(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/CustomersManage/DeleteVisa',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#visa").html(data);
-        }
-    });
-}
-
-/** cập nhật visa **/
-function updateVisa(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/CustomersManage/EditInfoVisa',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            $("#info-data-visa").html(data);
-            $("#edit-country-visa").select2();
-            $("#edit-type-visa").select2();
-            $("#edit-status-visa").select2();
-            //$("#edit-createdate-visa").datepicker();
-            //$("#edit-expiredate-visa").datepicker();
-            $("#modal-edit-visa").modal("show");
-
-            /**** update in tab visa của khách hàng ****/
-            $("#btnUpdateVisa").click(function () {
-                var $this = $(this);
-                var $form = $("#frmUpdateVisa");
-                var $parent = $form.parent();
-                var options = {
-                    url: $form.attr("action"),
-                    type: $form.attr("method"),
-                    data: $form.serialize()
-                };
-
-                $.ajax(options).done(function (data) {
-                    $("#modal-edit-visa").modal("hide");
-                    alert("Lưu dữ liệu thành công!");
-                    $("#visa").html(data);
-                });
-                return false;
-            })
-        }
-    });
-}
 
 ///****** Sửa thông tin ******/
 $("#btnEdit").click(function () {
     var dataPost = {
-        id: $("input[type='checkbox']:checked").val()
+        id: $("input[type='checkbox'].cbItem:checked").val()
     };
-
     $.ajax({
         type: "POST",
-        url: '/CustomersManage/CustomerInfomation',
+        url: '/TaskManage/TaskInfomation',
         data: JSON.stringify(dataPost),
         contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (data) {
-            $("#info-data-customer").html(data);
+            $("#info-data-task").html(data);
+            $("#edit-task-type").select2();
+            $("#edit-task-status").select2();
+            $("#edit-customer-task").select2();
+            $("#edit-task-priority").select2();
+            $("#edit-tour-task").select2();
+            CKEDITOR.replace("edit-note");
+            $("#modal-edit-task").modal("show");
 
-
-            /*** visa-passport ***/
-            $("#country-edit-cmnd").select2();
-            $("#country-edit-passport").select2();
-
-            /*** doanh nghiệp ***/
-            $("#edit-address-company").select2();
-            $("#edit-nhomkh-company").select2();
-            $("#edit-nguonden-company").select2();
-            $("#edit-company").select2();
-            $("#edit-customer-career").select2();
-
-            /*** cá nhân ***/
-            $("#edit-personal-quydanh").select2();
-            $("#edit-address-personal").select2();
-            $("#edit-nghenghiep-personal").select2();
-            $("#edit-nhomkh-personal").select2();
-            $("#edit-nguonden-personal").select2();
-
-            /*** người liên hệ ***/
-            $("#edit-customer-contact").select2();
-            $("#edit-quydanh-contact").select2();
-            $("#edit-address-contact").select2();
-
-            /*** datepicker ***/
-            //$("#edit-ngaycapmst").datepicker();
-            //$("#edit-ngaytldn").datepicker();
-            //$("#edit-ngaysinh").datepicker();
-            //$("#edit-ngaysinh-contact").datepicker();
-            //$("#edit-ngaycap").datepicker();
-            //$("#edit-ngaycap-passport").datepicker();
-            //$("#edit-ngayhethan-passport").datepicker();
-
-            ///*** visa ***/
-            //$("#ngaycapvisaE1").datepicker();
-            //$("#ngayhethanvisaE1").datepicker();
-            //$("#countryvisaE1").select2();
-
-            ///*** modal ***/
-            CKEDITOR.replace("edit-note-company");
-            CKEDITOR.replace("edit-note-personal");
-            CKEDITOR.replace("edit-note-contact");
-            $("#modal-edit-customer").modal("show");
-
-            ///*** duplicate form visa (edit) ***/
-            $(function () {
-                $('#btnAddE').click(function () {
-                    var num = $('.clonedInputE').length, // how many "duplicatable" input fields we currently have
-                        newNum = new Number(num + 1),      // the numeric ID of the new input field being added
-                        newElem = $('#entryE' + num).clone().attr('id', 'entryE' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
-                    // manipulate the name/id values of the input inside the new element
-
-                    newElem.find('.visacardE').attr('name', 'VisaNumber' + newNum).val('');
-                    newElem.find('.ngaycapvisaE').attr('id', 'ngaycapvisaE' + newNum).attr('name', 'CreatedDateVisa' + newNum).val('');
-                    newElem.find('.ngayhethanvisaE').attr('id', 'ngayhethanvisaE' + newNum).attr('name', 'ExpiredDateVisa' + newNum).val('');
-                    newElem.find('.countryvisaE').attr('id', 'countryvisaE' + newNum).attr('name', 'TagsId' + newNum).val('');
-
-                    // insert the new element after the last "duplicatable" input field
-                    $('#entryE' + num).after(newElem);
-                    //$("#ngaycapvisaE" + newNum).datepicker();
-                    //$("#ngayhethanvisaE" + newNum).datepicker();
-                    $("#countryvisaE" + newNum).select2();
-
-                    for (var i = 1; i < newNum; i++) {
-                        $("#entryE" + newNum + " #select2-countryvisaE" + i + "-container").parent().parent().parent().remove();
-                    }
-
-                    // enable the "remove" button
-                    $('#btnDelE').attr('disabled', false);
-
-                });
-
-                $('#btnDelE').click(function () {
-                    // confirmation
-                    var num = $('.clonedInputE').length;
-                    // how many "duplicatable" input fields we currently have
-                    $('#entryE' + num).slideUp('slow', function () {
-                        $(this).remove();
-                        // if only one element remains, disable the "remove" button
-                        if (num - 1 === 1)
-                            $('#btnDelE').attr('disabled', true);
-                        // enable the "add" button
-                        $('#btnAddE').attr('disabled', false).prop('value', "add section");
-                    });
-                    return false;
-
-                    $('#btnAddE').attr('disabled', false);
-                });
-                $('#btnDelE').attr('disabled', true);
+            $("#edit-check-notify").click(function () {
+                if (this.checked) {
+                    $("#edit-ngaynhac").removeAttr("disabled", "disabled");
+                }
+                else {
+                    $("#edit-ngaynhac").attr("disabled", "disabled");
+                }
             });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Error: " + errorThrown);
         }
+
     });
 });
+
 
 
 /** success ajax form **/
@@ -815,7 +532,67 @@ function OnFailureCustomerFile() {
     $("#modal-insert-document").modal("hide");
     $("#modal-edit-document").modal("hide");
 }
+$(function () {
+    $('#btnAddAssign').click(function () {
+        var num = $('.clonedInput').length, // how many "duplicatable" input fields we currently have
+            newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+            newElem = $('#entry' + num).clone().attr('id', 'entry' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+        // manipulate the name/id values of the input inside the new element
 
-$("#btnExport").click(function () {
-    $("#exportForm").submit();
+        newElem.find('.assigncustomer').attr('id', 'insert-assign-customer' + newNum).attr('name', 'Customer' + newNum).val('');
+        newElem.find('.assignrole').attr('name', 'Role' + newNum).val('');
+        newElem.find('.assignnote').attr('id', 'insert-assign-note' + newNum).attr('name', 'Note' + newNum).val('');
+
+        // insert the new element after the last "duplicatable" input field
+        $('#entry' + num).after(newElem);
+        CKEDITOR.replace("insert-assign-note" + newNum)
+
+        for (var i = 1; i < newNum; i++) {
+            $("#entry" + newNum).find("#cke_insert-assign-note" + i).remove();
+            //$("#entry" + newNum + " #select2-countryvisa" + i + "-container").parent().parent().parent().remove();
+        }
+
+        // enable the "remove" button
+        $('#btnDel').attr('disabled', false);
+
+        // count service
+        $("#countAssign").val(newNum);
+    });
+
+    $('#btnDel').click(function () {
+        // confirmation
+        var num = $('.clonedInput').length;
+        // how many "duplicatable" input fields we currently have
+        $('#entry' + num).slideUp('slow', function () {
+            $(this).remove();
+            // if only one element remains, disable the "remove" button
+            if (num - 1 === 1)
+                $('#btnDel').attr('disabled', true);
+            // enable the "add" button
+            $('#btnAdd').attr('disabled', false).prop('value', "add section");
+        });
+        return false;
+
+        $('#btnAdd').attr('disabled', false);
+        // count service
+        $("#countAssign").val(num);
+    });
+    //$('#btnDel').attr('disabled', true);
 });
+
+$("#btnAssign").click(function () {
+    var dataPost = {
+        id: $("input[type='checkbox'].cbItem:checked").val()
+    };
+    $.ajax({
+        type: "POST",
+        url: '/TaskManage/GetIdTask',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+        }
+    });
+
+});
+

@@ -58,13 +58,11 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region List
-
         public ActionResult Index()
         {
             var model = _programRepository.GetAllAsQueryable().ToList();
             return View(model);
         }
-
         #endregion
 
         #region Create

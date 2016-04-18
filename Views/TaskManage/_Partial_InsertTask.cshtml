@@ -1,166 +1,174 @@
-﻿@using CRM.Core
-@using CRMViettour.Utilities
+﻿@using CRMViettour.Utilities
+@using CRMViettour.Models
+@using CRM.Core
 @model tbl_Task
 
 <div class="modal fade bs-modal-lg" id="modal-insert-task" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Nhiệm vụ</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label col-lg-2 col-md-2">Tên nhiệm vụ</label>
-                                <div class="col-lg-10 col-md-10">
-                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", required = "required" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">Ngày bắt đầu</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <div class="input-group" data-date-format="mm/dd/yyyy">
-                                        <input type="date" required="required" class="form-control" name="StartDate">
-                                        <span class="input-group-btn">
-                                            <button class="btn default date-set" type="button">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
+        @using (Html.BeginForm("Create", "TaskManage"))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Nhiệm vụ</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Tên nhiệm vụ</label>
+                                    <div class="col-lg-10 col-md-10">
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">Loại nhiệm vụ</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <select class="form-control" style="width: 100%" name="TaskTypeId">
-                                        @foreach (var item in LoadData.TaskTypeList())
-                                        {
-                                            <option value="@item.Id">@item.Name</option>
-                                        }
-                                    </select>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Ngày bắt đầu</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" required="required" class="form-control" name="StartDate">
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">Ngày hoàn thành</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <div class="input-group" data-date-format="mm/dd/yyyy">
-                                        <input type="date" class="form-control" name="FinishDate">
-                                        <span class="input-group-btn">
-                                            <button class="btn default date-set" type="button">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Loại nhiệm vụ</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <select class="form-control" style="width: 100%" name="TaskTypeId" id="insert-task-type">
+                                            @foreach (var item in LoadData.TaskTypeList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Ngày hoàn thành</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" class="form-control" name="FinishDate">
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">
+                                        @Html.CheckBoxFor(model => model.IsNotify, new { id = "insert-check-notify" })&nbsp;Ngày nhắc
+                                    </label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" class="form-control" id="insert-ngaynhac" required="required" disabled="disabled" name="NotifyDate">
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Khách hàng</label>
+                                    <div class="col-lg- col-md-8">
+                                        <select id="insert-customer-task" class="form-control" style="width: 100%" name="CustomerId">
+                                            @foreach (var item in LoadData.CustomerList())
+                                            {
+                                                <option value="@item.Id">@item.FullName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Tour</label>
+                                    <div class="col-lg- col-md-8">
+                                        <select id="insert-tour-task" class="form-control" style="width: 100%" name="TourId">
+                                            @foreach (var item in LoadData.TourList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">
-                                    <input type="checkbox" />&nbsp;Ngày nhắc</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <div class="input-group" data-date-format="mm/dd/yyyy">
-                                        <input type="date" class="form-control" id="insert-ngaynhac" name="TaskAlertDate">
-                                        <span class="input-group-btn">
-                                            <button class="btn default date-set" type="button">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Ngày kết thúc</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="input-group" data-date-format="mm/dd/yyyy">
+                                            <input type="date" required="required" class="form-control" name="EndDate">
+                                            <span class="input-group-btn">
+                                                <button class="btn default date-set" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Tình trạng</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <select class="form-control" style="width: 100%" name="TaskStatusId" id="insert-task-status">
+                                            @foreach (var item in LoadData.TaskStatusList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">% hoàn thành</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <input type="number" class="form-control" name="PercentFinish" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Nhạc chuông</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        @*<button name="TaskBell">*@
+                                        <i class="fa fa-bell"></i>
+                                        @*</button>*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4 col-md-4">Ưu tiên</label>
+                                    <div class="col-lg-8 col-md-8">
+                                        <select class="form-control" style="width: 100%" name="TaskPriorityId" id="insert-task-priority">
+                                            @foreach (var item in LoadData.TaskPriorityList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">Nhân viên</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <select id="insert-staff-tour" class="form-control" multiple="multiple" style="width: 100%" name="TaskStaff">
-                                        <option>A</option>
-                                        <option>B</option>
-                                        <option>C</option>
-                                        <option>D</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">Ngày kết thúc</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <div class="input-group" data-date-format="mm/dd/yyyy">
-                                        <input type="date" required="required" class="form-control" name="EndDate">
-                                        <span class="input-group-btn">
-                                            <button class="btn default date-set" type="button">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                    <div class="col-lg-10 col-md-10">
+                                        <textarea name="Note" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">Tình trạng</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <select class="form-control" name="TaskStatus">
-                                        <option>Chưa bắt đầu</option>
-                                        <option>Bắt đầu</option>
-                                        <option>Đang xử lý</option>
-                                        <option>----------</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">% hoàn thành</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <input type="number" class="form-control" name="TaskPercentFinish" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">Nhạc chuông</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <button name="TaskBell"><i class="fa fa-bell"></i></button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4 col-md-4">Ưu tiên</label>
-                                <div class="col-lg-8 col-md-8">
-                                    <select class="form-control" name="TaskPriority">
-                                        <option>Bình thường</option>
-                                        <option>Gấp</option>
-                                        <option>Cao</option>
-                                        <option>Rất cao</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
-                                <div class="col-lg-10 col-md-10">
-                                   <textarea name="TaskNoteInsert" class="form-control"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label col-lg-2 col-md-2">Khách hàng</label>
-                                <div class="col-lg-10 col-md-10">
-                                   <select id="insert-customer-task" class="form-control" style="width: 100%" name="TaskCustomer">
-                                       <option>------</option>
-                                   </select>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue" id="btnLuuThem">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
             </div>
-            <div align="center" style="margin-bottom: 20px">
-                <button type="button" class="btn blue" id="btnLuuThem">Lưu</button>
-                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
+        }
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
 </div>
-

@@ -93,7 +93,7 @@
                                             <td>@(item.TagsId != null ? LoadData.LocationTags(item.TagsId) : "")</td>
                                             <td>@item.NumberDay</td>
                                             <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
-                                            <td>@item.tbl_Tour.Code</td>
+                                            <td>@(item.TourId != null ? item.tbl_Tour.Code : "")</td>
                                             <td>@Html.Raw(item.Note)</td>
                                         </tr>
                                     }

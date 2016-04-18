@@ -13,7 +13,6 @@
         <div class="page-title">
             <h1>DANH SÁCH HỢP ĐỒNG</h1>
         </div>
-<<<<<<< HEAD
         <!-- END PAGE TITLE -->
 
     </div>
@@ -30,36 +29,6 @@
     </ul>
     <!-- END PAGE BREADCRUMB -->
     <!-- BEGIN PAGE BASE CONTENT -->
-    <div class="note note-info">
-        <div class="row">
-            <div class="col-md-12">
-                <a class="btn btn-default" href="@Url.Action("Index", "ContractsManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                <button class="btn btn-primary" id="btnAdd" href="#modal-insert-contract" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                <form action="@Url.Action("Delete", "ContractsManage")" method="post" style="position:absolute">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="listItemId" name="listItemId" />
-                </form>
-                <button class="btn red" id="btnWork" href="#modal-work-Contract" data-toggle="modal"><i class="fa fa-cogs"></i>&nbsp;Xử lý</button>
-                <button class="btn green" id="btnUserSupport" href="#modal-support-Contract" data-toggle="modal"><i class="fa fa-user-plus"></i>&nbsp;Nhân viên hỗ trợ</button>
-                <label class="btn btn-info fileContainer">
-                    <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" class="form-control" />&nbsp;Export</a>
-                </label>
-=======
-        <!-- END PAGE HEAD-->
-        <!-- BEGIN PAGE BREADCRUMB -->
-        <ul class="page-breadcrumb breadcrumb">
-            <li>
-                <a href="index.html">Home</a>
-                <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                <span class="active">Page Layouts</span>
-            </li>
-        </ul>
-        <!-- END PAGE BREADCRUMB -->
-        <!-- BEGIN PAGE BASE CONTENT -->
         <div class="note note-info">
             <div class="row">
                 <div class="col-md-12">
@@ -78,10 +47,8 @@
                     </label>
                     @using (Html.BeginForm("ExportFile", "ContractsManage", FormMethod.Post, new { enctype = "multipart/form-data", id = "exportForm" })) { }
                 </div>
->>>>>>> origin/master
             </div>
         </div>
-    </div>
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -121,7 +88,7 @@
                                         <td>@item.Code</td>
                                         <td>@string.Format("{0:dd-MM-yyyy}", item.ContractDate)</td>
                                         <td>@item.NumberDay</td>
-                                        <td>@item.tbl_Tour.Code</td>
+                                        <td>@(item.TourId != null ? item.tbl_Tour.Code : "")</td>
                                         <td>@string.Format("{0:0,0}", item.TotalPrice).Replace(",", ".")</td>
                                         <td>@Html.Raw(item.Note)</td>
                                     </tr>

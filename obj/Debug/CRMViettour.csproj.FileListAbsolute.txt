@@ -27,3 +27,5 @@ E:\WORK\DIP VIETNAM\viettour\CRMViettour\bin\Microsoft.Web.Infrastructure.xml
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\obj\Debug\CRMViettour.dll
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\obj\Debug\CRMViettour.pdb
+E:\WORK\DIP VIETNAM\viettour\CRMViettour\bin\EPPlus.dll
+E:\WORK\DIP VIETNAM\viettour\CRMViettour\bin\EPPlus.xml

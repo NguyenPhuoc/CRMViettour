@@ -1,172 +1,200 @@
-﻿<div class="modal fade  bs-modal-lg" id="modal-insert-tour" role="document" aria-hidden="true">
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@model CRMViettour.Models.TourViewModel
+@{
+    Random rd = new Random();
+}
+
+<div class="modal fade  bs-modal-lg" id="modal-insert-tour" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Thêm tour mới</h4>
             </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="tabbable-custom" id="tab-insert-customer">
-                        <ul class="nav nav-tabs">
-                            <li class="active">
-                                <a href="#thongtinchung" data-toggle="tab">Thông tin chung</a>
-                            </li>
-                            <li>
-                                <a href="#huongdanvien" data-toggle="tab">Hướng dẫn viên</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="thongtinchung">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-2 col-md-2">Tên tour</label>
-                                            <div class="col-lg-10 col-md-10">
-                                                <input type="text" value="" class="form-control" name="TourName" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Code tour</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <input type="text" value="" class="form-control" name="TourCode" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Từ ngày</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                    <input type="date" class="form-control" id="insert-ngaydi-tour" name="TourStartDate" />
-                                                    <span class="input-group-btn">
-                                                        <button class="btn default date-set" type="button">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </button>
-                                                    </span>
+            @using (Html.BeginForm("Create", "TourManage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="tabbable-custom" id="tab-insert-customer">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#thongtinchung" data-toggle="tab">Thông tin chung</a>
+                                </li>
+                                <li>
+                                    <a href="#huongdanvien" data-toggle="tab">Hướng dẫn viên</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="thongtinchung">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Tên tour</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    @Html.TextBoxFor(model => model.SingleTour.Name, new { @class = "form-control", required = "required" })
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Đến ngày</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                    <input type="date" class="form-control" id="insert-ngayden-tour" name="TourEndDate" />
-                                                    <span class="input-group-btn">
-                                                        <button class="btn default date-set" type="button">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </button>
-                                                    </span>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Code tour</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <input type="text" value="@rd.Next(1111,9999)" class="form-control" name="SingleTour.Code" readonly="readonly" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Ngày khởi hành</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                        @Html.TextBoxFor(model => model.StartDateTour, new { type = "date", @class = "form-control" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Ngày về</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                        @Html.TextBoxFor(model => model.EndDateTour, new { type = "date", @class = "form-control" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Quản lý tour</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select name="SingleTour.StaffId" id="insert-manager-tour" class="form-control" style="width: 100%">
+                                                        @foreach (var item in LoadData.StaffList())
+                                                        {
+                                                            <option value="@item.Id">@item.FullName</option>
+                                                        }
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Người liên hệ</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <input type="text" value="" class="form-control" name="TourContacter" />
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Số ngày</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    @Html.TextBoxFor(model => model.SingleTour.NumberDay, new { @class = "form-control", type = "number" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Nơi đi</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select class="form-control" id="insert-start-place" style="width: 100%" name="SingleTour.StartPlace">
+                                                        @foreach (var item in LoadData.DropdownlistLocation())
+                                                        {
+                                                            <option value="@item.Id">@item.Tags</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Nơi đến</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select class="form-control" id="insert-destination-place" style="width: 100%" name="SingleTour.DestinationPlace">
+                                                        @foreach (var item in LoadData.DropdownlistLocation())
+                                                        {
+                                                            <option value="@item.Id">@item.Tags</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Loại tour</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select class="form-control" id="insert-type-tour" style="width: 100%" name="SingleTour.TypeTourId">
+                                                        @foreach (var item in LoadData.TourTypeList())
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Số ngày</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <input type="text" value="" class="form-control" name="TourDateNumber" />
+                                        <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Phân quyền</label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <select class="form-control" multiple="multiple" id="insert-permission-tour" style="width: 100%" name="SingleTour.Permission">
+                                                            @foreach (var item in LoadData.StaffList())
+                                                            {
+                                                                <option value="@item.Id">@item.FullName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Nơi đi</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <select class="form-control" id="insert-tinhthanh1-tour" style="width: 100%" name="TourStartPlace">
-                                                    <option value="0">-------</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Nơi đến</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <select class="form-control" id="insert-tinhthanh2-tour" style="width: 100%" name="TourEndPlace">
-                                                    <option value="0">-------</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Điện thoại</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <input type="text" value="" class="form-control" name="TourPhone" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-2 col-md-2">Phân quyền</label>
-                                            <div class="col-lg-10 col-md-10">
-                                                <select id="insert-staff-tour" class="form-control" multiple="multiple" style="width: 100%" name="TourPermission">
-                                                    <option>A</option>
-                                                    <option>B</option>
-                                                    <option>C</option>
-                                                    <option>D</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
-                                            <div class="col-lg-10 col-md-10">
-                                                <textarea class="form-control" id="insert-note-tour" name="TourNoteInsert"></textarea>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    @Html.TextAreaFor(model => model.SingleTour.Request, new { @class = "form-control", id = "insert-note-tour" })
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane" id="huongdanvien">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Nhân viên</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <select class="form-control" id="insert-guide-tour" style="width: 100%" name="TourStaffGuide">
-                                                    <option value="0">A</option>
-                                                    <option value="0">B</option>
-                                                    <option value="0">C</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Ngày đi</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                    <input type="date" class="form-control" id="insert-ngaydi-tourhdv" name="TourStartDateHDV">
-                                                    <span class="input-group-btn">
-                                                        <button class="btn default date-set" type="button">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </button>
-                                                    </span>
+                                <div class="tab-pane" id="huongdanvien">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Nhân viên</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select class="form-control" id="insert-guide-tour" style="width: 100%" name="SingleTourGuide.StaffId">
+                                                        @foreach (var item in LoadData.StaffList())
+                                                        {
+                                                            <option value="@item.Id">@item.FullName</option>
+                                                        }
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Ngày về</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                    <input type="date" class="form-control" id="insert-ngayden-tourhdv" name="TourEndDateHDV">
-                                                    <span class="input-group-btn">
-                                                        <button class="btn default date-set" type="button">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </button>
-                                                    </span>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Ngày đi</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                        @Html.TextBoxFor(model => model.StartDateTourGuide, new { type = "date", @class = "form-control" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-4 col-md-4">Điểm khởi hành</label>
-                                            <div class="col-lg-8 col-md-8">
-                                                <select class="form-control" id="insert-departure-tour" style="width: 100%" name="TourDeparture">
-                                                    <option value="0">A</option>
-                                                    <option value="0">B</option>
-                                                    <option value="0">C</option>
-                                                </select>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Ngày về</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
+                                                        @Html.TextBoxFor(model => model.EndDateTourGuide, new { type = "date", @class = "form-control" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default date-set" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-4 col-md-4">Điểm khởi hành</label>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <select class="form-control" id="insert-startplace-tourguide" style="width: 100%" name="SingleTourGuide.TagId">
+                                                        @foreach (var item in LoadData.DropdownlistLocation())
+                                                        {
+                                                            <option value="@item.Id">@item.Tags</option>
+                                                        }
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -175,11 +203,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div align="center" style="margin-bottom: 20px">
-                <button type="button" class="btn blue" id="btnLuuThem">Lưu</button>
-                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
-            </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
         </div>
         <!-- /.modal-content -->
     </div>

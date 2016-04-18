@@ -25,18 +25,6 @@ $("#customer-quydanh-contact").select2();
 $("#insert-address-contact").select2();
 $("#country-insert-profilevisa").select2();
 
-/*** datepicker ***/
-//$("#ngaycapmst").datepicker();
-//$("#ngaytldn").datepicker();
-//$("#ngaysinh").datepicker();
-//$("#ngaysinh-contact").datepicker();
-//$("#insert-ngaycap").datepicker();
-//$("#insert-ngaycap-passport").datepicker();
-//$("#insert-ngayhethan-passport").datepicker();
-
-///*** visa ***/
-//$("#ngaycapvisa1").datepicker();
-//$("#ngayhethanvisa1").datepicker();
 $("#countryvisa1").select2();
 
 $('.dataTable').dataTable({

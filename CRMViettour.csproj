@@ -55,6 +55,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\CRM.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.0.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.4.0.5\lib\net20\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <HintPath>packages\ExcelPackage.1.0.0\lib\Microsoft.Office.Interop.Excel.dll</HintPath>
@@ -266,6 +270,7 @@
     <Compile Include="Controllers\Staff\StaffGroupManageController.cs" />
     <Compile Include="Controllers\SystemManageController.cs" />
     <Compile Include="Controllers\Tour\TourManageController.cs" />
+    <Compile Include="Controllers\Tour\TourTabInfoController.cs" />
     <Compile Include="Controllers\VisaManageController.cs" />
     <Compile Include="Controllers\Visa\DocumentaryVisaManageController.cs" />
     <Compile Include="Controllers\Visa\InfomationVisaManageController.cs" />
@@ -2295,7 +2300,6 @@
     <Content Include="Views\PermissionManage\_Partial_SetupRole.cshtml" />
     <Content Include="Views\SystemManage\AccountInfo.cshtml" />
     <Content Include="Views\SystemManage\ChangePassword.cshtml" />
-    <Content Include="Views\TourManage\History.cshtml" />
     <Content Include="Views\TourManage\Index.cshtml" />
     <Content Include="Views\TourManage\_Partial_EditTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
@@ -2459,6 +2463,20 @@
     <Content Include="Views\ContractsManage\_Partial_EditDocument.cshtml" />
     <Content Include="Views\ProgramsManage\_Partial_EditDocument.cshtml" />
     <Content Include="Views\TourManage\_Partial_ListTours.cshtml" />
+    <Content Include="Views\TourTabInfo\_ChiTietTour.cshtml" />
+    <Content Include="Views\TourTabInfo\_DichVu.cshtml" />
+    <Content Include="Views\TourTabInfo\_NhiemVu.cshtml" />
+    <Content Include="Views\TourTabInfo\_KhachHang.cshtml" />
+    <Content Include="Views\TourTabInfo\_ChuongTrinh.cshtml" />
+    <Content Include="Views\TourTabInfo\_HopDong.cshtml" />
+    <Content Include="Views\TourTabInfo\_Visa.cshtml" />
+    <Content Include="Views\TourTabInfo\_ViettourBaoGia.cshtml" />
+    <Content Include="Views\TourTabInfo\_CongNoKH.cshtml" />
+    <Content Include="Views\TourTabInfo\_CongNoDoiTac.cshtml" />
+    <Content Include="Views\TourTabInfo\_DanhGia.cshtml" />
+    <Content Include="Views\TourTabInfo\_LichHen.cshtml" />
+    <Content Include="Views\TourTabInfo\_TaiLieuMau.cshtml" />
+    <Content Include="Views\TourTabInfo\_LichSuLienHe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2769,7 +2787,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>65056</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:65056/</IISUrl>
+          <IISUrl>http://localhost:65057/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

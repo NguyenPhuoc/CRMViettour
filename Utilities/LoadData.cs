@@ -143,6 +143,26 @@ namespace CRMViettour.Utilities
         }
 
         /// <summary>
+        /// danh sách loại tour
+        /// </summary>
+        /// <returns></returns>
+        public static List<DictionaryViewModel> TourTypeList()
+        {
+            var model = CacheLayer.Get<List<DictionaryViewModel>>("tourTypeList");
+            if (model == null)
+            {
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 19).Select(p => new DictionaryViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).ToList();
+                CacheLayer.Add<List<DictionaryViewModel>>(model, "tourTypeList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
         /// danh sách loại nhiệm vụ
         /// </summary>
         /// <returns></returns>

@@ -236,7 +236,6 @@
     <Compile Include="Controllers\MarketingManageController.cs" />
     <Compile Include="Controllers\Other\CurrencyManageController.cs" />
     <Compile Include="Controllers\Permission\PermissionManageController.cs" />
-    <Compile Include="Controllers\TaskManageController.cs" />
     <Compile Include="Controllers\OpportunityManageController.cs" />
     <Compile Include="Controllers\Other\DocumentTypeManageController.cs" />
     <Compile Include="Controllers\Other\LocationTagsManageController.cs" />
@@ -257,8 +256,11 @@
     <Compile Include="Controllers\ReportsManageController.cs" />
     <Compile Include="Controllers\Staff\StaffOtherTabController.cs" />
     <Compile Include="Controllers\Staff\StaffTabInfoController.cs" />
+    <Compile Include="Controllers\Task\TaskManageController.cs" />
+    <Compile Include="Controllers\Task\TaskOtherTabController.cs" />
     <Compile Include="Controllers\Task\TaskPriorityManageController.cs" />
     <Compile Include="Controllers\Task\TaskStatusManageController.cs" />
+    <Compile Include="Controllers\Task\TaskTabInfoController.cs" />
     <Compile Include="Controllers\Task\TaskTypeManageController.cs" />
     <Compile Include="Controllers\Tour\ReviewTourController.cs" />
     <Compile Include="Controllers\ScheduleManageController.cs" />
@@ -2050,6 +2052,7 @@
     <Content Include="Scripts\controller\company.js" />
     <Content Include="Scripts\controller\contract.js" />
     <Content Include="Scripts\controller\currency.js" />
+    <Content Include="Scripts\controller\task.js" />
     <Content Include="Scripts\controller\tasktype.js" />
     <Content Include="Scripts\controller\taskpriority.js" />
     <Content Include="Scripts\controller\taskstatus.js" />
@@ -2477,6 +2480,14 @@
     <Content Include="Views\TourTabInfo\_LichHen.cshtml" />
     <Content Include="Views\TourTabInfo\_TaiLieuMau.cshtml" />
     <Content Include="Views\TourTabInfo\_LichSuLienHe.cshtml" />
+    <Content Include="Views\TaskTabInfo\_ThongTinChiTiet.cshtml" />
+    <Content Include="Views\TaskTabInfo\_NhatKyXuLy.cshtml" />
+    <Content Include="Views\TaskTabInfo\_LichHen.cshtml" />
+    <Content Include="Views\TaskTabInfo\_DSNhanVienDangLamNhiemVu.cshtml" />
+    <Content Include="Views\TaskTabInfo\_TaiLieuMau.cshtml" />
+    <Content Include="Views\TaskTabInfo\_GhiChu.cshtml" />
+    <Content Include="Views\TaskOtherTab\_Partial_EditNote.cshtml" />
+    <Content Include="Views\TaskOtherTab\_Partial_InsertNote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

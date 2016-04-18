@@ -167,172 +167,53 @@
                         <div class="tabbable-custom ">
                             <ul class="nav nav-tabs ">
                                 <li class="active">
-                                    <a href="#tab1" data-toggle="tab">Chi tiết nhiệm vụ</a>
+                                    <a href="#thongtinchitiet" data-toggle="tab" id="tabthongtinchitiet">Chi tiết nhiệm vụ</a>
                                 </li>
                                 <li>
-                                    <a href="#tab2" data-toggle="tab">Lịch sử cập nhật</a>
+                                    <a href="#nhatkyxuly" data-toggle="tab" id="tabnhatkyxuly">Nhật ký xử lý</a>
                                 </li>
                                 <li>
-                                    <a href="#tab3" data-toggle="tab">Lịch hẹn</a>
+                                    <a href="#lichhen" data-toggle="tab" id="tablichhen">Lịch hẹn</a>
                                 </li>
                                 <li>
-                                    <a href="#tab4" data-toggle="tab">DS nhân vên đang làm nhiệm vụ</a>
+                                    <a href="#dsnhanviendanglamnv" data-toggle="tab" id="tabdsnhanviendanglamnv">DS nhân vên đang làm nhiệm vụ</a>
                                 </li>
                                 <li>
-                                    <a href="#tab5" data-toggle="tab">Tài liệu mẫu</a>
+                                    <a href="#tailieumau" data-toggle="tab" id="tabtailieumau">Tài liệu mẫu</a>
                                 </li>
                                 <li>
-                                    <a href="#tab6" data-toggle="tab">Ghi chú</a>
+                                    <a href="#ghichu" data-toggle="tab" id="tabghichu">Ghi chú</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="tab1">
+                                <div class="tab-pane active" id="thongtinchitiet" data-id="thongtinchitiet">
                                     @*Chi tiết nhiệm vụ*@
+                                    @Html.Action("_ThongTinChiTiet", "TaskTabInfo")
                                 </div>
-                                <div class="tab-pane" id="tab2">
-                                    @*Lịch sử cập nhật*@
-                                    <div class="table-scrollable table-custom-format">
-                                        <table class="table table-striped table-bordered table-hover" id="">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Ngày cập nhật</th>
-                                                    <th>Người cập nhật</th>
-                                                    <th>Diễn giải</th>
-                                                    <th>% hoàn thành</th>
-                                                    <th>Tình trạng</th>
-                                                    <th>Tiến độ</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd gradeX">
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="tab-pane" id="nhatkyxuly" data-id="nhatkyxuly">
+                                    @*Nhật ký xử lý*@
+                                    @Html.Action("_NhatKyXuLy", "TaskTabInfo")
+
                                 </div>
-                                <div class="tab-pane" id="tab3">
+                                <div class="tab-pane" id="lichhen" data-id="lichhen">
                                     @*Lịch hẹn*@
-                                    <div class="table-scrollable table-custom-format">
-                                        <table class="table table-striped table-bordered table-hover" id="">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Tiêu đề</th>
-                                                    <th>Người thực hiện</th>
-                                                    <th>Địa điểm</th>
-                                                    <th>Diễn giải</th>
-                                                    <th>Ngày bắt đầu</th>
-                                                    <th>Ngày kết thúc</th>
-                                                    <th>Liên quan đến khách hàng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd gradeX">
-                                                    <td>1</td>
-                                                    <td>Chốt HĐ CRM Viettours</td>
-                                                    <td>Võ Ái Duy</td>
-                                                    <td>Công ty DIP VIETNAM</td>
-                                                    <td>KH sang làm việc về quy trình xử lý và các chức năng. Chốt hợp đồng CRM.</td>
-                                                    <td>1/11/2015</td>
-                                                    <td>2/11/2015</td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    @Html.Action("_LichHen", "TaskTabInfo")
+
                                 </div>
-                                <div class="tab-pane" id="tab4">
+                                <div class="tab-pane" id="dsnhanviendanglamnv" data-id="dsnhanviendanglamnv">
                                     @*Danh sách nhân viên đang làm nhiệm vụ*@
-                                    <div class="table-scrollable table-custom-format">
-                                        <table class="table table-striped table-bordered table-hover" id="">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Mã số</th>
-                                                    <th>Họ tên</th>
-                                                    <th>Vai trò</th>
-                                                    <th>Diễn giải</th>
-                                                    <th>Ngày giao</th>
-                                                    <th>Người giao việc</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd gradeX">
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    @Html.Action("_DSNhanVienDangLamNhiemVu", "TaskTabInfo")
+
                                 </div>
-                                <div class="tab-pane" id="tab5">
+                                <div class="tab-pane" id="tailieumau" data-id="tailieumau">
                                     @*Tài liệu*@
-                                    <div class="table-scrollable table-custom-format">
-                                        <table class="table table-striped table-bordered table-hover" id="">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Tags</th>
-                                                    <th>Tên tài liệu</th>
-                                                    <th>Diễn giải</th>
-                                                    <th>Kích thước</th>
-                                                    <th>Nhân viên nhập</th>
-                                                    <th>Ngày cập nhật</th>
-                                                    <th>#</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd gradeX">
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><a href="#">Xem online</a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    @Html.Action("_TaiLieuMau", "TaskTabInfo")
+
                                 </div>
-                                <div class="tab-pane" id="tab6">
+                                <div class="tab-pane" id="ghichu" data-id="ghichu">
                                     @*Ghi chú*@
-                                    <div class="table-scrollable table-custom-format">
-                                        <table class="table table-striped table-bordered table-hover" id="">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Ghi chú</th>
-                                                    <th>Nội dung</th>
-                                                    <th>Người nhập</th>
-                                                    <th>Ngày nhập</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd gradeX">
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    @Html.Action("_GhiChu", "TaskTabInfo")
+
                                 </div>
                             </div>
                         </div>
@@ -347,8 +228,13 @@
     @Html.Partial("_Partial_InsertTask", new tbl_Task())
     <div id="info-data-task"></div>
 
+    <!----- tab note ----->
+    @Html.Partial("~/Views/TaskOtherTab/_Partial_InsertNote.cshtml", new tbl_TaskNote())
+    <div id="info-data-note">
+    </div>
+
     @Html.Partial("_Partial_AssignTask", new tbl_TaskStaff())
-    @Html.Partial("_Partial_WorkTask")
+    @Html.Partial("_Partial_WorkTask", new tbl_TaskHandling())
 
 
     @section scripts{
@@ -358,6 +244,18 @@
         </script>
 
         <script>
+            function OnSuccess() {
+                $("#modal-insert-note").modal("hide");
+                $("#modal-edit-note").modal("hide");
+            }
+
+            /** failure ajax form **/
+            function OnFailure() {
+                alert("Lỗi, vui lòng kiểm tra lại!");
+                $("#modal-insert-note").modal("hide");
+                $("#modal-edit-note").modal("hide");
+            }
+
             $("#insert-check-notify").click(function () {
                 if (this.checked) {
                     $("#insert-ngaynhac").removeAttr("disabled", "disabled");
@@ -367,6 +265,58 @@
                 }
             });
 
+            function btnCreateNote() {
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 nhiệm vụ!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/TaskManage/GetIdTask',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#modal-insert-note").modal("show");
+                        }
+                    });
+                }
+            }
+
+            /** xóa ghi chú **/
+            function deleteNote(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/TaskOtherTab/DeleteNote',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#ghichu").html(data);
+                    }
+                });
+            }
+
+            /** cập nhật ghi chú **/
+            function updateNote(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/TaskOtherTab/EditNote',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#info-data-note").html(data);
+                        CKEDITOR.replace("edit-note-task");
+                        $("#modal-edit-note").modal("show");
+                    }
+                });
+            }
             
         </script>
     }

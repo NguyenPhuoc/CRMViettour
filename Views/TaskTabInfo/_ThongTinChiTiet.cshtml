@@ -1,7 +1,27 @@
 ﻿@using CRM.Core
 @using CRMViettour.Models
 @using CRMViettour.Utilities
-@*@model IEnumerable<tbl_appointmenthistory>*@
-@{
-    int i = 1;
-}
+@model tbl_Task
+<div class="row">
+    @if (Model != null)
+    {
+        <div class="col-md-6">
+            <p><b>Tên nhiệm vụ:</b>&nbsp;@Model.Name</p>
+            <p><b>Mã nhiệm vụ:</b>&nbsp;@(Model.Code)</p>
+            <p><b>Ngày tạo:</b>&nbsp;@Model.CreatedDate.ToString("dd-MM-yyyy")</p>
+            <p><b>Ngày cập nhật:</b>&nbsp;@Model.ModifiedDate.ToString("dd-MM-yyyy")</p>
+            <p><b>Tiến độ:</b>&nbsp;@Model.PercentFinish %</p>
+            <p><b>Loại nhiệm vụ:</b>@(Model.tbl_DictionaryTaskType.Name)</p>
+            <p><b>Trạng thái:</b>&nbsp;@(Model.tbl_DictionaryTaskStatus.Name)</p>
+            <p><b>Mã Tour:</b>&nbsp;@Model.CodeTour</p>
+        </div>
+        <div class="col-md-6">
+            <p><b>Email:</b>&nbsp;@(Model.Email != null ? Model.Email : "")</p>
+            <p><b>Điện thoại:</b>&nbsp;@Model.Phone</p>
+            <p><b>Ngày bắt đầu:</b>&nbsp;@Model.StartDate.ToString("dd-MM-yyyy")</p>
+            <p><b>Ngày kết thúc:</b>&nbsp;@Model.EndDate.ToString("dd-MM-yyyy")</p>
+            <p><b>Thời hạn:</b>&nbsp;@(Model.Time)</p>
+            <p><b>Ưu tiên:</b>&nbsp;@(Model.tbl_DictionaryTaskPriority.Name)</p>
+        </div>
+    }
+</div>

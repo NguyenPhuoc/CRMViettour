@@ -133,7 +133,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Tình trạng</label>
                                     <div class="col-lg-8 col-md-8">
-                                        <select class="form-control" style="width: 100%" name="TaskStatusId" id="edit-task-status">
+                                        <select class="form-control" style="width: 100%" name="StatusId" id="edit-task-status">
                                             @foreach (var item in LoadData.TaskStatusList())
                                             {
                                                 <option value="@item.Id" @(Model.TaskStatusId == item.Id ? "selected" : "")>@item.Name</option>

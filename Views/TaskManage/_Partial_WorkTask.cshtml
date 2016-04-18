@@ -1,52 +1,58 @@
-﻿<div class="modal fade  bs-modal-lg" id="modal-work-task" role="document" aria-hidden="true">
+﻿@using CRMViettour.Utilities
+@using CRMViettour.Models
+@using CRM.Core
+@model tbl_TaskHandling
+<div class="modal fade  bs-modal-lg" id="modal-work-task" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Xử lý nhiệm vụ</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label col-lg-3 col-md-3">Tình trạng</label>
-                                <div class="col-lg-3 col-md-3">
-                                    <select class="form-control" name="WorkTaskStatus">
-                                        <option>Chưa bắt đầu</option>
-                                        <option>Bắt đầu</option>
-                                        <option>Hoàn thành</option>
-                                        <option>---------</option>
-                                    </select>
+        @using (Html.BeginForm("WorkTask", "TaskManage"))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Xử lý nhiệm vụ</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Tình trạng</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        <select class="form-control" style="width: 100%" name="StatusId" id="work-task-status">
+                                            @foreach (var item in LoadData.TaskStatusList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-lg-3 col-md-3">% hoàn thành</label>
+                                    <div class="col-lg-3 col-md-3">
+                                        @Html.TextBoxFor(model => model.PercentFinish, new { @class = "form-control", @type = "number", min = 0, max = 100, required = "required" })
+                                    </div>
                                 </div>
-                                <label class="control-label col-lg-3 col-md-3">% hoàn thành</label>
-                                <div class="col-lg-3 col-md-3">
-                                    <input type="number" class="form-control" name="WorkTaskPercentFinish" />
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Ghi chú hoặc lý do</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "work-note" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-3 col-md-3">Ghi chú hoặc lý do</label>
-                                <div class="col-lg-9 col-md-9">
-                                    <textarea class="form-control" name="WorkTaskNote"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-3 col-md-3">File đính kèm</label>
-                                <div class="col-lg-9 col-md-9">
-                                    <input type="file" class="form-control" name="WorkTaskFile" />
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">File đính kèm</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.File, new { type = "file", @class = "form-control", id = "WorkTaskFile" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue" id="btnLuuThem">Thực hiện</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
             </div>
-            <div align="center" style="margin-bottom: 20px">
-                <button type="button" class="btn blue" id="btnLuuThem">Thực hiện</button>
-                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
         <!-- /.modal-content -->
+        }
     </div>
     <!-- /.modal-dialog -->
 </div>
-

@@ -26,6 +26,7 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_Tour> _tourRepository;
         private IGenericRepository<tbl_Customer> _customerRepository;
         private IGenericRepository<tbl_TaskStaff> _taskstaffRepository;
+        private IGenericRepository<tbl_TaskHandling> _taskHandlingRepository;
         private DataContext _db;
 
         public TaskManageController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
@@ -36,6 +37,7 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_Tour> tourRepository,
             IGenericRepository<tbl_Customer> customerRepository,
             IGenericRepository<tbl_TaskStaff> taskstaffRepository,
+            IGenericRepository<tbl_TaskHandling> taskHandlingRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -47,12 +49,13 @@ namespace CRMViettour.Controllers
             this._tourRepository = tourRepository;
             this._customerRepository = customerRepository;
             this._taskstaffRepository = taskstaffRepository;
+            this._taskHandlingRepository = taskHandlingRepository;
             _db = new DataContext();
         }
 
         #endregion
 
-        #region GetIdProgram
+        #region GetIdTask
         [HttpPost]
         public ActionResult GetIdTask(int id)
         {
@@ -98,6 +101,7 @@ namespace CRMViettour.Controllers
                 var cus = _customerRepository.FindId(model.CustomerId);
                 model.Email = cus.PersonalEmail != null ? cus.PersonalEmail : cus.CompanyEmail != null ? cus.CompanyEmail : null;
                 model.Phone = cus.Phone != null ? cus.Phone : null;
+                model.Time = Int32.Parse((model.EndDate - model.StartDate).TotalDays.ToString());
 
                 if (await _taskRepository.Create(model))
                 {
@@ -130,6 +134,7 @@ namespace CRMViettour.Controllers
                 var cus = _customerRepository.FindId(model.CustomerId);
                 model.Email = cus.PersonalEmail != null ? cus.PersonalEmail : cus.CompanyEmail != null ? cus.CompanyEmail : null;
                 model.Phone = cus.Phone != null ? cus.Phone : null;
+                model.Time = Int32.Parse((model.EndDate - model.StartDate).TotalDays.ToString());
                 if (await _taskRepository.Update(model))
                 {
                     //UpdateHistory.....(model.Id, 9, "Cập nhật nhiệm vụ, code: " + model.Code);
@@ -207,5 +212,81 @@ namespace CRMViettour.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
+        #region Finish
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> Finish(int id)
+        {
+            try
+            {
+                if (id != null && id != 0)
+                {
+                    var model = _taskRepository.FindId(id);
+                    model.TaskStatusId = 1196;
+                    model.PercentFinish = 100;
+                    model.FinishDate = DateTime.Now;
+                    if (await _taskRepository.Update(model))
+                        return RedirectToAction("Index");
+                    // return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Hoàn thành nhiệm vụ thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "TaskManage") }, JsonRequestBehavior.AllowGet);
+                    else
+                        return RedirectToAction("Index");
+                    //return Json(new ActionModel() { Succeed = false, Code = "200", View = "", Message = "Xác nhận hoàn thành nhiệm vụ thất bại !" }, JsonRequestBehavior.AllowGet);
+                }
+
+
+                //return Json(new ActionModel() { Succeed = false, Code = "200", View = "", Message = "Vui lòng chọn những mục cần hoàn thành !" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch { }
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Work
+        [HttpPost]
+        public ActionResult UploadFile(HttpPostedFileBase FileName)
+        {
+            if (FileName != null && FileName.ContentLength > 0)
+            {
+                Session["WorkTaskFile"] = FileName;
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> WorkTask(tbl_TaskHandling model, FormCollection form)
+        {
+            int id = Int32.Parse(Session["idTask"].ToString());
+            if (ModelState.IsValid)
+            {
+                model.TaskId = id;
+                model.CreateDate = DateTime.Now;
+                model.StaffId = 9;
+                if (Session["WorkTaskFile"] != null)
+                {
+                    //file
+                    HttpPostedFileBase FileName = Session["WorkTaskFile"] as HttpPostedFileBase;
+                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                    String path = Server.MapPath("~/Upload/file/" + newName);
+                    FileName.SaveAs(path);
+                    //end file
+                    model.File = newName;
+                }
+                if (await _taskHandlingRepository.Create(model))
+                {
+                    Session["WorkTaskFile"] = null;
+                    var m = _taskRepository.FindId(id);
+                    m.ModifiedDate = model.CreateDate;
+                    m.TaskStatusId = model.StatusId;
+                    m.PercentFinish = model.PercentFinish;
+                    await _taskRepository.Update(m);
+                }
+
+            }
+            return RedirectToAction("Index");
+        }
+        #endregion
+
     }
 }

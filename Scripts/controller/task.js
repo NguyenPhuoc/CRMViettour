@@ -5,6 +5,9 @@ $("#insert-customer-task").select2();
 $("#insert-tour-task").select2();
 $("#insert-task-priority").select2();
 CKEDITOR.replace("insert-assign-note1")
+CKEDITOR.replace("work-note")
+CKEDITOR.replace("insert-note-task")
+
 
 /*** datepicker ***/
 //$("#ngaycapmst").datepicker();
@@ -138,7 +141,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         case 'thongtinchitiet':
             $.ajax({
                 type: "POST",
-                url: '/CustomerTabInfo/InfoThongTinChiTiet',
+                url: '/TaskTabInfo/InfoThongTinChiTiet',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -147,10 +150,22 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
                 }
             });
             break;
+        case 'nhatkyxuly':
+            $.ajax({
+                type: "POST",
+                url: '/TaskTabInfo/InfoNhatKyXuLy',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#nhatkyxuly").html(data);
+                }
+            });
+            break;
         case 'lichhen':
             $.ajax({
                 type: "POST",
-                url: '/CustomerTabInfo/InfoLichHen',
+                url: '/TaskTabInfo/InfoLichHen',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
@@ -159,111 +174,39 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
                 }
             });
             break;
-        case 'tourtuyen':
+        case 'dsnhanviendanglamnv':
             $.ajax({
                 type: "POST",
-                url: '/CustomerTabInfo/InfoTourTuyen',
+                url: '/TaskTabInfo/InfoDSNhanVienDangLamNhiemVu',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
                 success: function (data) {
-                    $("#tourtuyen").html(data);
+                    $("#dsnhanviendanglamnv").html(data);
                 }
             });
             break;
-        case 'nguoilienhe':
+        case 'tailieumau':
             $.ajax({
                 type: "POST",
-                url: '/CustomerTabInfo/InfoNguoiLienHe',
+                url: '/TaskTabInfo/InfoTaiLieuMau',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
                 success: function (data) {
-                    $("#nguoilienhe").html(data);
+                    $("#tailieumau").html(data);
                 }
             });
             break;
-        case 'visa':
+        case 'ghichu':
             $.ajax({
                 type: "POST",
-                url: '/CustomerTabInfo/InfoVisa',
+                url: '/TaskTabInfo/InfoGhiChu',
                 data: JSON.stringify(dataPost),
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
                 success: function (data) {
-                    $("#visa").html(data);
-                }
-            });
-            break;
-        case 'hosolienquan':
-            $.ajax({
-                type: "POST",
-                url: '/CustomerTabInfo/InfoHoSoLienQuan',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#hosolienquan").html(data);
-                }
-            });
-            break;
-        case 'phanhoikhachhang':
-            $.ajax({
-                type: "POST",
-                url: '/CustomerTabInfo/InfoPhanHoiKhachHang',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#phanhoikhachhang").html(data);
-                }
-            });
-            break;
-        case 'email':
-            $.ajax({
-                type: "POST",
-                url: '/CustomerTabInfo/InfoEmail',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#email").html(data);
-                }
-            });
-            break;
-        case 'sms':
-            $.ajax({
-                type: "POST",
-                url: '/CustomerTabInfo/InfoSMS',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#sms").html(data);
-                }
-            });
-            break;
-        case 'lichsulienhe':
-            $.ajax({
-                type: "POST",
-                url: '/CustomerTabInfo/InfoLichSuLienHe',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#lichsulienhe").html(data);
-                }
-            });
-            break;
-        case 'capnhatthaydoi':
-            $.ajax({
-                type: "POST",
-                url: '/CustomerTabInfo/InfoCapNhatThayDoi',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#capnhatthaydoi").html(data);
+                    $("#ghichu").html(data);
                 }
             });
             break;
@@ -273,13 +216,13 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
 /** click chọn từng tab -> hiển thị thông tin **/
 $("#tabthongtinchitiet").click(function () {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
+        alert("Vui lòng chọn 1 nhiệm vụ!");
     }
     else {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/CustomerTabInfo/InfoThongTinChiTiet',
+            url: '/TaskTabInfo/InfoThongTinChiTiet',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -290,15 +233,34 @@ $("#tabthongtinchitiet").click(function () {
     }
 });
 
-$("#tablichhen").click(function () {
+$("#tabnhatkyxuly").click(function () {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
+        alert("Vui lòng chọn 1 nhiệm vụ!");
     }
     else {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/CustomerTabInfo/InfoLichHen',
+            url: '/TaskTabInfo/InfoNhatKyXuLy',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#nhatkyxuly").html(data);
+            }
+        });
+    }
+});
+
+$("#tablichhen").click(function () {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 nhiệm vụ!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+        $.ajax({
+            type: "POST",
+            url: '/TaskTabInfo/InfoLichHen',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -309,177 +271,62 @@ $("#tablichhen").click(function () {
     }
 });
 
-$("#tabtourtuyen").click(function () {
+$("#tabdsnhanviendanglamnv").click(function () {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
+        alert("Vui lòng chọn 1 nhiệm vụ!");
     }
     else {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/CustomerTabInfo/InfoTourTuyen',
+            url: '/TaskTabInfo/InfoDSNhanVienDangLamNhiemVu',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function (data) {
-                $("#tourtuyen").html(data);
+                $("#dsnhanviendanglamnv").html(data);
             }
         });
     }
 });
 
-$("#tabvisa").click(function () {
+$("#tabtailieumau").click(function () {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
+        alert("Vui lòng chọn 1 nhiệm vụ!");
     }
     else {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/CustomerTabInfo/InfoVisa',
+            url: '/TaskTabInfo/InfoTaiLieuMau',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function (data) {
-                $("#visa").html(data);
+                $("#tailieumau").html(data);
             }
         });
     }
 });
 
-$("#tabhosolienquan").click(function () {
+$("#tabghichu").click(function () {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
+        alert("Vui lòng chọn 1 nhiệm vụ!");
     }
     else {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/CustomerTabInfo/InfoHoSoLienQuan',
+            url: '/TaskTabInfo/InfoGhiChu',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function (data) {
-                $("#hosolienquan").html(data);
+                $("#ghichu").html(data);
             }
         });
     }
 });
-
-$("#tabemail").click(function () {
-    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
-    }
-    else {
-        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
-        $.ajax({
-            type: "POST",
-            url: '/CustomerTabInfo/InfoEmail',
-            data: JSON.stringify(dataPost),
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            success: function (data) {
-                $("#email").html(data);
-            }
-        });
-    }
-});
-
-$("#tabsms").click(function () {
-    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
-    }
-    else {
-        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
-        $.ajax({
-            type: "POST",
-            url: '/CustomerTabInfo/InfoSMS',
-            data: JSON.stringify(dataPost),
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            success: function (data) {
-                $("#sms").html(data);
-            }
-        });
-    }
-});
-
-$("#tablichsulienhe").click(function () {
-    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
-    }
-    else {
-        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
-        $.ajax({
-            type: "POST",
-            url: '/CustomerTabInfo/InfoLichSuLienHe',
-            data: JSON.stringify(dataPost),
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            success: function (data) {
-                $("#lichsulienhe").html(data);
-            }
-        });
-    }
-});
-
-$("#tabcapnhatthaydoi").click(function () {
-    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
-    }
-    else {
-        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
-        $.ajax({
-            type: "POST",
-            url: '/CustomerTabInfo/InfoCapNhatThayDoi',
-            data: JSON.stringify(dataPost),
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            success: function (data) {
-                $("#capnhatthaydoi").html(data);
-            }
-        });
-    }
-});
-
-$("#tabphanhoikhachhang").click(function () {
-    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
-    }
-    else {
-        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
-        $.ajax({
-            type: "POST",
-            url: '/CustomerTabInfo/InfoPhanHoiKhachHang',
-            data: JSON.stringify(dataPost),
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            success: function (data) {
-                $("#phanhoikhachhang").html(data);
-            }
-        });
-    }
-});
-
-$("#tabnguoilienhe").click(function () {
-    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
-    }
-    else {
-        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
-        $.ajax({
-            type: "POST",
-            url: '/CustomerTabInfo/InfoNguoiLienHe',
-            data: JSON.stringify(dataPost),
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            success: function (data) {
-                $("#nguoilienhe").html(data);
-            }
-        });
-    }
-});
-
 
 ///****** Sửa thông tin ******/
 $("#btnEdit").click(function () {
@@ -596,3 +443,64 @@ $("#btnAssign").click(function () {
 
 });
 
+$("#btnWork").click(function () {
+    var dataPost = {
+        id: $("input[type='checkbox'].cbItem:checked").val()
+    };
+    $.ajax({
+        type: "POST",
+        url: '/TaskManage/GetIdTask',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+        }
+    });
+
+});
+
+$("#btnFinish").click(function () {
+    var dataPost = {
+        id: $("input[type='checkbox'].cbItem:checked").val()
+    };
+    $.ajax({
+        type: "POST",
+        url: '/TaskManage/Finish',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            //if (data.Succeed) {
+            //    alert(data.Message);
+            //    if (data.IsPartialView) {
+            //        table.replaceWith(data.View);
+            //    }
+            //    else {
+            //        if (data.RedirectTo != null && data.RedirectTo != "") {
+            //            window.location.href = data.RedirectTo;
+            //        }
+            //    }
+            //}
+            //else {
+            //    alert(data.Message);
+            //}
+        }
+    });
+
+});
+
+$('#WorkTaskFile').change(function () {
+    var data = new FormData();
+    data.append('FileName', $('#WorkTaskFile')[0].files[0]);
+    var ajaxRequest = $.ajax({
+        type: "POST",
+        url: 'TaskManage/UploadFile',
+        contentType: false,
+        processData: false,
+        data: data
+    });
+
+    ajaxRequest.done(function (xhr, textStatus) {
+        // Onsuccess
+    });
+});

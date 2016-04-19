@@ -74,6 +74,7 @@ namespace CRMViettour.App_Start
             container.RegisterType<IGenericRepository<tbl_Task>, GenericRepository<tbl_Task>>();
             container.RegisterType<IGenericRepository<tbl_TaskStaff>, GenericRepository<tbl_TaskStaff>>();
             container.RegisterType<IGenericRepository<tbl_TaskNote>, GenericRepository<tbl_TaskNote>>();
+            container.RegisterType<IGenericRepository<tbl_TaskHandling>, GenericRepository<tbl_TaskHandling>>();
             container.RegisterType<IGenericRepository<tbl_TourGuide>, GenericRepository<tbl_TourGuide>>();
             container.RegisterType<IGenericRepository<tbl_LiabilityCustomer>, GenericRepository<tbl_LiabilityCustomer>>();
             container.RegisterType<IGenericRepository<tbl_LiabilityPartner>, GenericRepository<tbl_LiabilityPartner>>();

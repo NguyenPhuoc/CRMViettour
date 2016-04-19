@@ -30,6 +30,8 @@ namespace CRMViettour.Controllers.Task
         private IGenericRepository<tbl_ContactHistory> _contactHistoryRepository;
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
         private IGenericRepository<tbl_TaskStaff> _taskStaffRepository;
+        private IGenericRepository<tbl_TaskHandling> _taskHandlingRepository;
+        private IGenericRepository<tbl_TaskNote> _taskNoteRepository;
         private DataContext _db;
 
         public TaskTabInfoController(
@@ -47,6 +49,8 @@ namespace CRMViettour.Controllers.Task
             IGenericRepository<tbl_ContactHistory> contactHistoryRepository,
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
             IGenericRepository<tbl_TaskStaff> taskStaffRepository,
+            IGenericRepository<tbl_TaskHandling> taskHandlingRepository,
+            IGenericRepository<tbl_TaskNote> taskNoteRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -64,8 +68,136 @@ namespace CRMViettour.Controllers.Task
             this._appointmentHistoryRepository = appointmentHistoryRepository;
             this._updateHistoryRepository = updateHistoryRepository;
             this._taskStaffRepository = taskStaffRepository;
+            this._taskHandlingRepository = taskHandlingRepository;
+            this._taskNoteRepository = taskNoteRepository;
             _db = new DataContext();
         }
         #endregion
-	}
+
+        #region ThongTinChiTiet
+        [ChildActionOnly]
+        public ActionResult _ThongTinChiTiet()
+        {
+            return PartialView("_ThongTinChiTiet");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> InfoThongTinChiTiet(int id)
+        {
+            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.Id == id).Select(p => new tbl_Task
+            {
+                Name = p.Name,
+                Code = p.Code,
+                CreatedDate = p.CreatedDate,
+                ModifiedDate = p.ModifiedDate,
+                PercentFinish = p.PercentFinish != null ? p.PercentFinish : 0,
+                tbl_DictionaryTaskType = _dictionaryRepository.FindId(p.TaskTypeId),
+                tbl_DictionaryTaskPriority = _dictionaryRepository.FindId(p.TaskPriorityId),
+                tbl_DictionaryTaskStatus = _dictionaryRepository.FindId(p.TaskStatusId),
+                CodeTour = p.CodeTour,
+                Email = p.Email,
+                Phone = p.Phone,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
+                Time = p.Time
+
+            }).SingleOrDefault();
+            return PartialView("_ThongTinChiTiet", model);
+        }
+        #endregion
+
+        #region NhatKyXuLy
+        [ChildActionOnly]
+        public ActionResult _NhatKyXuLy()
+        {
+            return PartialView("_NhatKyXuLy");
+        }
+        [HttpPost]
+        public async Task<ActionResult> InfoNhatKyXuLy(int id)
+        {
+            var model = _taskHandlingRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id).Select(p => new tbl_TaskHandling
+            {
+                Id = p.Id,
+                CreateDate = p.CreateDate,
+                Note = p.Note,
+                File = p.File,
+                PercentFinish = p.PercentFinish,
+                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                tbl_Dictionary = _dictionaryRepository.FindId(p.StatusId)
+            }).ToList();
+            return PartialView("_NhatKyXuLy", model);
+        }
+        #endregion
+
+        #region LichHen
+        [ChildActionOnly]
+        public ActionResult _LichHen()
+        {
+            return PartialView("_LichHen");
+        }
+        [HttpPost]
+        public async Task<ActionResult> InfoLichHen(int id)
+        {
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id)
+                .Select(p => new tbl_AppointmentHistory
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Time = p.Time,
+                    tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusId),
+                    tbl_Staff = _staffRepository.FindId(p.StaffId),
+                    Note = p.Note
+                }).ToList();
+            return PartialView("_LichHen", model);
+        }
+        #endregion
+
+        #region DSNhanVienDangLamNhiemVu
+        [ChildActionOnly]
+        public ActionResult _DSNhanVienDangLamNhiemVu()
+        {
+            return PartialView("_DSNhanVienDangLamNhiemVu");
+        }
+        [HttpPost]
+        public async Task<ActionResult> InfoDSNhanVienDangLamNhiemVu(int id)
+        {
+            var model = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == id).ToList();
+            return PartialView("_DSNhanVienDangLamNhiemVu", model);
+        }
+        #endregion
+
+        #region TaiLieuMau
+        [ChildActionOnly]
+        public ActionResult _TaiLieuMau()
+        {
+            return PartialView("_TaiLieuMau");
+        }
+        [HttpPost]
+        public async Task<ActionResult> InfoTaiLieuMau(int id)
+        {
+            var model = _documentFileRepository.GetAllAsQueryable().Where(p => p.TaskId == id).ToList();
+            return PartialView("_TaiLieuMau", model);
+        }
+        #endregion
+
+        #region GhiChu
+        [ChildActionOnly]
+        public ActionResult _GhiChu()
+        {
+            return PartialView("_GhiChu");
+        }
+        [HttpPost]
+        public async Task<ActionResult> InfoGhiChu(int id)
+        {
+            var model = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id).Select(p => new tbl_TaskNote
+            {
+                Id = p.Id,
+                Note = p.Note,
+                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                CreatedDate = p.CreatedDate
+            }).ToList();
+            return PartialView("_GhiChu", model);
+        }
+        #endregion
+    }
 }

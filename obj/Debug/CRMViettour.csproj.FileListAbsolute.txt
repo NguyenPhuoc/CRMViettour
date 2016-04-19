@@ -16,8 +16,6 @@ E:\WORK\DIP VIETNAM\viettours2\CRMViettour\bin\Microsoft.Web.Infrastructure.xml
 E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache
 E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.dll
 E:\WORK\DIP VIETNAM\viettours2\CRMViettour\obj\Debug\CRMViettour.pdb
-C:\DIP\CRMVT\CRMViettour\bin\CRM.Core.pdb
-C:\DIP\CRMVT\CRMViettour\bin\CRM.Infrastructure.pdb
 C:\DIP\CRMVT\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\bin\CRMViettour.dll.config
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\bin\CRMViettour.dll
@@ -29,3 +27,5 @@ E:\WORK\DIP VIETNAM\viettour\CRMViettour\obj\Debug\CRMViettour.dll
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\obj\Debug\CRMViettour.pdb
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\bin\EPPlus.dll
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\bin\EPPlus.xml
+C:\DIP\CRMVT\CRMViettour\bin\EPPlus.dll
+C:\DIP\CRMVT\CRMViettour\bin\EPPlus.xml

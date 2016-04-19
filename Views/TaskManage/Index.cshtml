@@ -1,7 +1,7 @@
 ﻿@using CRM.Core
 @using CRMViettour.Models
 @using CRMViettour.Utilities
-@model IEnumerable<tbl_Task>
+@model IEnumerable<CRM.Core.tbl_Task>
     @{
         ViewBag.Title = "Quản lý Nhiệm vụ";
     }
@@ -233,6 +233,16 @@
     <div id="info-data-note">
     </div>
 
+    <!----- lịch hẹn ----->
+    @Html.Partial("~/Views/TaskOtherTab/_Partial_InsertAppointmentHistory.cshtml", new tbl_AppointmentHistory())
+    <div id="info-data-appoinment">
+    </div>
+
+    <!----- tab document ----->
+    @Html.Partial("~/Views/TaskOtherTab/_Partial_InsertDocument.cshtml", new tbl_DocumentFile())
+    <div id="info-data-doc">
+    </div>
+
     @Html.Partial("_Partial_AssignTask", new tbl_TaskStaff())
     @Html.Partial("_Partial_WorkTask", new tbl_TaskHandling())
 
@@ -241,12 +251,20 @@
         <script src="~/Scripts/controller/task.js"></script>
         <script>
             CKEDITOR.replace("Note");
+            CKEDITOR.replace("insert-note-lichhen");
+            CKEDITOR.replace("insert-document-note");
         </script>
 
         <script>
             function OnSuccess() {
                 $("#modal-insert-note").modal("hide");
                 $("#modal-edit-note").modal("hide");
+
+                $("#modal-insert-appointment").modal("hide");
+                $("#modal-edit-appointment").modal("hide");
+
+                $("#modal-insert-document").modal("hide");
+                $("#modal-edit-document").modal("hide");
             }
 
             /** failure ajax form **/
@@ -254,6 +272,12 @@
                 alert("Lỗi, vui lòng kiểm tra lại!");
                 $("#modal-insert-note").modal("hide");
                 $("#modal-edit-note").modal("hide");
+
+                $("#modal-insert-appointment").modal("hide");
+                $("#modal-edit-appointment").modal("hide");
+
+                $("#modal-insert-document").modal("hide");
+                $("#modal-edit-document").modal("hide");
             }
 
             $("#insert-check-notify").click(function () {
@@ -265,6 +289,7 @@
                 }
             });
 
+            /*** Them ghi chu ***/
             function btnCreateNote() {
                 if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
                     alert("Vui lòng chọn 1 nhiệm vụ!");
@@ -283,6 +308,135 @@
                         }
                     });
                 }
+            }
+
+            /*** Them lich hen ***/
+            function btnCreateLichHen() {
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 nhiệm vụ!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/TaskManage/GetIdTask',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#insert-tour-lichhen").select2();
+                            $("#insert-program-lichhen").select2();
+                            $("#insert-task-lichhen").select2();
+                            $("#insert-status-lichhen").select2();
+                            $("#insert-service-lichhen").select2();
+                            $("#insert-partner-lichhen").select2();
+                            $("#insert-type-lichhen").select2();
+                            $("#insert-partner-lichhen").select2();
+
+                            $("#insert-check-notify").click(function () {
+                                if (this.checked) {
+                                    $("#insert-nhactruoc-lichhen").removeAttr("disabled", "disabled");
+                                    $("#insert-nhactruoc-lichhen").select2();
+                                }
+                                else {
+                                    $("#insert-nhactruoc-lichhen").attr("disabled", "disabled");
+                                }
+                            });
+
+                            $("#insert-check-repeat").click(function () {
+                                if (this.checked) {
+                                    $("#insert-laplai-lichhen").removeAttr("disabled", "disabled");
+                                    $("#insert-laplai-lichhen").select2();
+                                }
+                                else {
+                                    $("#insert-laplai-lichhen").attr("disabled", "disabled");
+                                }
+                            });
+
+                            $('#insert-service-lichhen').change(function () {
+                                $.getJSON('/CustomerOtherTab/LoadPartner/' + $('#insert-service-lichhen').val(), function (data) {
+                                    var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                                    $.each(data, function (i, ward) {
+                                        items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                                    });
+                                    $('#insert-partner-lichhen').html(items);
+                                });
+                            });
+
+                            $("#modal-insert-appointment").modal("show");
+                        }
+                    });
+                }
+            }
+            /** xóa lịch hẹn **/
+            function deleteAppointment(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/TaskOtherTab/DeleteAppointment',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#lichhen").html(data);
+                    }
+                });
+            }
+            /** cập nhật lịch hẹn **/
+            function updateAppointment(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/TaskOtherTab/EditAppointment',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#info-data-appoinment").html(data);
+                        $("#edit-tour-lichhen").select2();
+                        $("#edit-program-lichhen").select2();
+                        $("#edit-task-lichhen").select2();
+                        $("#edit-status-lichhen").select2();
+                        $("#edit-service-lichhen").select2();
+                        $("#edit-partner-lichhen").select2();
+                        $("#edit-type-lichhen").select2();
+                        $("#edit-partner-lichhen").select2();
+                        $("#edit-check-notify").click(function () {
+                            if (this.checked) {
+                                $("#edit-nhactruoc-lichhen").removeAttr("disabled", "disabled");
+                                $("#edit-nhactruoc-lichhen").select2();
+                            }
+                            else {
+                                $("#edit-nhactruoc-lichhen").attr("disabled", "disabled");
+                            }
+                        });
+
+                        $("#edit-check-repeat").click(function () {
+                            if (this.checked) {
+                                $("#edit-laplai-lichhen").removeAttr("disabled", "disabled");
+                                $("#edit-laplai-lichhen").select2();
+                            }
+                            else {
+                                $("#edit-laplai-lichhen").attr("disabled", "disabled");
+                            }
+                        });
+
+                        $('#edit-service-lichhen').change(function () {
+                            $.getJSON('/CustomerOtherTab/LoadPartner/' + $('#edit-service-lichhen').val(), function (data) {
+                                var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                                $.each(data, function (i, ward) {
+                                    items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                                });
+                                $('#edit-partner-lichhen').html(items);
+                            });
+                        });
+
+                        CKEDITOR.replace("edit-note-lichhen");
+                        $("#modal-edit-appointment").modal("show");
+                    }
+                });
             }
 
             /** xóa ghi chú **/
@@ -317,6 +471,146 @@
                     }
                 });
             }
-            
+
+            /** xóa nhật ký **/
+            function deleteHandling(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/TaskOtherTab/DeleteHandling',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#nhatkyxuly").html(data);
+                    }
+                });
+            }
+
+            function btnCreateFile() {
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 nhiệm vụ!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/TaskManage/GetIdTask',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#insert-document-type").select2();
+                            $("#insert-tag-document").select2();
+                            $("#modal-insert-document").modal("show");
+                        }
+                    });
+                }
+            }
+
+            $('#FileName').change(function () {
+                var data = new FormData();
+                data.append('FileName', $('#FileName')[0].files[0]);
+
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: 'TaskOtherTab/UploadFile',
+                    contentType: false,
+                    processData: false,
+                    data: data
+                });
+
+                ajaxRequest.done(function (xhr, textStatus) {
+                    // Onsuccess
+                });
+            });
+
+            /** xóa tài liệu **/
+            function deleteDocument(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/TaskOtherTab/DeleteDocument',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#tailieumau").html(data);
+                    }
+                });
+            }
+
+            /** cập nhật tài liệu **/
+            function updateDocument(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/TaskOtherTab/EditInfoDocument',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#info-data-doc").html(data);
+                        $("#edit-tag-document").select2();
+                        $("#edit-document-type").select2();
+                        CKEDITOR.replace("edit-document-note");
+                        $("#modal-edit-document").modal("show");
+                        /**** update in tab file của khách hàng ****/
+                        $("#btnUpdateFile").click(function () {
+                            var $this = $(this);
+                            var $form = $("#frmUpdateFile");
+                            var $parent = $form.parent();
+                            var options = {
+                                url: $form.attr("action"),
+                                type: $form.attr("method"),
+                                data: $form.serialize()
+                            };
+
+                            $.ajax(options).done(function (data) {
+                                $("#modal-edit-document").modal("hide");
+                                alert("Lưu dữ liệu thành công!");
+                                $("#tailieumau").html(data);
+                            });
+                            return false;
+                        });
+
+                        /** upload file **/
+                        $("#edit-file").change(function () {
+                            var data = new FormData();
+                            data.append('FileName', $('#edit-file')[0].files[0]);
+                            var ajaxRequest = $.ajax({
+                                type: "POST",
+                                url: 'TaskOtherTab/UploadFile',
+                                contentType: false,
+                                processData: false,
+                                data: data
+                            });
+
+                            ajaxRequest.done(function (xhr, textStatus) {
+                                // Onsuccess
+                            });
+                        });
+                    }
+                });
+            }
+
+            /** xóa tài liệu **/
+            function deleteNVWork(id) {
+                var dataPost = { id: id };
+                $.ajax({
+                    type: "POST",
+                    url: '/TaskOtherTab/DeleteWork',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        alert("Xóa dữ liệu thành công!!!");
+                        $("#dsnhanviendanglamnv").html(data);
+                    }
+                });
+            }
         </script>
     }

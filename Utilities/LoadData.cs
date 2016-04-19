@@ -363,6 +363,28 @@ namespace CRMViettour.Utilities
         }
 
         /// <summary>
+        /// danh sách hợp đồng
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Contract> ContractList()
+        {
+            var contract = CacheLayer.Get<List<tbl_Contract>>("contractlist");
+            if (contract == null)
+            {
+                contract = _db.tbl_Contract.AsEnumerable()
+                    .Select(p => new tbl_Contract
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Code = p.Code
+                    }).ToList();
+                CacheLayer.Add<List<tbl_Contract>>(contract, "contractlist", 10080);
+            }
+
+            return contract;
+        }
+
+        /// <summary>
         /// danh sách nhân viên
         /// </summary>
         /// <returns></returns>
@@ -436,7 +458,7 @@ namespace CRMViettour.Utilities
 
             return model;
         }
-        
+
         /// <summary>
         /// trạng thái xử lý
         /// </summary>

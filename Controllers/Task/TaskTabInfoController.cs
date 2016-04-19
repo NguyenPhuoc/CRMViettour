@@ -146,7 +146,8 @@ namespace CRMViettour.Controllers.Task
                     Time = p.Time,
                     tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusId),
                     tbl_Staff = _staffRepository.FindId(p.StaffId),
-                    Note = p.Note
+                    Note = p.Note,
+                    OtherStaff = p.OtherStaff
                 }).ToList();
             return PartialView("_LichHen", model);
         }

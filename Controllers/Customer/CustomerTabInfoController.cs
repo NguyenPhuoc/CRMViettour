@@ -187,8 +187,7 @@ namespace CRMViettour.Controllers.Customer
         [HttpPost]
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
-            // var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.CustomerId == id).ToListAsync();
-            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == id)
+            var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.CustomerId == id)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -197,7 +196,7 @@ namespace CRMViettour.Controllers.Customer
                            Note = p.Note,
                            tbl_Staff = _staffRepository.FindId(p.StaffId),
                            tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId)
-                       }).ToList();
+                       }).ToListAsync();
             return PartialView("_LichSuLienHe", model);
         }
         #endregion

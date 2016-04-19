@@ -74,6 +74,13 @@ namespace CRMViettour.Controllers
 
         #region List
 
+        [HttpPost]
+        public ActionResult GetIdTour(int id)
+        {
+            Session["idTour"] = id;
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -236,6 +243,52 @@ namespace CRMViettour.Controllers
             catch
             {
                 return RedirectToAction("Index");
+            }
+        }
+        #endregion
+
+        #region Filter Type
+        public ActionResult FilterTour(int id)
+        {
+            if (id == 9999)
+            {
+                var model = _tourRepository.GetAllAsQueryable().Where(p => p.CustomerId == null)
+                .Select(p => new TourListViewModel
+                {
+                    Id = p.Id,
+                    Code = p.Code,
+                    Name = p.Name,
+                    CustomerName = p.tbl_Customer.FullName,
+                    NumberCustomer = p.NumberCustomer ?? 0,
+                    DestinationPlace = p.tbl_TagsDestinationPlace.Tag,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    NumberDay = p.NumberDay ?? 0,
+                    TourGuide = p.tbl_TourGuide.FirstOrDefault() == null ? "" : p.tbl_TourGuide.FirstOrDefault().tbl_Staff.FullName,
+                    TourType = p.tbl_DictionaryTypeTour.Name
+                }).ToList();
+
+                return PartialView("_Partial_ListTours", model);
+            }
+            else
+            {
+                var model = _tourRepository.GetAllAsQueryable().Where(p => p.TypeTourId == id)
+                .Select(p => new TourListViewModel
+                {
+                    Id = p.Id,
+                    Code = p.Code,
+                    Name = p.Name,
+                    CustomerName = p.tbl_Customer.FullName,
+                    NumberCustomer = p.NumberCustomer ?? 0,
+                    DestinationPlace = p.tbl_TagsDestinationPlace.Tag,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    NumberDay = p.NumberDay ?? 0,
+                    TourGuide = p.tbl_TourGuide.FirstOrDefault() == null ? "" : p.tbl_TourGuide.FirstOrDefault().tbl_Staff.FullName,
+                    TourType = p.tbl_DictionaryTypeTour.Name
+                }).ToList();
+
+                return PartialView("_Partial_ListTours", model);
             }
         }
         #endregion

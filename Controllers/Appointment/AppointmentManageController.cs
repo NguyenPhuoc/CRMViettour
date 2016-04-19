@@ -56,7 +56,7 @@ namespace CRMViettour.Controllers.Appointment
         [ChildActionOnly]
         public ActionResult _Partial_AppointmentList()
         {
-            var model = _appointmentHistoryRepository.GetAllAsQueryable()
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable()
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Time = p.Time,

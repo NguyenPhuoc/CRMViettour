@@ -33,18 +33,18 @@
                         <input type="checkbox" id="cb@(item.Id)" class="cbItem" value="@item.Id" name="cb" onclick="CheckSelect()" />
                     </td>
                     <td>@string.Format("{0:dd-MM-yyyy}", item.Time)</td>
-                    <td>@(item.CustomerId != null ? item.tbl_Customer.FullName : "")</td>
-                    <td>@(item.CustomerId != null ? item.tbl_Customer.MobilePhone : "")</td>
-                    <td>@(item.CustomerId != null ? item.tbl_Customer.PersonalEmail : "")</td>
-                    <td>@(item.ProgramId != null ? item.tbl_Program.Name : "")</td>
-                    <td>@(item.TaskId != null ? item.tbl_Task.Name : "")</td>
-                    <td>@(item.ServiceId != null ? item.tbl_DictionaryService.Name : "")</td>
-                    <td>@(item.PartnerId != null ? item.tbl_Partner.Name : "")</td>
-                    <td>@(item.TourId != null ? item.tbl_Tour.Name : "")</td>
+                    <td>@(item.tbl_Customer != null ? item.tbl_Customer.FullName : "")</td>
+                    <td>@(item.tbl_Customer != null ? item.tbl_Customer.MobilePhone : "")</td>
+                    <td>@(item.tbl_Customer != null ? item.tbl_Customer.PersonalEmail : "")</td>
+                    <td>@(item.tbl_Program != null ? item.tbl_Program.Name : "")</td>
+                    <td>@(item.tbl_Task != null ? item.tbl_Task.Name : "")</td>
+                    <td>@(item.tbl_DictionaryService != null ? item.tbl_DictionaryService.Name : "")</td>
+                    <td>@(item.tbl_Partner != null ? item.tbl_Partner.Name : "")</td>
+                    <td>@(item.tbl_Tour != null ? item.tbl_Tour.Name : "")</td>
                     <td>@Html.Raw(item.Note)</td>
                     <td>@(item.OtherStaff != null ? LoadData.StaffPermission(item.OtherStaff) : "")</td>
-                    <td>@(item.StatusId != null ? item.tbl_DictionaryStatus.Name : "")</td>
-                    <td>@(item.StaffId != null ? item.tbl_Staff.FullName : "")</td>
+                    <td>@(item.tbl_DictionaryStatus != null ? item.tbl_DictionaryStatus.Name : "")</td>
+                    <td>@(item.tbl_Staff != null ? item.tbl_Staff.FullName : "")</td>
                     <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
                 </tr>
             }

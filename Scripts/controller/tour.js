@@ -575,3 +575,40 @@ $("#tabcongnodoitac").click(function () {
         });
     }
 });
+
+/** filter loại tour **/
+
+$("#select-type-tour").change(function () {
+    var dataPost = { id: $("#select-type-tour").val() };
+    $.ajax({
+        type: "POST",
+        url: '/TourManage/FilterTour',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#data-tour").html(data);
+            /****************/
+            $('.dataTable').dataTable({
+                order: [],
+                columnDefs: [{ orderable: false, targets: [0] }]
+            });
+
+            $(".dataTable").dataTable().columnFilter({
+                sPlaceHolder: "head:after",
+                aoColumns: [null,
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" }]
+            });
+        }
+    });
+});

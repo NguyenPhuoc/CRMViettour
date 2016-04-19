@@ -1,4 +1,5 @@
-﻿@using CRMViettour.Utilities
+﻿@using CRM.Core
+@using CRMViettour.Utilities
 @{
     ViewBag.Title = "Quản lý TOUR";
 }
@@ -31,7 +32,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <button class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</button>
+                    <a href="@Url.Action("Index", "TourManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
                     <button class="btn btn-primary" id="btnAdd" href="#modal-insert-tour" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm mới tour</button>
                     <button class="btn btn-warning" id="btnEdit" href="#modal-edit-tour" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
                     <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
@@ -57,24 +58,12 @@
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <a class="btn green-haze btn-outline btn-circle btn-sm" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                Loại tour
-                                <i class="fa fa-angle-down"></i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li>
-                                    <a style="cursor: pointer" data-id="1">Nội địa</a>
-                                </li>
-                                <li>
-                                    <a style="cursor: pointer" data-id="2">Inbound</a>
-                                </li>
-                                <li>
-                                    <a style="cursor: pointer" data-id="3">Outbound</a>
-                                </li>
-                                <li>
-                                    <a style="cursor: pointer" data-id="4">Thầu</a>
-                                </li>
-                            </ul>
+                            <select class="btn green-haze btn-outline btn-circle form-control" id="select-type-tour">
+                                <option value="1153">Nội địa</option>
+                                <option value="1151">Inbound</option>
+                                <option value="1152">Outbound</option>
+                                <option value="9999">Thầu</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -198,8 +187,21 @@
     <!-- END PAGE BASE CONTENT -->
 </div>
 
+<!----- tour ----->
 @Html.Partial("_Partial_InsertTour")
 <div id="info-data-tour"></div>
+
+<!----- lịch hẹn ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertAppointmentHistory.cshtml", new tbl_AppointmentHistory())
+<div id="info-data-appoinment"></div>
+
+<!----- lịch sử liên hệ ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertContactHistory.cshtml", new tbl_ContactHistory())
+<div id="info-data-contacthistory"></div>
+
+<!----- document ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertDocument.cshtml", new tbl_DocumentFile())
+<div id="info-data-doc"></div>
 @*
     @Html.Partial("_Partial_InsertScheduleTour")
     @Html.Partial("_Partial_InsertTaskTour")
@@ -222,7 +224,11 @@
 
 @section scripts{
     <script src="~/Scripts/controller/tour.js"></script>
+<script src="~/Scripts/controller/tourother.js"></script>
     <script>
         CKEDITOR.replace("insert-note-tour");
+        CKEDITOR.replace("insert-note-lichhen");
+        CKEDITOR.replace("insert-note-lienhe");
+        CKEDITOR.replace("insert-document-note");
     </script>
 }

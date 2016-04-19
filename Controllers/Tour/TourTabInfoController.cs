@@ -15,6 +15,7 @@ namespace CRMViettour.Controllers.Tour
         // GET: TourTabInfo
 
         #region init
+        private IGenericRepository<tbl_Staff> _staffRepository;
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_ServicesPartner> _servicesPartnerRepository;
         private IGenericRepository<tbl_Tour> _tourRepository;
@@ -53,6 +54,7 @@ namespace CRMViettour.Controllers.Tour
             IGenericRepository<tbl_Quotation> quotationRepository,
             IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
             IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
+            IGenericRepository<tbl_Staff> staffRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -74,6 +76,7 @@ namespace CRMViettour.Controllers.Tour
             this._quotationRepository = quotationRepository;
             this._liabilityCustomerRepository = liabilityCustomerRepository;
             this._liabilityPartnerRepository = liabilityPartnerRepository;
+            this._staffRepository = staffRepository;
             _db = new DataContext();
         }
         #endregion
@@ -249,9 +252,18 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
-        public async Task<ActionResult> InfoLichHen(int id)
+        public ActionResult InfoLichHen(int id)
         {
-            var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+                .Select(p => new tbl_AppointmentHistory
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Time = p.Time,
+                    tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusId),
+                    tbl_Staff = _staffRepository.FindId(p.StaffId),
+                    Note = p.Note
+                }).ToList();
             return PartialView("_LichHen", model);
         }
         #endregion
@@ -279,9 +291,18 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
-        public async Task<ActionResult> InfoLichSuLienHe(int id)
+        public ActionResult InfoLichSuLienHe(int id)
         {
-            var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = _contactHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+                 .Select(p => new tbl_ContactHistory
+                 {
+                     Id = p.Id,
+                     ContactDate = p.ContactDate,
+                     Request = p.Request,
+                     Note = p.Note,
+                     tbl_Staff = _staffRepository.FindId(p.StaffId),
+                     tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId)
+                 }).ToList();
             return PartialView("_LichSuLienHe", model);
         }
         #endregion

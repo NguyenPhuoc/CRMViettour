@@ -76,19 +76,365 @@ namespace CRMViettour.Controllers.Task
         #endregion
 
         #region Nhật ký xử lý
+        [HttpPost]
+        public async Task<ActionResult> DeleteHandling(int id)
+        {
+            var h = _taskHandlingRepository.FindId(id);
+            int tasId = h.TaskId;
+            try
+            {
+                if (h.File != null)
+                {
+                    String path = Server.MapPath("~/Upload/file/" + h.File);
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                }
 
+                if (await _taskHandlingRepository.Delete(id, true))
+                {
+                    var list = _taskHandlingRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId).Select(p => new tbl_TaskHandling
+                    {
+                        Id = p.Id,
+                        CreateDate = p.CreateDate,
+                        Note = p.Note,
+                        File = p.File,
+                        PercentFinish = p.PercentFinish,
+                        tbl_Staff = _staffRepository.FindId(p.StaffId),
+                        tbl_Dictionary = _dictionaryRepository.FindId(p.StatusId)
+                    }).ToList();
+                    return PartialView("~/Views/TaskTabInfo/_NhatKyXuLy.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TaskTabInfo/_NhatKyXuLy.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TaskTabInfo/_NhatKyXuLy.cshtml");
+            }
+        }
         #endregion
 
         #region DS nhân viên làm nv
+        [HttpPost]
+        public async Task<ActionResult> DeleteWork(int id)
+        {
+            int tasId = _taskStaffRepository.FindId(id).TaskId;
+            try
+            {
 
+                if (await _taskStaffRepository.Delete(id, true))
+                {
+                    var list = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == tasId).ToList();
+                    return PartialView("~/Views/TaskTabInfo/_DSNhanVienDangLamNhiemVu.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TaskTabInfo/_DSNhanVienDangLamNhiemVu.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TaskTabInfo/_DSNhanVienDangLamNhiemVu.cshtml");
+            }
+        }
         #endregion
 
         #region Lịch Hẹn
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> CreateAppointment(tbl_AppointmentHistory model, FormCollection form)
+        {
+            try
+            {
+                model.TaskId = Convert.ToInt32(Session["idTask"].ToString());
+                model.CreatedDate = DateTime.Now;
+                model.ModifiedDate = DateTime.Now;
+                model.StaffId = 9;
 
+                if (await _appointmentHistoryRepository.Create(model))
+                {
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == model.TaskId)
+                            .Select(p => new tbl_AppointmentHistory
+                            {
+                                Id = p.Id,
+                                Title = p.Title,
+                                Time = p.Time,
+                                tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusId),
+                                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                                Note = p.Note,
+                                OtherStaff = p.OtherStaff
+                            }).ToList();
+                    return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml");
+            }
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> EditAppointment(int id)
+        {
+            var model = await _appointmentHistoryRepository.GetById(id);
+            return PartialView("_Partial_EditAppointmentHistory", model);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> UpdateAppointment(tbl_AppointmentHistory model, FormCollection form)
+        {
+            try
+            {
+                model.ModifiedDate = DateTime.Now;
+                if (await _appointmentHistoryRepository.Update(model))
+                {
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == model.TaskId)
+                            .Select(p => new tbl_AppointmentHistory
+                            {
+                                Id = p.Id,
+                                Title = p.Title,
+                                Time = p.Time,
+                                tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusId),
+                                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                                Note = p.Note,
+                                OtherStaff = p.OtherStaff
+                            }).ToList();
+                    return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteAppointment(int id)
+        {
+            int tasId = _appointmentHistoryRepository.FindId(id).TaskId ?? 0;
+            try
+            {
+                if (await _appointmentHistoryRepository.Delete(id, true))
+                {
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId)
+                            .Select(p => new tbl_AppointmentHistory
+                            {
+                                Id = p.Id,
+                                Title = p.Title,
+                                Time = p.Time,
+                                tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusId),
+                                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                                Note = p.Note,
+                                OtherStaff = p.OtherStaff
+                            }).ToList();
+                    return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TaskTabInfo/_LichHen.cshtml");
+            }
+        }
         #endregion
 
         #region Tài liệu mẫu
+        [HttpPost]
+        public ActionResult UploadFile(HttpPostedFileBase FileName)
+        {
+            if (FileName != null && FileName.ContentLength > 0)
+            {
+                Session["TaskDocFile"] = FileName;
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> CreateDocument(tbl_DocumentFile model, FormCollection form)
+        {
+            //try
+            //{
+
+            string id = Session["idTask"].ToString();
+            if (ModelState.IsValid)
+            {
+                model.TaskId = Convert.ToInt32(id);
+                model.CreatedDate = DateTime.Now;
+                model.IsRead = false;
+                model.ModifiedDate = DateTime.Now;
+                model.TagsId = form["TagsId"].ToString();
+                model.StaffId = 9;
+                //file
+                HttpPostedFileBase FileName = Session["TaskDocFile"] as HttpPostedFileBase;
+                string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                String path = Server.MapPath("~/Upload/file/" + newName);
+                FileName.SaveAs(path);
+                //end file
+                if (newName != null && FileSize != null)
+                {
+                    model.FileName = newName;
+                    model.FileSize = FileSize;
+                }
+
+                if (await _documentFileRepository.Create(model))
+                {
+                    Session["TaskDocFile"] = null;
+                    var list = _documentFileRepository.GetAllAsQueryable().Where(p => p.TaskId.ToString() == id).ToList();
+                    //   var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId.ToString() == id)
+                    //.Select(p => new tbl_DocumentFile
+                    //{
+                    //    Id = p.Id,
+                    //    FileName = p.FileName,
+                    //    FileSize = p.FileSize,
+                    //    Note = p.Note,
+                    //    CreatedDate = p.CreatedDate,
+                    //    TagsId = p.TagsId,
+                    //    tbl_Staff = _staffRepository.FindId(p.StaffId)
+                    //}).ToList();
+                    return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml");
+                }
+            }
+            //}
+            //catch { }
+            return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditInfoDocument(int id)
+        {
+            var model = await _documentFileRepository.GetById(id);
+            List<SelectListItem> lstTag = new List<SelectListItem>();
+            foreach (var t in _db.tbl_Tags.ToList())
+            {
+                lstTag.Add(new SelectListItem()
+                {
+                    Text = t.Tag,
+                    Value = t.Id.ToString(),
+                    Selected = model.TagsId.Split(',').Contains(t.Id.ToString()) ? true : false
+                });
+            }
+            ViewBag.TagsId = lstTag;
+            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1), "Id", "Name", model.DictionaryId);
+            return PartialView("~/Views/TaskOtherTab/_Partial_EditDocument.cshtml", model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> UpdateDocument(tbl_DocumentFile model, FormCollection form)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    model.IsRead = true;
+                    model.ModifiedDate = DateTime.Now;
+                    model.TagsId = form["TagsId"].ToString();
+                    if (Session["TaskDocFile"] != null)
+                    {
+                        //file
+                        HttpPostedFileBase FileName = Session["TaskDocFile"] as HttpPostedFileBase;
+                        string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                        String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ffffssmmHHddMMyyyy}", DateTime.Now));
+                        String path = Server.MapPath("~/Upload/file/" + newName);
+                        FileName.SaveAs(path);
+                        //end file
+
+                        if (FileName != null && FileSize != null)
+                        {
+                            String pathOld = Server.MapPath("~/Upload/file/" + model.FileName);
+                            if (System.IO.File.Exists(pathOld))
+                                System.IO.File.Delete(pathOld);
+                            model.FileName = newName;
+                            model.FileSize = FileSize;
+                        }
+                    }
+                    if (await _documentFileRepository.Update(model))
+                    {
+                        Session["TaskDocFile"] = null;
+                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).ToList();
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId == model.TaskId)
+                             .Select(p => new tbl_DocumentFile
+                             {
+                                 Id = p.Id,
+                                 FileName = p.FileName,
+                                 FileSize = p.FileSize,
+                                 Note = p.Note,
+                                 CreatedDate = p.CreatedDate,
+                                 TagsId = p.TagsId,
+                                 tbl_Staff = _staffRepository.FindId(p.StaffId)
+                             }).ToList();
+                        return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml", list);
+                    }
+                    else
+                    {
+                        return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml");
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteDocument(int id)
+        {
+            try
+            {
+                int tasId = _documentFileRepository.FindId(id).TaskId ?? 0;
+                //file
+                tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
+                String path = Server.MapPath("~/Upload/file/" + documentFile.FileName);
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+                //end file
+                if (await _documentFileRepository.Delete(id, true))
+                {
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId == tasId)
+                     .Select(p => new tbl_DocumentFile
+                     {
+                         Id = p.Id,
+                         FileName = p.FileName,
+                         FileSize = p.FileSize,
+                         Note = p.Note,
+                         CreatedDate = p.CreatedDate,
+                         TagsId = p.TagsId,
+                         tbl_Staff = _staffRepository.FindId(p.StaffId)
+                     }).ToList();
+                    return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TaskTabInfo/_TaiLieuMau.cshtml");
+            }
+        }
         #endregion
 
         #region Ghi chú

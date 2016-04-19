@@ -40,7 +40,8 @@
                             }
                             <td>@item.PercentFinish %</td>
                             <td>@item.tbl_Dictionary.Name</td>
-                            <td></td>
+                            <td><a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục này ?'); deleteHandling(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+</td>
                         </tr>
                             i++;
                     }

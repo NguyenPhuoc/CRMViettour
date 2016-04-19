@@ -16,6 +16,7 @@
                     <th>Diễn giải</th>
                     <th>Ngày giao</th>
                     <th>Người giao việc</th>
+                    <th>#</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +32,7 @@
                             <td>@Html.Raw(item.Note)</td>
                             <td>@item.CreateDate.ToString("dd-MM-yyyy")</td>
                             <td>@item.tbl_StaffCreate.FullName</td>
+                            <td><a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa những mục này ?'); deleteNVWork(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a></td>
                         </tr>
                         i++;
                     }

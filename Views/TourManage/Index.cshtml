@@ -202,14 +202,18 @@
 <!----- document ----->
 @Html.Partial("~/Views/TourOtherTab/_Partial_InsertDocument.cshtml", new tbl_DocumentFile())
 <div id="info-data-doc"></div>
+
+<!----- lịch đi tour ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertScheduleTour.cshtml")
+<div id="info-data-schedule"></div>
+
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertTaskTour.cshtml")
+<div id="info-data-task"></div>
 @*
-    @Html.Partial("_Partial_InsertScheduleTour")
-    @Html.Partial("_Partial_InsertTaskTour")
     @Html.Partial("_Partial_InsertServiceTour")
     @Html.Partial("_Partial_AddServices")
     @Html.Partial("_Partial_UpdateStatus")
     @Html.Partial("_Partial_UpdateVisa")
-    @Html.Partial("_Partial_InsertDocument")
     @Html.Partial("_Partial_InsertEvent")
     @Html.Partial("_Partial_InsertHotel")
     @Html.Partial("_Partial_InsertPlane")
@@ -224,11 +228,5 @@
 
 @section scripts{
     <script src="~/Scripts/controller/tour.js"></script>
-<script src="~/Scripts/controller/tourother.js"></script>
-    <script>
-        CKEDITOR.replace("insert-note-tour");
-        CKEDITOR.replace("insert-note-lichhen");
-        CKEDITOR.replace("insert-note-lienhe");
-        CKEDITOR.replace("insert-document-note");
-    </script>
+    <script src="~/Scripts/controller/tourother.js"></script>
 }

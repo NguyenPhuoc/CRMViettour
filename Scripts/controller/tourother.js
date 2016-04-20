@@ -1,4 +1,34 @@
-﻿/** thêm mới tài liệu **/
+﻿CKEDITOR.replace("insert-note-tour");
+CKEDITOR.replace("insert-note-lichhen");
+CKEDITOR.replace("insert-note-lienhe");
+CKEDITOR.replace("insert-document-note");
+CKEDITOR.replace("insert-schedule-tour");
+
+$("#insert-service-tour").select2();
+$("#insert-partner-tour").select2();
+$("#insert-servicepartner-tour").select2();
+
+$('#insert-service-tour').change(function () {
+    $.getJSON('/TourOtherTab/LoadPartner/' + $('#insert-service-tour').val(), function (data) {
+        var items = '<option>-- Chọn đối tác --</option>';
+        $.each(data, function (i, ward) {
+            items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+        });
+        $('#insert-partner-tour').html(items);
+    });
+});
+
+$('#insert-partner-tour').change(function () {
+    $.getJSON('/TourOtherTab/LoadServicePartner/' + $('#insert-partner-tour').val(), function (data) {
+        var items = '<option>-- Chọn dịch vụ của đối tác --</option>';
+        $.each(data, function (i, ward) {
+            items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+        });
+        $('#insert-servicepartner-tour').html(items);
+    });
+});
+
+/** thêm mới tài liệu **/
 function btnCreateFile() {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
         alert("Vui lòng chọn 1 khách hàng!");

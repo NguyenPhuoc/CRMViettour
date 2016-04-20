@@ -257,6 +257,7 @@
     <Compile Include="Controllers\Staff\StaffOtherTabController.cs" />
     <Compile Include="Controllers\Staff\StaffTabInfoController.cs" />
     <Compile Include="Controllers\Task\TaskManageController.cs" />
+    <Compile Include="Controllers\Task\TaskOtherTabController.cs" />
     <Compile Include="Controllers\Task\TaskPriorityManageController.cs" />
     <Compile Include="Controllers\Task\TaskStatusManageController.cs" />
     <Compile Include="Controllers\Task\TaskTabInfoController.cs" />
@@ -2309,9 +2310,9 @@
     <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertReviewTour.cshtml" />
-    <Content Include="Views\TourManage\_Partial_InsertScheduleTour.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertScheduleTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertServiceTour.cshtml" />
-    <Content Include="Views\TourManage\_Partial_InsertTaskTour.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertTaskTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_Insert_CongNoDoiTac.cshtml" />
     <Content Include="Views\TourManage\_Partial_Insert_CongNoKhachHang.cshtml" />
@@ -2488,6 +2489,19 @@
     <Content Include="Views\TourOtherTab\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\TourOtherTab\_Partial_EditDocument.cshtml" />
     <Content Include="Views\TaskTabInfo\_ThongTinChiTiet.cshtml" />
+    <Content Include="Views\AppointmentManage\_Partial_EditAppointmentHistory.cshtml" />
+    <Content Include="Views\AppointmentManage\_Partial_InsertAppointmentHistory.cshtml" />
+    <Content Include="Views\TaskOtherTab\_Partial_EditAppointmentHistory.cshtml" />
+    <Content Include="Views\TaskOtherTab\_Partial_EditDocument.cshtml" />
+    <Content Include="Views\TaskOtherTab\_Partial_EditNote.cshtml" />
+    <Content Include="Views\TaskOtherTab\_Partial_InsertAppointmentHistory.cshtml" />
+    <Content Include="Views\TaskOtherTab\_Partial_InsertDocument.cshtml" />
+    <Content Include="Views\TaskOtherTab\_Partial_InsertNote.cshtml" />
+    <Content Include="Views\TaskTabInfo\_DSNhanVienDangLamNhiemVu.cshtml" />
+    <Content Include="Views\TaskTabInfo\_GhiChu.cshtml" />
+    <Content Include="Views\TaskTabInfo\_LichHen.cshtml" />
+    <Content Include="Views\TaskTabInfo\_NhatKyXuLy.cshtml" />
+    <Content Include="Views\TaskTabInfo\_TaiLieuMau.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

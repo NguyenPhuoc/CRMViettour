@@ -29,6 +29,7 @@ namespace CRMViettour.Controllers.Tour
         private IGenericRepository<tbl_ContactHistory> _contactHistoryRepository;
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
         private IGenericRepository<tbl_Tour> _tourRepository;
+        private IGenericRepository<tbl_ServicesPartner> _servicesPartnerRepository;
         private DataContext _db;
 
         public TourOtherTabController(
@@ -46,6 +47,7 @@ namespace CRMViettour.Controllers.Tour
             IGenericRepository<tbl_ContactHistory> contactHistoryRepository,
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
             IGenericRepository<tbl_Tour> tourRepository,
+            IGenericRepository<tbl_ServicesPartner> servicesPartnerRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -63,6 +65,7 @@ namespace CRMViettour.Controllers.Tour
             this._updateHistoryRepository = updateHistoryRepository;
             this._staffRepository = staffRepository;
             this._tourRepository = tourRepository;
+            this._servicesPartnerRepository = servicesPartnerRepository;
             _db = new DataContext();
         }
 
@@ -109,6 +112,12 @@ namespace CRMViettour.Controllers.Tour
         public JsonResult LoadPartner(int id)
         {
             var model = new SelectList(_partnerRepository.GetAllAsQueryable().Where(p => p.DictionaryId == id).ToList(), "Id", "Name");
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult LoadServicePartner(int id)
+        {
+            var model = new SelectList(_servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToList(), "Id", "Name");
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 

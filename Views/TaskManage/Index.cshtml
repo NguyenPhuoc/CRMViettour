@@ -1,7 +1,7 @@
 ﻿@using CRM.Core
 @using CRMViettour.Models
 @using CRMViettour.Utilities
-@model IEnumerable<CRM.Core.tbl_Task>
+@model IEnumerable<tbl_Task>
     @{
         ViewBag.Title = "Quản lý Nhiệm vụ";
     }
@@ -31,21 +31,8 @@
         <!-- BEGIN PAGE BASE CONTENT -->
         <div class="note note-info">
             <div class="row">
-                <div class="col-md-4">
-                    <select class="form-control" id="customer-select2" @*multiple="multiple"*@>
-                        <option value="0">-- Loại hình dịch vụ --</option>
-                        <option value="1">Tour trọn gói</option>
-                        <option value="2">Khách sạn</option>
-                        <option value="3">Nhà hàng</option>
-                        <option value="4">Vận chuyển</option>
-                        <option value="5">Hội nghị</option>
-                        <option value="6">Visa</option>
-                        <option value="7">Máy bay</option>
-                        <option value="8">Khác</option>
-                    </select>
-                </div>
                 <div class="col-md-8">
-                    <div class="pull-right">
+                    <div class="pull-left">
                         <a class="btn btn-default" href="@Url.Action("Index", "TaskManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
                         <button class="btn btn-primary" href="#modal-insert-task" data-toggle="modal" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
                         <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
@@ -64,30 +51,40 @@
         <div class="note note-info">
             <div class="row">
                 <div class="col-md-2" style="padding-right: 0">
-                    <select class="form-control" id="customer-select2" @*multiple="multiple"*@>
-                        <option value="0">Thời gian</option>
-                    </select>
+                    <input type="date" class="form-control datepicker FilterTask" id="tungay" />
                 </div>
                 <div class="col-md-2" style="padding-right: 0">
-                    <input type="text" class="form-control datepicker" id="tungay" />
+                    <input type="date" class="form-control datepicker FilterTask" id="denngay" />
                 </div>
                 <div class="col-md-2" style="padding-right: 0">
-                    <input type="text" class="form-control datepicker" id="denngay" />
-                </div>
-                <div class="col-md-2" style="padding-right: 0">
-                    <select class="form-control" id="customer-select2" @*multiple="multiple"*@>
+                    <select class="form-control FilterTask" id="loai">
                         <option value="0">Loại nhiệm vụ</option>
+                        @foreach (var item in LoadData.TaskTypeList())
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
                     </select>
                 </div>
                 <div class="col-md-2" style="padding-right: 0">
-                    <select class="form-control" id="customer-select2" @*multiple="multiple"*@>
+                    <select class="form-control FilterTask" id="status">
                         <option value="0">Tình trạng</option>
+                        @foreach (var item in LoadData.TaskStatusList())
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
                     </select>
                 </div>
                 <div class="col-md-2" style="padding-right: 0">
-                    <select class="form-control" id="customer-select2" @*multiple="multiple"*@>
+                    <select class="form-control FilterTask" id="mucdo">
                         <option value="0">Mức độ</option>
+                        @foreach (var item in LoadData.TaskPriorityList())
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
                     </select>
+                </div>
+                <div class="col-md-2" style="padding-right: 0">
+
                 </div>
             </div>
         </div>
@@ -98,66 +95,7 @@
                     <div class="portlet-body">
                         <div class="table-scrollable table-custom-format">
                             <table class="table table-striped table-bordered table-hover dataTable" id="tableDictionary">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <th class="table-checkbox">
-                                            <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
-                                        </th>
-                                        <th>STT</th>
-                                        <th>Nhiệm vụ</th>
-                                        <th>Người tạo</th>
-                                        <th>Loại nhiệm vụ</th>
-                                        <th>Code tour</th>
-                                        <th>Email</th>
-                                        <th>Điện thoại</th>
-                                        <th>Ngày bắt đầu</th>
-                                        <th>Ngày kết thúc</th>
-                                        <th>Thời hạn</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int i = 0;
-                                    }
-                                    @foreach (var item in Model)
-                                    {
-                                        i++;
-                                        <tr class="odd gradeX">
-                                            <td>
-                                                <input type="checkbox" value="@item.Id" class="cbItem" name="cb" onclick="CheckSelect()" />
-                                            </td>
-                                            <td>
-                                                @i
-                                            </td>
-                                            <td>
-                                                @item.Name
-                                            </td>
-                                            <td>
-                                                @item.tbl_Staff.FullName
-                                            </td>
-                                            <td>@(item.tbl_DictionaryTaskType != null ? item.tbl_DictionaryTaskType.Name : "")</td>
-                                            <td>@item.CodeTour</td>
-                                            <td>@item.Email</td>
-                                            <td>@item.Phone</td>
-                                            <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.EndDate.ToString("dd-MM-yyyy")</td>
-                                            <td>@item.Time</td>
-                                        </tr>
-                                    }
-                                </tbody>
+                                @Html.Action("_Partial_TaskList", "TaskManage")
                             </table>
                         </div>
                     </div>

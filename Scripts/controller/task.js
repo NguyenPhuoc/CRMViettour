@@ -504,3 +504,30 @@ $('#WorkTaskFile').change(function () {
         // Onsuccess
     });
 });
+
+$("select.FilterTask").select2()
+
+$(".FilterTask").change(function () {
+    var tu = $("#tungay").val()
+    var den = $("#denngay").val()
+    var status = $("#status").val()
+    var type = $("#loai").val()
+    var prior = $("#mucdo").val()
+    var dataPost = {
+        start: tu,
+        end: den,
+        statusId: status,
+        typeId: type,
+        priorId: prior
+    };
+    $.ajax({
+        type: "POST",
+        url: '/TaskManage/FilterTask',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#tableDictionary").html(data);
+        }
+    })
+})

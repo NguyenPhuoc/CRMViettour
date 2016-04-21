@@ -237,5 +237,33 @@ namespace CRMViettour.Controllers.Appointment
             }
         }
         #endregion
+
+        #region JsonCalendar
+        public JsonResult JsonCalendar()
+        {
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable()
+               .Select(p => new tbl_AppointmentHistory
+               {
+                   Id = p.Id,
+                   Time = p.Time,
+                   Title = p.Title,
+                   StatusId = p.StatusId
+
+               }).ToList();
+
+            var eventList = from e in model
+                            select new
+                            {
+                                id = e.Id,
+                                title = e.Title,
+                                start = e.Time.ToString("s"),
+                                constraint = e.Id,
+                                color = (e.StatusId == 1145 ? "#3fc9d5" : e.StatusId == 1146 ? "#257e4a" : e.StatusId == 1147 ? "#fcb941" : e.StatusId == 1148 ? "#2574a9" : e.StatusId == 1149 ? "#3f3f3f" : "#eb4549")
+
+                            };
+            var rows = eventList.ToArray();
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

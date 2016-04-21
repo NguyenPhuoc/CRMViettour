@@ -498,6 +498,10 @@
     <Content Include="Content\assets\global\plugins\fuelux\js\spinner.min.js" />
     <Content Include="Content\assets\global\plugins\fullcalendar\fullcalendar.css" />
     <Content Include="Content\assets\global\plugins\fullcalendar\fullcalendar.js" />
+    <Content Include="Content\assets\global\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="Content\assets\global\plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="Content\assets\global\plugins\fullcalendar\jquery.min.js" />
+    <Content Include="Content\assets\global\plugins\fullcalendar\moment.min.js" />
     <Content Include="Content\assets\global\plugins\gmaps\gmaps.min.js" />
     <Content Include="Content\assets\global\plugins\holder.js" />
     <Content Include="Content\assets\global\plugins\icheck\icheck.min.js" />
@@ -2494,6 +2498,7 @@
     <Content Include="Views\TaskOtherTab\_Partial_EditDocument.cshtml" />
     <Content Include="Views\AppointmentManage\_Partial_EditAppointmentHistory.cshtml" />
     <Content Include="Views\AppointmentManage\_Partial_InsertAppointmentHistory.cshtml" />
+    <Content Include="Views\TaskManage\_Partial_TaskList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2600,7 +2605,6 @@
     <Content Include="Content\assets\global\plugins\datatables\Descr.WD3" />
     <Content Include="Content\assets\global\plugins\datatables\images\Descr.WD3" />
     <Content Include="Content\assets\global\plugins\datatables\plugins\bootstrap\Descr.WD3" />
-    <Content Include="Content\assets\global\plugins\Descr.WD3" />
     <Content Include="Content\assets\global\plugins\dropzone\Descr.WD3" />
     <Content Include="Content\assets\global\plugins\fancybox\source\Descr.WD3" />
     <Content Include="Content\assets\global\plugins\flot\Descr.WD3" />
@@ -2632,7 +2636,6 @@
     <Content Include="Content\assets\global\plugins\font-awesome\fonts\fontawesome-webfont.woff%40v=4.4.0" />
     <Content Include="Content\assets\global\plugins\font-awesome\fonts\fontawesome-webfont.woff2%40v=4.4.0" />
     <Content Include="Content\assets\global\plugins\fuelux\js\Descr.WD3" />
-    <Content Include="Content\assets\global\plugins\fullcalendar\Descr.WD3" />
     <Content Include="Content\assets\global\plugins\gmaps\Descr.WD3" />
     <Content Include="Content\assets\global\plugins\icheck\Descr.WD3" />
     <Content Include="Content\assets\global\plugins\icheck\skins\Descr.WD3" />

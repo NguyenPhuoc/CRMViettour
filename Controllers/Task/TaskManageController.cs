@@ -67,6 +67,11 @@ namespace CRMViettour.Controllers
         #region List
         public ActionResult Index()
         {
+            return View();
+        }
+        [ChildActionOnly]
+        public ActionResult _Partial_TaskList()
+        {
             var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Select(p => new tbl_Task
             {
                 Id = p.Id,
@@ -79,10 +84,8 @@ namespace CRMViettour.Controllers
                 StartDate = p.StartDate,
                 EndDate = p.EndDate,
                 Time = p.Time
-
-
             }).ToList();
-            return View(model);
+            return PartialView("_Partial_TaskList", model);
         }
         #endregion
 
@@ -288,5 +291,37 @@ namespace CRMViettour.Controllers
         }
         #endregion
 
+        #region Filter
+        public async Task<ActionResult> FilterTask(int statusId, int typeId, int priorId, DateTime? start, DateTime? end)
+        {
+            try
+            {
+                var list = _taskRepository.GetAllAsQueryable().AsEnumerable()
+                    .Where(p => (start != null ? p.CreatedDate >= start : p.Id != 0)
+                        && (end != null ? p.CreatedDate <= end : p.Id != 0)
+                        && (statusId != 0 ? p.TaskStatusId == statusId : p.Id != 0)
+                        && (typeId != 0 ? p.TaskTypeId == typeId : p.Id != 0)
+                        && (priorId != 0 ? p.TaskPriorityId == priorId : p.Id != 0))
+                    .Select(p => new tbl_Task
+                {
+                    Id = p.Id,
+                    CodeTour = p.CodeTour != null ? p.CodeTour : "",
+                    Name = p.Name,
+                    tbl_Staff = _staffRepository.FindId(p.StaffId),
+                    tbl_DictionaryTaskType = _dictionaryRepository.FindId(p.TaskTypeId),
+                    Email = p.Email != null ? p.Email : "",
+                    Phone = p.Phone != null ? p.Phone : "",
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    Time = p.Time
+                }).ToList();
+                return PartialView("_Partial_TaskList", list);
+            }
+            catch
+            {
+                return PartialView("_Partial_TaskList");
+            }
+        }
+        #endregion
     }
 }

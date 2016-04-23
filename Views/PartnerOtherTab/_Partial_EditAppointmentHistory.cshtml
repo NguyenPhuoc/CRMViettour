@@ -87,10 +87,10 @@
                                             }
                                         </select>
                                     </div>
-                                    <label class="control-label col-lg-3 col-md-3">Ngày hẹn</label>
-                                    <div class="col-lg-3 col-md-3">
-                                        <div class="input-group" data-date-format="mm/dd/yyyy">
-                                            @Html.TextBoxFor(model => model.Time, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", id = "edit-ngayhen-lichhen", @required = "required" })
+                                    <label class="control-label col-lg-2 col-md-2">Ngày hẹn</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.Time, "{0:s}", new { @class = "form-control", @type = "datetime-local", id = "edit-ngayhen-lichhen", @required = "required" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>

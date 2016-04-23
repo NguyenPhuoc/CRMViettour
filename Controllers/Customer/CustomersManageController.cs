@@ -378,51 +378,51 @@ namespace CRMViettour.Controllers
         {
             //try
             //{
-            
-                string id = Session["idCustomer"].ToString();
-                if (ModelState.IsValid)
-                {
-                    model.CustomerId = Convert.ToInt32(id);
-                    model.CreatedDate = DateTime.Now;
-                    model.IsRead = false;
-                    model.ModifiedDate = DateTime.Now;
-                    model.TagsId = form["TagsId"].ToString();
-                    model.StaffId = 9;
-                    //file
-                    HttpPostedFileBase FileName = Session["CustomerFile"] as HttpPostedFileBase;
-                    string FileSize = Common.ConvertFileSize(FileName.ContentLength);
-                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
-                    String path = Server.MapPath("~/Upload/file/" + newName);
-                    FileName.SaveAs(path);
-                    //end file
-                    if (newName != null && FileSize != null)
-                    {
-                        model.FileName = newName;
-                        model.FileSize = FileSize;
-                    }
 
-                    if (await _documentFileRepository.Create(model))
-                    {
-                        Session["CustomerFile"] = null;
-                        //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id)
-                     .Select(p => new tbl_DocumentFile
-                     {
-                         Id = p.Id,
-                         FileName = p.FileName,
-                         FileSize = p.FileSize,
-                         Note = p.Note,
-                         CreatedDate = p.CreatedDate,
-                         TagsId = p.TagsId,
-                         tbl_Staff = _staffRepository.FindId(p.StaffId)
-                     }).ToList();
-                        return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml", list);
-                    }
-                    else
-                    {
-                        return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml");
-                    }
+            string id = Session["idCustomer"].ToString();
+            if (ModelState.IsValid)
+            {
+                model.CustomerId = Convert.ToInt32(id);
+                model.CreatedDate = DateTime.Now;
+                model.IsRead = false;
+                model.ModifiedDate = DateTime.Now;
+                model.TagsId = form["TagsId"].ToString();
+                model.StaffId = 9;
+                //file
+                HttpPostedFileBase FileName = Session["CustomerFile"] as HttpPostedFileBase;
+                string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                String path = Server.MapPath("~/Upload/file/" + newName);
+                FileName.SaveAs(path);
+                //end file
+                if (newName != null && FileSize != null)
+                {
+                    model.FileName = newName;
+                    model.FileSize = FileSize;
                 }
+
+                if (await _documentFileRepository.Create(model))
+                {
+                    Session["CustomerFile"] = null;
+                    //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id).ToList();
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id)
+                 .Select(p => new tbl_DocumentFile
+                 {
+                     Id = p.Id,
+                     FileName = p.FileName,
+                     FileSize = p.FileSize,
+                     Note = p.Note,
+                     CreatedDate = p.CreatedDate,
+                     TagsId = p.TagsId,
+                     tbl_Staff = _staffRepository.FindId(p.StaffId)
+                 }).ToList();
+                    return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml");
+                }
+            }
             //}
             //catch { }
             return PartialView("~/Views/CustomerTabInfo/_HoSoLienQuan.cshtml");
@@ -1000,6 +1000,115 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region Import
+        [HttpPost]
+        public ActionResult ImportFile(HttpPostedFileBase FileName)
+        {
+            try
+            {
+
+                using (var excelPackage = new ExcelPackage(FileName.InputStream))
+                {
+                    List<tbl_Customer> list = new List<tbl_Customer>();
+                    //string idCol, nameCol, emailCol, addressCol, phoneCol, faxCol, personalEmailCol, companyEmailCol, noteCol, mobilePhoneCol, birthdayCol,
+                    //    identityCardCol, passportCardCol, createdDatePassportCol, expiredDatePassportCol;
+                    var worksheet = excelPackage.Workbook.Worksheets[1];
+                    //using (var headers = worksheet.Cells[, 1, 8, worksheet.Dimension.End.Column])
+                    //{
+                    //    idCol = headers.First(c => c.Value.Equals("No.")).Address[0].ToString();
+                    //    nameCol = headers.First(c => c.Value.Equals("HỌ TÊN")).Address[0].ToString();
+                    //    emailCol = headers.First(c => c.Value.Equals("ĐIỆN THOẠI")).Address[0].ToString();
+                    //}
+                    var lastRow = worksheet.Dimension.End.Row;
+                    for (int row = 2; row <= lastRow; row++)
+                    {
+                        var cus = new tbl_Customer
+                        {
+                            FullName = worksheet.Cells["b" + row].Value != null ? worksheet.Cells["b" + row].Value.ToString() : "",
+                            PersonalEmail = worksheet.Cells["i" + row].Value != null ? worksheet.Cells["i" + row].Value.ToString() : "",
+                            PassportCard = worksheet.Cells["d" + row].Value != null ? worksheet.Cells["d" + row].Value.ToString() : "",
+                            Phone = worksheet.Cells["g" + row].Value != null ? worksheet.Cells["g" + row].Value.ToString() : "",
+                            MobilePhone = worksheet.Cells["h" + row].Value != null ? worksheet.Cells["h" + row].Value.ToString() : "",
+                            Address = worksheet.Cells["m" + row].Value != null ? worksheet.Cells["m" + row].Value.ToString() : "",
+                            IdentityCard = worksheet.Cells["n" + row].Value != null ? worksheet.Cells["n" + row].Value.ToString() : "",
+                            Note = worksheet.Cells["r" + row].Value != null ? worksheet.Cells["r" + row].Value.ToString() : "",
+
+
+                        };
+                        if (worksheet.Cells["c" + row].Value != null)
+                            cus.Birthday = DateTime.Parse(worksheet.Cells["c" + row].Value.ToString());
+                        if (worksheet.Cells["e" + row].Value != null)
+                            cus.CreatedDatePassport = DateTime.Parse(worksheet.Cells["e" + row].Value.ToString());
+                        if (worksheet.Cells["f" + row].Value != null)
+                            cus.ExpiredDatePassport = DateTime.Parse(worksheet.Cells["f" + row].Value.ToString());
+                        list.Add(cus);
+                    }
+                    Session["listCustomerImport"] = list;
+                    return PartialView("_Partial_ImportDataList", list);
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> SaveImport()
+        {
+            try
+            {
+                List<tbl_Customer> list = Session["listCustomerImport"] as List<tbl_Customer>;
+
+                return PartialView("_Partial_ImportDataList", list);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteImport(String listItemId)
+        {
+            try
+            {
+                List<tbl_Customer> list = Session["listCustomerImport"] as List<tbl_Customer>;
+                if (listItemId != null && listItemId != "")
+                {
+                    var listIds = listItemId.Split(',');
+                    listIds = listIds.Take(listIds.Count() - 1).ToArray();
+                    if (listIds.Count() > 0)
+                    {
+                        int[] listIdsint = new int[listIds.Length];
+                        for (int i = 0; i < listIds.Length; i++)
+                        {
+                            listIdsint[i] = Int32.Parse(listIds[i]);
+                        }
+                        for (int i = 0; i < listIdsint.Length; i++)
+                        {
+                            for (int j = i; j < listIdsint.Length; j++)
+                            {
+                                if (listIdsint[i] < listIdsint[j])
+                                {
+                                    int temp = listIdsint[i];
+                                    listIdsint[i] = listIdsint[j];
+                                    listIdsint[j] = temp;
+                                }
+                            }
+                        }
+                        foreach (var item in listIdsint)
+                        {
+                            list.RemoveAt(item);
+                        }
+                    }
+                }
+                Session["listCustomerImport"] = list;
+                return PartialView("_Partial_ImportDataList", list);
+            }
+            catch
+            {
+                return null;
+            }
+        }
         #endregion
 
         #region Export

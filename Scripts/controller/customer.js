@@ -137,6 +137,8 @@ $("#tableDictionary").on("change", ".cbItem", function () {
     }
 });
 
+
+
 $("#tableDictionary").on("change", "#allcb", function () {
     var $this = $(this);
     var currentlistItemID = $("#listItemId").val();

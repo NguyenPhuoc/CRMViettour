@@ -31,7 +31,7 @@
         <div class="row">
             <div class="col-md-3">
                 <label>Trạng thái lịch hẹn</label>
-                <select class="form-control" id="trangthai-lichhen">
+                <select class="form-control FilterAppoi" id="trangthai-lichhen">
                     <option value="-1">Chọn trạng thái</option>
                     @foreach (var item in LoadData.StatusProcessList())
                     {
@@ -41,7 +41,7 @@
             </div>
             <div class="col-md-3">
                 <label>Loại lịch hẹn</label>
-                <select class="form-control" id="loai-lichhen">
+                <select class="form-control FilterAppoi" id="loai-lichhen">
                     <option value="-1">Chọn loại</option>
                     @foreach (var item in LoadData.AppointmentTypeList())
                     {
@@ -52,7 +52,7 @@
             <div class="col-md-3">
                 <label>Từ ngày</label>
                 <div class="input-group" data-date-format="mm/dd/yyyy">
-                    <input type="date" class="form-control" id="tungay-lichhen">
+                    <input type="date" class="form-control FilterAppoi" id="tungay-lichhen">
                     <span class="input-group-btn">
                         <button class="btn default date-set" type="button">
                             <i class="fa fa-calendar"></i>
@@ -63,7 +63,7 @@
             <div class="col-md-3">
                 <label>Đến ngày</label>
                 <div class="input-group" data-date-format="mm/dd/yyyy">
-                    <input type="date" class="form-control" id="denngay-lichhen">
+                    <input type="date" class="form-control FilterAppoi" id="denngay-lichhen">
                     <span class="input-group-btn">
                         <button class="btn default date-set" type="button">
                             <i class="fa fa-calendar"></i>
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-12 margintop10">
                 <a class="btn btn-default" href="@Url.Action("Index", "AppointmentManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                <button class="btn btn-primary" id="btnAdd" onclick="btnCreateLichHen()" href="#modal-insert-appointment" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                <button class="btn btn-primary" id="btnAdd" @*onclick="btnCreateLichHen()"*@ href="#modal-insert-appointment" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
                 <button class="btn btn-warning" id="btnEdit" href="#modal-edit-appointment" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
                 <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
                 <form action="@Url.Action("Delete", "AppointmentManage")" method="post" style="position:absolute">
@@ -91,10 +91,10 @@
                     <div class="tabbable-custom ">
                         <ul class="nav nav-tabs ">
                             <li class="active">
-                                <a href="#dangluoi" data-toggle="tab">Dạng lưới</a>
+                                <a href="#dangluoi" data-toggle="tab" id="tabdangluoi">Dạng lưới</a>
                             </li>
                             <li>
-                                <a href="#danglich" data-toggle="tab">Dạng lịch</a>
+                                <a href="#danglich" data-toggle="tab" id="tabdanglich">Dạng lịch</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -104,7 +104,20 @@
                             </div>
                             <div class="tab-pane" id="danglich">
                                 @*Dạng lịch*@
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12" style="color:#fff">
 
+                                        <span style="background-color: #3fc9d5; padding:5px; margin-right:5px">Chưa băt đầu</span>
+                                        <span style="background-color: #257e4a; padding: 5px; margin-right: 5px">Băt đầu</span>
+                                        <span style="background-color: #fcb941; padding: 5px; margin-right: 5px">Đang xử lý</span>
+                                        <span style="background-color: #2574a9; padding: 5px; margin-right: 5px">Hoàn thành</span>
+                                        <span style="background-color: #3f3f3f; padding: 5px; margin-right: 5px">Đang chờ</span>
+                                        <span style="background-color: #eb4549; padding: 5px; margin-right: 5px">Hoãn lại</span>
+
+                                    </div>
+                                </div>
+                                <br />
+                                <div id="calendar"></div>
                             </div>
                         </div>
                     </div>
@@ -118,9 +131,14 @@
 <!----- lịch hẹn ----->
 @Html.Partial("_Partial_InsertAppointmentHistory", new CRM.Core.tbl_AppointmentHistory())
 <div id="info-data-appoinment">
+
 </div>
+@Styles.Render("~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css")
 
 @section scripts{
-
     <script src="~/Scripts/controller/appointmentlist.js"></script>
+    <script src="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <script src="~/Content/assets/global/plugins/fullcalendar/lang-all.js"></script>
+    
+
 }

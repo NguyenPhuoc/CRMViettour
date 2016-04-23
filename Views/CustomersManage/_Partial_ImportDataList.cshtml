@@ -1,0 +1,93 @@
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@model IEnumerable<tbl_Customer>
+    @{
+        int i = 0;
+    }
+    <div class="table-responsive table-custom-format">
+
+        <script>
+            $("#tbl-data-import").on("change", ".cbItem", function () {
+                var ItemID = $(this).val();
+                var currentlistItemID = $("#listItemIdI").val();
+                var stringBranchID = "";
+                if ($(this).prop('checked')) {
+                    currentlistItemID += ItemID + ",";
+                    $("#listItemIdI").val(currentlistItemID);
+                } else {
+                    $("#listItemIdI").val(currentlistItemID.replace(ItemID + ",", ""));
+                }
+            });
+            function DeleteImport() {
+                if ($("#listItemIdI").val() == "") {
+                    alert("Vui lòng chọn mục cần xóa !");
+                    return false;
+                }
+                var dataPost = { listItemId: $("#listItemIdI").val() };
+                $.ajax({
+                    type: "POST",
+                    url: '/CustomersManage/DeleteImport',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#import-data-customer").html(data);
+                        $("#listItemIdI").val("");
+                    }
+                });
+            }
+            function SaveImport() {
+                $.ajax({
+                    type: "POST",
+                    url: '/CustomersManage/SaveImport',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+
+                    }
+                });
+            }
+        </script>
+        <table class="table table-striped table-bordered table-hover" id="tbl-data-import">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>STT</th>
+                    <th>HỌ TÊN</th>
+                    <th>D.O.B</th>
+                    <th>PP NO.</th>
+                    <th>D.O.I</th>
+                    <th>D.O.E</th>
+                    <th>ĐIỆN THOẠI</th>
+                    <th>SỐ ĐT KHÁC</th>
+                    <th>EMAIL</th>
+                    <th>CMND</th>
+                    <th>GHI CHÚ</th>
+                    <th colspan="10"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="@i" id="cb@i" class="cbItem" name="cb" onclick="CheckSelect()" />
+                        </td>
+                        <td>@i</td>
+                        <td>@item.FullName</td>
+                        <td>@(item.Birthday != null ? item.Birthday.ToString("dd-MM-yyyy") : "")</td>
+                        <td>@item.PassportCard</td>
+                        <td>@(item.CreatedDatePassport != null ? item.CreatedDatePassport.ToString("dd-MM-yyyy") : "")</td>
+                        <td>@(item.ExpiredDatePassport != null ? item.ExpiredDatePassport.ToString("dd-MM-yyyy") : "")</td>
+                        <td>@item.Phone</td>
+                        <td>@item.MobilePhone</td>
+                        <td>@item.Address</td>
+                        <td>@item.IdentityCard</td>
+                        <td>@item.Note</td>
+                        <td colspan="10"></td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>

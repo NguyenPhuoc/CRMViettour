@@ -2310,9 +2310,9 @@
     <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertReviewTour.cshtml" />
-    <Content Include="Views\TourOtherTab\_Partial_InsertScheduleTour.cshtml" />
+    <Content Include="Views\TourManage\_Partial_InsertScheduleTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertServiceTour.cshtml" />
-    <Content Include="Views\TourOtherTab\_Partial_InsertTaskTour.cshtml" />
+    <Content Include="Views\TourManage\_Partial_InsertTaskTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_Insert_CongNoDoiTac.cshtml" />
     <Content Include="Views\TourManage\_Partial_Insert_CongNoKhachHang.cshtml" />

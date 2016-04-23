@@ -651,22 +651,5 @@ namespace CRMViettour.Utilities
             return model;
         }
 
-        ///// <summary>
-        ///// name tbl_Dictionary 
-        ///// </summary>
-        ///// <returns></returns>
-        //public static string NameDictionary(int id)
-        //{
-        //    return _db.tbl_Dictionary.Where(c => c.Id == id).Select(c => c.Name).SingleOrDefault();
-        //}
-
-        ///// <summary>
-        ///// name tbl_Dictionary 
-        ///// </summary>
-        ///// <returns></returns>
-        //public static string NameStaff(int id)
-        //{
-        //    return _db.tbl_Staff.Where(c => c.Id == id).Select(c => c.FullName).SingleOrDefault();
-        //}
     }
 }

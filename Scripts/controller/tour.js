@@ -6,6 +6,13 @@ $("#insert-guide-tour").select2();
 $("#insert-startplace-tourguide").select2();
 $("#insert-permission-tour").select2();
 
+$("#insert-task-type").select2();
+$("#insert-department-tasktour").select2();
+$("#insert-staff-tasktour").select2();
+$("#insert-priority-task").select2();
+$("#insert-timetype-task").select2();
+$("#update-type-tour").select2();
+
 $('.dataTable').dataTable({
     order: [],
     columnDefs: [{ orderable: false, targets: [0] }]
@@ -64,7 +71,7 @@ $("#btnRemove").on("click", function () {
     var $tableWrapper = $("#tableDictionary-Wrapper");
     var $table = $("#tableDictionary");
 
-    DeleteSelectedItem($this, $tableWrapper, $table, function (data) {});
+    DeleteSelectedItem($this, $tableWrapper, $table, function (data) { });
     return false;
 });
 
@@ -612,3 +619,82 @@ $("#select-type-tour").change(function () {
         }
     });
 });
+
+/** popup insert lịch đi tour **/
+$("#btnAddSchedule").click(function () {
+    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+    $.ajax({
+        type: "POST",
+        url: '/TourManage/GetIdTour',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#modal-insert-tourschedule").modal('show');
+        }
+    });
+})
+
+/** popup insert task tour **/
+
+$("#btnAddTask").click(function () {
+    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+    $.ajax({
+        type: "POST",
+        url: '/TourManage/GetIdTour',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#modal-insert-tourtask").modal('show');
+        }
+    });
+})
+
+$('#insert-department-tasktour').change(function () {
+    $.getJSON('/TourManage/LoadPermission/' + $('#insert-department-tasktour').val(), function (data) {
+        var items = '<option>-- Chọn nhân viên thực hiện --</option>';
+        $.each(data, function (i, ward) {
+            items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+        });
+        $('#insert-staff-tasktour').html(items);
+    });
+});
+
+/** popup update type tour **/
+
+$("#btnUpdateType").click(function () {
+    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+    $.ajax({
+        type: "POST",
+        url: '/TourManage/GetIdTour',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $.ajax({
+                type: "POST",
+                url: '/TourManage/UpdateTypeTour',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function () {
+                    alert('Đã chuyển!');
+                }
+            });
+        }
+    });
+})
+
+
+function OnFailureTour() {
+    alert("Lỗi...!");
+    $("#modal-insert-tourtask").modal('hide');
+    $("#modal-insert-tourschedule").modal('hide');
+}
+
+function OnSuccessTour() {
+    alert("Đã lưu!");
+    $("#modal-insert-tourtask").modal('hide');
+    $("#modal-insert-tourschedule").modal('hide');
+}

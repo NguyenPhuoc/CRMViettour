@@ -40,9 +40,9 @@
                         @Html.AntiForgeryToken()
                         <input type="hidden" id="listItemId" name="listItemId" />
                     </form>
-                    <button class="btn green" id="btnAddSchedule" href="#modal-insert-tourschedule" data-toggle="modal"><i class="fa fa-calendar-plus-o"></i>&nbsp;Tạo lịch đi tour</button>
-                    <button class="btn blue" id="btnAddTask" href="#modal-insert-tourtask" data-toggle="modal"><i class="fa fa-clipboard"></i>&nbsp;Phân công nhiệm vụ</button>
-                    <button class="btn btn-transparent" id="btnUpdateType" href="#modal-update-tourtype" data-toggle="modal"><i class="fa fa-refresh"></i>&nbsp;Chuyển đổi loại tour</button>
+                    <button class="btn green" id="btnAddSchedule"><i class="fa fa-calendar-plus-o"></i>&nbsp;Tạo lịch đi tour</button>
+                    <button class="btn blue" id="btnAddTask"><i class="fa fa-clipboard"></i>&nbsp;Phân công nhiệm vụ</button>
+                    <button class="btn btn-transparent" id="btnUpdateType" onclick="confirm('Chuyển từ đấu thầu sang tour!')"><i class="fa fa-refresh"></i>&nbsp;Chuyển đổi loại tour</button>
                 </div>
             </div>
         </div>
@@ -204,11 +204,12 @@
 <div id="info-data-doc"></div>
 
 <!----- lịch đi tour ----->
-@Html.Partial("~/Views/TourOtherTab/_Partial_InsertScheduleTour.cshtml")
-<div id="info-data-schedule"></div>
+@Html.Partial("_Partial_InsertScheduleTour")
 
-@Html.Partial("~/Views/TourOtherTab/_Partial_InsertTaskTour.cshtml")
-<div id="info-data-task"></div>
+@Html.Partial("_Partial_InsertTaskTour")
+
+@Html.Partial("_Partial_Update_TourType")
+
 @*
     @Html.Partial("_Partial_InsertServiceTour")
     @Html.Partial("_Partial_AddServices")
@@ -220,7 +221,6 @@
     @Html.Partial("_Partial_InsertRestaurant")
     @Html.Partial("_Partial_InsertTransport")
     @Html.Partial("_Partial_Setup_UserInGroup")
-    @Html.Partial("_Partial_Update_TourType")
     @Html.Partial("_Partial_Insert_CongNoDoiTac")
     @Html.Partial("_Partial_Insert_CongNoKhachHang")
     @Html.Partial("_Partial_InsertReviewTour")

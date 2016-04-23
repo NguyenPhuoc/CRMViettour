@@ -3,6 +3,7 @@ CKEDITOR.replace("insert-note-lichhen");
 CKEDITOR.replace("insert-note-lienhe");
 CKEDITOR.replace("insert-document-note");
 CKEDITOR.replace("insert-schedule-tour");
+CKEDITOR.replace("insert-note-tourtask");
 
 $("#insert-service-tour").select2();
 $("#insert-partner-tour").select2();

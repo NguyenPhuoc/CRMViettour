@@ -32,6 +32,11 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_Contract> _contractRepository;
         private IGenericRepository<tbl_Partner> _partnerRepository;
         private IGenericRepository<tbl_TourGuide> _tourGuideRepository;
+        private IGenericRepository<tbl_TourSchedule> _tourScheduleRepository;
+        private IGenericRepository<tbl_TourCustomer> _tourCustomerRepository;
+        private IGenericRepository<tbl_TourCustomerVisa> _tourCustomerVisaRepository;
+        private IGenericRepository<tbl_TourOption> _tourOptionRepository;
+        private IGenericRepository<tbl_Staff> _staffRepository;
         private DataContext _db;
 
         public TourManageController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
@@ -49,6 +54,11 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_Contract> contractRepository,
             IGenericRepository<tbl_Partner> partnerRepository,
             IGenericRepository<tbl_TourGuide> tourGuideRepository,
+            IGenericRepository<tbl_TourSchedule> tourScheduleRepository,
+            IGenericRepository<tbl_TourCustomer> tourCustomerRepository,
+            IGenericRepository<tbl_TourCustomerVisa> tourCustomerVisaRepository,
+            IGenericRepository<tbl_TourOption> tourOptionRepository,
+            IGenericRepository<tbl_Staff> staffRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -67,6 +77,11 @@ namespace CRMViettour.Controllers
             this._contractRepository = contractRepository;
             this._partnerRepository = partnerRepository;
             this._tourGuideRepository = tourGuideRepository;
+            this._tourScheduleRepository = tourScheduleRepository;
+            this._tourCustomerRepository = tourCustomerRepository;
+            this._tourCustomerVisaRepository = tourCustomerVisaRepository;
+            this._tourOptionRepository = tourOptionRepository;
+            this._staffRepository = staffRepository;
             _db = new DataContext();
         }
 
@@ -117,6 +132,7 @@ namespace CRMViettour.Controllers
             {
                 model.SingleTour.CreatedDate = DateTime.Now;
                 model.SingleTour.ModifiedDate = DateTime.Now;
+                model.SingleTour.IsBidding = false;
                 model.SingleTour.Permission = form["SingleTour.Permission"] != null ? form["SingleTour.Permission"].ToString() : null;
                 if (model.StartDateTour != null && model.StartDateTour.Value.Year >= 1980)
                 {
@@ -252,7 +268,7 @@ namespace CRMViettour.Controllers
         {
             if (id == 9999)
             {
-                var model = _tourRepository.GetAllAsQueryable().Where(p => p.CustomerId == null)
+                var model = _tourRepository.GetAllAsQueryable().Where(p => p.IsBidding == true)
                 .Select(p => new TourListViewModel
                 {
                     Id = p.Id,
@@ -291,6 +307,73 @@ namespace CRMViettour.Controllers
                 return PartialView("_Partial_ListTours", model);
             }
         }
+        #endregion
+
+        #region Tạo lịch đi tour
+
+        [ValidateInput(false)]
+        public async Task<ActionResult> CreateScheduleTour(tbl_TourSchedule model, FormCollection form)
+        {
+            try
+            {
+                model.CreatedDate = DateTime.Now;
+                model.TourId = Convert.ToInt32(Session["idTour"].ToString());
+                model.StaffId = 9;
+                await _tourScheduleRepository.Create(model);
+                Response.Write("<script>alert('Đã lưu');</script>");
+            }
+            catch { }
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region Nhiệm vụ
+
+        public JsonResult LoadPermission(int id)
+        {
+            var model = new SelectList(_staffRepository.GetAllAsQueryable().Where(p => p.DepartmentId == id).ToList(), "Id", "FullName");
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [ValidateInput(false)]
+        public async Task<ActionResult> CreateTaskTour(tbl_Task model, FormCollection form)
+        {
+            try
+            {
+                model.CreatedDate = DateTime.Now;
+                model.ModifiedDate = DateTime.Now;
+                model.TaskStatusId = 1193;
+                model.TourId = Convert.ToInt32(Session["idTour"].ToString());
+                model.CodeTour = _tourRepository.FindId(model.TourId).Code;
+                model.IsNotify = false;
+                model.StaffId = 9;
+                await _taskRepository.Create(model);
+                Response.Write("<script>alert('Đã lưu');</script>");
+            }
+            catch { }
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region cập nhật loại tour
+
+        public ActionResult UpdateTypeTour()
+        {
+            try
+            {
+                int tourId = Convert.ToInt32(Session["idTour"].ToString());
+                var item = _tourRepository.FindId(tourId);
+                item.IsBidding = false;
+                _db.SaveChanges();
+            }
+            catch { }
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
     }
 }

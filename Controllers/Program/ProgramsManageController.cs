@@ -439,10 +439,10 @@ namespace CRMViettour.Controllers
                     worksheet.Cells[row, col].Value = program.TagsId != null ? LoadData.LocationTags(program.TagsId) : "";
                     col++;
 
-                    worksheet.Cells[row, col].Value = program.StartDate.ToString("dd-MM-yyyy");
+                    worksheet.Cells[row, col].Value = program.StartDate.ToString("dd/MM/yyyy");
                     col++;
 
-                    worksheet.Cells[row, col].Value = program.EndDate.ToString("dd-MM-yyyy");
+                    worksheet.Cells[row, col].Value = program.EndDate.ToString("dd/MM/yyyy");
                     col++;
 
                     worksheet.Cells[row, col].Value = program.NumberDay;

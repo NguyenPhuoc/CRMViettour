@@ -569,5 +569,27 @@
                     }
                 });
             }
+
+            //fileImport
+            $('#fileImport').change(function () {
+                var data = new FormData();
+                data.append('FileName', $('#fileImport')[0].files[0]);
+
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: '/StaffManage/ImportFile',
+                    contentType: false,
+                    processData: false,
+                    data: data
+                });
+
+                ajaxRequest.done(function (xhr, textStatus) {
+                    // Onsuccess 
+                });
+                ajaxRequest.success(function (data) {
+                    $("#listItemIdI").val("");
+                    $("#import-data-staff").html(data);
+                })
+            });
         </script>
     }

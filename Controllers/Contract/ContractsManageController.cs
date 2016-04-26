@@ -442,7 +442,7 @@ namespace CRMViettour.Controllers
                     worksheet.Cells[row, col].Value = contract.Code;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.ContractDate.ToString("dd-MM-yyyy");
+                    worksheet.Cells[row, col].Value = contract.ContractDate.ToString("dd/MM/yyyy");
                     col++;
 
                     worksheet.Cells[row, col].Value = contract.Name == null ? "" : contract.Name;
@@ -466,7 +466,7 @@ namespace CRMViettour.Controllers
                     //worksheet.Cells[row, col].Value = contract.Position;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.StartDate.ToString("dd-MM-yyyy");
+                    worksheet.Cells[row, col].Value = contract.StartDate.ToString("dd/MM/yyyy");
                     col++;
 
                     worksheet.Cells[row, col].Value = contract.NumberDay;
@@ -490,13 +490,13 @@ namespace CRMViettour.Controllers
                     worksheet.Cells[row, col].Value = contract.tbl_Staff.FullName;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.CreatedDate.ToString("dd-MM-yyyy");
+                    worksheet.Cells[row, col].Value = contract.CreatedDate.ToString("dd/MM/yyyy");
                     col++;
 
                     //worksheet.Cells[row, col].Value = contract.tbl_UpdateHistory == null ? "" : contract.tbl_UpdateHistory.Last().tbl_Staff.FullName;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.ModifiedDate.ToString("dd-MM-yyyy");
+                    worksheet.Cells[row, col].Value = contract.ModifiedDate.ToString("dd/MM/yyyy");
                     col++;
                     //if (contract.IsLock)
                     //    worksheet.Cells[row, col].Value = "Khóa";

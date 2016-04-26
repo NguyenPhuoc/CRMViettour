@@ -16,6 +16,7 @@ using System.Web.UI.WebControls;
 using System.Drawing;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using System.Globalization;
 
 namespace CRMViettour.Controllers
 {
@@ -1009,39 +1010,250 @@ namespace CRMViettour.Controllers
                 using (var excelPackage = new ExcelPackage(FileName.InputStream))
                 {
                     List<tbl_Customer> list = new List<tbl_Customer>();
-                    //string idCol, nameCol, emailCol, addressCol, phoneCol, faxCol, personalEmailCol, companyEmailCol, noteCol, mobilePhoneCol, birthdayCol,
-                    //    identityCardCol, passportCardCol, createdDatePassportCol, expiredDatePassportCol;
                     var worksheet = excelPackage.Workbook.Worksheets[1];
-                    //using (var headers = worksheet.Cells[, 1, 8, worksheet.Dimension.End.Column])
-                    //{
-                    //    idCol = headers.First(c => c.Value.Equals("No.")).Address[0].ToString();
-                    //    nameCol = headers.First(c => c.Value.Equals("HỌ TÊN")).Address[0].ToString();
-                    //    emailCol = headers.First(c => c.Value.Equals("ĐIỆN THOẠI")).Address[0].ToString();
-                    //}
                     var lastRow = worksheet.Dimension.End.Row;
-                    for (int row = 2; row <= lastRow; row++)
-                    {
-                        var cus = new tbl_Customer
+                    if (worksheet.Cells["B2"].Text == "0")//Công ty
+                        for (int row = 2; row <= lastRow; row++)
                         {
-                            FullName = worksheet.Cells["b" + row].Value != null ? worksheet.Cells["b" + row].Value.ToString() : "",
-                            PersonalEmail = worksheet.Cells["i" + row].Value != null ? worksheet.Cells["i" + row].Value.ToString() : "",
-                            PassportCard = worksheet.Cells["d" + row].Value != null ? worksheet.Cells["d" + row].Value.ToString() : "",
-                            Phone = worksheet.Cells["g" + row].Value != null ? worksheet.Cells["g" + row].Value.ToString() : "",
-                            MobilePhone = worksheet.Cells["h" + row].Value != null ? worksheet.Cells["h" + row].Value.ToString() : "",
-                            Address = worksheet.Cells["m" + row].Value != null ? worksheet.Cells["m" + row].Value.ToString() : "",
-                            IdentityCard = worksheet.Cells["n" + row].Value != null ? worksheet.Cells["n" + row].Value.ToString() : "",
-                            Note = worksheet.Cells["r" + row].Value != null ? worksheet.Cells["r" + row].Value.ToString() : "",
+                            if (worksheet.Cells["c" + row].Value == null || worksheet.Cells["c" + row].Text == "")
+                                continue;
+                            var cus = new tbl_Customer
+                            {
+                                CustomerType = CustomerType.Organization,
+                                FullName = worksheet.Cells["c" + row].Value != null ? worksheet.Cells["c" + row].Text : null,
+                                Director = worksheet.Cells["d" + row].Value != null ? worksheet.Cells["d" + row].Text : null,
+                                Address = worksheet.Cells["e" + row].Value != null ? worksheet.Cells["e" + row].Text : null,
+                                CompanyEmail = worksheet.Cells["i" + row].Value != null ? worksheet.Cells["i" + row].Text : null,
+                                Phone = worksheet.Cells["j" + row].Value != null ? worksheet.Cells["j" + row].Text : null,
+                                Fax = worksheet.Cells["k" + row].Value != null ? worksheet.Cells["k" + row].Text : null,
+                                TaxCode = worksheet.Cells["l" + row].Value != null ? worksheet.Cells["l" + row].Text : null,
+                                CreatedPlaceTaxCode = worksheet.Cells["n" + row].Value != null ? worksheet.Cells["n" + row].Text : null,
+                                AccountNumber = worksheet.Cells["o" + row].Value != null ? worksheet.Cells["o" + row].Text : null,
+                                Bank = worksheet.Cells["p" + row].Value != null ? worksheet.Cells["p" + row].Text : null,
+                                CreatedDate = DateTime.Now,
+                                ModifiedDate = DateTime.Now,
+                            };
+                            string cel = "";
+                            try//ngay cap ma so thue
+                            {
+                                cel = "m";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    cus.CreatedDateTaxCode = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                }
+                            }
+                            catch { }
+                            try//công ty
+                            {
+                                cel = "c";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string congty = worksheet.Cells[cel + row].Text;
+                                    cus.CompanyId = _companyRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == congty).Select(c => c.Id).SingleOrDefault();
+                                }
+                            }
+                            catch { }
+                            try//công ty
+                            {
+                                cel = "c";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string congty = worksheet.Cells[cel + row].Text;
+                                    cus.CompanyId = _companyRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == congty).Select(c => c.Id).SingleOrDefault();
+                                }
+                            }
+                            catch { }
+                            try//tagid dia chi
+                            {
+                                cel = "f";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string tinhtp = worksheet.Cells[cel + row].Text;
+                                    cus.TagsId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == tinhtp && c.TypeTag == 5).Select(c => c.Id).SingleOrDefault().ToString();
+                                }
+                                cel = "g";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string quanhuyen = worksheet.Cells[cel + row].Text;
+                                    var tagid = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == quanhuyen && c.TypeTag == 6).SingleOrDefault();
+                                    if (tagid != null)
+                                        if (cus.TagsId != null)
+                                            cus.TagsId += "," + tagid.Id;
+                                        else
+                                            cus.TagsId = tagid.Id.ToString();
+                                }
+                                cel = "h";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string phuongxa = worksheet.Cells[cel + row].Text;
+                                    var tagid = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == phuongxa && c.TypeTag == 7).SingleOrDefault();
+                                    if (tagid != null)
+                                        if (cus.TagsId != null)
+                                            cus.TagsId += "," + tagid.Id;
+                                        else
+                                            cus.TagsId = tagid.Id.ToString();
+                                }
+                            }
+                            catch { }
+                            try//nhóm khách hàng
+                            {
+                                cel = "q";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string nhomkh = worksheet.Cells[cel + row].Text;
+                                    cus.CustomerGroupId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == nhomkh && c.DictionaryCategoryId == 3).Select(c => c.Id).SingleOrDefault();
+                                }
+                            }
+                            catch { }
+                            try//ngành nghề
+                            {
+                                cel = "r";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string nganhnghe = worksheet.Cells[cel + row].Text;
+                                    cus.CareerId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == nganhnghe && c.DictionaryCategoryId == 2).Select(c => c.Id).SingleOrDefault();
+                                }
+                            }
+                            catch { }
 
+                            list.Add(cus);
+                        }
+                    else//cá nhân=====================================================
+                        for (int row = 2; row <= lastRow; row++)
+                        {
+                            if (worksheet.Cells["c" + row].Value == null || worksheet.Cells["c" + row].Text == "")
+                                continue;
+                            var cus = new tbl_Customer
+                            {
+                                CustomerType = CustomerType.Personal,
+                                FullName = worksheet.Cells["d" + row].Value != null ? worksheet.Cells["d" + row].Text : null,
+                                PersonalEmail = worksheet.Cells["f" + row].Value != null ? worksheet.Cells["f" + row].Text : null,
+                                Phone = worksheet.Cells["g" + row].Value != null ? worksheet.Cells["g" + row].Text : null,
+                                Address = worksheet.Cells["h" + row].Value != null ? worksheet.Cells["h" + row].Text : null,
+                                AccountNumber = worksheet.Cells["o" + row].Value != null ? worksheet.Cells["o" + row].Text : null,
+                                Bank = worksheet.Cells["p" + row].Value != null ? worksheet.Cells["p" + row].Text : null,
+                                IdentityCard = worksheet.Cells["q" + row].Value != null ? worksheet.Cells["q" + row].Text : null,
+                                PassportCard = worksheet.Cells["t" + row].Value != null ? worksheet.Cells["t" + row].Text : null,
+                                Position = worksheet.Cells["l" + row].Value != null ? worksheet.Cells["l" + row].Text : null,
+                                Department = worksheet.Cells["m" + row].Value != null ? worksheet.Cells["m" + row].Text : null,
+                                CreatedDate = DateTime.Now,
+                                ModifiedDate = DateTime.Now,
+                            };
+                            string cel = "";
+                            try//ngay sinh
+                            {
+                                cel = "e";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    cus.Birthday = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                }
+                            }
+                            catch { }
+                            try//ngay cấp cmnd
+                            {
+                                cel = "r";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    cus.CreatedDateIdentity = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                }
+                            }
+                            catch { }
+                            try//ngay hiệu lực passport
+                            {
+                                cel = "u";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    cus.CreatedDatePassport = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                }
+                            }
+                            catch { }
+                            try//ngay hết hạn passport
+                            {
+                                cel = "v";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    cus.ExpiredDatePassport = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                }
+                            }
+                            catch { }
+                            try//danh xưng
+                            {
+                                cel = "c";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                    {
+                                        string danhsung = worksheet.Cells[cel + row].Text;
+                                        cus.NameTypeId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == danhsung && c.DictionaryCategoryId == 7).Select(c => c.Id).SingleOrDefault();
+                                    }
+                                }
+                            }
+                            catch { }
+                            try//tagid dia chi
+                            {
+                                cel = "i";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string tinhtp = worksheet.Cells[cel + row].Text;
+                                    cus.TagsId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == tinhtp && c.TypeTag == 5).Select(c => c.Id).SingleOrDefault().ToString();
+                                }
+                                cel = "j";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string quanhuyen = worksheet.Cells[cel + row].Text;
+                                    var tagid = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == quanhuyen && c.TypeTag == 6).SingleOrDefault();
+                                    if (tagid != null)
+                                        if (cus.TagsId != null)
+                                            cus.TagsId += "," + tagid.Id;
+                                        else
+                                            cus.TagsId = tagid.Id.ToString();
+                                }
+                                cel = "k";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string phuongxa = worksheet.Cells[cel + row].Text;
+                                    var tagid = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == phuongxa && c.TypeTag == 7).SingleOrDefault();
+                                    if (tagid != null)
+                                        if (cus.TagsId != null)
+                                            cus.TagsId += "," + tagid.Id;
+                                        else
+                                            cus.TagsId = tagid.Id.ToString();
+                                }
+                            }
+                            catch { }
+                            try//ngành nghề
+                            {
+                                cel = "n";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string nganhnghe = worksheet.Cells[cel + row].Text;
+                                    cus.CareerId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == nganhnghe && c.DictionaryCategoryId == 2).Select(c => c.Id).SingleOrDefault();
+                                }
+                            }
+                            catch { }
+                            try//noi cap cmnd
+                            {
+                                cel = "s";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string noicap = worksheet.Cells[cel + row].Text;
+                                    cus.IdentityTagId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == noicap && c.TypeTag == 3).Select(c => c.Id).SingleOrDefault();
+                                }
+                            }
+                            catch { }
+                            try//noi cap passport
+                            {
+                                cel = "w";
+                                if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                                {
+                                    string noicap = worksheet.Cells[cel + row].Text;
+                                    cus.PassportTagId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == noicap && c.TypeTag == 3).Select(c => c.Id).SingleOrDefault();
+                                }
+                            }
+                            catch { }
 
-                        };
-                        if (worksheet.Cells["c" + row].Value != null)
-                            cus.Birthday = DateTime.Parse(worksheet.Cells["c" + row].Value.ToString());
-                        if (worksheet.Cells["e" + row].Value != null)
-                            cus.CreatedDatePassport = DateTime.Parse(worksheet.Cells["e" + row].Value.ToString());
-                        if (worksheet.Cells["f" + row].Value != null)
-                            cus.ExpiredDatePassport = DateTime.Parse(worksheet.Cells["f" + row].Value.ToString());
-                        list.Add(cus);
-                    }
+                            list.Add(cus);
+                        }
                     Session["listCustomerImport"] = list;
                     return PartialView("_Partial_ImportDataList", list);
                 }
@@ -1057,12 +1269,32 @@ namespace CRMViettour.Controllers
             try
             {
                 List<tbl_Customer> list = Session["listCustomerImport"] as List<tbl_Customer>;
+                int i = 0;
+                foreach (var item in list)
+                {
+                    if (item.CustomerType == CustomerType.Personal)
+                    {
+                        item.Code = LoadData.NewCodeCustomerPersonal();
+                        await _customerRepository.Create(item);
+                        i++;
+                    }
+                    else
+                    {
+                        item.Code = "DEMO" + new Random().Next(10000, 99999);
+                        await _customerRepository.Create(item);
+                        i++;
+                    }
+                } Session["listCustomerImport"] = null;
+                if (i != 0)
+                    return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Đã import thành công " + i + " dòng dữ liệu !", IsPartialView = false, RedirectTo = Url.Action("Index", "CustomersManage") }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new ActionModel() { Succeed = false, Code = "200", View = "", Message = "Chưa có dữ liệu nào được import !" }, JsonRequestBehavior.AllowGet);
 
-                return PartialView("_Partial_ImportDataList", list);
             }
             catch
             {
-                return null;
+                Session["listCustomerImport"] = null;
+                return Json(new ActionModel() { Succeed = false, Code = "200", View = "", Message = "Import dữ liệu lỗi !" }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1123,10 +1355,10 @@ namespace CRMViettour.Controllers
                  .Select(p => new CustomerListViewModel
                  {
                      Fullname = p.FullName == null ? "" : p.FullName,
-                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
+                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("d/M/yyyy"),
                      Passport = p.PassportCard == null ? "" : p.PassportCard,
-                     StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("dd-MM-yyyy"),
-                     EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("dd-MM-yyyy"),
+                     StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("d/M/yyyy"),
+                     EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("d/M/yyyy"),
                      Phone = p.Phone == null ? "" : p.Phone,
                      OtherPhone = p.MobilePhone == null ? "" : p.MobilePhone,
                      Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,

@@ -23,6 +23,7 @@ namespace CRMViettour.Controllers
 
         #region Init
 
+        private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
         private IGenericRepository<tbl_Contract> _contractRepository;
         private IGenericRepository<tbl_Tags> _tagRepository;
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
@@ -31,6 +32,7 @@ namespace CRMViettour.Controllers
         private DataContext _db;
 
         public ContractsManageController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
+            IGenericRepository<tbl_UpdateHistory> updateHistoryRepository,
             IGenericRepository<tbl_Contract> contractRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
             IGenericRepository<tbl_Staff> staffRepository,
@@ -38,6 +40,7 @@ namespace CRMViettour.Controllers
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
+            this._updateHistoryRepository = updateHistoryRepository;
             this._staffRepository = staffRepository;
             this._contractRepository = contractRepository;
             this._documentFileRepository = documentFileRepository;
@@ -136,6 +139,11 @@ namespace CRMViettour.Controllers
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
+                        foreach (string id in listIds)
+                        {
+                            var update = _db.tbl_UpdateHistory.AsEnumerable().FirstOrDefault(p=>p.ContractId.ToString() == id);
+                            _db.tbl_UpdateHistory.Remove(update);
+                        }
                         if (await _contractRepository.DeleteMany(listIds, true))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "ContractsManage") }, JsonRequestBehavior.AllowGet);

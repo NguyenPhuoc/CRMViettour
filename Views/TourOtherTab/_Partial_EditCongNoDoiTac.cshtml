@@ -1,0 +1,109 @@
+﻿@using CRMViettour.Utilities
+@model CRM.Core.tbl_LiabilityPartner
+
+<div class="modal fade" id="modal-edit-congnodt" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Cập nhật công nợ của đối tác</h4>
+            </div>
+            @using (Ajax.BeginForm("UpdateLiabilityPartner", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "congnodoitac" }))
+            {
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.StaffId)
+                @Html.HiddenFor(model => model.CreatedDate)
+                @Html.HiddenFor(model => model.TourId)
+                @Html.HiddenFor(model => model.SecondCurrencyType)
+
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet light bordered">
+                                    <div class="portlet-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Đối tác</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <select class="form-control" name="PartnerId" required="required" id="edit-partner-congno" style="width: 100%">
+                                                            @foreach (var item in LoadData.PartnerAllList())
+                                                            {
+                                                                <option value="@item.Id" @(Model != null && Model.PartnerId == item.Id ? "selected" : "")>@item.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <label class="control-label col-lg-2 col-md-2">Thanh toán đợt 1</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        @Html.TextBoxFor(model => model.FirstPayment, "{0:0,0}", new { @class="form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Thanh toán</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <select class="form-control congnomethod" name="PaymentMethod" id="edit-method-congno" style="width: 100%">
+                                                            <option value="1" @(Model != null && Model.PaymentMethod == 1 ? "selected" : "")>Tiền mặt</option>
+                                                            <option value="2" @(Model != null && Model.PaymentMethod == 2 ? "selected" : "")>Chuyển khoản</option>
+                                                            <option value="3" @(Model != null && Model.PaymentMethod == 3 ? "selected" : "")>Thẻ</option>
+                                                            <option value="4" @(Model != null && Model.PaymentMethod == 4 ? "selected" : "")>Khác</option>
+                                                        </select>
+                                                    </div>
+                                                    <label class="control-label col-lg-2 col-md-2">Thanh toán đợt 2</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        @Html.TextBoxFor(model => model.SecondPayment, "{0:0,0}", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Giá trị dịch vụ</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        @Html.TextBoxFor(model => model.ServicePrice, "{0:0,0}", new { @class = "form-control" })
+                                                    </div>
+                                                    <label class="control-label col-lg-2 col-md-2">Còn lại</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        @Html.TextBoxFor(model => model.TotalRemaining, "{0:0,0}", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Loại tiền</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <select class="form-control" name="FirstCurrencyType" id="edit-currencyfirst-congno" style="width: 100%">
+                                                            @foreach (var item in LoadData.CurrencyList())
+                                                            {
+                                                                <option value="@item.Id" @(Model != null && Model.FirstCurrencyType == item.Id ? "selected" : "")>@item.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <textarea class="form-control" id="edit-note-congnodt" name="Note"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

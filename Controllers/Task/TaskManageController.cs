@@ -140,7 +140,6 @@ namespace CRMViettour.Controllers
                 model.Time = Int32.Parse((model.EndDate - model.StartDate).TotalDays.ToString());
                 if (await _taskRepository.Update(model))
                 {
-                    //UpdateHistory.....(model.Id, 9, "Cập nhật nhiệm vụ, code: " + model.Code);
                     return RedirectToAction("Index");
                 }
             }

@@ -1,4 +1,9 @@
-﻿<input type="button" data-toggle="modal" data-target="#modal-insert-congnokh" class="btn btn-primary" value="Thêm công nợ" />
+﻿@model IEnumerable<CRM.Core.tbl_LiabilityCustomer>
+@{
+    int i = 1;
+}
+<a style="cursor: pointer" class="btn btn-primary" onclick="btnCreateLiabilityCustomer()"><i class="fa fa-plus"></i>&nbsp;Thêm công nợ</a>
+<br /><br />
 <div class="table-scrollable table-custom-format">
     <table class="table table-striped table-bordered table-hover" id="table-history">
         <thead>
@@ -19,23 +24,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="odd gradeX">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    Xóa | Sửa
-                </td>
-            </tr>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="odd gradeX">
+                        <td>@i</td>
+                        <td>@string.Format("{0:0,0}", item.FirstPrice)</td>
+                        <td>@string.Format("{0:dd-MM-yyyy}", item.FirstDate)</td>
+                        <td>@string.Format("{0:0,0}", item.SecondPrice)</td>
+                        <td>@string.Format("{0:dd-MM-yyyy}", item.SecondDate)</td>
+                        <td>@string.Format("{0:0,0}", item.ThirdPrice)</td>
+                        <td>@string.Format("{0:dd-MM-yyyy}", item.ThirdDate)</td>
+                        <td>@string.Format("{0:0,0}", item.TotalContract)</td>
+                        <td>@string.Format("{0:0,0}", item.TotalLiquidation)</td>
+                        <td>@string.Format("{0:0,0}", item.TotalRemaining)</td>
+                        <td>
+                            <input type="checkbox" @(item.IsPayment == true ? "checked" : "") disabled="disabled" />
+                        </td>
+                        <td>@Html.Raw(item.Note)</td>
+                        <td>
+                            <a style="cursor: pointer" onclick="updateLiabilityCustomer(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
+                            <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục đã chọn ?'); deleteLiabilityCustomer(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
         </tbody>
     </table>
 </div>

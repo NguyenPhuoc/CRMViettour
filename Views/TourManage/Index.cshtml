@@ -99,7 +99,7 @@
                                 <a href="#visa" data-toggle="tab" id="tabvisa">VISA</a>
                             </li>
                             <li>
-                                <a href="#viettourbaogia" data-toggle="tabviettourbaogia" id="tab">Viettour Báo giá</a>
+                                <a href="#viettourbaogia" data-toggle="tab" id="tabviettourbaogia">Viettour Báo giá</a>
                             </li>
                             <li>
                                 <a href="#congnokh" data-toggle="tab" id="tabcongnokh">Công nợ KH</a>
@@ -207,23 +207,39 @@
 @Html.Partial("_Partial_InsertScheduleTour")
 
 @Html.Partial("_Partial_InsertTaskTour")
+<div id="info-data-task"></div>
 
 @Html.Partial("_Partial_Update_TourType")
 
-@*
-    @Html.Partial("_Partial_InsertServiceTour")
-    @Html.Partial("_Partial_AddServices")
-    @Html.Partial("_Partial_UpdateStatus")
+<!----- chương trình ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertProgram.cshtml", new tbl_DocumentFile())
+<div id="info-data-program"></div>
+
+<!----- hợp đồng ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertContract.cshtml", new tbl_Contract())
+<div id="info-data-contract"></div>
+
+<!----- đánh giá ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertMark.cshtml", new tbl_ReviewTour())
+
+<!----- công nợ đối tác ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertCongNoDoiTac.cshtml", new tbl_LiabilityPartner())
+<div id="info-data-liabilitypartner"></div>
+
+<!----- công nợ khách hàng ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertCongNoKhachHang.cshtml", new tbl_LiabilityCustomer())
+<div id="info-data-liabilitycustomer"></div>
+
+@*@Html.Partial("_Partial_InsertEvent")
+@Html.Partial("_Partial_InsertHotel")
+@Html.Partial("_Partial_InsertPlane")
+@Html.Partial("_Partial_InsertRestaurant")
+@Html.Partial("_Partial_InsertTransport")
+@Html.Partial("_Partial_InsertServiceTour")
+@Html.Partial("_Partial_AddServices")*@
+     @* @Html.Partial("_Partial_UpdateStatus")
     @Html.Partial("_Partial_UpdateVisa")
-    @Html.Partial("_Partial_InsertEvent")
-    @Html.Partial("_Partial_InsertHotel")
-    @Html.Partial("_Partial_InsertPlane")
-    @Html.Partial("_Partial_InsertRestaurant")
-    @Html.Partial("_Partial_InsertTransport")
     @Html.Partial("_Partial_Setup_UserInGroup")
-    @Html.Partial("_Partial_Insert_CongNoDoiTac")
-    @Html.Partial("_Partial_Insert_CongNoKhachHang")
-    @Html.Partial("_Partial_InsertReviewTour")
     @Html.Partial("_Partial_ImportCustomer")*@
 
 @section scripts{

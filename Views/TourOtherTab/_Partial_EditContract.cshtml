@@ -1,19 +1,22 @@
 ﻿@using CRMViettour.Utilities
 @using CRM.Core
 @model tbl_Contract
-@{
-    Random rd = new Random();
-}
 
-<div class="modal fade  bs-modal-lg" id="modal-insert-contract" role="document" aria-hidden="true">
+<div class="modal fade  bs-modal-lg" id="modal-edit-contract" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Hợp đồng</h4>
             </div>
-            @using (Ajax.BeginForm("CreateContract", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "chuongtrinh" }, new { id = "frmInsertProgram", enctype = "multipart/form-data" }))
+            @using (Ajax.BeginForm("UpdateContract", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "hopdong" }))
             {
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.TourId)
+                @Html.HiddenFor(model => model.CustomerId)
+                @Html.HiddenFor(model => model.CreatedDate)
+                @Html.HiddenFor(model => model.StaffId)
+
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="row">
@@ -21,32 +24,23 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Code</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <input type="text" name="Code" id="Code" value="@rd.Next(1111,9999)" class="form-control" required="required" readonly="readonly" />
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required", @readonly = "readonly" })
                                     </div>
-                                    <label class="control-label col-lg-2 col-md-2">Tour</label>
+                                    <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <select class="form-control" id="insert-tour" name="TourId" style="width: 100%" required="required">
-                                            @foreach (var item in LoadData.TourList())
+                                        <select class="form-control" id="edit-status-contracttour" name="StatusContractId" style="width: 100%" required="required">
+                                            @foreach (var item in LoadData.StatusContractList())
                                             {
-                                                <option value="@item.Id">@item.Code</option>
+                                                <option value="@item.Id" @(Model != null && Model.StatusContractId == item.Id ? "selected" : "")>@item.Name</option>
                                             }
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-lg-2 col-md-2">Khách hàng</label>
-                                    <div class="col-lg-4 col-md-4">
-                                        <select class="form-control" id="insert-customer" name="CustomerId" style="width: 100%" required="required">
-                                            @foreach (var item in LoadData.CustomerList())
-                                            {
-                                                <option value="@item.Id">@item.FullName</option>
-                                            }
-                                        </select>
-                                    </div>
                                     <label class="control-label col-lg-2 col-md-2">Ngày ký hợp đồng</label>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="input-group" data-date-format="mm/dd/yyyy">
-                                            <input type="date" class="form-control" id="insert-contractdate" name="ContractDate" style="width: 100%" required="required" />
+                                            @Html.TextBoxFor(model => model.ContractDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-contractdate", style = "width: 100%", @type = "date", required = "required" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -54,12 +48,21 @@
                                             </span>
                                         </div>
                                     </div>
+                                    <label class="control-label col-lg-2 col-md-2">Nhân viên ký</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <select class="form-control" id="edit-permission-contracttour" name="Permission" style="width: 100%" required="required">
+                                            @foreach (var item in LoadData.StaffList())
+                                            {
+                                                <option value="@item.Id" @(Model != null && Model.Permission == item.Id.ToString() ? "selected" : "")>@item.FullName</option>
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Ngày bắt đầu</label>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="input-group" data-date-format="mm/dd/yyyy">
-                                            <input type="date" class="form-control" id="insert-startdate" name="StartDate" style="width: 100%" required="required" />
+                                            @Html.TextBoxFor(model => model.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-startdate", @type = "date", style = "width: 100%" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -70,7 +73,7 @@
                                     <label class="control-label col-lg-2 col-md-2">Ngày kết thúc</label>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="input-group" data-date-format="mm/dd/yyyy">
-                                            <input type="date" class="form-control" id="insert-enddate" name="EndDate" style="width: 100%" />
+                                            @Html.TextBoxFor(model => model.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-enddate", style = "width: 100%", @type="date" })
                                             <span class="input-group-btn">
                                                 <button class="btn default date-set" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -85,17 +88,14 @@
                                         @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number" })
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Tổng giá trị</label>
-                                    <div class="col-lg-4 col-md-4">
+                                    <div class="col-lg-2 col-md-2">
                                         @Html.TextBoxFor(model => model.TotalPrice, new { @class = "form-control" })
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
-                                    <div class="col-lg-4 col-md-4">
-                                        <select class="form-control" id="insert-status" name="StatusContractId" style="width: 100%" required="required">
-                                            @foreach (var item in LoadData.StatusContractList())
+                                    <div class="col-lg-2 col-md-2">
+                                        <select class="form-control" id="edit-currency-contracttour" name="DictionaryId" style="width: 100%" required="required">
+                                            @foreach (var item in LoadData.CurrencyList())
                                             {
-                                                <option value="@item.Id">@item.Name</option>
+                                                <option value="@item.Id" @(Model != null && Model.DictionaryId == item.Id ? "selected" : "")>@item.Name</option>
                                             }
                                         </select>
                                     </div>
@@ -103,7 +103,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
                                     <div class="col-lg-10 col-md-10">
-                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note" })
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "edit-note-contracttour" })
                                     </div>
                                 </div>
                             </div>

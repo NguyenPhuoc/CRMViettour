@@ -534,7 +534,7 @@ $("#tabviettourbaogia").click(function () {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
         $.ajax({
             type: "POST",
-            url: '/TourTabInfo/InfoViettourDanhGia',
+            url: '/TourTabInfo/InfoViettourBaoGia',
             data: JSON.stringify(dataPost),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
@@ -662,7 +662,6 @@ $('#insert-department-tasktour').change(function () {
 });
 
 /** popup update type tour **/
-
 $("#btnUpdateType").click(function () {
     var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
     $.ajax({
@@ -686,15 +685,29 @@ $("#btnUpdateType").click(function () {
     });
 })
 
-
 function OnFailureTour() {
     alert("Lỗi...!");
     $("#modal-insert-tourtask").modal('hide');
     $("#modal-insert-tourschedule").modal('hide');
+    $("#modal-edit-tourtask").modal('hide');
 }
 
 function OnSuccessTour() {
     alert("Đã lưu!");
     $("#modal-insert-tourtask").modal('hide');
     $("#modal-insert-tourschedule").modal('hide');
+    $("#modal-edit-tourtask").modal('hide');
 }
+
+function OnFailureScheduleTour() {
+    alert("Lỗi...!");
+    $("#modal-insert-tourschedule").modal('hide');
+    $("#tabnhiemvu").click();
+}
+
+function OnSuccessScheduleTour() {
+    alert("Đã lưu!");
+    $("#modal-insert-tourschedule").modal('hide');
+    $("#tabnhiemvu").click();
+}
+

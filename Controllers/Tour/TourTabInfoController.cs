@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using CRMViettour.Models;
 
 namespace CRMViettour.Controllers.Tour
 {
@@ -118,9 +119,24 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
-        public async Task<ActionResult> InfoNhiemVu(int id)
+        public ActionResult InfoNhiemVu(int id)
         {
-            var model = await _taskRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+                           .Select(p => new tbl_Task
+                           {
+                               Id = p.Id,
+                               tbl_DictionaryTaskType = _dictionaryRepository.FindId(p.TaskTypeId),
+                               Name = p.Name,
+                               Permission = p.Permission,
+                               StartDate = p.StartDate,
+                               EndDate = p.EndDate,
+                               Time = p.Time,
+                               TimeType = p.TimeType,
+                               FinishDate = p.FinishDate,
+                               PercentFinish = p.PercentFinish,
+                               tbl_Staff = _staffRepository.FindId(p.StaffId),
+                               Note = p.Note
+                           }).ToList();
             return PartialView("_NhiemVu", model);
         }
         #endregion
@@ -150,7 +166,7 @@ namespace CRMViettour.Controllers.Tour
         [HttpPost]
         public async Task<ActionResult> InfoChuongTrinh(int id)
         {
-            var model = await _programRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.TourId == id && p.DictionaryId == 30).ToListAsync();
             return PartialView("_ChuongTrinh", model);
         }
         #endregion
@@ -222,9 +238,21 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
-        public async Task<ActionResult> InfoCongNoDoiTac(int id)
+        public ActionResult InfoCongNoDoiTac(int id)
         {
-            var model = await _liabilityPartnerRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+                            .Select(p => new tbl_LiabilityPartner
+                            {
+                                Id = p.Id,
+                                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                                tbl_Partner = _partnerRepository.FindId(p.PartnerId),
+                                PaymentMethod = p.PaymentMethod,
+                                ServicePrice = p.ServicePrice,
+                                FirstPayment = p.FirstPayment,
+                                SecondPayment = p.SecondPayment,
+                                TotalRemaining = p.TotalRemaining,
+                                tbl_DictionaryCurrencyType1 = _dictionaryRepository.FindId(p.FirstCurrencyType)
+                            }).ToList();
             return PartialView("_CongNoDoiTac", model);
         }
         #endregion
@@ -237,9 +265,20 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
-        public async Task<ActionResult> InfoDanhGia(int id)
+        public ActionResult InfoDanhGia(int id)
         {
-            var model = await _reviewTourRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = _reviewTourDetailRepository.GetAllAsQueryable().AsEnumerable().Where(p=>p.tbl_ReviewTour.TourId == id)
+                .Select(p=> new ReviewTourModel {
+                    Id = p.Id,
+                    Email = p.tbl_ReviewTour.tbl_Customer.PersonalEmail,
+                    Name = p.tbl_ReviewTour.tbl_Customer.FullName,
+                    Note = p.tbl_ReviewTour.Note,
+                    Phone = p.tbl_ReviewTour.tbl_Customer.MobilePhone,
+                    Service = p.tbl_Dictionary.Name,
+                    Mark = p.Mark,
+                    Staff = p.tbl_ReviewTour.tbl_Staff.FullName,
+                    Date = p.tbl_ReviewTour.CreatedDate
+                }).ToList();
             return PartialView("_DanhGia", model);
         }
         #endregion

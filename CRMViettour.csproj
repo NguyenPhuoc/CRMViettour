@@ -289,6 +289,7 @@
     <Compile Include="Models\DocumentFileViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PartnerViewModel.cs" />
+    <Compile Include="Models\ReviewTourModel.cs" />
     <Compile Include="Models\StaffViewModel.cs" />
     <Compile Include="Models\TagsViewModel.cs" />
     <Compile Include="Models\TourViewModel.cs" />
@@ -2210,8 +2211,8 @@
     <Content Include="Views\CompanyManage\_Partial_InsertCompany.cshtml" />
     <Content Include="Views\CompanyManage\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\ContractsManage\Index.cshtml" />
-    <Content Include="Views\ContractsManage\_Partial_EditContract.cshtml" />
-    <Content Include="Views\ContractsManage\_Partial_InsertContract.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_EditContract.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertContract.cshtml" />
     <Content Include="Views\ContractsManage\_Partial_SupportContract.cshtml" />
     <Content Include="Views\ContractsManage\_Partial_WorkContract.cshtml" />
     <Content Include="Views\CustomersManage\Index.cshtml" />
@@ -2309,13 +2310,12 @@
     <Content Include="Views\TourManage\_Partial_EditTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertDocument.cshtml" />
-    <Content Include="Views\TourManage\_Partial_InsertReviewTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertScheduleTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertServiceTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertTaskTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertTour.cshtml" />
-    <Content Include="Views\TourManage\_Partial_Insert_CongNoDoiTac.cshtml" />
-    <Content Include="Views\TourManage\_Partial_Insert_CongNoKhachHang.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertCongNoDoiTac.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertCongNoKhachHang.cshtml" />
     <Content Include="Views\TourManage\_Partial_UpdateStatus.cshtml" />
     <Content Include="Views\TourManage\_Partial_UpdateVisa.cshtml" />
     <Content Include="Views\TourManage\_Partial_Update_TourType.cshtml" />
@@ -2502,6 +2502,14 @@
     <Content Include="Views\TaskTabInfo\_LichHen.cshtml" />
     <Content Include="Views\TaskTabInfo\_NhatKyXuLy.cshtml" />
     <Content Include="Views\TaskTabInfo\_TaiLieuMau.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_EditTaskTour.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertProgram.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_EditProgram.cshtml" />
+    <Content Include="Views\ContractsManage\_Partial_InsertContract.cshtml" />
+    <Content Include="Views\ContractsManage\_Partial_EditContract.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertMark.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_EditCongNoKhachHang.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_EditCongNoDoiTac.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -36,6 +36,27 @@ namespace CRMViettour.Utilities
         }
 
         /// <summary>
+        /// load phòng ban
+        /// </summary>
+        /// <param name="tagsId"></param>
+        /// <returns></returns>
+        public static string Department(string staffId)
+        {
+            string kq = _db.tbl_Staff.Find(Convert.ToInt32(staffId)).tbl_DictionaryDepartment.Name;
+            return kq;
+        }
+
+        /// <summary>
+        /// nhân viên thực hiện nhiệm vụ
+        /// </summary>
+        /// <param name="tagsId"></param>
+        /// <returns></returns>
+        public static string StaffTask(string staffId)
+        {
+            return _db.tbl_Staff.Find(Convert.ToInt32(staffId)).FullName;
+        }
+
+        /// <summary>
         /// lấy ra tên các nhân viên
         /// </summary>
         /// <param name="tagsId"></param>
@@ -50,11 +71,11 @@ namespace CRMViettour.Utilities
                 {
                     if (i == 0)
                     {
-                        kq += _db.tbl_Tags.Find(Convert.ToInt32(array[i])).Tag;
+                        kq += _db.tbl_Staff.Find(Convert.ToInt32(array[i])).FullName;
                     }
                     else
                     {
-                        kq += _db.tbl_Tags.Find(Convert.ToInt32(array[i])).Tag + ", ";
+                        kq += _db.tbl_Staff.Find(Convert.ToInt32(array[i])).FullName + ", ";
                     }
                 }
             }
@@ -97,6 +118,27 @@ namespace CRMViettour.Utilities
                     Tags = p.Tag
                 }).ToList();
                 CacheLayer.Add<List<TagsViewModel>>(model, "tagCountryList", 10080);
+            }
+
+            return model;
+        }
+
+
+        /// <summary>
+        /// danh sách tất cả các đối tác
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Partner> PartnerAllList()
+        {
+            var model = CacheLayer.Get<List<tbl_Partner>>("partnerAllList");
+            if (model == null)
+            {
+                model = _db.tbl_Partner.AsEnumerable().Select(p => new tbl_Partner
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).ToList();
+                CacheLayer.Add<List<tbl_Partner>>(model, "partnerAllList", 10080);
             }
 
             return model;
@@ -604,7 +646,23 @@ namespace CRMViettour.Utilities
         }
 
         /// <summary>
-        /// nhóm nhân viên
+        /// loại tiền
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Dictionary> CurrencyList()
+        {
+            var model = CacheLayer.Get<List<tbl_Dictionary>>("currencyList");
+            if (model == null)
+            {
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 24).ToList();
+                CacheLayer.Add<List<tbl_Dictionary>>(model, "currencyList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách trụ sở chi nhánh
         /// </summary>
         /// <returns></returns>
         public static List<tbl_Headquater> HeadquarterList()

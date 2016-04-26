@@ -34,9 +34,6 @@ $("#btnEdit").click(function () {
             $("#edit-tour").select2();
             $("#edit-customer").select2();
             $("#edit-status").select2();
-            //$("#edit-contractdate").datepicker();
-            //$("#edit-startdate").datepicker();
-            //$("#edit-enddate").datepicker();
             $("#modal-edit-contract").modal("show");
         }
     });

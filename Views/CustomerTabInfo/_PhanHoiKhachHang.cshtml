@@ -22,7 +22,7 @@
                     <tr class="odd gradeX">
                         <td>@i</td>
                         <td>@item.tbl_Tour.Code - @item.tbl_Tour.Name</td>
-                        <td>@string.Format("0:0,0", item.AverageMark)</td>
+                        <td>@string.Format("{0:0.##}", item.AverageMark)</td>
                         <td>@Html.Raw(item.Note)</td>
                     </tr>
                     i++;

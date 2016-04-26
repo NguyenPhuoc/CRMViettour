@@ -12,7 +12,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Hợp đồng</h4>
             </div>
-            @using (Ajax.BeginForm("CreateContract", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "chuongtrinh" }, new { id = "frmInsertProgram", enctype = "multipart/form-data" }))
+            @using (Ajax.BeginForm("CreateContract", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "hopdong" }))
             {
                 <div class="modal-body">
                     <div class="form-horizontal">
@@ -21,28 +21,19 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Code</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <input type="text" name="Code" id="Code" value="@rd.Next(1111,9999)" class="form-control" required="required" readonly="readonly" />
+                                        <input type="text" name="Code" id="Code" value="@rd.Next(1111,9999)" class="form-control" required="required" readonly="readonly" />                                    
                                     </div>
-                                    <label class="control-label col-lg-2 col-md-2">Tour</label>
+                                    <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
                                     <div class="col-lg-4 col-md-4">
-                                        <select class="form-control" id="insert-tour" name="TourId" style="width: 100%" required="required">
-                                            @foreach (var item in LoadData.TourList())
+                                        <select class="form-control" id="insert-status-contracttour" name="StatusContractId" style="width: 100%" required="required">
+                                            @foreach (var item in LoadData.StatusContractList())
                                             {
-                                                <option value="@item.Id">@item.Code</option>
+                                                <option value="@item.Id">@item.Name</option>
                                             }
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-lg-2 col-md-2">Khách hàng</label>
-                                    <div class="col-lg-4 col-md-4">
-                                        <select class="form-control" id="insert-customer" name="CustomerId" style="width: 100%" required="required">
-                                            @foreach (var item in LoadData.CustomerList())
-                                            {
-                                                <option value="@item.Id">@item.FullName</option>
-                                            }
-                                        </select>
-                                    </div>
                                     <label class="control-label col-lg-2 col-md-2">Ngày ký hợp đồng</label>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="input-group" data-date-format="mm/dd/yyyy">
@@ -53,6 +44,15 @@
                                                 </button>
                                             </span>
                                         </div>
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Nhân viên ký</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <select class="form-control" id="insert-permission-contracttour" name="Permission" style="width: 100%" required="required">
+                                            @foreach (var item in LoadData.StaffList())
+                                            {
+                                                <option value="@item.Id">@item.FullName</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -85,15 +85,12 @@
                                         @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number" })
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Tổng giá trị</label>
-                                    <div class="col-lg-4 col-md-4">
+                                    <div class="col-lg-2 col-md-2">
                                         @Html.TextBoxFor(model => model.TotalPrice, new { @class = "form-control" })
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
-                                    <div class="col-lg-4 col-md-4">
-                                        <select class="form-control" id="insert-status" name="StatusContractId" style="width: 100%" required="required">
-                                            @foreach (var item in LoadData.StatusContractList())
+                                    <div class="col-lg-2 col-md-2">
+                                        <select class="form-control" id="insert-currency-contracttour" name="DictionaryId" style="width: 100%" required="required">
+                                            @foreach (var item in LoadData.CurrencyList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>
                                             }
@@ -103,7 +100,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
                                     <div class="col-lg-10 col-md-10">
-                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note" })
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note-contracttour" })
                                     </div>
                                 </div>
                             </div>

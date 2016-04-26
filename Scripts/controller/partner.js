@@ -75,7 +75,7 @@ $(function () {
 
         // insert the new element after the last "duplicatable" input field
         $('#entry' + num).after(newElem);
-        CKEDITOR.replace("insert-noteservicepartner" + newNum)
+        CKEDITOR.replace("insert-noteservicepartner" + newNum);
 
         for (var i = 1; i < newNum; i++) {
             $("#entry" + newNum).find("#cke_insert-noteservicepartner" + i).remove();

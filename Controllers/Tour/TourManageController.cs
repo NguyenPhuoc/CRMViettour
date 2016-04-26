@@ -354,7 +354,23 @@ namespace CRMViettour.Controllers
             }
             catch { }
 
-            return Json(JsonRequestBehavior.AllowGet);
+            var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                            .Select(p => new tbl_Task
+                            {
+                                Id = p.Id,
+                                tbl_DictionaryTaskType = _dictionaryRepository.FindId(p.TaskTypeId),
+                                Name = p.Name,
+                                Permission = p.Permission,
+                                StartDate = p.StartDate,
+                                EndDate = p.EndDate,
+                                Time = p.Time,
+                                TimeType = p.TimeType,
+                                FinishDate = p.FinishDate,
+                                PercentFinish = p.PercentFinish,
+                                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                                Note = p.Note
+                            }).ToList();
+            return PartialView("~/Views/TourTabInfo/_NhiemVu.cshtml", list);
         }
         #endregion
 

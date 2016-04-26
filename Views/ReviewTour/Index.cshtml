@@ -64,7 +64,7 @@
                                     <th>Số thứ tự</th>
                                     <th>Mã tour</th>
                                     <th>Tên tour</th>
-                                    <td>Khách hàng</td>
+                                    <th>Khách hàng</th>
                                     <th>Điểm trung bình</th>
                                 </tr>
                             </thead>
@@ -79,7 +79,7 @@
                                         <td>@item.tbl_Tour.Code</td>
                                         <td>@item.tbl_Tour.Name</td>
                                         <td>@item.tbl_Customer.FullName</td>
-                                        <td>@item.AverageMark</td>
+                                        <td>@string.Format("{0:0.##}", item.AverageMark)</td>
                                     </tr>
                                     i++;
                                 }

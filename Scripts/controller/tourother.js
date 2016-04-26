@@ -1,13 +1,19 @@
-﻿CKEDITOR.replace("insert-note-tour");
+﻿CKEDITOR.replace("insert-request-tour");
 CKEDITOR.replace("insert-note-lichhen");
 CKEDITOR.replace("insert-note-lienhe");
 CKEDITOR.replace("insert-document-note");
+CKEDITOR.replace("insert-program-note");
 CKEDITOR.replace("insert-schedule-tour");
 CKEDITOR.replace("insert-note-tourtask");
+CKEDITOR.replace("insert-note-contracttour");
+CKEDITOR.replace("insert-note-reviewtour");
+CKEDITOR.replace("insert-note-liabilitycustomer");
 
 $("#insert-service-tour").select2();
 $("#insert-partner-tour").select2();
 $("#insert-servicepartner-tour").select2();
+$("#insert-method-congno1").select2();
+$("#insert-partner-congno1").select2();
 
 $('#insert-service-tour').change(function () {
     $.getJSON('/TourOtherTab/LoadPartner/' + $('#insert-service-tour').val(), function (data) {
@@ -32,7 +38,7 @@ $('#insert-partner-tour').change(function () {
 /** thêm mới tài liệu **/
 function btnCreateFile() {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
+        alert("Vui lòng chọn 1 tour!");
     }
     else {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
@@ -52,10 +58,32 @@ function btnCreateFile() {
     }
 }
 
+/** thêm mới chương trình **/
+function btnCreateProgram() {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 tour!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+        $.ajax({
+            type: "POST",
+            url: '/TourManage/GetIdTour',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#insert-tag-program").select2();
+                $("#modal-insert-program").modal("show");
+            }
+        });
+    }
+}
+
 /** thêm mới lịch hẹn **/
 function btnAddLichHen() {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
+        alert("Vui lòng chọn 1 tour!");
     }
     else {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
@@ -106,7 +134,7 @@ function btnAddLichHen() {
 /** thêm mới lịch sử liên hệ **/
 function btnAddLichSuLienHe() {
     if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 khách hàng!");
+        alert("Vui lòng chọn 1 tour!");
     }
     else {
         var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
@@ -125,6 +153,23 @@ function btnAddLichSuLienHe() {
         });
     }
 }
+
+$('#FileNameProgram').change(function () {
+    var data = new FormData();
+    data.append('FileName', $('#FileNameProgram')[0].files[0]);
+
+    var ajaxRequest = $.ajax({
+        type: "POST",
+        url: 'TourOtherTab/UploadProgram',
+        contentType: false,
+        processData: false,
+        data: data
+    });
+
+    ajaxRequest.done(function (xhr, textStatus) {
+        // Onsuccess
+    });
+});
 
 $('#FileName').change(function () {
     var data = new FormData();
@@ -218,6 +263,35 @@ function updateContactHistory(id) {
     });
 }
 
+/** cập nhật nhiệm vụ **/
+function updateTask(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/EditTask',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-task").html(data);
+            $("#edit-task-type").select2();
+            //$("#edit-department-tasktour").select2();
+            $("#edit-priority-task").select2();
+            CKEDITOR.replace("edit-note-tourtask");
+            $("#modal-edit-tourtask").modal("show");
+
+            $('#edit-department-tasktour').change(function () {
+                $.getJSON('/TourManage/LoadPermission/' + $('#edit-department-tasktour').val(), function (data) {
+                    var items = '<option>-- Chọn nhân viên thực hiện --</option>';
+                    $.each(data, function (i, ward) {
+                        items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                    });
+                    $('#edit-staff-tasktour').html(items);
+                });
+            });
+        }
+    });
+}
 
 /** xóa tài liệu **/
 function deleteDocument(id) {
@@ -275,7 +349,7 @@ function updateDocument(id) {
                 data.append('FileName', $('#edit-file')[0].files[0]);
                 var ajaxRequest = $.ajax({
                     type: "POST",
-                    url: 'TourManage/UploadFile',
+                    url: 'TourOtherTab/UploadFile',
                     contentType: false,
                     processData: false,
                     data: data
@@ -298,6 +372,21 @@ function OnSuccessTourTab() {
 
     $("#modal-insert-document").modal("hide");
     $("#modal-edit-document").modal("hide");
+
+    $("#modal-insert-program").modal("hide");
+    $("#modal-edit-program").modal("hide");
+
+    $("#modal-insert-contract").modal("hide");
+    $("#modal-edit-contract").modal("hide");
+
+    $("#modal-insert-mark").modal("hide");
+    $("#modal-edit-mark").modal("hide");
+
+    $("#modal-insert-congnokh").modal("hide");
+    $("#modal-edit-congnokh").modal("hide");
+
+    $("#modal-insert-congnodt").modal("hide");
+    $("#modal-edit-congnodt").modal("hide");
 }
 
 function OnFailureTourTab() {
@@ -311,6 +400,21 @@ function OnFailureTourTab() {
 
     $("#modal-insert-document").modal("hide");
     $("#modal-edit-document").modal("hide");
+
+    $("#modal-insert-program").modal("hide");
+    $("#modal-edit-program").modal("hide");
+
+    $("#modal-insert-contract").modal("hide");
+    $("#modal-edit-contract").modal("hide");
+
+    $("#modal-insert-mark").modal("hide");
+    $("#modal-edit-mark").modal("hide");
+
+    $("#modal-insert-congnokh").modal("hide");
+    $("#modal-edit-congnokh").modal("hide");
+
+    $("#modal-insert-congnodt").modal("hide");
+    $("#modal-edit-congnodt").modal("hide");
 }
 
 /** xóa lịch hẹn **/
@@ -341,6 +445,386 @@ function deleteContactHistory(id) {
         success: function (data) {
             alert("Xóa dữ liệu thành công!!!");
             $("#lichsulienhe").html(data);
+        }
+    });
+}
+
+/** xóa nhiệm vụ **/
+function deleteTask(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/DeleteTask',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            alert("Xóa dữ liệu thành công!!!");
+            $("#nhiemvu").html(data);
+        }
+    });
+}
+
+/** xóa chương trình **/
+function deleteProgram(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/DeleteProgram',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            alert("Xóa dữ liệu thành công!!!");
+            $("#chuongtrinh").html(data);
+        }
+    });
+}
+
+/** cập nhật chương trình **/
+function updateProgram(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/EditInfoProgram',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-program").html(data);
+            $("#edit-tag-program").select2();
+            $("#edit-program-type").select2();
+            CKEDITOR.replace("edit-program-note");
+            $("#modal-edit-program").modal("show");
+            /**** update in tab file của khách hàng ****/
+            $("#btnUpdateProgram").click(function () {
+                var $this = $(this);
+                var $form = $("#frmUpdateProgram");
+                var $parent = $form.parent();
+                var options = {
+                    url: $form.attr("action"),
+                    type: $form.attr("method"),
+                    data: $form.serialize()
+                };
+
+                $.ajax(options).done(function (data) {
+                    $("#modal-edit-program").modal("hide");
+                    alert("Lưu dữ liệu thành công!");
+                    $("#chuongtrinh").html(data);
+                });
+                return false;
+            });
+
+            /** upload file **/
+            $("#edit-program").change(function () {
+                var data = new FormData();
+                data.append('FileName', $('#edit-program')[0].files[0]);
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: 'TourOtherTab/UploadProgram',
+                    contentType: false,
+                    processData: false,
+                    data: data
+                });
+
+                ajaxRequest.done(function (xhr, textStatus) {
+                    // Onsuccess
+                });
+            });
+        }
+    });
+}
+
+/** thêm mới hợp đồng **/
+function btnCreateContract() {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 tour!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+        $.ajax({
+            type: "POST",
+            url: '/TourManage/GetIdTour',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#insert-status-contracttour").select2();
+                $("#insert-permission-contracttour").select2();
+                $("#insert-currency-contracttour").select2();
+                $("#modal-insert-contract").modal("show");
+            }
+        });
+    }
+}
+
+/** cập nhật hợp đồng **/
+function updateContract(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/EditContract',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-contract").html(data);
+            $("#edit-status-contracttour").select2();
+            $("#edit-currency-contracttour").select2();
+            $("#edit-permission-contracttour").select2();
+            CKEDITOR.replace("edit-note-contracttour");
+            $("#modal-edit-contract").modal("show");
+        }
+    });
+}
+
+/** xóa hợp đồng **/
+function deleteContract(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/DeleteContract',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            alert("Xóa dữ liệu thành công!!!");
+            $("#hopdong").html(data);
+        }
+    });
+}
+
+/** thêm mới đánh giá **/
+function btnCreateReview() {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 tour!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+        $.ajax({
+            type: "POST",
+            url: '/TourManage/GetIdTour',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#insert-tour").select2();
+                $("#insert-customer").select2();
+                $("#insert-service1").select2();
+                $("#modal-insert-mark").modal("show");
+
+                $('#btnAddR').click(function () {
+                    var num = $('.clonedInput').length, // how many "duplicatable" input fields we currently have
+                        newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+                        newElem = $('#entry' + num).clone().attr('id', 'entry' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+                    // manipulate the name/id values of the input inside the new element
+
+                    newElem.find('.service').attr('id', 'insert-service' + newNum).attr('name', 'DictionaryId' + newNum);
+                    newElem.find('.mark').attr('name', 'Mark' + newNum).val('');
+
+                    // insert the new element after the last "duplicatable" input field
+                    $('#entry' + num).after(newElem);
+                    $("#countService").val(newNum);
+                    $("#insert-service" + newNum).select2();
+
+                    for (var i = 1; i < newNum; i++) {
+                        $("#entry" + newNum + " #select2-insert-service" + i + "-container").parent().parent().parent().remove();
+                    }
+
+                    // enable the "remove" button
+                    $('#btnDel').attr('disabled', false);
+
+                });
+
+                $('#btnDel').click(function () {
+                    // confirmation
+                    var num = $('.clonedInput').length;
+                    // how many "duplicatable" input fields we currently have
+                    $('#entry' + num).slideUp('slow', function () {
+                        $(this).remove();
+                        // if only one element remains, disable the "remove" button
+                        if (num - 1 === 1)
+                            $('#btnDel').attr('disabled', true);
+                        // enable the "add" button
+                        $('#btnAddR').attr('disabled', false).prop('value', "add section");
+                    });
+                    return false;
+
+                    $('#btnAddR').attr('disabled', false);
+                });
+                $('#btnDel').attr('disabled', true);
+            }
+        });
+    }
+}
+
+/** thêm mới công nợ khách hàng **/
+function btnCreateLiabilityCustomer() {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 tour!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+        $.ajax({
+            type: "POST",
+            url: '/TourManage/GetIdTour',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#modal-insert-congnokh").modal("show");
+            }
+        });
+    }
+}
+
+/** cập nhật công nợ khách hàng **/
+function updateLiabilityCustomer(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/EditLiabilityCustomer',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-liabilitycustomer").html(data);
+            CKEDITOR.replace("edit-note-liabilitycustomer");
+            $("#modal-edit-congnokh").modal("show");
+        }
+    });
+}
+
+/** xóa công nợ khách hàng **/
+function deleteLiabilityCustomer(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/DeleteLiabilityCustomer',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            alert("Xóa dữ liệu thành công!!!");
+            $("#congnokh").html(data);
+        }
+    });
+}
+
+/** thêm mới công nợ đối tác **/
+function btnCreateLiabilityPartner() {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 tour!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+        $.ajax({
+            type: "POST",
+            url: '/TourManage/GetIdTour',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                CKEDITOR.replace("insert-note-congnodt1");
+                $("#modal-insert-congnodt").modal("show");
+                /*** duplicate thêm công nợ đối tác ***/
+                $(function () {
+                    $('#btnAddCongNo').click(function () {
+                        var num = $('.clonedInputCongNo').length, // how many "duplicatable" input fields we currently have
+                            newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+                            newElem = $('#entryCongNo' + num).clone().attr('id', 'entryCongNo' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+                        // manipulate the name/id values of the input inside the new element
+                        newElem.find('.congnocurrencyfirst').attr('id', 'insert-currencyfirst-congno' + newNum).attr('name', 'FirstCurrencyType' + newNum);
+                        newElem.find('.congnopartner').attr('id', 'insert-partner-congno' + newNum).attr('name', 'PartnerId' + newNum);
+                        newElem.find('.congnofirst').attr('name', 'FirstPayment' + newNum).val('');
+                        newElem.find('.congnomethod').attr('id', 'insert-method-congno' + newNum).attr('name', 'PaymentMethod' + newNum);
+                        newElem.find('.congnosecond').attr('name', 'SecondPayment' + newNum).val('');
+                        newElem.find('.congnoprice').attr('name', 'ServicePrice' + newNum).val('');
+                        newElem.find('.congnoremaining').attr('name', 'TotalRemaining' + newNum).val('');
+                        newElem.find('.congnonote').attr('id', 'insert-note-congnodt' + newNum).attr('name', 'Note' + newNum).val('');
+                        newElem.find('.collapsedt').attr('data-target', '#demo-congnodt' + newNum);
+                        newElem.find('.optioncongno').attr('id', 'demo-congnodt' + newNum);
+                        newElem.find('.titleoption').text('OPTION ' + newNum);
+
+                        // insert the new element after the last "duplicatable" input field
+                        $('#entryCongNo' + num).after(newElem);
+                        $("#insert-partner-congno" + newNum).select2();
+                        $("#insert-method-congno" + newNum).select2();
+                        $("#insert-currencyfirst-congno" + newNum).select2();
+                        CKEDITOR.replace("insert-note-congnodt" + newNum);
+                        $("#countOptionCongNo").val(newNum);
+
+                        for (var i = 1; i < newNum; i++) {
+                            $("#entryCongNo" + newNum + " #select2-insert-currencyfirst-congno" + i + "-container").parent().parent().parent().remove();
+                            $("#entryCongNo" + newNum + " #select2-insert-partner-congno" + i + "-container").parent().parent().parent().remove();
+                            $("#entryCongNo" + newNum + " #select2-insert-method-congno" + i + "-container").parent().parent().parent().remove();
+                            $("#entryCongNo" + newNum).find("#cke_insert-note-congnodt" + i).remove();
+                        }
+
+                        // enable the "remove" button
+                        $('#btnDelCongNo').attr('disabled', false);
+
+                    });
+
+                    $('#btnDelCongNo').click(function () {
+                        // confirmation
+                        var num = $('.clonedInputCongNo').length;
+                        // how many "duplicatable" input fields we currently have
+                        $('#entryCongNo' + num).slideUp('slow', function () {
+                            $(this).remove();
+                            // if only one element remains, disable the "remove" button
+                            if (num - 1 === 1)
+                                $('#btnDelCongNo').attr('disabled', true);
+                            // enable the "add" button
+                            $('#btnAddCongNo').attr('disabled', false).prop('value', "add section");
+                        });
+                        return false;
+
+                        $('#btnAddCongNo').attr('disabled', false);
+                    });
+                    $('#btnDelCongNo').attr('disabled', true);
+                });
+            }
+        });
+    }
+}
+
+/** cập nhật công nợ đối tác **/
+function updateLiabilityPartner(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/EditLiabilityPartner',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-liabilitypartner").html(data);
+            $("#edit-partner-congno").select2();
+            $("#edit-method-congno").select2();
+            $("#edit-currencyfirst-congno").select2();
+            CKEDITOR.replace("edit-note-congnodt");
+            $("#modal-edit-congnodt").modal("show");
+        }
+    });
+}
+
+/** xóa công nợ đối tác **/
+function deleteLiabilityPartner(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/DeleteLiabilityPartner',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            alert("Xóa dữ liệu thành công!!!");
+            $("#congnodoitac").html(data);
         }
     });
 }

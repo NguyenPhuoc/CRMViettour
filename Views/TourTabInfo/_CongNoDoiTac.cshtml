@@ -1,4 +1,9 @@
-﻿<button type="button" data-toggle="modal" data-target="#modal-insert-congnodt" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Thêm công nợ</button>
+﻿@model IEnumerable<CRM.Core.tbl_LiabilityPartner>
+@{
+    int i = 1;
+}
+
+<a onclick="btnCreateLiabilityPartner()" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Thêm công nợ</a>
 <br /><br />
 <div class="table-scrollable table-custom-format">
     <table class="table table-striped table-bordered table-hover" id="table-history">
@@ -10,23 +15,33 @@
                 <th>Giá trị dịch vụ</th>
                 <th>Đã thanh toán</th>
                 <th>Còn lại</th>
+                <th>Loại tiền</th>
                 <th>Ghi chú</th>
                 <th>#</th>
             </tr>
         </thead>
         <tbody>
-            <tr class="odd gradeX">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    Xóa | Sửa
-                </td>
-            </tr>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="odd gradeX">
+                        <td>@i</td>
+                        <td>@item.tbl_Partner.Name</td>
+                        <td>@(item.PaymentMethod == 1 ? "Tiền mặt" : item.PaymentMethod == 2 ? "Chuyển khoản" : item.PaymentMethod == 3 ? "Thẻ" : "Khác")</td>
+                        <td>@string.Format("{0:0,0}", item.ServicePrice)</td>
+                        <td>@string.Format("{0:0,0}", item.FirstPayment + item.SecondPayment)</td>
+                        <td>@string.Format("{0:0,0}", item.TotalRemaining)</td>
+                        <td>@(item.tbl_DictionaryCurrencyType1 != null ? item.tbl_DictionaryCurrencyType1.Name : "")</td>
+                        <td>@Html.Raw(item.Note)</td>
+                        <td>
+                            <a style="cursor: pointer" onclick="updateLiabilityPartner(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
+                            <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục đã chọn ?'); deleteLiabilityPartner(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
         </tbody>
     </table>
 </div>

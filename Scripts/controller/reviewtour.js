@@ -8,7 +8,6 @@
                 { type: "text" }]
 });
 
-CKEDITOR.replace("insert-note");
 $("#insert-tour").select2();
 $("#insert-customer").select2();
 $("#insert-service1").select2();

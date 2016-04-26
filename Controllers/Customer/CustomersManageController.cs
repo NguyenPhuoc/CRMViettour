@@ -16,6 +16,7 @@ using System.Web.UI.WebControls;
 using System.Drawing;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using System.Globalization;
 
 namespace CRMViettour.Controllers
 {
@@ -1021,25 +1022,40 @@ namespace CRMViettour.Controllers
                     var lastRow = worksheet.Dimension.End.Row;
                     for (int row = 2; row <= lastRow; row++)
                     {
+                        if (worksheet.Cells["b" + row].Value == null || worksheet.Cells["b" + row].Text == "")
+                            continue;
                         var cus = new tbl_Customer
                         {
-                            FullName = worksheet.Cells["b" + row].Value != null ? worksheet.Cells["b" + row].Value.ToString() : "",
-                            PersonalEmail = worksheet.Cells["i" + row].Value != null ? worksheet.Cells["i" + row].Value.ToString() : "",
-                            PassportCard = worksheet.Cells["d" + row].Value != null ? worksheet.Cells["d" + row].Value.ToString() : "",
-                            Phone = worksheet.Cells["g" + row].Value != null ? worksheet.Cells["g" + row].Value.ToString() : "",
-                            MobilePhone = worksheet.Cells["h" + row].Value != null ? worksheet.Cells["h" + row].Value.ToString() : "",
-                            Address = worksheet.Cells["m" + row].Value != null ? worksheet.Cells["m" + row].Value.ToString() : "",
-                            IdentityCard = worksheet.Cells["n" + row].Value != null ? worksheet.Cells["n" + row].Value.ToString() : "",
-                            Note = worksheet.Cells["r" + row].Value != null ? worksheet.Cells["r" + row].Value.ToString() : "",
+                            FullName = worksheet.Cells["b" + row].Value != null ? worksheet.Cells["b" + row].Text : "",
+                            PersonalEmail = worksheet.Cells["i" + row].Value != null ? worksheet.Cells["i" + row].Text : "",
+                            PassportCard = worksheet.Cells["d" + row].Value != null ? worksheet.Cells["d" + row].Text : "",
+                            Phone = worksheet.Cells["g" + row].Value != null ? worksheet.Cells["g" + row].Text : "",
+                            MobilePhone = worksheet.Cells["h" + row].Value != null ? worksheet.Cells["h" + row].Text : "",
+                            Address = worksheet.Cells["m" + row].Value != null ? worksheet.Cells["m" + row].Text : "",
+                            IdentityCard = worksheet.Cells["n" + row].Value != null ? worksheet.Cells["n" + row].Text : "",
+                            Note = worksheet.Cells["r" + row].Value != null ? worksheet.Cells["r" + row].Text : "",
 
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
 
                         };
-                        if (worksheet.Cells["c" + row].Value != null)
-                            cus.Birthday = DateTime.Parse(worksheet.Cells["c" + row].Value.ToString());
-                        if (worksheet.Cells["e" + row].Value != null)
-                            cus.CreatedDatePassport = DateTime.Parse(worksheet.Cells["e" + row].Value.ToString());
-                        if (worksheet.Cells["f" + row].Value != null)
-                            cus.ExpiredDatePassport = DateTime.Parse(worksheet.Cells["f" + row].Value.ToString());
+                        int type = Int16.Parse(worksheet.Cells["s" + row].Text);
+                        if (type == (int)CustomerType.Organization)
+                            cus.CustomerType = CustomerType.Organization;
+                        else
+                            cus.CustomerType = CustomerType.Personal;
+                        if (worksheet.Cells["c" + row].Value != null && worksheet.Cells["c" + row].Text != "")
+                        {
+                            cus.Birthday = DateTime.ParseExact(worksheet.Cells["c" + row].Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        }
+                        if (worksheet.Cells["e" + row].Value != null && worksheet.Cells["e" + row].Text != "")
+                        {
+                            cus.CreatedDatePassport = DateTime.ParseExact(worksheet.Cells["e" + row].Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        }
+                        if (worksheet.Cells["f" + row].Value != null && worksheet.Cells["f" + row].Text != "")
+                        {
+                            cus.ExpiredDatePassport = DateTime.ParseExact(worksheet.Cells["f" + row].Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        }
                         list.Add(cus);
                     }
                     Session["listCustomerImport"] = list;
@@ -1057,11 +1073,17 @@ namespace CRMViettour.Controllers
             try
             {
                 List<tbl_Customer> list = Session["listCustomerImport"] as List<tbl_Customer>;
-
-                return PartialView("_Partial_ImportDataList", list);
+                foreach (var item in list)
+                {
+                    item.Code = "DEMO" + new Random().Next(10000, 99999);
+                    await _customerRepository.Create(item);
+                }
+                Session["listCustomerImport"] = null;
+                return RedirectToAction("Index");
             }
             catch
             {
+                Session["listCustomerImport"] = null;
                 return null;
             }
         }
@@ -1123,10 +1145,10 @@ namespace CRMViettour.Controllers
                  .Select(p => new CustomerListViewModel
                  {
                      Fullname = p.FullName == null ? "" : p.FullName,
-                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
+                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd/MM/yyyy"),
                      Passport = p.PassportCard == null ? "" : p.PassportCard,
-                     StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("dd-MM-yyyy"),
-                     EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("dd-MM-yyyy"),
+                     StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("dd/MM/yyyy"),
+                     EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("dd/MM/yyyy"),
                      Phone = p.Phone == null ? "" : p.Phone,
                      OtherPhone = p.MobilePhone == null ? "" : p.MobilePhone,
                      Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,

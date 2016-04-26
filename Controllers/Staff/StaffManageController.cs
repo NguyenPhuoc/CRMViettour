@@ -7,6 +7,7 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,10 +27,14 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_StaffVisa> _staffVisaRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
+        private IGenericRepository<tbl_Tags> _tagsRepository;
         private DataContext _db;
 
-        public StaffManageController(IGenericRepository<tbl_Staff> staffRepository, IGenericRepository<tbl_StaffVisa> staffVisaRepository,
-            IGenericRepository<tbl_DocumentFile> documentFileRepository, IGenericRepository<tbl_Dictionary> dictionaryRepository,
+        public StaffManageController(IGenericRepository<tbl_Staff> staffRepository,
+            IGenericRepository<tbl_StaffVisa> staffVisaRepository,
+            IGenericRepository<tbl_DocumentFile> documentFileRepository,
+            IGenericRepository<tbl_Dictionary> dictionaryRepository,
+            IGenericRepository<tbl_Tags> tagsRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -37,6 +42,7 @@ namespace CRMViettour.Controllers
             this._dictionaryRepository = dictionaryRepository;
             this._staffRepository = staffRepository;
             this._documentFileRepository = documentFileRepository;
+            this._tagsRepository = tagsRepository;
             _db = new DataContext();
         }
         #endregion
@@ -49,17 +55,17 @@ namespace CRMViettour.Controllers
                 Birthday = p.Birthday != null ? p.Birthday.Value.ToString("dd-MM-yyyy") : "",
                 Code = p.Code,
                 CreateDatePassport = p.CreatedDatePassport != null ? p.CreatedDatePassport.Value.ToString("dd-MM-yyyy") : "",
-                Department = p.tbl_DictionaryDepartment.Name,
+                Department = p.DepartmentId != null ? p.tbl_DictionaryDepartment.Name : "",
                 Email = p.Email,
                 ExpiredDatePassport = p.ExpiredDatePassport != null ? p.ExpiredDatePassport.Value.ToString("dd-MM-yyyy") : "",
                 Fullname = p.FullName,
                 Id = p.Id,
                 InternalNumber = p.InternalNumber ?? 0,
                 IsLock = p.IsLock,
-                Passport = p.PassportCard,
+                Passport = p.PassportCard != null ? p.PassportCard : "",
                 Phone = p.Phone,
-                Position = p.tbl_DictionaryPosition.Name,
-                Skype = p.Skype
+                Position = p.PositionId != null ? p.tbl_DictionaryPosition.Name : "",
+                Skype = p.Skype != null ? p.Skype : ""
             }).ToList();
             return View(model);
         }
@@ -677,7 +683,7 @@ namespace CRMViettour.Controllers
                  {
                      Code = p.Code == null ? "" : p.Code,
                      Fullname = p.FullName == null ? "" : p.FullName,
-                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
+                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd/MM/yyyy"),
                      Address = p.Address == null ? "" : p.Address,
                      Phone = p.Phone == null ? "" : p.Phone,
                      InternalNumber = p.InternalNumber ?? 0,
@@ -828,5 +834,253 @@ namespace CRMViettour.Controllers
             }
         }
         #endregion
+
+        #region Import
+        [HttpPost]
+        public ActionResult ImportFile(HttpPostedFileBase FileName)
+        {
+            try
+            {
+
+                using (var excelPackage = new ExcelPackage(FileName.InputStream))
+                {
+                    List<tbl_Staff> list = new List<tbl_Staff>();
+                    var worksheet = excelPackage.Workbook.Worksheets[1];
+                    var lastRow = worksheet.Dimension.End.Row;
+                    for (int row = 2; row <= lastRow; row++)
+                    {
+                        if (worksheet.Cells["c" + row].Value == null || worksheet.Cells["c" + row].Text == "")
+                            continue;
+                        var stf = new tbl_Staff
+                        {
+                            FullName = worksheet.Cells["c" + row].Text,
+                            TaxCode = worksheet.Cells["d" + row].Value != null ? worksheet.Cells["d" + row].Text : null,
+                            Address = worksheet.Cells["h" + row].Value != null ? worksheet.Cells["h" + row].Text : null,
+                            Email = worksheet.Cells["l" + row].Value != null ? worksheet.Cells["l" + row].Text : null,
+                            Phone = worksheet.Cells["m" + row].Value != null ? worksheet.Cells["m" + row].Text : null,
+                            IdentityCard = worksheet.Cells["q" + row].Value != null ? worksheet.Cells["q" + row].Text : null,
+                            PassportCard = worksheet.Cells["t" + row].Value != null ? worksheet.Cells["t" + row].Text : null,
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                        };
+                        String cel = "f";
+                        try//ngay sinh
+                        {
+                            if (worksheet.Cells["f" + row].Value != null && worksheet.Cells["f" + row].Text != "")
+                            {
+                                stf.Birthday = DateTime.ParseExact(worksheet.Cells["f" + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                            }
+                        }
+                        catch { }
+                        try//ngay cap cmnd
+                        {
+                            if (worksheet.Cells["r" + row].Value != null && worksheet.Cells["r" + row].Text != "")
+                            {
+                                stf.CreatedDateIdentity = DateTime.ParseExact(worksheet.Cells["r" + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                            }
+                        }
+                        catch { }
+                        try//ngay cap passport
+                        {
+                            if (worksheet.Cells["u" + row].Value != null && worksheet.Cells["u" + row].Text != "")
+                            {
+                                stf.CreatedDatePassport = DateTime.ParseExact(worksheet.Cells["u" + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                            }
+                        }
+                        catch { }
+                        try//danh sung
+                        {
+                            if (worksheet.Cells["b" + row].Value != null && worksheet.Cells["b" + row].Text != "")
+                            {
+                                string danhsung = worksheet.Cells["b" + row].Text;
+                                stf.NameTypeId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == danhsung && c.DictionaryCategoryId == 7).Select(c => c.Id).SingleOrDefault();
+                            }
+                        }
+                        catch { }
+                        try//gioi tinh
+                        {
+                            if (worksheet.Cells["e" + row].Value != null && worksheet.Cells["e" + row].Text != "")
+                            {
+                                string gioitinh = worksheet.Cells["e" + row].Text;
+                                stf.Gender = gioitinh == "Nam" ? true : false;
+                            }
+                        }
+                        catch { }
+                        try//noi sinh
+                        {
+                            if (worksheet.Cells["g" + row].Value != null && worksheet.Cells["g" + row].Text != "")
+                            {
+                                string noisinh = worksheet.Cells["g" + row].Text;
+                                stf.Birthplace = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == noisinh && c.TypeTag == 5).Select(c => c.Id).SingleOrDefault();
+                            }
+                        }
+                        catch { }
+                        try//tagid dia chi
+                        {
+                            if (worksheet.Cells["i" + row].Value != null && worksheet.Cells["i" + row].Text != "")
+                            {
+                                string tinhtp = worksheet.Cells["i" + row].Text;
+                                stf.TagsId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == tinhtp && c.TypeTag == 5).Select(c => c.Id).SingleOrDefault().ToString();
+                            }
+                            if (worksheet.Cells["j" + row].Value != null && worksheet.Cells["j" + row].Text != "")
+                            {
+                                string quanhuyen = worksheet.Cells["j" + row].Text;
+                                var tagid = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == quanhuyen && c.TypeTag == 6).SingleOrDefault();
+                                if (tagid != null)
+                                    if (stf.TagsId != null)
+                                        stf.TagsId += "," + tagid.Id;
+                                    else
+                                        stf.TagsId = tagid.Id.ToString();
+                            }
+                            if (worksheet.Cells["k" + row].Value != null && worksheet.Cells["k" + row].Text != "")
+                            {
+                                string phuongxa = worksheet.Cells["k" + row].Text;
+                                var tagid = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == phuongxa && c.TypeTag == 7).SingleOrDefault();
+                                if (tagid != null)
+                                    if (stf.TagsId != null)
+                                        stf.TagsId += "," + tagid.Id;
+                                    else
+                                        stf.TagsId = tagid.Id.ToString();
+                            }
+                        }
+                        catch { }
+                        try//phong ban
+                        {
+                            if (worksheet.Cells["n" + row].Value != null && worksheet.Cells["n" + row].Text != "")
+                            {
+                                string phongban = worksheet.Cells["n" + row].Text;
+                                stf.DepartmentId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == phongban && c.DictionaryCategoryId == 6).Select(c => c.Id).SingleOrDefault();
+                            }
+                        }
+                        catch { }
+                        try//chuc vu
+                        {
+                            if (worksheet.Cells["o" + row].Value != null && worksheet.Cells["o" + row].Text != "")
+                            {
+                                string chucvu = worksheet.Cells["o" + row].Text;
+                                stf.PositionId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == chucvu && c.DictionaryCategoryId == 5).Select(c => c.Id).SingleOrDefault();
+                            }
+                        }
+                        catch { }
+                        try//noi cap cmnd
+                        {
+                            if (worksheet.Cells["s" + row].Value != null && worksheet.Cells["s" + row].Text != "")
+                            {
+                                string noicap = worksheet.Cells["s" + row].Text;
+                                stf.IdentityTagId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == noicap && c.TypeTag == 3).Select(c => c.Id).SingleOrDefault();
+                            }
+                        }
+                        catch { }
+                        try//noi cap passport
+                        {
+                            if (worksheet.Cells["v" + row].Value != null && worksheet.Cells["v" + row].Text != "")
+                            {
+                                string noicap = worksheet.Cells["v" + row].Text;
+                                stf.PassportTagId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == noicap && c.TypeTag == 3).Select(c => c.Id).SingleOrDefault();
+                            }
+                        }
+                        catch { }
+
+
+                        list.Add(stf);
+                    }
+                    Session["listStaffImport"] = list;
+                    return PartialView("_Partial_ImportDataList", list);
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> SaveImport()
+        {
+            try
+            {
+                List<tbl_Staff> list = Session["listStaffImport"] as List<tbl_Staff>;
+                int i = 0;
+                foreach (var item in list)
+                {
+                    item.Code = LoadData.NewCodeStaff();
+                    bool temp = false;
+
+                    var namebirthday = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FullName == item.FullName && c.Birthday == item.Birthday).SingleOrDefault();
+                    if (namebirthday != null)
+                        temp = true;
+
+                    var cmnd = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.IdentityCard == item.IdentityCard).SingleOrDefault();
+                    if (cmnd != null)
+                        temp = true;
+
+                    if (!temp)
+                    {
+                        try
+                        {
+                            await _staffRepository.Create(item);
+                            i++;
+                        }
+                        catch { }
+                    }
+                }
+                Session["listStaffImport"] = null;
+                if (i != 0)
+                    return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Đã import thành công " + i + " dòng dữ liệu !", IsPartialView = false, RedirectTo = Url.Action("Index", "StaffManage") }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new ActionModel() { Succeed = false, Code = "200", View = "", Message = "Chưa có dữ liệu nào được import !" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch
+            {
+                Session["listStaffImport"] = null;
+                return Json(new ActionModel() { Succeed = false, Code = "200", View = "", Message = "Import dữ liệu lỗi !" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteImport(String listItemId)
+        {
+            try
+            {
+                List<tbl_Staff> list = Session["listStaffImport"] as List<tbl_Staff>;
+                if (listItemId != null && listItemId != "")
+                {
+                    var listIds = listItemId.Split(',');
+                    listIds = listIds.Take(listIds.Count() - 1).ToArray();
+                    if (listIds.Count() > 0)
+                    {
+                        int[] listIdsint = new int[listIds.Length];
+                        for (int i = 0; i < listIds.Length; i++)
+                        {
+                            listIdsint[i] = Int32.Parse(listIds[i]);
+                        }
+                        for (int i = 0; i < listIdsint.Length; i++)
+                        {
+                            for (int j = i; j < listIdsint.Length; j++)
+                            {
+                                if (listIdsint[i] < listIdsint[j])
+                                {
+                                    int temp = listIdsint[i];
+                                    listIdsint[i] = listIdsint[j];
+                                    listIdsint[j] = temp;
+                                }
+                            }
+                        }
+                        foreach (var item in listIdsint)
+                        {
+                            list.RemoveAt(item);
+                        }
+                    }
+                }
+                Session["listStaffImport"] = list;
+                return PartialView("_Partial_ImportDataList", list);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
+
     }
 }

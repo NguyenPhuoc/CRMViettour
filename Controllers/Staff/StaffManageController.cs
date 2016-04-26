@@ -866,65 +866,81 @@ namespace CRMViettour.Controllers
                         String cel = "f";
                         try//ngay sinh
                         {
-                            if (worksheet.Cells["f" + row].Value != null && worksheet.Cells["f" + row].Text != "")
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                stf.Birthday = DateTime.ParseExact(worksheet.Cells["f" + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                stf.Birthday = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
                             }
                         }
                         catch { }
                         try//ngay cap cmnd
                         {
-                            if (worksheet.Cells["r" + row].Value != null && worksheet.Cells["r" + row].Text != "")
+                            cel = "r";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                stf.CreatedDateIdentity = DateTime.ParseExact(worksheet.Cells["r" + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                stf.CreatedDateIdentity = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
                             }
                         }
                         catch { }
-                        try//ngay cap passport
+                        try//ngay hieu luc passport
                         {
-                            if (worksheet.Cells["u" + row].Value != null && worksheet.Cells["u" + row].Text != "")
+                            cel = "u";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                stf.CreatedDatePassport = DateTime.ParseExact(worksheet.Cells["u" + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                stf.CreatedDatePassport = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                            }
+                        }
+                        catch { }
+                        try//ngay het han passport
+                        {
+                            cel = "v";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
+                            {
+                                stf.ExpiredDatePassport = DateTime.ParseExact(worksheet.Cells[cel + row].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
                             }
                         }
                         catch { }
                         try//danh sung
                         {
-                            if (worksheet.Cells["b" + row].Value != null && worksheet.Cells["b" + row].Text != "")
+                            cel = "b";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string danhsung = worksheet.Cells["b" + row].Text;
+                                string danhsung = worksheet.Cells[cel + row].Text;
                                 stf.NameTypeId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == danhsung && c.DictionaryCategoryId == 7).Select(c => c.Id).SingleOrDefault();
                             }
                         }
                         catch { }
                         try//gioi tinh
                         {
-                            if (worksheet.Cells["e" + row].Value != null && worksheet.Cells["e" + row].Text != "")
+                            cel = "e";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string gioitinh = worksheet.Cells["e" + row].Text;
+                                string gioitinh = worksheet.Cells[cel + row].Text;
                                 stf.Gender = gioitinh == "Nam" ? true : false;
                             }
                         }
                         catch { }
                         try//noi sinh
                         {
-                            if (worksheet.Cells["g" + row].Value != null && worksheet.Cells["g" + row].Text != "")
+                            cel = "g";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string noisinh = worksheet.Cells["g" + row].Text;
+                                string noisinh = worksheet.Cells[cel + row].Text;
                                 stf.Birthplace = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == noisinh && c.TypeTag == 5).Select(c => c.Id).SingleOrDefault();
                             }
                         }
                         catch { }
                         try//tagid dia chi
                         {
-                            if (worksheet.Cells["i" + row].Value != null && worksheet.Cells["i" + row].Text != "")
+                            cel = "i";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string tinhtp = worksheet.Cells["i" + row].Text;
+                                string tinhtp = worksheet.Cells[cel + row].Text;
                                 stf.TagsId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == tinhtp && c.TypeTag == 5).Select(c => c.Id).SingleOrDefault().ToString();
                             }
-                            if (worksheet.Cells["j" + row].Value != null && worksheet.Cells["j" + row].Text != "")
+                            cel = "j";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string quanhuyen = worksheet.Cells["j" + row].Text;
+                                string quanhuyen = worksheet.Cells[cel + row].Text;
                                 var tagid = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == quanhuyen && c.TypeTag == 6).SingleOrDefault();
                                 if (tagid != null)
                                     if (stf.TagsId != null)
@@ -932,9 +948,10 @@ namespace CRMViettour.Controllers
                                     else
                                         stf.TagsId = tagid.Id.ToString();
                             }
-                            if (worksheet.Cells["k" + row].Value != null && worksheet.Cells["k" + row].Text != "")
+                            cel = "k";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string phuongxa = worksheet.Cells["k" + row].Text;
+                                string phuongxa = worksheet.Cells[cel + row].Text;
                                 var tagid = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == phuongxa && c.TypeTag == 7).SingleOrDefault();
                                 if (tagid != null)
                                     if (stf.TagsId != null)
@@ -946,36 +963,40 @@ namespace CRMViettour.Controllers
                         catch { }
                         try//phong ban
                         {
-                            if (worksheet.Cells["n" + row].Value != null && worksheet.Cells["n" + row].Text != "")
+                            cel = "n";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string phongban = worksheet.Cells["n" + row].Text;
+                                string phongban = worksheet.Cells[cel + row].Text;
                                 stf.DepartmentId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == phongban && c.DictionaryCategoryId == 6).Select(c => c.Id).SingleOrDefault();
                             }
                         }
                         catch { }
                         try//chuc vu
                         {
-                            if (worksheet.Cells["o" + row].Value != null && worksheet.Cells["o" + row].Text != "")
+                            cel = "o";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string chucvu = worksheet.Cells["o" + row].Text;
+                                string chucvu = worksheet.Cells[cel + row].Text;
                                 stf.PositionId = _dictionaryRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == chucvu && c.DictionaryCategoryId == 5).Select(c => c.Id).SingleOrDefault();
                             }
                         }
                         catch { }
                         try//noi cap cmnd
                         {
-                            if (worksheet.Cells["s" + row].Value != null && worksheet.Cells["s" + row].Text != "")
+                            cel = "s";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string noicap = worksheet.Cells["s" + row].Text;
+                                string noicap = worksheet.Cells[cel + row].Text;
                                 stf.IdentityTagId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == noicap && c.TypeTag == 3).Select(c => c.Id).SingleOrDefault();
                             }
                         }
                         catch { }
                         try//noi cap passport
                         {
-                            if (worksheet.Cells["v" + row].Value != null && worksheet.Cells["v" + row].Text != "")
+                            cel = "w";
+                            if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                             {
-                                string noicap = worksheet.Cells["v" + row].Text;
+                                string noicap = worksheet.Cells[cel + row].Text;
                                 stf.PassportTagId = _tagsRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Tag == noicap && c.TypeTag == 3).Select(c => c.Id).SingleOrDefault();
                             }
                         }

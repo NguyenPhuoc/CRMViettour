@@ -29,7 +29,7 @@
             else
             {
                 <p><b>Ngày cấp:</b> @string.Format("{0:dd-MM-yyyy}", Model.CreatedDateIdentity)</p>
-                <p><b>Nơi cấp:</b> @Model.tbl_TagsIdentity.Tag</p>
+                <p><b>Nơi cấp:</b> @(Model.tbl_TagsIdentity != null ? Model.tbl_TagsIdentity.Tag : "")</p>
             }
         </div>
     </div>

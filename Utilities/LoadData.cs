@@ -1,4 +1,5 @@
 ﻿using CRM.Core;
+using CRM.Enum;
 using CRM.Infrastructure;
 using CRMViettour.Models;
 using System;
@@ -662,6 +663,28 @@ namespace CRMViettour.Utilities
             int codenum = Int32.Parse(num);
             codenum++;
             string newcode = "NV" + codenum.ToString("D4");
+            return newcode;
+        }
+
+        /// <summary>
+        /// new code customer Personal
+        /// </summary>
+        /// <returns></returns>
+        public static string NewCodeCustomerPersonal()
+        {
+            var staf = _db.tbl_Customer.AsEnumerable().Where(c => c.CustomerType == CustomerType.Personal).Last();
+            string num = staf.Code.Substring(3);
+            string codechar = staf.Code.Substring(2, 1);
+            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            int i = alphabet.IndexOf(codechar);
+            int codenum = Int32.Parse(num);
+            codenum++;
+            if (codenum == 100000)
+            {
+                codenum = 1;
+                codechar = alphabet[i++].ToString();
+            }
+            string newcode = "KH" + codechar + codenum.ToString("D5");
             return newcode;
         }
 

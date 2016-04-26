@@ -2500,6 +2500,7 @@
     <Content Include="Views\AppointmentManage\_Partial_InsertAppointmentHistory.cshtml" />
     <Content Include="Views\TaskManage\_Partial_TaskList.cshtml" />
     <Content Include="Views\CustomersManage\_Partial_ImportDataList.cshtml" />
+    <Content Include="Views\StaffManage\_Partial_ImportDataList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

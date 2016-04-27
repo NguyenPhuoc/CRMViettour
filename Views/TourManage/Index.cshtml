@@ -36,7 +36,7 @@
                     <button class="btn btn-primary" id="btnAdd" href="#modal-insert-tour" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm mới tour</button>
                     <button class="btn btn-warning" id="btnEdit" href="#modal-edit-tour" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
                     <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                    <form action="@Url.Action("Delete", "TourTabInfo")" method="post" style="position:absolute">
+                    <form action="@Url.Action("Delete", "TourManage")" method="post" style="position:absolute">
                         @Html.AntiForgeryToken()
                         <input type="hidden" id="listItemId" name="listItemId" />
                     </form>
@@ -230,14 +230,35 @@
 @Html.Partial("~/Views/TourOtherTab/_Partial_InsertCongNoKhachHang.cshtml", new tbl_LiabilityCustomer())
 <div id="info-data-liabilitycustomer"></div>
 
-@*@Html.Partial("_Partial_InsertEvent")
-@Html.Partial("_Partial_InsertHotel")
-@Html.Partial("_Partial_InsertPlane")
-@Html.Partial("_Partial_InsertRestaurant")
-@Html.Partial("_Partial_InsertTransport")
+<!----- sự kiện ----->
+@Html.Partial("~/Views/TourService/_Partial_InsertEvent.cshtml", new tbl_Partner())
+<div id="info-data-eventservice"></div>
+
+<!----- nhà hàng ----->
+@*@Html.Partial("~/Views/TourService/_Partial_InsertRestaurant.cshtml", new tbl_Partner())*@
+<div id="info-data-restaurantservice"></div>
+
+<!----- khách sạn ----->
+@*@Html.Partial("~/Views/TourService/_Partial_InsertHotel.cshtml", new tbl_Partner())*@
+<div id="info-data-hotelservice"></div>
+
+<!----- vận chuyển ----->
+@*@Html.Partial("~/Views/TourService/_Partial_InsertTransport.cshtml", new tbl_Partner())*@
+<div id="info-data-transportservice"></div>
+
+<!----- vé máy bay ----->
+@*@Html.Partial("~/Views/TourService/_Partial_InsertPlane.cshtml", new tbl_Partner())*@
+<div id="info-data-planeservice"></div>
+
 @Html.Partial("_Partial_InsertServiceTour")
-@Html.Partial("_Partial_AddServices")*@
-     @* @Html.Partial("_Partial_UpdateStatus")
+@Html.Partial("_Partial_AddServices")
+
+@*@Html.Partial("_Partial_InsertHotel")
+    @Html.Partial("_Partial_InsertPlane")
+    @Html.Partial("_Partial_InsertRestaurant")
+    @Html.Partial("_Partial_InsertTransport")
+   *@
+@* @Html.Partial("_Partial_UpdateStatus")
     @Html.Partial("_Partial_UpdateVisa")
     @Html.Partial("_Partial_Setup_UserInGroup")
     @Html.Partial("_Partial_ImportCustomer")*@
@@ -245,4 +266,5 @@
 @section scripts{
     <script src="~/Scripts/controller/tour.js"></script>
     <script src="~/Scripts/controller/tourother.js"></script>
+    <script src="~/Scripts/controller/tourservice.js"></script>
 }

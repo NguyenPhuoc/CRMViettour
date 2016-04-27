@@ -525,8 +525,8 @@ namespace CRMViettour.Controllers.Tour
             {
                 model.ModifiedDate = DateTime.Now;
                 var cus = _customerRepository.FindId(model.CustomerId);
-                model.Email = cus.PersonalEmail != null ? cus.PersonalEmail : cus.CompanyEmail != null ? cus.CompanyEmail : null;
-                model.Phone = cus.Phone != null ? cus.Phone : null;
+                //model.Email = cus.PersonalEmail != null ? cus.PersonalEmail : cus.CompanyEmail != null ? cus.CompanyEmail : null;
+                //model.Phone = cus.Phone != null ? cus.Phone : null;
                 model.Time = Int32.Parse((model.EndDate - model.StartDate).TotalDays.ToString());
                 if (await _taskRepository.Update(model))
                 {
@@ -1020,7 +1020,8 @@ namespace CRMViettour.Controllers.Tour
                                 FirstPayment = p.FirstPayment,
                                 SecondPayment = p.SecondPayment,
                                 TotalRemaining = p.TotalRemaining, 
-                                tbl_DictionaryCurrencyType1 = _dictionaryRepository.FindId(p.FirstCurrencyType)
+                                tbl_DictionaryCurrencyType1 = _dictionaryRepository.FindId(p.FirstCurrencyType),
+                                Note = p.Note
                             }).ToList();
 
                 return PartialView("~/Views/TourTabInfo/_CongNoDoiTac.cshtml", list);
@@ -1055,7 +1056,8 @@ namespace CRMViettour.Controllers.Tour
                            FirstPayment = p.FirstPayment,
                            SecondPayment = p.SecondPayment,
                            TotalRemaining = p.TotalRemaining,
-                           tbl_DictionaryCurrencyType1 = _dictionaryRepository.FindId(p.FirstCurrencyType)
+                           tbl_DictionaryCurrencyType1 = _dictionaryRepository.FindId(p.FirstCurrencyType),
+                           Note = p.Note
                        }).ToList();
                     return PartialView("~/Views/TourTabInfo/_CongNoDoiTac.cshtml", list);
                 }

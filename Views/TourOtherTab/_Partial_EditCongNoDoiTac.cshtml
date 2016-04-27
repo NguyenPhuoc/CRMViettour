@@ -86,7 +86,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
                                                     <div class="col-lg-10 col-md-10">
-                                                        <textarea class="form-control" id="edit-note-congnodt" name="Note"></textarea>
+                                                        @Html.TextAreaFor(model => model.Note, new { @class="form-control", @id="edit-note-congnodt" })
                                                     </div>
                                                 </div>
                                             </div>

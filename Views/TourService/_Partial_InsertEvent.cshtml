@@ -1,41 +1,46 @@
-﻿<div class="modal fade bs-modal-lg" id="modal-insert-event" role="document" aria-hidden="true" ng-controller="itemCtrl">
+﻿@using CRMViettour.Utilities
+@model CRM.Core.tbl_Partner
+@{
+    Random rd = new Random();
+}
+
+<div class="modal fade bs-modal-lg" id="modal-insert-event" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Sự kiện</h4>
             </div>
-            <div class="modal-body" ng-repeat="event in items">
+            <div class="modal-body">
                 <div class="form-horizontal">
-                    <div class="row">
+                    <div class="row cloneInputEventService" id="entryEventService1">
                         <div class="col-md-12">
                             <div class="portlet light bordered">
                                 <div class="portlet-title">
                                     <div class="caption">
-                                        <a data-toggle="collapse" data-target="#demo-event{{event}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
-                                        <span class="caption-subject bold uppercase font-purple">OPTION {{event}}</span>
-                                    </div>
-                                    <div class="actions">
-                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem()"><i class="fa fa-times"></i></button>
+                                        <a data-toggle="collapse" data-target="#demo-event1" style="cursor: pointer" class="btn btn-default eventcollapse"><i class="fa fa-plus"></i></a>
+                                        <span class="caption-subject bold uppercase font-purple eventtitle">OPTION 1</span>
                                     </div>
                                 </div>
-                                <div class="portlet-body" id="demo-event{{event}}">
+                                <div class="portlet-body eventoption" id="demo-event1">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Công ty</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <select class="form-control" id="company-event{{event}}" ng-model="event.name" style="width: 100%">
-                                                        <option>A</option>
-                                                        <option>B</option>
-                                                        <option>C</option>
+                                                    <select class="form-control eventcongty" name="CompanyId1" id="insert-company-event1" style="width: 100%">
+                                                        <option>-- Chọn công ty --</option>
+                                                        @foreach (var item in LoadData.CompanyList())
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">File</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <input ng-model="event.name" name="file-event{{event}}" type="file" class="form-control" />
+                                                    <input type="file" class="form-control eventtailieu" name="FileName1" />
                                                 </div>
                                             </div>
                                         </div>
@@ -43,21 +48,25 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Code</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <input ng-model="event.name" name="code-event{{event}}" type="text" class="form-control" />
+                                                    <input name="Code1" type="text" class="form-control eventcode" value="@rd.Next(1111,9999)" readonly="readonly" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-4 col-md-4">Tổng giá</label>
+                                                <label class="control-label col-lg-4 col-md-4">Tổng giá trị</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <input ng-model="event.name" name="total-event{{event}}" type="text" class="form-control" />
+                                                    <input type="text" class="form-control eventgiatri" name="Price1" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
-                                                <div class="col-lg-10 col-md-10">
-                                                    <input ng-model="event.name" name="contacter-event{{event}}" type="text" class="form-control" />
+                                                <div class="col-lg-4 col-md-4">
+                                                    <input type="text" class="form-control eventlienhe" name="StaffContact1" />
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Điện thoại</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <input type="text" class="form-control eventdienthoai" name="Phone1" />
                                                 </div>
                                             </div>
                                         </div>
@@ -65,24 +74,22 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
                                                 <div class="col-lg-10 col-md-10">
-                                                    <textarea ng-model="event.name" class="form-control" name="note-event{{event}}"></textarea>
+                                                    <textarea class="form-control eventghichu" name="Note1" id="insert-note-event1"></textarea>
                                                 </div>
-                                                <script>
-                                                    CKEDITOR.replace("note-event{{event}}");
-                                                </script>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
             <div align="center" style="margin-bottom: 20px">
-                <button type="button" class="btn btn-success" ng-click="addNewItem()">Thêm option</button>
-                <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
+                <input type="hidden" value="1" id="countOptionEventService" name="NumberOptionEventService" />
+                <button type="button" class="btn btn-success" id="btnAddEventService">Thêm option</button>
+                <button type="button" class="btn btn-danger" id="btnDelEventService">Xóa option</button>
+                <button type="submit" class="btn blue">Lưu</button>
                 <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
             </div>
         </div>

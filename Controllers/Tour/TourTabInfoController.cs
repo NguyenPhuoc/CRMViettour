@@ -251,7 +251,8 @@ namespace CRMViettour.Controllers.Tour
                                 FirstPayment = p.FirstPayment,
                                 SecondPayment = p.SecondPayment,
                                 TotalRemaining = p.TotalRemaining,
-                                tbl_DictionaryCurrencyType1 = _dictionaryRepository.FindId(p.FirstCurrencyType)
+                                tbl_DictionaryCurrencyType1 = _dictionaryRepository.FindId(p.FirstCurrencyType),
+                                Note = p.Note
                             }).ToList();
             return PartialView("_CongNoDoiTac", model);
         }

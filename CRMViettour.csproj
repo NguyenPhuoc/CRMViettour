@@ -273,6 +273,8 @@
     <Compile Include="Controllers\SystemManageController.cs" />
     <Compile Include="Controllers\Tour\TourManageController.cs" />
     <Compile Include="Controllers\Tour\TourOtherTabController.cs" />
+    <Compile Include="Controllers\Tour\TourScheduleController.cs" />
+    <Compile Include="Controllers\Tour\TourServiceController.cs" />
     <Compile Include="Controllers\Tour\TourTabInfoController.cs" />
     <Compile Include="Controllers\VisaManageController.cs" />
     <Compile Include="Controllers\Visa\DocumentaryVisaManageController.cs" />
@@ -2088,6 +2090,7 @@
     <Content Include="Scripts\controller\servicetype.js" />
     <Content Include="Scripts\controller\tour.js" />
     <Content Include="Scripts\controller\tourother.js" />
+    <Content Include="Scripts\controller\tourservice.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
@@ -2280,12 +2283,12 @@
     <Content Include="Views\Shared\_Partial_ChangePassword.cshtml" />
     <Content Include="Views\Shared\_Partial_EditSchedule.cshtml" />
     <Content Include="Views\Shared\_Partial_Header.cshtml" />
-    <Content Include="Views\Shared\_Partial_InsertEvent.cshtml" />
-    <Content Include="Views\Shared\_Partial_InsertHotel.cshtml" />
-    <Content Include="Views\Shared\_Partial_InsertPlane.cshtml" />
-    <Content Include="Views\Shared\_Partial_InsertRestaurant.cshtml" />
+    <Content Include="Views\TourService\_Partial_InsertEvent.cshtml" />
+    <Content Include="Views\TourService\_Partial_InsertHotel.cshtml" />
+    <Content Include="Views\TourService\_Partial_InsertPlane.cshtml" />
+    <Content Include="Views\TourService\_Partial_InsertRestaurant.cshtml" />
     <Content Include="Views\Shared\_Partial_InsertSchedule.cshtml" />
-    <Content Include="Views\Shared\_Partial_InsertTransport.cshtml" />
+    <Content Include="Views\TourService\_Partial_InsertTransport.cshtml" />
     <Content Include="Views\Shared\_Partial_Navigation.cshtml" />
     <Content Include="Views\Shared\_Partial_Notice.cshtml" />
     <Content Include="Views\Shared\_Partial_Setup_UserInGroup.cshtml" />
@@ -2510,6 +2513,8 @@
     <Content Include="Views\TourOtherTab\_Partial_InsertMark.cshtml" />
     <Content Include="Views\TourOtherTab\_Partial_EditCongNoKhachHang.cshtml" />
     <Content Include="Views\TourOtherTab\_Partial_EditCongNoDoiTac.cshtml" />
+    <Content Include="Views\CustomersManage\_Partial_ImportDataList.cshtml" />
+    <Content Include="Views\TourSchedule\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -304,7 +304,7 @@ function deleteDocument(id) {
         dataType: "html",
         success: function (data) {
             alert("Xóa dữ liệu thành công!!!");
-            $("#hosolienquan").html(data);
+            $("#tailieumau").html(data);
         }
     });
 }

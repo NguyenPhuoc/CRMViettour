@@ -27,7 +27,7 @@
                         <tr class="odd gradeX">
                             <td>@i</td>
                             <td>@item.Title</td>
-                            <td>@string.Format("{0:dd-MM-yyyy}", item.Time)</td>
+                            <td>@string.Format("{0:dd-MM-yyyy hh:mm tt}", item.Time)</td>
                             <td>@item.tbl_DictionaryStatus.Name</td>
                             <td>@item.tbl_Staff.FullName</td>
                             <td>@Html.Raw(item.Note)</td>

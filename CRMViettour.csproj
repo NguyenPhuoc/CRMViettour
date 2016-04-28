@@ -2090,6 +2090,7 @@
     <Content Include="Scripts\controller\servicetype.js" />
     <Content Include="Scripts\controller\tour.js" />
     <Content Include="Scripts\controller\tourother.js" />
+    <Content Include="Scripts\controller\tourschedule.js" />
     <Content Include="Scripts\controller\tourservice.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
@@ -2515,6 +2516,7 @@
     <Content Include="Views\TourOtherTab\_Partial_EditCongNoDoiTac.cshtml" />
     <Content Include="Views\CustomersManage\_Partial_ImportDataList.cshtml" />
     <Content Include="Views\TourSchedule\Index.cshtml" />
+    <Content Include="Views\StaffManage\_Partial_ImportDataList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

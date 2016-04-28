@@ -63,11 +63,11 @@ namespace CRMViettour.Controllers
                 {
                     Code = p.Code,
                     Contact = p.StaffContact,
-                    Country = p.tbl_TagsCountry.Tag,
+                    Country = p.tbl_TagsCountry == null ? "" : p.tbl_TagsCountry.Tag,
                     Email = p.Email,
                     Id = p.Id,
                     Name = p.Name,
-                    Tags = LoadData.LocationTags(p.TagsLocationId)
+                    Tags = p.TagsLocationId == null ? "" : LoadData.LocationTags(p.TagsLocationId)
                 });
             return PartialView("_Partial_ListPartner", model);
         }

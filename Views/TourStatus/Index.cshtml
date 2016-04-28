@@ -1,0 +1,64 @@
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@{
+    ViewBag.Title = "Thống kê tour";
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>THỐNG KÊ TÌNH TRẠNG TOUR</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-left">
+                    <select id="filter-tour" class="form-control" style="width: 200px">
+                        <option value="tatca">-- Chọn tình trạng --</option>
+                        <option value="sapkhoihanh">Sắp khởi hành</option>
+                        <option value="dangthuchien">Đang thực hiện</option>
+                        <option value="hoantat">Hoàn tất</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-list-alt font-red"></i>
+                        <span class="caption-subject bold uppercase font-red">Danh sách Tour</span>
+                    </div>
+                </div>
+                <div class="portlet-body" id="data-tour">
+                    @Html.Action("_Partial_TourStatus", "TourStatus")
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+@section scripts{
+    <script src="~/Scripts/controller/tourstatus.js"></script>
+}

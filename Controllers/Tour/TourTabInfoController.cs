@@ -20,6 +20,7 @@ namespace CRMViettour.Controllers.Tour
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_ServicesPartner> _servicesPartnerRepository;
         private IGenericRepository<tbl_Tour> _tourRepository;
+        private IGenericRepository<tbl_TourOption> _tourOptionRepository;
         private IGenericRepository<tbl_ReviewTour> _reviewTourRepository;
         private IGenericRepository<tbl_ReviewTourDetail> _reviewTourDetailRepository;
         private IGenericRepository<tbl_Customer> _customerRepository;
@@ -40,6 +41,7 @@ namespace CRMViettour.Controllers.Tour
         public TourTabInfoController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_ServicesPartner> servicesPartnerRepository,
             IGenericRepository<tbl_Tour> tourRepository,
+            IGenericRepository<tbl_TourOption> tourOptionRepository,
             IGenericRepository<tbl_ReviewTour> reviewTourRepository,
             IGenericRepository<tbl_ReviewTourDetail> reviewTourDetailRepository,
             IGenericRepository<tbl_Customer> customerRepository,
@@ -59,6 +61,7 @@ namespace CRMViettour.Controllers.Tour
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
+            this._tourOptionRepository = tourOptionRepository;
             this._dictionaryRepository = dictionaryRepository;
             this._servicesPartnerRepository = servicesPartnerRepository;
             this._tourRepository = tourRepository;
@@ -105,9 +108,25 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
-        public async Task<ActionResult> InfoDichVu(int id)
+        public ActionResult InfoDichVu(int id)
         {
-            return PartialView("_DichVu");
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+                            .Select(p => new TourServiceViewModel
+                            {
+                                Id = p.Id,
+                                Code = p.tbl_Partner.Code,
+                                ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
+                                ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
+                                Name = p.tbl_Partner.Name,
+                                Address = p.tbl_Partner.Address,
+                                StaffContact = p.tbl_Partner.StaffContact,
+                                Phone = p.tbl_Partner.Phone,
+                                Price = p.tbl_Partner.Price,
+                                Note = p.tbl_Partner.Note,
+                                TourOptionId = p.Id,
+                                TourId = p.TourId
+                            }).ToList();
+            return PartialView("_DichVu", list);
         }
         #endregion
 

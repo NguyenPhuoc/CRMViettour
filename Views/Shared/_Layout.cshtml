@@ -75,36 +75,6 @@
         </div>
     </div>
     <script src="~/Scripts/SelectCheckbox.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('input:radio[name=selectServiceTour]').change(function () {
-                var id = $(this).val();
-                switch (id) {
-                    case "1":
-                        $("#modal-insert-services-tour").modal("hide");
-                        $("#modal-insert-restaurant").modal("show");
-                        break;
-                    case "2":
-                        $("#modal-insert-services-tour").modal("hide");
-                        $("#modal-insert-hotel").modal("show");
-                        break;
-                    case "3":
-                        $("#modal-insert-services-tour").modal("hide");
-                        $("#modal-insert-transport").modal("show");
-                        break;
-                    case "4":
-                        $("#modal-insert-services-tour").modal("hide");
-                        $("#modal-insert-plane").modal("show");
-                        break;
-                    case "5":
-                        $("#modal-insert-services-tour").modal("hide");
-                        $("#modal-insert-event").modal("show");
-                        break;
-                }
-            });
-        })
-        
-    </script>
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/scriptTemplate.js"></script>
 </body>

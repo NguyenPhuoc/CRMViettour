@@ -38,6 +38,13 @@
                     </tr>
                     i++;
                 }
+                <tr>
+                    <th colspan="5">Điểm trung bình</th>
+                    <td>@string.Format("{0:##}", Model.Sum(p=>p.Mark) / Model.Count())</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             }
         </tbody>
     </table>

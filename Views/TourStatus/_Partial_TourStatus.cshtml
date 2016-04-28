@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CRMViettour.Models.TourListViewModel>
+@{
+    int i = 1;
+}
+
+<div class="table-scrollable table-custom-format" id="tableDictionary-Wrapper">
+    <table class="table table-bordered table-hover dataTable" id="tableDictionary">
+        <thead>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>STT</th>
+                <th>Code tour</th>
+                <th>Tên tour</th>
+                <th>Khách hàng</th>
+                <th>Điểm đến</th>
+                <th>Số lượng</th>
+                <th>Ngày khởi hành</th>
+                <th>Ngày về</th>
+                <th>Thời gian</th>
+                <th>Hướng dẫn viên</th>
+                <th>Loại tour</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.Code</td>
+                        <td>@item.Name</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.DestinationPlace</td>
+                        <td>@item.NumberCustomer</td>
+                        <td>@string.Format("{0:dd-MM-yyyy}", item.StartDate)</td>
+                        <td>@string.Format("{0:dd-MM-yyyy}", item.EndDate)</td>
+                        <td>@item.NumberDay</td>
+                        <td>@item.TourGuide</td>
+                        <td>@item.TourType</td>
+                    </tr>
+                    i++;
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

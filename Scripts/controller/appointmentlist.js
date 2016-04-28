@@ -17,6 +17,26 @@ $("#trangthai-lichhen").select2();
 $("#loai-lichhen").select2();
 
 
+$(".dataTable").dataTable().columnFilter({
+    sPlaceHolder: "head:after",
+    aoColumns: [null,
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" }]
+});
+
+
 /*** Them lich hen ***/
 //function btnCreateLichHen() {
 
@@ -265,6 +285,24 @@ $(".FilterAppoi").change(function () {
         dataType: "html",
         success: function (data) {
             $("#dangluoi").html(data);
+            $(".dataTable").dataTable().columnFilter({
+                sPlaceHolder: "head:after",
+                aoColumns: [null,
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" }]
+            });
         }
     })
 })

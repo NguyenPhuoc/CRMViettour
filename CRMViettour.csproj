@@ -275,6 +275,7 @@
     <Compile Include="Controllers\Tour\TourOtherTabController.cs" />
     <Compile Include="Controllers\Tour\TourScheduleController.cs" />
     <Compile Include="Controllers\Tour\TourServiceController.cs" />
+    <Compile Include="Controllers\Tour\TourStatusController.cs" />
     <Compile Include="Controllers\Tour\TourTabInfoController.cs" />
     <Compile Include="Controllers\VisaManageController.cs" />
     <Compile Include="Controllers\Visa\DocumentaryVisaManageController.cs" />
@@ -294,6 +295,7 @@
     <Compile Include="Models\ReviewTourModel.cs" />
     <Compile Include="Models\StaffViewModel.cs" />
     <Compile Include="Models\TagsViewModel.cs" />
+    <Compile Include="Models\TourServiceViewModel.cs" />
     <Compile Include="Models\TourViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -2092,6 +2094,7 @@
     <Content Include="Scripts\controller\tourother.js" />
     <Content Include="Scripts\controller\tourschedule.js" />
     <Content Include="Scripts\controller\tourservice.js" />
+    <Content Include="Scripts\controller\tourstatus.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
@@ -2517,6 +2520,9 @@
     <Content Include="Views\CustomersManage\_Partial_ImportDataList.cshtml" />
     <Content Include="Views\TourSchedule\Index.cshtml" />
     <Content Include="Views\StaffManage\_Partial_ImportDataList.cshtml" />
+    <Content Include="Views\TaskManage\_Partial_TaskList.cshtml" />
+    <Content Include="Views\TourStatus\Index.cshtml" />
+    <Content Include="Views\TourStatus\_Partial_TourStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

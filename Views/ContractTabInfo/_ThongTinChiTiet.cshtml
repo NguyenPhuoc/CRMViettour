@@ -1,18 +1,26 @@
 ﻿@using CRM.Core
-@model tbl_Program
+@using CRMViettour.Models
+@using CRMViettour.Utilities
+@model tbl_Contract
 
-<p>
-    Test
-</p>
 @if (Model != null)
 {
-    <p>
-        <label><b>Mã tour:</b> @Model.tbl_Tour.Code</label>
-        <br />
-        <label><b>Tên tour:</b> @Model.tbl_Tour.Name</label>
-        <br />
-        <label><b>Khách hàng/doanh nghiệp:</b> @Model.tbl_Customer.FullName</label>
-        <br />
-        .....
-    </p>
+    <div class="row">
+        <div class="col-md-6">
+            <p><b>Code:</b> @Model.Code</p>
+            <p><b>Name:</b> @Model.Name</p>
+            <p><b>Tour:</b> @(Model.tbl_Tour != null ? Model.tbl_Tour.Name : "")</p>
+            <p><b>Trạng thái:</b> @Model.tbl_DictionaryStatus.Name</p>
+            <p><b>Ngày Bắt đầu:</b> @Model.StartDate.ToString("dd-MM-yyyy")</p>
+            <p><b>Thời gian:</b> @Model.NumberDay</p>
+        </div>
+
+        <div class="col-md-6">
+            <p><b>Ngày kết thúc:</b> @Model.EndDate.ToString("dd-MM-yyyy")</p>
+            <p><b>Ngày ký hợp đồng:</b> @Model.ContractDate.ToString("dd-MM-yyyy")</p>
+            <p><b>Tổng giá tri hợp đồng:</b> @Model.TotalPrice</p>
+            <p><b>Khách hàng:</b> @(Model.tbl_Customer != null ? Model.tbl_Customer.FullName : "")</p>
+            <p><b>Người tạo:</b> @Model.tbl_Staff.FullName</p>
+        </div>
+    </div>
 }

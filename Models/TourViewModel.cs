@@ -19,6 +19,9 @@ namespace CRMViettour.Models
         public int NumberCustomer { get; set; }
         public string TourGuide { get; set; }
         public string TourType { get; set; }
+        public decimal CongNoKhachHang { get; set; }
+        public decimal CongNoDoiTac { get; set; }
+        public string Status { get; set; }
     }
 
     public class TourViewModel

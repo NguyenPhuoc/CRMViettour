@@ -1,4 +1,5 @@
 ﻿using CRM.Core;
+using CRMViettour.Utilities;
 using CRM.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -157,6 +158,31 @@ namespace CRMViettour.Controllers
                         model.SingleTourGuide.EndDate = model.EndDateTourGuide;
                     }
                     await _tourGuideRepository.Create(model.SingleTourGuide);
+                    var lichhen = new tbl_AppointmentHistory()
+                    {
+                        TourId = model.SingleTour.Id,
+                        Time = model.SingleTourGuide.StartDate ?? DateTime.Now,
+                        StaffId = 9,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        DictionaryId = 1213,
+                        StatusId = 1145,
+                        OtherStaff = model.SingleTourGuide.StaffId.ToString(),
+                        Title = model.SingleTour.Name
+                    };
+                    await _appointmentHistoryRepository.Create(lichhen);
+                    var lichditour = new tbl_TourSchedule()
+                    {
+                        TourId=model.SingleTour.Id,
+                        TourGuideId=model.SingleTourGuide.StaffId,
+                        StaffId=9,
+                        CreatedDate=DateTime.Now,
+                        Date=model.SingleTour.StartDate??DateTime.Now,
+                    };
+                    int idtag = model.SingleTour.DestinationPlace ?? 0;
+                    lichditour.Place = LoadData.DropdownlistLocation().Where(c => c.Id == idtag).Select(c => c.Tags).SingleOrDefault();
+                    lichditour.Address = lichditour.Place;
+                    await _tourScheduleRepository.Create(lichditour);
                 }
             }
             catch { }
@@ -244,7 +270,7 @@ namespace CRMViettour.Controllers
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _customerRepository.DeleteMany(listIds, true))
+                        if (await _tourRepository.DeleteMany(listIds, true))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "TourManage") }, JsonRequestBehavior.AllowGet);
                         }

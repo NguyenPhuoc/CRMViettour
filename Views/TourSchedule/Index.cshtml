@@ -1,1 +1,73 @@
-﻿
+﻿@using CRMViettour.Utilities
+
+
+@{
+    ViewBag.Title = "Quản lý lịch đi tour";
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>LỊCH ĐI TOUR</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-6">
+                <label>Danh sách tour</label>
+                <select class="form-control FilterAppoi" id="list-tour">
+                    <option value="-1">Chọn tour</option>
+                    @foreach (var item in LoadData.TourList())
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <a href="@Url.Action("Index", "TourSchedule")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div id="calendar">
+                        @*Calendar*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+<!----- lịch đi tour ----->
+@Html.Partial("_Partial_InsertScheduleTour")
+<div id="info-data-tourschedule"></div>
+
+@Styles.Render("~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css")
+
+@section scripts{
+    <script src="~/Scripts/controller/tourschedule.js"></script>
+    <script src="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <script src="~/Content/assets/global/plugins/fullcalendar/lang-all.js"></script>
+    
+}

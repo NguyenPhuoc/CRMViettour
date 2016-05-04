@@ -281,6 +281,7 @@
     <Compile Include="Controllers\Visa\DocumentaryVisaManageController.cs" />
     <Compile Include="Controllers\Visa\InfomationVisaManageController.cs" />
     <Compile Include="Controllers\Visa\StatusVisaManageController.cs" />
+    <Compile Include="Controllers\Visa\VisaStatisticController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

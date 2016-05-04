@@ -170,27 +170,27 @@ namespace CRMViettour.Controllers.Tour
                         await _tourOptionRepository.Create(item);
                     }
                 }
-                var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).
-                             Select(p => new TourServiceViewModel
-                             {
-                                 Id = p.Id,
-                                 Code = p.tbl_Partner.Code,
-                                 ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
-                                 ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
-                                 Name = p.tbl_Partner.Name,
-                                 Address = p.tbl_Partner.Address,
-                                 StaffContact = p.tbl_Partner.StaffContact,
-                                 Phone = p.tbl_Partner.Phone,
-                                 Price = p.tbl_Partner.Price,
-                                 Note = p.tbl_Partner.Note,
-                                 TourOptionId = p.Id,
-                                 TourId = p.TourId
-                             }).ToList();
-                return PartialView("_Partial_InsertEvent", list);
+                var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                            .Select(p => new TourServiceViewModel
+                            {
+                                Id = p.Id,
+                                Code = p.tbl_Partner.Code,
+                                ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
+                                ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
+                                Name = _partnerRepository.FindId(p.PartnerId).Name,
+                                Address = _partnerRepository.FindId(p.PartnerId).Address,
+                                StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
+                                Phone = _partnerRepository.FindId(p.PartnerId).Phone,
+                                Price = _partnerRepository.FindId(p.PartnerId).Price,
+                                Note = _partnerRepository.FindId(p.PartnerId).Note,
+                                TourOptionId = p.Id,
+                                TourId = p.TourId
+                            }).ToList();
+                return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
             }
             catch { }
 
-            return PartialView("_Partial_InsertEvent");
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
         }
         #endregion
 
@@ -222,11 +222,11 @@ namespace CRMViettour.Controllers.Tour
                                 TourOptionId = p.Id,
                                 TourId = p.TourId
                             }).ToList();
-                return PartialView("_Partial_InsertEvent", list);
+                return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
             }
             catch
             {
-                return PartialView("_Partial_InsertEvent");
+                return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
             }
         }
         #endregion

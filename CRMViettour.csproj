@@ -2093,6 +2093,7 @@
     <Content Include="Scripts\controller\servicetype.js" />
     <Content Include="Scripts\controller\tour.js" />
     <Content Include="Scripts\controller\tourother.js" />
+    <Content Include="Scripts\controller\tourschedule.js" />
     <Content Include="Scripts\controller\tourservice.js" />
     <Content Include="Scripts\controller\tourstatus.js" />
     <Content Include="Scripts\fullcalendar.js" />
@@ -2521,6 +2522,8 @@
     <Content Include="Views\TourSchedule\Index.cshtml" />
     <Content Include="Views\TourStatus\Index.cshtml" />
     <Content Include="Views\TourStatus\_Partial_TourStatus.cshtml" />
+    <Content Include="Views\TourSchedule\_Partial_EditScheduleTour.cshtml" />
+    <Content Include="Views\TourSchedule\_Partial_InsertScheduleTour.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

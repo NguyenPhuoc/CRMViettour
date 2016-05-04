@@ -30,16 +30,17 @@
     <!-- BEGIN PAGE BASE CONTENT -->
     <div class="note note-info">
         <div class="row">
-            <div class="col-md-6">
-                <label>Danh sách tour</label>
+            <div class="col-md-1">
+                <a href="@Url.Action("Index", "TourSchedule")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+            </div>
+            <div class="col-md-8">
                 <select class="form-control FilterAppoi" id="list-tour">
-                    <option value="-1">Chọn tour</option>
+                    <option value="-1">-- Chọn tour --</option>
                     @foreach (var item in LoadData.TourList())
                     {
                         <option value="@item.Id">@item.Name</option>
                     }
                 </select>
-                <a href="@Url.Action("Index", "TourSchedule")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
             </div>
         </div>
     </div>

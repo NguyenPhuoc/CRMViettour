@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Thêm công nợ của khách hàng</h4>
             </div>
-            @using (Ajax.BeginForm("CreateLiabilityCustomer", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "congnokh" }))
+            @using (Ajax.BeginForm("CreateLiabilityCustomer", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessCNKH", UpdateTargetId = "congnokh" }))
             {
                 <div class="modal-body">
                     <div class="form-horizontal">
@@ -16,7 +16,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Tổng giá trị hợp đồng</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.TotalContract, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.TotalContract, new { @class = "form-control Icnkh", id = "IcnkhTong" })
                                     </div>
                                 </div>
                             </div>
@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Thanh toán đợt 1</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.FirstPrice, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.FirstPrice, new { @class = "form-control Icnkh", id = "IcnkhDot1" })
                                     </div>
                                     <label class="control-label col-lg-1 col-md-1">Ngày</label>
                                     <div class="col-lg-3 col-md-3">
@@ -43,7 +43,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Thanh toán đợt 2</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.SecondPrice, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.SecondPrice, new { @class = "form-control Icnkh", id = "IcnkhDot2" })
                                     </div>
                                     <label class="control-label col-lg-1 col-md-1">Ngày</label>
                                     <div class="col-lg-3 col-md-3">
@@ -62,7 +62,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Thanh toán đợt 3</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.ThirdPrice, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.ThirdPrice, new { @class = "form-control Icnkh", id = "IcnkhDot3" })
                                     </div>
                                     <label class="control-label col-lg-1 col-md-1">Ngày</label>
                                     <div class="col-lg-3 col-md-3">
@@ -81,7 +81,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Tổng giá trị thanh lý</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.TotalLiquidation, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.TotalLiquidation, new { @class = "form-control Icnkh", id = "IcnkhTongThanhLy" })
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Tổng giá trị còn lại</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.TotalRemaining, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.TotalRemaining, new { @class = "form-control Icnkh", id = "IcnkhTongConLai" })
                                     </div>
                                 </div>
                             </div>

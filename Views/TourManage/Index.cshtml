@@ -257,7 +257,7 @@
     @Html.Partial("_Partial_InsertPlane")
     @Html.Partial("_Partial_InsertRestaurant")
     @Html.Partial("_Partial_InsertTransport")
-   *@
+*@
 @* @Html.Partial("_Partial_UpdateStatus")
     @Html.Partial("_Partial_UpdateVisa")
     @Html.Partial("_Partial_Setup_UserInGroup")
@@ -267,4 +267,82 @@
     <script src="~/Scripts/controller/tour.js"></script>
     <script src="~/Scripts/controller/tourother.js"></script>
     <script src="~/Scripts/controller/tourservice.js"></script>
+    <script src="~/Scripts/numeral.min.js"></script>
+
+    <script>
+        $('#btnAddCongNo').click(function () {
+            var num = $('.clonedInputCongNo').length, // how many "duplicatable" input fields we currently have
+                newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+                newElem = $('#entryCongNo' + num).clone().attr('id', 'entryCongNo' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+            // manipulate the name/id values of the input inside the new element
+            newElem.find('.congnocurrencyfirst').attr('id', 'insert-currencyfirst-congno' + newNum).attr('name', 'FirstCurrencyType' + newNum);
+            newElem.find('.congnopartner').attr('id', 'insert-partner-congno' + newNum).attr('name', 'PartnerId' + newNum);
+            newElem.find('.congnofirst').attr('name', 'FirstPayment' + newNum).val('').attr('id', 'FirstPayment' + newNum);
+            newElem.find('.congnomethod').attr('id', 'insert-method-congno' + newNum).attr('name', 'PaymentMethod' + newNum);
+            newElem.find('.congnosecond').attr('name', 'SecondPayment' + newNum).val('').attr('id', 'SecondPayment' + newNum);
+            newElem.find('.congnoprice').attr('name', 'ServicePrice' + newNum).val('').attr('id', 'ServicePrice' + newNum);
+            newElem.find('.congnoremaining').attr('name', 'TotalRemaining' + newNum).val('').attr('id', 'TotalRemaining' + newNum);
+            newElem.find('.congnonote').attr('id', 'insert-note-congnodt' + newNum).attr('name', 'Note' + newNum).val('');
+            newElem.find('.collapsedt').attr('data-target', '#demo-congnodt' + newNum);
+            newElem.find('.optioncongno').attr('id', 'demo-congnodt' + newNum);
+            newElem.find('.titleoption').text('OPTION ' + newNum);
+
+            // insert the new element after the last "duplicatable" input field
+            $('#entryCongNo' + num).after(newElem);
+            $("#insert-partner-congno" + newNum).select2();
+            $("#insert-method-congno" + newNum).select2();
+            $("#insert-currencyfirst-congno" + newNum).select2();
+            CKEDITOR.replace("insert-note-congnodt" + newNum);
+            $("#countOptionCongNo").val(newNum);
+
+            for (var i = 1; i < newNum; i++) {
+                $("#entryCongNo" + newNum + " #select2-insert-currencyfirst-congno" + i + "-container").parent().parent().parent().remove();
+                $("#entryCongNo" + newNum + " #select2-insert-partner-congno" + i + "-container").parent().parent().parent().remove();
+                $("#entryCongNo" + newNum + " #select2-insert-method-congno" + i + "-container").parent().parent().parent().remove();
+                $("#entryCongNo" + newNum).find("#cke_insert-note-congnodt" + i).remove();
+            }
+
+            // enable the "remove" button
+            $('#btnDelCongNo').attr('disabled', false);
+
+            $(".Icndt").change(function () {
+                var num = $('.clonedInputCongNo').length;
+                for (var i = 1; i <= num; i++) {
+                    var tong = $("#ServicePrice" + i).val();
+                    var dot1 = $("#FirstPayment" + i).val();
+                    var dot2 = $("#SecondPayment" + i).val();
+                    $("#TotalRemaining" + i).val(tong - dot1 - dot2);
+                }
+            })
+
+        });
+
+        $('#btnDelCongNo').click(function () {
+            // confirmation
+            var num = $('.clonedInputCongNo').length;
+            // how many "duplicatable" input fields we currently have
+            $('#entryCongNo' + num).slideUp('slow', function () {
+                $(this).remove();
+                // if only one element remains, disable the "remove" button
+                if (num - 1 === 1)
+                    $('#btnDelCongNo').attr('disabled', true);
+                // enable the "add" button
+                $('#btnAddCongNo').attr('disabled', false).prop('value', "add section");
+            });
+            return false;
+
+            $('#btnAddCongNo').attr('disabled', false);
+        });
+        $('#btnDelCongNo').attr('disabled', true);
+
+        $(".Icndt").change(function () {
+            var num = $('.clonedInputCongNo').length;
+            for (var i = 1; i <= num; i++) {
+                var tong = $("#ServicePrice" + i).val();
+                var dot1 = $("#FirstPayment" + i).val();
+                var dot2 = $("#SecondPayment" + i).val();
+                $("#TotalRemaining" + i).val(tong - dot1 - dot2);
+            }
+        })
+    </script>
 }

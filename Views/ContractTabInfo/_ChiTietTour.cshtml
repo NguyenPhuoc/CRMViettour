@@ -18,8 +18,8 @@
             <p><b>Trạng thái:</b> @Model.Status</p>
             <p><b>Thời hạn (số ngày):</b> @Model.NumberDay</p>
             <p><b>Số lượng khách:</b> @Model.NumberCustomer</p>
-            <p><b>Công nợ khách hàng:</b> @Model.CongNoKhachHang</p>
-            <p><b>Công nợ đối tác:</b> @Model.CongNoDoiTac</p>
+            <p><b>Công nợ khách hàng:</b> @string.Format("{0:0,0}", Model.CongNoKhachHang)</p>
+            <p><b>Công nợ đối tác:</b> @string.Format("{0:0,0}", Model.CongNoDoiTac)</p>
         </div>
     </div>
 }

@@ -18,9 +18,12 @@ $('.dataTable').dataTable({
     columnDefs: [{ orderable: false, targets: [0] }]
 });
 
+
 $(".dataTable").dataTable().columnFilter({
     sPlaceHolder: "head:after",
     aoColumns: [null,
+                { type: "text" },
+                { type: "text" },
                 { type: "text" },
                 { type: "text" },
                 { type: "text" },
@@ -710,4 +713,5 @@ function OnSuccessScheduleTour() {
     $("#modal-insert-tourschedule").modal('hide');
     $("#tabnhiemvu").click();
 }
+
 

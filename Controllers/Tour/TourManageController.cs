@@ -38,6 +38,8 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_TourCustomerVisa> _tourCustomerVisaRepository;
         private IGenericRepository<tbl_TourOption> _tourOptionRepository;
         private IGenericRepository<tbl_Staff> _staffRepository;
+        private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
+        private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
         private DataContext _db;
 
         public TourManageController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
@@ -60,6 +62,8 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_TourCustomerVisa> tourCustomerVisaRepository,
             IGenericRepository<tbl_TourOption> tourOptionRepository,
             IGenericRepository<tbl_Staff> staffRepository,
+            IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
+            IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -83,6 +87,8 @@ namespace CRMViettour.Controllers
             this._tourCustomerVisaRepository = tourCustomerVisaRepository;
             this._tourOptionRepository = tourOptionRepository;
             this._staffRepository = staffRepository;
+            this._liabilityCustomerRepository = liabilityCustomerRepository;
+            this._liabilityPartnerRepository = liabilityPartnerRepository;
             _db = new DataContext();
         }
 
@@ -117,8 +123,15 @@ namespace CRMViettour.Controllers
                     EndDate = p.EndDate,
                     NumberDay = p.NumberDay ?? 0,
                     TourGuide = p.tbl_TourGuide.FirstOrDefault() == null ? "" : p.tbl_TourGuide.FirstOrDefault().tbl_Staff.FullName,
-                    TourType = p.tbl_DictionaryTypeTour.Name
+                    TourType = p.tbl_DictionaryTypeTour.Name,
+                    //CongNoKhachHang =  _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == p.Id).Sum(c => c.TotalContract) ?? 0,
+                    //CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == p.Id).Sum(c => c.ServicePrice) ?? 0
                 }).ToList();
+            foreach (var item in model)
+            {
+                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
+                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
+            }
             return PartialView("_Partial_ListTours", model);
         }
 
@@ -173,11 +186,11 @@ namespace CRMViettour.Controllers
                     await _appointmentHistoryRepository.Create(lichhen);
                     var lichditour = new tbl_TourSchedule()
                     {
-                        TourId=model.SingleTour.Id,
-                        TourGuideId=model.SingleTourGuide.StaffId,
-                        StaffId=9,
-                        CreatedDate=DateTime.Now,
-                        Date=model.SingleTour.StartDate??DateTime.Now,
+                        TourId = model.SingleTour.Id,
+                        TourGuideId = model.SingleTourGuide.StaffId,
+                        StaffId = 9,
+                        CreatedDate = DateTime.Now,
+                        Date = model.SingleTour.StartDate ?? DateTime.Now,
                     };
                     int idtag = model.SingleTour.DestinationPlace ?? 0;
                     lichditour.Place = LoadData.DropdownlistLocation().Where(c => c.Id == idtag).Select(c => c.Tags).SingleOrDefault();

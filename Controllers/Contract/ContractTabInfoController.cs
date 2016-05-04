@@ -154,23 +154,27 @@ namespace CRMViettour.Controllers.Contract
         {
             var model = _contractRepository.FindId(id);
             var tour = model.tbl_Tour;
-            var tourModel = new TourListViewModel()
+            if (tour != null)
             {
-                Id = tour.Id,
-                Code = tour.Code,
-                Name = tour.Name,
-                NumberDay = tour.NumberDay ?? 0,
-                NumberCustomer = tour.NumberCustomer ?? 0,
-                StartDate = tour.StartDate,
-                EndDate = tour.EndDate,
-                TourType = tour.tbl_DictionaryTypeTour.Name,
-                Status = model.tbl_DictionaryStatus.Name,
-                CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == tour.Id).Sum(c => c.TotalContract) ?? 0,
-                CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == tour.Id).Sum(c => c.ServicePrice) ?? 0,
+                var tourModel = new TourListViewModel()
+                {
+                    Id = tour.Id,
+                    Code = tour.Code,
+                    Name = tour.Name,
+                    NumberDay = tour.NumberDay ?? 0,
+                    NumberCustomer = tour.NumberCustomer ?? 0,
+                    StartDate = tour.StartDate,
+                    EndDate = tour.EndDate,
+                    TourType = tour.tbl_DictionaryTypeTour.Name,
+                    Status = tour.tbl_DictionaryStatus.Name,
+                    CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == tour.Id).Sum(c => c.TotalContract) ?? 0,
+                    CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == tour.Id).Sum(c => c.ServicePrice) ?? 0,
 
 
-            };
-            return PartialView("_ChiTietTour", tourModel);
+                };
+                return PartialView("_ChiTietTour", tourModel);
+            }
+            return PartialView("_ChiTietTour", new TourListViewModel());
         }
         #endregion
 

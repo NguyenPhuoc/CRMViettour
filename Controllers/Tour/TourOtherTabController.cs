@@ -979,6 +979,7 @@ namespace CRMViettour.Controllers.Tour
         public async Task<ActionResult> EditLiabilityPartner(int id)
         {
             var model = await _liabilityPartnerRepository.GetById(id);
+            Session["idTour"] = model.TourId;
             return PartialView("_Partial_EditCongNoDoiTac", model);
         }
 
@@ -998,9 +999,9 @@ namespace CRMViettour.Controllers.Tour
                         ModifiedDate = DateTime.Now,
                         StaffId = 9,
                         PartnerId = Convert.ToInt32(form["PartnerId" + i].ToString()),
-                        Note = form["Note" + i] !="" ? form["Note" + i].ToString() :"",
-                        PaymentMethod = form["PaymentMethod" + i] !="" ? Convert.ToInt32(form["PaymentMethod" + i].ToString()) : 0,
-                        SecondPayment = form["SecondPayment" + i] !="" ? Convert.ToDecimal( form["SecondPayment" + i].ToString()) :0,
+                        Note = form["Note" + i] != "" ? form["Note" + i].ToString() : "",
+                        PaymentMethod = form["PaymentMethod" + i] != "" ? Convert.ToInt32(form["PaymentMethod" + i].ToString()) : 0,
+                        SecondPayment = form["SecondPayment" + i] != "" ? Convert.ToDecimal(form["SecondPayment" + i].ToString()) : 0,
                         FirstPayment = form["FirstPayment" + i] != "" ? Convert.ToDecimal(form["FirstPayment" + i].ToString()) : 0,
                         TotalRemaining = form["TotalRemaining" + i] != "" ? Convert.ToDecimal(form["TotalRemaining" + i].ToString()) : 0,
                         ServicePrice = form["ServicePrice" + i] != "" ? Convert.ToDecimal(form["ServicePrice" + i].ToString()) : 0,
@@ -1019,7 +1020,7 @@ namespace CRMViettour.Controllers.Tour
                                 ServicePrice = p.ServicePrice,
                                 FirstPayment = p.FirstPayment,
                                 SecondPayment = p.SecondPayment,
-                                TotalRemaining = p.TotalRemaining, 
+                                TotalRemaining = p.TotalRemaining,
                                 tbl_DictionaryCurrencyType1 = _dictionaryRepository.FindId(p.FirstCurrencyType),
                                 Note = p.Note
                             }).ToList();
@@ -1079,6 +1080,7 @@ namespace CRMViettour.Controllers.Tour
             try
             {
                 int tourId = _liabilityPartnerRepository.FindId(id).TourId;
+                Session["idTour"] = tourId;
                 if (await _liabilityPartnerRepository.Delete(id, true))
                 {
                     var list = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
@@ -1111,6 +1113,7 @@ namespace CRMViettour.Controllers.Tour
         public async Task<ActionResult> EditLiabilityCustomer(int id)
         {
             var model = await _liabilityCustomerRepository.GetById(id);
+            Session["idTour"] = model.TourId;
             return PartialView("_Partial_EditCongNoKhachHang", model);
         }
 
@@ -1141,7 +1144,6 @@ namespace CRMViettour.Controllers.Tour
 
             return PartialView("~/Views/TourTabInfo/_CongNoKH.cshtml");
         }
-
         [HttpPost]
         [ValidateInput(false)]
         public async Task<ActionResult> UpdateLiabilityCustomer(tbl_LiabilityCustomer model, FormCollection form)
@@ -1178,6 +1180,7 @@ namespace CRMViettour.Controllers.Tour
             try
             {
                 int tourId = _liabilityCustomerRepository.FindId(id).TourId;
+                Session["idTour"] = tourId;
                 if (await _liabilityCustomerRepository.Delete(id, true))
                 {
                     var list = _liabilityCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).ToList();
@@ -1192,6 +1195,33 @@ namespace CRMViettour.Controllers.Tour
             {
                 return PartialView("~/Views/TourTabInfo/_CongNoKH.cshtml");
             }
+        }
+        #endregion
+
+        #region Onsuccsess
+        public JsonResult CNKH()
+        {
+            int id = Int32.Parse(Session["idTour"].ToString());
+            decimal CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == id).Sum(c => c.TotalContract) ?? 0;
+
+            var obj = new
+            {
+                Id = id,
+                CongNo = CongNoKhachHang
+            };
+            return Json(obj, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CNDT()
+        {
+            int id = Int32.Parse(Session["idTour"].ToString());
+            decimal CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == id).Sum(c => c.ServicePrice) ?? 0;
+
+            var obj = new
+            {
+                Id = id,
+                CongNo = CongNoDoiTac
+            };
+            return Json(obj, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

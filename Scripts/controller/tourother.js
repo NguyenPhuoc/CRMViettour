@@ -8,6 +8,7 @@ CKEDITOR.replace("insert-note-tourtask");
 CKEDITOR.replace("insert-note-contracttour");
 CKEDITOR.replace("insert-note-reviewtour");
 CKEDITOR.replace("insert-note-liabilitycustomer");
+CKEDITOR.replace("insert-note-congnodt1");
 
 $("#insert-service-tour").select2();
 $("#insert-partner-tour").select2();
@@ -362,7 +363,39 @@ function updateDocument(id) {
         }
     });
 }
+function OnSuccessCNKH() {
+    $("#modal-insert-congnokh").modal("hide");
+    $("#modal-edit-congnokh").modal("hide");
 
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/CNKH',
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            var obj = jQuery.parseJSON(data);
+            $("#cnkh" + obj.Id).html(numeral(obj.CongNo).format('0,0'));
+        }
+    });
+
+}
+function OnSuccessCNDT() {
+
+    $("#modal-insert-congnodt").modal("hide");
+    $("#modal-edit-congnodt").modal("hide");
+
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/CNDT',
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            var obj = jQuery.parseJSON(data);
+            $("#cndt" + obj.Id).html(numeral(obj.CongNo).format('0,0'));
+        }
+    });
+
+}
 function OnSuccessTourTab() {
     $("#modal-insert-appointment").modal("hide");
     $("#modal-edit-appointment").modal("hide");
@@ -382,11 +415,6 @@ function OnSuccessTourTab() {
     $("#modal-insert-mark").modal("hide");
     $("#modal-edit-mark").modal("hide");
 
-    $("#modal-insert-congnokh").modal("hide");
-    $("#modal-edit-congnokh").modal("hide");
-
-    $("#modal-insert-congnodt").modal("hide");
-    $("#modal-edit-congnodt").modal("hide");
 }
 
 function OnFailureTourTab() {
@@ -676,6 +704,13 @@ function btnCreateLiabilityCustomer() {
             dataType: "html",
             success: function (data) {
                 $("#modal-insert-congnokh").modal("show");
+                $(".Icnkh").change(function () {
+                    var tong = $("#IcnkhTong").val();
+                    var dot1 = $("#IcnkhDot1").val();
+                    var dot2 = $("#IcnkhDot2").val();
+                    var dot3 = $("#IcnkhDot3").val();
+                    $("#IcnkhTongConLai").val(tong - dot1 - dot2 - dot3);
+                });
             }
         });
     }
@@ -694,6 +729,13 @@ function updateLiabilityCustomer(id) {
             $("#info-data-liabilitycustomer").html(data);
             CKEDITOR.replace("edit-note-liabilitycustomer");
             $("#modal-edit-congnokh").modal("show");
+            $(".Ecnkh").change(function () {
+                var tong = $("#EcnkhTong").val().replace(',', '');
+                var dot1 = $("#EcnkhDot1").val();
+                var dot2 = $("#EcnkhDot2").val();
+                var dot3 = $("#EcnkhDot3").val();
+                $("#EcnkhTongConLai").val(tong - dot1 - dot2 - dot3);
+            });
         }
     });
 }
@@ -708,6 +750,16 @@ function deleteLiabilityCustomer(id) {
         contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (data) {
+            $.ajax({
+                type: "POST",
+                url: '/TourOtherTab/CNKH',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    var obj = jQuery.parseJSON(data);
+                    $("#cnkh" + obj.Id).html(numeral(obj.CongNo).format('0,0'));
+                }
+            });
             alert("Xóa dữ liệu thành công!!!");
             $("#congnokh").html(data);
         }
@@ -729,65 +781,64 @@ function btnCreateLiabilityPartner() {
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function (data) {
-                CKEDITOR.replace("insert-note-congnodt1");
                 $("#modal-insert-congnodt").modal("show");
                 /*** duplicate thêm công nợ đối tác ***/
-                $(function () {
-                    $('#btnAddCongNo').click(function () {
-                        var num = $('.clonedInputCongNo').length, // how many "duplicatable" input fields we currently have
-                            newNum = new Number(num + 1),      // the numeric ID of the new input field being added
-                            newElem = $('#entryCongNo' + num).clone().attr('id', 'entryCongNo' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
-                        // manipulate the name/id values of the input inside the new element
-                        newElem.find('.congnocurrencyfirst').attr('id', 'insert-currencyfirst-congno' + newNum).attr('name', 'FirstCurrencyType' + newNum);
-                        newElem.find('.congnopartner').attr('id', 'insert-partner-congno' + newNum).attr('name', 'PartnerId' + newNum);
-                        newElem.find('.congnofirst').attr('name', 'FirstPayment' + newNum).val('');
-                        newElem.find('.congnomethod').attr('id', 'insert-method-congno' + newNum).attr('name', 'PaymentMethod' + newNum);
-                        newElem.find('.congnosecond').attr('name', 'SecondPayment' + newNum).val('');
-                        newElem.find('.congnoprice').attr('name', 'ServicePrice' + newNum).val('');
-                        newElem.find('.congnoremaining').attr('name', 'TotalRemaining' + newNum).val('');
-                        newElem.find('.congnonote').attr('id', 'insert-note-congnodt' + newNum).attr('name', 'Note' + newNum).val('');
-                        newElem.find('.collapsedt').attr('data-target', '#demo-congnodt' + newNum);
-                        newElem.find('.optioncongno').attr('id', 'demo-congnodt' + newNum);
-                        newElem.find('.titleoption').text('OPTION ' + newNum);
+                //$(function () {
+                //    $('#btnAddCongNo').click(function () {
+                //        var num = $('.clonedInputCongNo').length, // how many "duplicatable" input fields we currently have
+                //            newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+                //            newElem = $('#entryCongNo' + num).clone().attr('id', 'entryCongNo' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+                //        // manipulate the name/id values of the input inside the new element
+                //        newElem.find('.congnocurrencyfirst').attr('id', 'insert-currencyfirst-congno' + newNum).attr('name', 'FirstCurrencyType' + newNum);
+                //        newElem.find('.congnopartner').attr('id', 'insert-partner-congno' + newNum).attr('name', 'PartnerId' + newNum);
+                //        newElem.find('.congnofirst').attr('name', 'FirstPayment' + newNum).val('');
+                //        newElem.find('.congnomethod').attr('id', 'insert-method-congno' + newNum).attr('name', 'PaymentMethod' + newNum);
+                //        newElem.find('.congnosecond').attr('name', 'SecondPayment' + newNum).val('');
+                //        newElem.find('.congnoprice').attr('name', 'ServicePrice' + newNum).val('');
+                //        newElem.find('.congnoremaining').attr('name', 'TotalRemaining' + newNum).val('');
+                //        newElem.find('.congnonote').attr('id', 'insert-note-congnodt' + newNum).attr('name', 'Note' + newNum).val('');
+                //        newElem.find('.collapsedt').attr('data-target', '#demo-congnodt' + newNum);
+                //        newElem.find('.optioncongno').attr('id', 'demo-congnodt' + newNum);
+                //        newElem.find('.titleoption').text('OPTION ' + newNum);
 
-                        // insert the new element after the last "duplicatable" input field
-                        $('#entryCongNo' + num).after(newElem);
-                        $("#insert-partner-congno" + newNum).select2();
-                        $("#insert-method-congno" + newNum).select2();
-                        $("#insert-currencyfirst-congno" + newNum).select2();
-                        CKEDITOR.replace("insert-note-congnodt" + newNum);
-                        $("#countOptionCongNo").val(newNum);
+                //        // insert the new element after the last "duplicatable" input field
+                //        $('#entryCongNo' + num).after(newElem);
+                //        $("#insert-partner-congno" + newNum).select2();
+                //        $("#insert-method-congno" + newNum).select2();
+                //        $("#insert-currencyfirst-congno" + newNum).select2();
+                //        CKEDITOR.replace("insert-note-congnodt" + newNum);
+                //        $("#countOptionCongNo").val(newNum);
 
-                        for (var i = 1; i < newNum; i++) {
-                            $("#entryCongNo" + newNum + " #select2-insert-currencyfirst-congno" + i + "-container").parent().parent().parent().remove();
-                            $("#entryCongNo" + newNum + " #select2-insert-partner-congno" + i + "-container").parent().parent().parent().remove();
-                            $("#entryCongNo" + newNum + " #select2-insert-method-congno" + i + "-container").parent().parent().parent().remove();
-                            $("#entryCongNo" + newNum).find("#cke_insert-note-congnodt" + i).remove();
-                        }
+                //        for (var i = 1; i < newNum; i++) {
+                //            $("#entryCongNo" + newNum + " #select2-insert-currencyfirst-congno" + i + "-container").parent().parent().parent().remove();
+                //            $("#entryCongNo" + newNum + " #select2-insert-partner-congno" + i + "-container").parent().parent().parent().remove();
+                //            $("#entryCongNo" + newNum + " #select2-insert-method-congno" + i + "-container").parent().parent().parent().remove();
+                //            $("#entryCongNo" + newNum).find("#cke_insert-note-congnodt" + i).remove();
+                //        }
 
-                        // enable the "remove" button
-                        $('#btnDelCongNo').attr('disabled', false);
+                //        // enable the "remove" button
+                //        $('#btnDelCongNo').attr('disabled', false);
 
-                    });
+                //    });
 
-                    $('#btnDelCongNo').click(function () {
-                        // confirmation
-                        var num = $('.clonedInputCongNo').length;
-                        // how many "duplicatable" input fields we currently have
-                        $('#entryCongNo' + num).slideUp('slow', function () {
-                            $(this).remove();
-                            // if only one element remains, disable the "remove" button
-                            if (num - 1 === 1)
-                                $('#btnDelCongNo').attr('disabled', true);
-                            // enable the "add" button
-                            $('#btnAddCongNo').attr('disabled', false).prop('value', "add section");
-                        });
-                        return false;
+                //    $('#btnDelCongNo').click(function () {
+                //        // confirmation
+                //        var num = $('.clonedInputCongNo').length;
+                //        // how many "duplicatable" input fields we currently have
+                //        $('#entryCongNo' + num).slideUp('slow', function () {
+                //            $(this).remove();
+                //            // if only one element remains, disable the "remove" button
+                //            if (num - 1 === 1)
+                //                $('#btnDelCongNo').attr('disabled', true);
+                //            // enable the "add" button
+                //            $('#btnAddCongNo').attr('disabled', false).prop('value', "add section");
+                //        });
+                //        return false;
 
-                        $('#btnAddCongNo').attr('disabled', false);
-                    });
-                    $('#btnDelCongNo').attr('disabled', true);
-                });
+                //        $('#btnAddCongNo').attr('disabled', false);
+                //    });
+                //    $('#btnDelCongNo').attr('disabled', true);
+                //});
             }
         });
     }
@@ -809,6 +860,14 @@ function updateLiabilityPartner(id) {
             $("#edit-currencyfirst-congno").select2();
             CKEDITOR.replace("edit-note-congnodt");
             $("#modal-edit-congnodt").modal("show");
+
+            $(".Ecndt").change(function () {
+                var tong = $("#ServicePrice").val();
+                var dot1 = $("#FirstPayment").val();
+                var dot2 = $("#SecondPayment").val();
+                $("#TotalRemaining").val(tong - dot1 - dot2);
+
+            })
         }
     });
 }
@@ -823,6 +882,16 @@ function deleteLiabilityPartner(id) {
         contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (data) {
+            $.ajax({
+                type: "POST",
+                url: '/TourOtherTab/CNDT',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    var obj = jQuery.parseJSON(data);
+                    $("#cndt" + obj.Id).html(numeral(obj.CongNo).format('0,0'));
+                }
+            });
             alert("Xóa dữ liệu thành công!!!");
             $("#congnodoitac").html(data);
         }

@@ -17,6 +17,26 @@ $("#trangthai-lichhen").select2();
 $("#loai-lichhen").select2();
 
 
+$(".dataTable").dataTable().columnFilter({
+    sPlaceHolder: "head:after",
+    aoColumns: [null,
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" }]
+});
+
+
 /*** Them lich hen ***/
 //function btnCreateLichHen() {
 
@@ -265,6 +285,24 @@ $(".FilterAppoi").change(function () {
         dataType: "html",
         success: function (data) {
             $("#dangluoi").html(data);
+            $(".dataTable").dataTable().columnFilter({
+                sPlaceHolder: "head:after",
+                aoColumns: [null,
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" }]
+            });
         }
     })
 })
@@ -283,72 +321,79 @@ $(document).ready(function () {
         editable: true,
         defaultView: 'month',
         dayClick: function (date, jsEvent, view) {
-            var d = moment(date).format("YYYY-MM-DDTHH:mm");
-            $("#insert-ngayhen-lichhen").val(d);
-            $("#modal-insert-appointment").modal("show");
+            $(".fc-highlight").removeClass("fc-highlight")
+            $(jsEvent.toElement).addClass("fc-highlight")
+        },
+        dayRender: function (date, element, view) {
+            element.bind('dblclick', function () {
+                var d = moment(date).format("YYYY-MM-DDTHH:mm");
+                $("#insert-ngayhen-lichhen").val(d);
+                $("#modal-insert-appointment").modal("show");
+            });
         },
         events: "/AppointmentManage/JsonCalendar",
-        eventClick: function (event) {
-            //edit
-            var dataPost = {
-                id: event.id
-            };
-            $.ajax({
-                type: "POST",
-                url: '/AppointmentManage/EditAppointment',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#info-data-appoinment").html(data);
-                    $("#edit-tour-lichhen").select2();
-                    $("#edit-program-lichhen").select2();
-                    $("#edit-task-lichhen").select2();
-                    $("#edit-status-lichhen").select2();
-                    $("#edit-service-lichhen").select2();
-                    $("#edit-partner-lichhen").select2();
-                    $("#edit-type-lichhen").select2();
-                    $("#edit-partner-lichhen").select2();
+        eventRender: function (event, element) {
+            element.bind('dblclick', function () {
+                var dataPost = {
+                    id: event.id
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '/AppointmentManage/EditAppointment',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#info-data-appoinment").html(data);
+                        $("#edit-tour-lichhen").select2();
+                        $("#edit-program-lichhen").select2();
+                        $("#edit-task-lichhen").select2();
+                        $("#edit-status-lichhen").select2();
+                        $("#edit-service-lichhen").select2();
+                        $("#edit-partner-lichhen").select2();
+                        $("#edit-type-lichhen").select2();
+                        $("#edit-partner-lichhen").select2();
 
-                    $("#edit-service-customer").select2();
-                    $("#edit-service-tour").select2();
-                    $("#edit-service-conteact").select2();
+                        $("#edit-service-customer").select2();
+                        $("#edit-service-tour").select2();
+                        $("#edit-service-conteact").select2();
 
-                    $("#edit-check-notify").click(function () {
-                        if (this.checked) {
-                            $("#edit-nhactruoc-lichhen").removeAttr("disabled", "disabled");
-                            $("#edit-nhactruoc-lichhen").select2();
-                        }
-                        else {
-                            $("#edit-nhactruoc-lichhen").attr("disabled", "disabled");
-                        }
-                    });
-
-                    $("#edit-check-repeat").click(function () {
-                        if (this.checked) {
-                            $("#edit-laplai-lichhen").removeAttr("disabled", "disabled");
-                            $("#edit-laplai-lichhen").select2();
-                        }
-                        else {
-                            $("#edit-laplai-lichhen").attr("disabled", "disabled");
-                        }
-                    });
-
-                    $('#edit-service-lichhen').change(function () {
-                        $.getJSON('/CustomerOtherTab/LoadPartner/' + $('#edit-service-lichhen').val(), function (data) {
-                            var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
-                            $.each(data, function (i, ward) {
-                                items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
-                            });
-                            $('#edit-partner-lichhen').html(items);
+                        $("#edit-check-notify").click(function () {
+                            if (this.checked) {
+                                $("#edit-nhactruoc-lichhen").removeAttr("disabled", "disabled");
+                                $("#edit-nhactruoc-lichhen").select2();
+                            }
+                            else {
+                                $("#edit-nhactruoc-lichhen").attr("disabled", "disabled");
+                            }
                         });
-                    });
 
-                    CKEDITOR.replace("edit-note-lichhen");
-                    $("#modal-edit-appointment").modal("show");
-                }
-            });//end edit
-        }
+                        $("#edit-check-repeat").click(function () {
+                            if (this.checked) {
+                                $("#edit-laplai-lichhen").removeAttr("disabled", "disabled");
+                                $("#edit-laplai-lichhen").select2();
+                            }
+                            else {
+                                $("#edit-laplai-lichhen").attr("disabled", "disabled");
+                            }
+                        });
+
+                        $('#edit-service-lichhen').change(function () {
+                            $.getJSON('/CustomerOtherTab/LoadPartner/' + $('#edit-service-lichhen').val(), function (data) {
+                                var items = '<option value=' + 0 + '>-- Chọn đối tác --</option>';
+                                $.each(data, function (i, ward) {
+                                    items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                                });
+                                $('#edit-partner-lichhen').html(items);
+                            });
+                        });
+
+                        CKEDITOR.replace("edit-note-lichhen");
+                        $("#modal-edit-appointment").modal("show");
+                    }
+                });
+            })
+        },
     });
 
 });

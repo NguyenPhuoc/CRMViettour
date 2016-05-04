@@ -23,10 +23,10 @@ CKEDITOR.replace("insert-note-task")
 //$("#ngayhethanvisa1").datepicker();
 $("#countryvisa1").select2();
 
-$('.dataTable').dataTable({
-    order: [],
-    columnDefs: [{ orderable: false, targets: [0] }]
-});
+//$('.dataTable').dataTable({
+//    order: [],
+//    columnDefs: [{ orderable: false, targets: [0] }]
+//});
 
 $(".dataTable").dataTable().columnFilter({
     sPlaceHolder: "head:after",
@@ -527,7 +527,21 @@ $(".FilterTask").change(function () {
         contentType: "application/json; charset=utf-8",
         dataType: "html",
         success: function (data) {
-            $("#tableDictionary").html(data);
+            $("#list-Task").html(data);
+            $(".dataTable").dataTable().columnFilter({
+                sPlaceHolder: "head:after",
+                aoColumns: [null,
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" }]
+            });
         }
     })
 })

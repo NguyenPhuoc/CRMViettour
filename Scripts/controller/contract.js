@@ -250,7 +250,6 @@ $("#tabthongtinchitiet").click(function () {
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function (data) {
-                alert("test");
                 $("#thongtinchitiet").html(data);
             }
         });

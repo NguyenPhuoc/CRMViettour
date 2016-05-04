@@ -281,7 +281,6 @@
     <Compile Include="Controllers\Visa\DocumentaryVisaManageController.cs" />
     <Compile Include="Controllers\Visa\InfomationVisaManageController.cs" />
     <Compile Include="Controllers\Visa\StatusVisaManageController.cs" />
-    <Compile Include="Controllers\Visa\VisaStatisticController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2520,6 +2519,8 @@
     <Content Include="Views\TourOtherTab\_Partial_EditCongNoDoiTac.cshtml" />
     <Content Include="Views\CustomersManage\_Partial_ImportDataList.cshtml" />
     <Content Include="Views\TourSchedule\Index.cshtml" />
+    <Content Include="Views\StaffManage\_Partial_ImportDataList.cshtml" />
+    <Content Include="Views\TaskManage\_Partial_TaskList.cshtml" />
     <Content Include="Views\TourStatus\Index.cshtml" />
     <Content Include="Views\TourStatus\_Partial_TourStatus.cshtml" />
     <Content Include="Views\TourSchedule\_Partial_EditScheduleTour.cshtml" />
@@ -2529,7 +2530,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="FakesAssemblies\" />
     <Folder Include="Views\ModuleManage\" />
-    <Folder Include="Views\VisaStatistic\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -111,6 +111,7 @@ namespace CRMViettour.Controllers.Tour
                                 start = e.Date.ToString("yyyy-MM-dd") + "T" + e.StartTime,
                                 end = e.Date.ToString("yyyy-MM-dd") + "T" + e.EndTime,
                                 constraint = e.Id,
+                                
                             };
             var rows = eventList.ToArray();
             return Json(rows, JsonRequestBehavior.AllowGet);

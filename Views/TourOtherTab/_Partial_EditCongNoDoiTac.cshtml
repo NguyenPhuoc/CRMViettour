@@ -8,7 +8,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Cập nhật công nợ của đối tác</h4>
             </div>
-            @using (Ajax.BeginForm("UpdateLiabilityPartner", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "congnodoitac" }))
+            @using (Ajax.BeginForm("UpdateLiabilityPartner", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessCNDT", UpdateTargetId = "congnodoitac" }))
             {
                 @Html.HiddenFor(model => model.Id)
                 @Html.HiddenFor(model => model.StaffId)
@@ -36,7 +36,7 @@
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Thanh toán đợt 1</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        @Html.TextBoxFor(model => model.FirstPayment, "{0:0,0}", new { @class="form-control" })
+                                                        @Html.TextBoxFor(model => model.FirstPayment, @*"{0:0,0}",*@ new { @class = "form-control Ecndt", id = "FirstPayment" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,7 +53,7 @@
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Thanh toán đợt 2</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        @Html.TextBoxFor(model => model.SecondPayment, "{0:0,0}", new { @class = "form-control" })
+                                                        @Html.TextBoxFor(model => model.SecondPayment, @*"{0:0,0}",*@ new { @class = "form-control Ecndt", id = "SecondPayment" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -61,11 +61,11 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Giá trị dịch vụ</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        @Html.TextBoxFor(model => model.ServicePrice, "{0:0,0}", new { @class = "form-control" })
+                                                        @Html.TextBoxFor(model => model.ServicePrice, @*"{0:0,0}",*@ new { @class = "form-control Ecndt", id = "ServicePrice" })
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Còn lại</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        @Html.TextBoxFor(model => model.TotalRemaining, "{0:0,0}", new { @class = "form-control" })
+                                                        @Html.TextBoxFor(model => model.TotalRemaining, @*"{0:0,0}",*@ new { @class = "form-control Ecndt", id = "TotalRemaining" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -86,7 +86,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
                                                     <div class="col-lg-10 col-md-10">
-                                                        @Html.TextAreaFor(model => model.Note, new { @class="form-control", @id="edit-note-congnodt" })
+                                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", @id = "edit-note-congnodt" })
                                                     </div>
                                                 </div>
                                             </div>

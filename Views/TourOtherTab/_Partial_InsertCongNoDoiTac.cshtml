@@ -8,7 +8,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Thêm công nợ của đối tác</h4>
             </div>
-            @using (Ajax.BeginForm("CreateLiabilityPartner", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "congnodoitac" }))
+            @using (Ajax.BeginForm("CreateLiabilityPartner", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessCNDT", UpdateTargetId = "congnodoitac" }))
             {
                 <div class="modal-body">
                     <div class="form-horizontal">
@@ -36,7 +36,7 @@
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Thanh toán đợt 1</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input type="text" class="form-control congnofirst" name="FirstPayment1" />
+                                                        <input type="text" class="form-control congnofirst Icndt" name="FirstPayment1" id="FirstPayment1" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,7 +53,7 @@
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Thanh toán đợt 2</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input type="text" class="form-control congnosecond" name="SecondPayment1" />
+                                                        <input type="text" class="form-control congnosecond Icndt" name="SecondPayment1" id="SecondPayment1" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -61,11 +61,11 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Giá trị dịch vụ</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input type="text" class="form-control congnoprice" name="ServicePrice1" />
+                                                        <input type="text" class="form-control congnoprice Icndt" name="ServicePrice1" id="ServicePrice1" />
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Còn lại</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input type="text" class="form-control congnoremaining" name="TotalRemaining1" />
+                                                        <input type="text" class="form-control congnoremaining Icndt" name="TotalRemaining1" id="TotalRemaining1" />
                                                     </div>
                                                 </div>
                                             </div>

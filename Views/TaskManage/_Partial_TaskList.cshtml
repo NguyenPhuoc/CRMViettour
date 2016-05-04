@@ -4,60 +4,62 @@
     @{
         int i = 1;
     }
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th class="table-checkbox">
-                <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
-            </th>
-            <th>STT</th>
-            <th>Nhiệm vụ</th>
-            <th>Người tạo</th>
-            <th>Loại nhiệm vụ</th>
-            <th>Code tour</th>
-            <th>Email</th>
-            <th>Điện thoại</th>
-            <th>Ngày bắt đầu</th>
-            <th>Ngày kết thúc</th>
-            <th>Thời hạn</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="odd gradeX">
-                <td>
-                    <input type="checkbox" value="@item.Id" class="cbItem" name="cb" onclick="CheckSelect()" />
-                </td>
-                <td>
-                    @i
-                </td>
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.tbl_Staff.FullName
-                </td>
-                <td>@(item.tbl_DictionaryTaskType != null ? item.tbl_DictionaryTaskType.Name : "")</td>
-                <td>@item.CodeTour</td>
-                <td>@item.Email</td>
-                <td>@item.Phone</td>
-                <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
-                <td>@item.EndDate.ToString("dd-MM-yyyy")</td>
-                <td>@item.Time</td>
+    <table class="table table-striped table-bordered table-hover dataTable" id="tableDictionary">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
-            i++;
-        }
-    </tbody>
+            <tr>
+                <th class="table-checkbox">
+                    <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                </th>
+                <th>STT</th>
+                <th>Nhiệm vụ</th>
+                <th>Người tạo</th>
+                <th>Loại nhiệm vụ</th>
+                <th>Code tour</th>
+                <th>Email</th>
+                <th>Điện thoại</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Thời hạn</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="odd gradeX">
+                    <td>
+                        <input type="checkbox" value="@item.Id" class="cbItem" name="cb" onclick="CheckSelect()" />
+                    </td>
+                    <td>
+                        @i
+                    </td>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.tbl_Staff.FullName
+                    </td>
+                    <td>@(item.tbl_DictionaryTaskType != null ? item.tbl_DictionaryTaskType.Name : "")</td>
+                    <td>@item.CodeTour</td>
+                    <td>@item.Email</td>
+                    <td>@item.Phone</td>
+                    <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
+                    <td>@item.EndDate.ToString("dd-MM-yyyy")</td>
+                    <td>@item.Time</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>

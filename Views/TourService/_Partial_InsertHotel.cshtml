@@ -1,4 +1,4 @@
-﻿<div class="modal fade bs-modal-lg" id="modal-insert-hotel" role="document" aria-hidden="true" ng-controller="itemCtrl">
+﻿<div class="modal fade bs-modal-lg" id="modal-insert-hotel" role="document" aria-hidden="true" ng-controller="itemCtrlHotel">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +16,7 @@
                                         <span class="caption-subject bold uppercase font-purple">OPTION {{ht}}</span>
                                     </div>
                                     <div class="actions">
-                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem()"><i class="fa fa-times"></i></button>
+                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItemHotel()"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
                                 <div class="portlet-body" id="demo-hotel{{ht}}">
@@ -25,7 +25,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Tên khách sạn</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <select class="form-control" style="width: 100%" id="insert-hotel-tour" name="TourHotelName{{ht}}">
+                                                    <select class="form-control" style="width: 100%" id="insert-hotel-tour{{ht}}" name="TourHotelName{{ht}}">
                                                         <option>--------</option>
                                                     </select>
                                                 </div>
@@ -100,7 +100,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-12" ng-controller="subitemCtrl">
+                                        <div class="col-md-12" ng-controller="subitemCtrlHotel">
                                             <div class="portlet light bordered" ng-repeat="dl in subitems">
                                                 <div class="portlet-title">
                                                     <div class="caption">
@@ -108,8 +108,8 @@
                                                         <span class="caption-subject bold uppercase font-purple">Deadline {{dl}}</span>
                                                     </div>
                                                     <div class="actions">
-                                                        <button class="btn btn-default" ng-show="$last" ng-click="addNewItem1()"> <i class="fa fa-plus"></i></button>
-                                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem1()"><i class="fa fa-times"></i></button>
+                                                        <button class="btn btn-default" ng-show="$last" ng-click="addNewItemHotel1()"> <i class="fa fa-plus"></i></button>
+                                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItemHotel1()"><i class="fa fa-times"></i></button>
                                                     </div>
                                                 </div>
                                                 <div class="portlet-body" id="demo-deadline-hotel{{dl}}">
@@ -172,7 +172,7 @@
                 </div>
             </div>
             <div align="center" style="margin-bottom: 20px">
-                <button type="button" class="btn btn-success" ng-click="addNewItem()">Thêm option</button>
+                <button type="button" class="btn btn-success" ng-click="addNewItemHotel()">Thêm option</button>
                 <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
                 <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
             </div>

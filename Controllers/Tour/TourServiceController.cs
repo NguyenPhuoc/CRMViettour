@@ -148,14 +148,11 @@ namespace CRMViettour.Controllers.Tour
                         CompanyId = Convert.ToInt32(form["CompanyId" + i].ToString()),
                         Name = _companyRepository.FindId(Convert.ToInt32(form["CompanyId" + i].ToString())).Name,
                         Code = form["Code" + i].ToString(),
-                        FileName = newName,
-                        Price = Convert.ToDecimal(form["Price" + i].ToString()),
                         StaffContact = form["StaffContact" + i].ToString(),
                         Phone = form["Phone" + i].ToString(),
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
                         Note = form["Note" + i].ToString(),
-                        IsUse = true,
                         DictionaryId = 1051
                     };
 
@@ -181,7 +178,6 @@ namespace CRMViettour.Controllers.Tour
                                 Address = _partnerRepository.FindId(p.PartnerId).Address,
                                 StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
                                 Phone = _partnerRepository.FindId(p.PartnerId).Phone,
-                                Price = _partnerRepository.FindId(p.PartnerId).Price,
                                 Note = _partnerRepository.FindId(p.PartnerId).Note,
                                 TourOptionId = p.Id,
                                 TourId = p.TourId
@@ -217,7 +213,6 @@ namespace CRMViettour.Controllers.Tour
                                 Address = p.tbl_Partner.Address,
                                 StaffContact = p.tbl_Partner.StaffContact,
                                 Phone = p.tbl_Partner.Phone,
-                                Price = p.tbl_Partner.Price,
                                 Note = p.tbl_Partner.Note,
                                 TourOptionId = p.Id,
                                 TourId = p.TourId

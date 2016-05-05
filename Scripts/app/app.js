@@ -24,3 +24,4 @@ app.controller('subitemCtrl', function ($scope) {
         $scope.subitems.splice(lastItem);
     };
 });
+

@@ -2113,6 +2113,7 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\numeral.min.js" />
     <Content Include="Scripts\scriptCRM.js" />
     <Content Include="Scripts\scriptTemplate.js" />
     <Content Include="Scripts\select2\css\select2.css" />

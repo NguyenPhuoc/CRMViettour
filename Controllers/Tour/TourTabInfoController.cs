@@ -121,7 +121,6 @@ namespace CRMViettour.Controllers.Tour
                                 Address = p.tbl_Partner.Address,
                                 StaffContact = p.tbl_Partner.StaffContact,
                                 Phone = p.tbl_Partner.Phone,
-                                Price = p.tbl_Partner.Price,
                                 Note = p.tbl_Partner.Note,
                                 TourOptionId = p.Id,
                                 TourId = p.TourId

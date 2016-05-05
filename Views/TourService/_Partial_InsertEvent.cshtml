@@ -20,11 +20,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <a data-toggle="collapse" data-target="#demo-event1" style="cursor: pointer" class="btn btn-default eventcollapse"><i class="fa fa-plus"></i></a>
+                                            <a data-toggle="collapse" data-target="#demo-event1" style="cursor: pointer" class="btn btn-default eventcollapse"><i class="fa fa-minus"></i></a>
                                             <span class="caption-subject bold uppercase font-purple eventtitle">OPTION 1</span>
                                         </div>
                                     </div>
-                                    <div class="portlet-body eventoption" id="demo-event1">
+                                    <div class="portlet-body eventoption collapse in" id="demo-event1">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -33,9 +33,9 @@
                                                         <select class="form-control eventcongty" name="CompanyId1" id="insert-company-event1" style="width: 100%">
                                                             <option>-- Chọn công ty --</option>
                                                             @foreach (var item in LoadData.CompanyList())
-                                                        {
-                                                        <option value="@item.Id">@item.Name</option>
-                                                        }
+                                                            {
+                                                                <option value="@item.Id">@item.Name</option>
+                                                            }
                                                         </select>
                                                     </div>
                                                 </div>

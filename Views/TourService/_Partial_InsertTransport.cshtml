@@ -1,4 +1,4 @@
-﻿<div class="modal fade bs-modal-lg" id="modal-insert-transport" role="document" aria-hidden="true" ng-controller="itemCtrl">
+﻿<div class="modal fade bs-modal-lg" id="modal-insert-transport" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,60 +8,71 @@
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="row">
-                        <div class="col-md-12" ng-repeat="trans in items">
+                        <div class="col-md-12 OptionTransport" id="OptionTransport1">
                             <div class="portlet light bordered">
                                 <div class="portlet-title">
-                                    <div class="caption">
-                                        <a data-toggle="collapse" data-target="#demo-transport{{trans}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
-                                        <span class="caption-subject bold uppercase font-purple">OPTION {{trans}}</span>
+                                    <div class="caption captionOption">
+                                        <a data-toggle="collapse" data-target="#transport1" style="cursor: pointer" class="btn btn-default OptionTransportA"><i class="fa fa-minus"></i></a>
+                                        <span class="caption-subject bold uppercase font-purple OptionTitle">OPTION 1</span>
                                     </div>
-                                    <div class="actions">
-                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem()"><i class="fa fa-times"></i></button>
+                                    <div class="actions actionsOption">
+                                        <button style="cursor: pointer" class="btn btn-danger btnRemoveOption" disabled="disabled" onclick="removeOptionTransport()"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
-                                <div class="portlet-body" id="demo-transport{{trans}}">
+                                <div class="portlet-body OptionTransportBody collapse in" id="transport1">
                                     <div class="form-horizontal">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-lg-2 col-md-2">Dịch vụ</label>
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <input ng-model="trans.name" name="service-transport{{trans}}" type="text" class="form-control" />
-                                                    </div>
                                                     <label class="control-label col-lg-2 col-md-2">Mã đối tác</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input ng-model="trans.name" name="code-transport{{trans}}" type="text" class="form-control" />
+                                                        <input name="code-transport1" id="code-transport1" type="text" class="form-control code-transport" />
+                                                    </div>
+                                                    <label class="control-label col-lg-2 col-md-2">Tên đối tác</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <select class="form-control name-transport" id="name-transport1" style="width:100%;" name="name-transport1">
+                                                            <option>-----------</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-lg-2 col-md-2">Tên đối tác</label>
+                                                    <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input ng-model="trans.name" name="name-transport{{trans}}" type="text" class="form-control" />
+                                                        <input name="nguoilienhe-transport1" id="nguoilienhe-transport1" type="text" class="form-control nguoilienhe-transport" />
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Quốc gia</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input ng-model="trans.name" name="country-transport{{trans}}" type="text" class="form-control" />
+                                                        <input name="country-transport1" id="country-transport1" type="text" class="form-control country-transport" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12" ng-controller="subitemCtrl">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Số điện thoại</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input name="phone-transport1" id="phone-transport1" type="text" class="form-control phone-transport" />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
                                                 <h4>Các dịch vụ cung cấp</h4>
-                                                <a class="btn btn-primary" ng-click="addNewItem1()"><i class="fa fa-plus"></i> Thêm mới dịch vụ</a><br /><br />
-                                                <div class="form-group" ng-repeat="name in subitems">
+                                                <a class="btn btn-primary btnNewServiceTranport" onclick="addNewServiceTranport(1)"><i class="fa fa-plus"></i> Thêm mới dịch vụ</a><br /><br />
+                                                <div class="form-group ServiceTranport" id="ServiceTranport11">
                                                     <div class="col-lg-6 col-md-6">
-                                                        <input type="text" class="form-control" name="ServiceName{{name}}" placeholder="Tên dịch vụ..." />
+                                                        <input type="text" class="form-control ServiceName" name="ServiceName11" id="ServiceName11" placeholder="Tên dịch vụ..." />
                                                     </div>
                                                     <div class="col-lg-5 col-md-5">
-                                                        <input type="text" class="form-control" name="ServicePrice{{name}}" placeholder="Giá..." />
+                                                        <input type="text" class="form-control ServicePrice" name="ServicePrice11" id="ServicePrice11" placeholder="Giá..." />
                                                     </div>
-                                                    <div class="col-lg-1 col-md-1">
-                                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem1()"><i class="fa fa-times"></i></button>
+                                                    <div class="col-lg-1 col-md-1 actionRemoveServiceTranport">
+                                                        <button style="cursor: pointer" class="btn btn-danger btnRemoveServiceTranport" disabled="disabled" onclick="removeServiceTranport(1,1)"><i class="fa fa-times"></i></button>
                                                     </div>
                                                     <br />
                                                     <div class="col-lg-12 col-md-12" style="margin-top: 10px">
-                                                        <textarea class="form-control" name="ServiceNote{{name}}" placeholder="Ghi chú..."></textarea>
+                                                        <textarea class="form-control ServiceNote" name="ServiceNote11" id="ServiceNote11" placeholder="Ghi chú..."></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -74,7 +85,7 @@
                 </div>
             </div>
             <div align="center" style="margin-bottom: 20px">
-                <button type="button" class="btn btn-success" ng-click="addNewItem()">Thêm option</button>
+                <button type="button" class="btn btn-success" onclick="addNewTranport()">Thêm option</button>
                 <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
                 <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
             </div>

@@ -1,31 +1,33 @@
-﻿<div class="modal fade bs-modal-lg" id="modal-insert-restaurant" role="document" aria-hidden="true" ng-controller="itemCtrl">
+﻿<div class="modal fade bs-modal-lg" id="modal-insert-restaurant" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Nhà hàng</h4>
             </div>
-            <div class="modal-body" ng-repeat="res in items">
+            @*optionrestaurant*@
+            <div class="modal-body OptionRestaurant" id="OptionRestaurant1">
                 <div class="form-horizontal">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="portlet light bordered">
                                 <div class="portlet-title">
-                                    <div class="caption">
-                                        <a data-toggle="collapse" data-target="#demo-restaurant{{res}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
-                                        <span class="caption-subject bold uppercase font-purple">OPTION {{res}}</span>
+                                    <div class="caption captionOption">
+                                        <a data-toggle="collapse" data-target="#restaurant1" style="cursor: pointer" class="btn btn-default OptionRestaurantA"><i class="fa fa-minus"></i></a>
+                                        <span class="caption-subject bold uppercase font-purple OptionTitle">OPTION 1</span>
                                     </div>
-                                    <div class="actions">
-                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem()"><i class="fa fa-times"></i></button>
+                                    <div class="actions actionsOption">
+                                        @*<button class="btn btn-default" onclick="addNewOption()"><i class="fa fa-plus"></i></button>*@
+                                        <button style="cursor: pointer" class="btn btn-danger btnRemoveOption" disabled="disabled" onclick="removeOption()"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
-                                <div class="portlet-body" id="demo-restaurant{{res}}">
+                                <div class="portlet-body OptionRestaurantBody collapse in" id="restaurant1">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Nhà hàng</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <select class="form-control" id="RestaurantName{{res}}" ng-model="res.name" name="RestaurantName{{res}}" style="width: 100%">
+                                                    <select class="form-control RestaurantName" id="RestaurantName1" name="RestaurantName1" style="width: 100%">
                                                         <option value="0">-------</option>
                                                     </select>
                                                 </div>
@@ -33,7 +35,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Địa chỉ</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <input ng-model="res.name" type="text" class="form-control" name="RestaurantAddress{{res}}" />
+                                                    <input type="text" class="form-control RestaurantAddress" name="RestaurantAddress1" id="RestaurantAddress1" />
                                                 </div>
                                             </div>
                                         </div>
@@ -41,13 +43,25 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Giá</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <input ng-model="res.name" type="text" class="form-control" name="RestaurantPrice{{res}}" />
+                                                    <input type="text" class="form-control RestaurantPrice" name="RestaurantPrice1" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Code</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <input class="form-control" id="RestaurantCode{{res}}" ng-model="res.name" name="RestaurantCode{{res}}" />
+                                                    <input class="form-control RestaurantCode" id="RestaurantCode1" name="RestaurantCode1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <input name="NguoiLienHe1" id="NguoiLienHe1" type="text" class="form-control NguoiLienHe" />
+                                                </div>
+                                                <label class="control-label col-lg-2 col-md-2">Số điện thoại</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <input name="DienThoai1" id="DienThoai1" type="text" class="form-control DienThoai" />
                                                 </div>
                                             </div>
                                         </div>
@@ -55,44 +69,43 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-2 col-md-2">Tài liệu</label>
                                                 <div class="col-lg-10 col-md-10">
-                                                    <input ng-model="res.name" type="file" class="form-control" name="RestaurantDocument{{res}}" />
+                                                    <input type="file" class="form-control RestaurantDocument" id="RestaurantDocument1" name="RestaurantDocument1" />
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                             <div class="form-group">
+                                            <div class="form-group">
                                                 <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
                                                 <div class="col-lg-10 col-md-10">
-                                                    <textarea ng-model="res.name" class="form-control" name="RestaurantNote{{res}}"></textarea>
+                                                    <textarea class="form-control RestaurantNote" name="RestaurantNote1" id="RestaurantNote1"></textarea>
                                                 </div>
-                                                <script>
-                                                    CKEDITOR.replace("RestaurantNote{{res}}");
-                                                </script>
                                             </div>
                                         </div>
-                                        <div class="col-md-12" ng-controller="subitemCtrl">
-                                            <div class="portlet light bordered" ng-repeat="dl in subitems">
+                                        <div class="col-md-12">
+                                            <div class="portlet light bordered DeadlineRestauran" id="DeadlineRestauran11">
+
                                                 <div class="portlet-title">
                                                     <div class="caption">
-                                                        <a data-toggle="collapse" data-target="#demo-deadline-hotel{{dl}}" style="cursor: pointer" class="btn btn-default"><i class="fa fa-plus"></i></a>
-                                                        <span class="caption-subject bold uppercase font-purple">Deadline {{dl}}</span>
+                                                        <a data-toggle="collapse" data-target="#deadline-restauran11" style="cursor: pointer" class="btn btn-default DeadlineRestauranA"><i class="fa fa-minus"></i></a>
+                                                        <span class="caption-subject bold uppercase font-purple DeadlineTitle">Deadline 1</span>
                                                     </div>
                                                     <div class="actions">
-                                                        <button class="btn btn-default" ng-show="$last" ng-click="addNewItem1()"><i class="fa fa-plus"></i></button>
-                                                        <button style="cursor: pointer" class="btn btn-danger" ng-show="$last" ng-click="removeItem1()"><i class="fa fa-times"></i></button>
+                                                        <button class="btn btn-default btnNewDealine" onclick="addNewDeadline(1)"><i class="fa fa-plus"></i></button>
+                                                        <button style="cursor: pointer" class="btn btn-danger btnRemoveDealine" onclick="removeDeadline(1,1)" disabled="disabled"><i class="fa fa-times"></i></button>
                                                     </div>
                                                 </div>
-                                                <div class="portlet-body" id="demo-deadline-hotel{{dl}}">
+                                                <div class="portlet-body DeadlineRestauranBody collapse in" id="deadline-restauran11">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label class="control-label col-lg-2 col-md-2">Tên</label>
                                                                 <div class="col-lg-4 col-md-4">
-                                                                    <input ng-model="dl.name" name="tb{{dl}}" type="text" class="form-control" />
+                                                                    <input name="DeadlineTen11" id="DeadlineTen11" type="text" class="form-control DeadlineTen" />
                                                                 </div>
                                                                 <label class="control-label col-lg-2 col-md-2">Deposit</label>
                                                                 <div class="col-lg-4 col-md-4">
-                                                                    <input ng-model="dl.name" name="tb{{dl}}" type="text" class="form-control" />
+                                                                    <input name="DeadlineDeposit11" id="DeadlineDeposit11" type="text" class="form-control DeadlineDeposit" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -101,7 +114,7 @@
                                                                 <label class="control-label col-lg-2 col-md-2">Thời gian</label>
                                                                 <div class="col-lg-4 col-md-4">
                                                                     <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                        <input type="date" class="form-control" id="insert-thoigian-hotel" />
+                                                                        <input type="date" name="DeadlineThoiGian11" id="DeadlineThoiGian11" class="form-control DeadlineThoiGian" />
                                                                         <span class="input-group-btn">
                                                                             <button class="btn default date-set" type="button">
                                                                                 <i class="fa fa-calendar"></i>
@@ -111,17 +124,18 @@
                                                                 </div>
                                                                 <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
                                                                 <div class="col-lg-4 col-md-4">
-                                                                    <select class="form-control" ng-model="dl.name" name="stt{{dl}}">
+                                                                    <select class="form-control DeadlineStatus" name="DeadlineStatus1" id="DeadlineStatus11" style="width:100%;">
                                                                         <option>-----------</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
                                                                 <div class="col-lg-10 col-md-10">
-                                                                    <textarea class="form-control" id="RestaurantNote{{dl}}"></textarea>
+                                                                    <textarea class="form-control DeadlineNote" name="DeadlineNote11" id="DeadlineNote11"></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -129,6 +143,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +153,7 @@
                 </div>
             </div>
             <div align="center" style="margin-bottom: 20px">
-                <button type="button" class="btn btn-success" ng-click="addNewItem()">Thêm option</button>
+                <button type="button" class="btn btn-success" onclick="addNewOption()">Thêm option</button>
                 <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
                 <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
             </div>

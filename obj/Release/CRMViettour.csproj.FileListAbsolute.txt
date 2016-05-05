@@ -1,0 +1,11 @@
+C:\DIP\CRMVT\CRMViettour\bin\CRMViettour.dll.config
+C:\DIP\CRMVT\CRMViettour\bin\CRMViettour.dll
+C:\DIP\CRMVT\CRMViettour\bin\CRMViettour.pdb
+C:\DIP\CRMVT\CRMViettour\bin\EntityFramework.Fakes.fakesconfig
+C:\DIP\CRMVT\CRMViettour\bin\EPPlus.dll
+C:\DIP\CRMVT\CRMViettour\bin\Microsoft.QualityTools.Testing.Fakes.dll
+C:\DIP\CRMVT\CRMViettour\bin\Microsoft.Web.Infrastructure.dll
+C:\DIP\CRMVT\CRMViettour\bin\EPPlus.xml
+C:\DIP\CRMVT\CRMViettour\bin\Microsoft.Web.Infrastructure.xml
+C:\DIP\CRMVT\CRMViettour\obj\Release\CRMViettour.dll
+C:\DIP\CRMVT\CRMViettour\obj\Release\CRMViettour.pdb

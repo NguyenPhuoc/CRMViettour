@@ -2534,6 +2534,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="FakesAssemblies\" />
     <Folder Include="Views\ModuleManage\" />
+    <Folder Include="Views\VisaStatistic\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

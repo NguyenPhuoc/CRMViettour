@@ -61,14 +61,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-2 col-md-2">Ngày sinh</label>
                                                 <div class="col-lg-4 col-md-4">
-                                                    <div class="input-group">
                                                         @Html.TextBoxFor(model => model.SingleStaff.Birthday, "{0:yyyy-MM-dd}" , new { @class = "form-control", @type = "date", @id = "edit-birthday" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default date-set" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
                                                 </div>
                                                 <label class="control-label col-lg-2 col-md-2">Nơi sinh</label>
                                                 <div class="col-lg-4 col-md-4">
@@ -171,14 +164,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
                                                         @Html.TextBoxFor(model => model.CreatedDateIdentity, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-identity", @type = "date" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default date-set" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -204,27 +190,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
                                                         @Html.TextBoxFor(model => model.CreatedDatePassport, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-createpassport", @type = "date" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default date-set" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày hết hạn</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
                                                         @Html.TextBoxFor(model => model.ExpiredDatePassport, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-expiredPassport", @type = "date" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default date-set" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -257,14 +229,7 @@
                                                             </div>
                                                             <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
                                                             <div class="col-lg-4 col-md-4">
-                                                                <div class="input-group" data-date-format="mm/dd/yyyy">
                                                                     <input type="date" class="form-control ngaycapvisaE" value="@visa.CreatedDateVisa" id="ngaycapvisaE@(i)" name="CreatedDateVisa@(i)">
-                                                                    <span class="input-group-btn">
-                                                                        <button class="btn default date-set" type="button">
-                                                                            <i class="fa fa-calendar"></i>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -279,14 +244,7 @@
                                                             </div>
                                                             <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
                                                             <div class="col-lg-4 col-md-4">
-                                                                <div class="input-group" data-date-format="mm/dd/yyyy">
                                                                     <input type="date" class="form-control ngayhethanvisaE" value="@visa.ExpiredDateVisa" id="ngayhethanvisaE@(i)" name="ExpiredDateVisa@(i)">
-                                                                    <span class="input-group-btn">
-                                                                        <button class="btn default date-set" type="button">
-                                                                            <i class="fa fa-calendar"></i>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -309,14 +267,7 @@
                                                         </div>
                                                         <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
                                                         <div class="col-lg-4 col-md-4">
-                                                            <div class="input-group" data-date-format="mm/dd/yyyy">
                                                                 <input type="date" class="form-control ngaycapvisaE" id="ngaycapvisaE1" name="CreatedDateVisa1">
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn default date-set" type="button">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -331,14 +282,7 @@
                                                         </div>
                                                         <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
                                                         <div class="col-lg-4 col-md-4">
-                                                            <div class="input-group" data-date-format="mm/dd/yyyy">
                                                                 <input type="date" class="form-control ngayhethanvisaE" id="ngayhethanvisaE1" name="ExpiredDateVisa1">
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn default date-set" type="button">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

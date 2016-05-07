@@ -2317,7 +2317,6 @@
     <Content Include="Views\SystemManage\ChangePassword.cshtml" />
     <Content Include="Views\TourManage\Index.cshtml" />
     <Content Include="Views\TourManage\_Partial_EditTour.cshtml" />
-    <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertScheduleTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertServiceTour.cshtml" />
@@ -2527,6 +2526,9 @@
     <Content Include="Views\TourStatus\_Partial_TourStatus.cshtml" />
     <Content Include="Views\TourSchedule\_Partial_EditScheduleTour.cshtml" />
     <Content Include="Views\TourSchedule\_Partial_InsertScheduleTour.cshtml" />
+    <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
+    <Content Include="Views\TourManage\_Partial_ImportDataList.cshtml" />
+    <Content Include="Views\TourManage\_Partial_EditCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

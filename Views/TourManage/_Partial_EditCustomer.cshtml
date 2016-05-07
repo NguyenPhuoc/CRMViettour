@@ -12,7 +12,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Khách hàng - Doanh nghiệp</h4>
             </div>
-            @using (Html.BeginForm("Update", "CustomersManage"))
+            @using (Html.BeginForm("UpdateCustomer", "TourManage"))
             {
                 @Html.HiddenFor(model => model.SingleCompany.CreatedDate)
                 @Html.HiddenFor(model => model.SingleContact.CreatedDate)

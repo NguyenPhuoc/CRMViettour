@@ -252,11 +252,11 @@
 
 @Html.Partial("_Partial_InsertServiceTour")
 @Html.Partial("_Partial_AddServices")
-
+@Html.Partial("_Partial_ImportCustomer")
+<div id="info-data-customer"></div>
 @* @Html.Partial("_Partial_UpdateStatus")
     @Html.Partial("_Partial_UpdateVisa")
-    @Html.Partial("_Partial_Setup_UserInGroup")
-    @Html.Partial("_Partial_ImportCustomer")*@
+    @Html.Partial("_Partial_Setup_UserInGroup")*@
 
 @section scripts{
     <script src="~/Scripts/controller/tour.js"></script>
@@ -339,5 +339,212 @@
                 $("#TotalRemaining" + i).val(tong - dot1 - dot2);
             }
         })
+
+        function btnImportCustomer() {
+            if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                alert("Vui lòng chọn 1 tour!");
+            }
+            else {
+                var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+                $.ajax({
+                    type: "POST",
+                    url: '/TourManage/GetIdTour',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#modal-import-customer").modal("show");
+                    }
+                });
+            }
+        }
+        //fileImport customer
+        $('#fileImport').change(function () {
+            var data = new FormData();
+            data.append('FileName', $('#fileImport')[0].files[0]);
+
+            var ajaxRequest = $.ajax({
+                type: "POST",
+                url: '/TourManage/ImportFile',
+                contentType: false,
+                processData: false,
+                data: data
+            });
+
+            ajaxRequest.done(function (xhr, textStatus) {
+                // Onsuccess
+            });
+            ajaxRequest.success(function (data) {
+                $("#listItemIdI").val("");
+                $("#import-data-customer").html(data);
+            })
+        });
+
+        function updateCustomer(id) {
+            var dataPost = { id: id };
+
+            $.ajax({
+                type: "POST",
+                url: '/TourManage/CustomerInfomation',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#info-data-customer").html(data);
+
+
+                    /*** visa-passport ***/
+                    $("#country-edit-cmnd").select2();
+                    $("#country-edit-passport").select2();
+
+                    /*** doanh nghiệp ***/
+                    $("#edit-address-company").select2();
+                    $("#edit-nhomkh-company").select2();
+                    $("#edit-nguonden-company").select2();
+                    $("#edit-company").select2();
+                    $("#edit-customer-career").select2();
+
+                    /*** cá nhân ***/
+                    $("#edit-personal-quydanh").select2();
+                    $("#edit-address-personal").select2();
+                    $("#edit-nghenghiep-personal").select2();
+                    $("#edit-nhomkh-personal").select2();
+                    $("#edit-nguonden-personal").select2();
+
+                    /*** người liên hệ ***/
+                    $("#edit-customer-contact").select2();
+                    $("#edit-quydanh-contact").select2();
+                    $("#edit-address-contact").select2();
+
+                    /*** datepicker ***/
+                    //$("#edit-ngaycapmst").datepicker();
+                    //$("#edit-ngaytldn").datepicker();
+                    //$("#edit-ngaysinh").datepicker();
+                    //$("#edit-ngaysinh-contact").datepicker();
+                    //$("#edit-ngaycap").datepicker();
+                    //$("#edit-ngaycap-passport").datepicker();
+                    //$("#edit-ngayhethan-passport").datepicker();
+
+                    ///*** visa ***/
+                    //$("#ngaycapvisaE1").datepicker();
+                    //$("#ngayhethanvisaE1").datepicker();
+                    //$("#countryvisaE1").select2();
+
+                    ///*** modal ***/
+                    CKEDITOR.replace("edit-note-company");
+                    CKEDITOR.replace("edit-note-personal");
+                    CKEDITOR.replace("edit-note-contact");
+                    $("#modal-edit-customer").modal("show");
+
+                    ///*** duplicate form visa (edit) ***/
+                    $(function () {
+                        $('#btnAddE').click(function () {
+                            var num = $('.clonedInputE').length, // how many "duplicatable" input fields we currently have
+                                newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+                                newElem = $('#entryE' + num).clone().attr('id', 'entryE' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+                            // manipulate the name/id values of the input inside the new element
+
+                            newElem.find('.visacardE').attr('name', 'VisaNumber' + newNum).val('');
+                            newElem.find('.ngaycapvisaE').attr('id', 'ngaycapvisaE' + newNum).attr('name', 'CreatedDateVisa' + newNum).val('');
+                            newElem.find('.ngayhethanvisaE').attr('id', 'ngayhethanvisaE' + newNum).attr('name', 'ExpiredDateVisa' + newNum).val('');
+                            newElem.find('.countryvisaE').attr('id', 'countryvisaE' + newNum).attr('name', 'TagsId' + newNum).val('');
+
+                            // insert the new element after the last "duplicatable" input field
+                            $('#entryE' + num).after(newElem);
+                            //$("#ngaycapvisaE" + newNum).datepicker();
+                            //$("#ngayhethanvisaE" + newNum).datepicker();
+                            $("#countryvisaE" + newNum).select2();
+
+                            for (var i = 1; i < newNum; i++) {
+                                $("#entryE" + newNum + " #select2-countryvisaE" + i + "-container").parent().parent().parent().remove();
+                            }
+
+                            // enable the "remove" button
+                            $('#btnDelE').attr('disabled', false);
+
+                        });
+
+                        $('#btnDelE').click(function () {
+                            // confirmation
+                            var num = $('.clonedInputE').length;
+                            // how many "duplicatable" input fields we currently have
+                            $('#entryE' + num).slideUp('slow', function () {
+                                $(this).remove();
+                                // if only one element remains, disable the "remove" button
+                                if (num - 1 === 1)
+                                    $('#btnDelE').attr('disabled', true);
+                                // enable the "add" button
+                                $('#btnAddE').attr('disabled', false).prop('value', "add section");
+                            });
+                            return false;
+
+                            $('#btnAddE').attr('disabled', false);
+                        });
+                        $('#btnDelE').attr('disabled', true);
+                    });
+                }
+            });
+        }
+
+        function deleteCustomer(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/TourManage/DeleteCustomer',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    var obj = jQuery.parseJSON(data);
+                    if (obj.Succeed) {
+                        alert(obj.Message);
+                        if (obj.IsPartialView) {
+                            table.replaceWith(obj.View);
+                        }
+                        else {
+                            if (obj.RedirectTo != null && obj.RedirectTo != "") {
+                                window.location.href = obj.RedirectTo;
+                            }
+                        }
+                    }
+                    else {
+                        alert(obj.Message);
+                    }
+                }
+            });
+        }
+
+        function capNhatKH() {
+            if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                alert("Vui lòng chọn 1 tour!");
+            }
+            else {
+                var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+                $.ajax({
+                    type: "POST",
+                    url: '/TourManage/CapNhatKH',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        var obj = jQuery.parseJSON(data);
+                        if (obj.Succeed) {
+                            alert(obj.Message);
+                            if (obj.IsPartialView) {
+                                table.replaceWith(obj.View);
+                            }
+                            else {
+                                if (obj.RedirectTo != null && obj.RedirectTo != "") {
+                                    window.location.href = obj.RedirectTo;
+                                }
+                            }
+                        }
+                        else {
+                            alert(obj.Message);
+                        }
+                    }
+                });
+            }
+        }
     </script>
 }

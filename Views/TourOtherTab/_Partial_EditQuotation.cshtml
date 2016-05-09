@@ -1,0 +1,106 @@
+﻿@using CRM.Core;
+@using CRMViettour.Utilities;
+@model tbl_Quotation
+
+<div class="modal fade" id="modal-edit-quotation" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Cập nhật báo giá</h4>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("UpdateQuotation", "TourOtherTab", null, new AjaxOptions { OnFailure = "OnFailureTourTab", OnSuccess = "OnSuccessTourTab", UpdateTargetId = "viettourbaogia" }))
+                {
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.CreatedDate)
+                    @Html.HiddenFor(model => model.ModifiedDate)
+                    @Html.HiddenFor(model => model.StartDate)
+                    @Html.HiddenFor(model => model.EndDate)
+                    @Html.HiddenFor(model => model.StaffId)
+                    @Html.HiddenFor(model => model.FileName)
+                    @Html.HiddenFor(model => model.TourId)
+                    @Html.HiddenFor(model => model.DictionaryId)
+                    
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Code báo giá</label>
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control", required = "required", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Quốc gia</label>
+                                    <div class="col-md-4">
+                                        <select id="edit-code-country" class="form-control" name="CountryId" style="width: 100%">
+                                            @foreach (var item in LoadData.DropdownlistCountry())
+                                            {
+                                                <option value="@item.Id" @(Model != null && Model.CountryId == item.Id ? "selected" : "")>@item.Tags</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label class="control-label col-md-2">Tags</label>
+                                    <div class="col-md-4">
+                                        <select id="edit-tags" class="form-control" multiple="multiple" name="TagsId" style="width: 100%">
+                                            @foreach (var item in LoadData.DropdownlistLocation())
+                                            {
+                                                <option value="@item.Id" @(Model.TagsId != null && Model.TagsId != null && Model.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">File attach</label>
+                                    <div class="col-md-4">
+                                        <input type="file" name="FileNameQuotation" class="form-control" id="edit-file-quotation" />
+                                    </div>
+                                    <label class="control-label col-md-2">Tổng giá trị</label>
+                                    <div class="col-md-2">
+                                        @Html.TextBoxFor(model => model.PriceTour, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select id="edit-currency-quotation" class="form-control" name="CurrencyId" style="width: 100%" required="required">
+                                            @foreach (var item in LoadData.CurrencyList())
+                                            {
+                                                <option value="@item.Id" @(Model != null && Model.CurrencyId == item.Id ? "selected" : "")>@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Ngày báo giá</label>
+                                    <div class="col-md-4">
+                                            @Html.TextBoxFor(model => model.QuotationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @id = "edit-ngaybaogia", @type = "date" })
+                                    </div>
+                                    <label class="control-label col-md-2">Người báo giá</label>
+                                    <div class="col-md-4">
+                                        <select id="edit-staff-quotation" class="form-control" name="StaffQuotationId" style="width: 100%">
+                                            @foreach (var item in LoadData.StaffList())
+                                            {
+                                                <option value="@item.Id" @(Model != null && Model.StaffQuotationId == item.Id ? "selected" : "")>@item.FullName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Ghi chú</label>
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", @id = "edit-note-quotation" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div align="center" style="margin-bottom: 20px">
+                        <button type="submit" class="btn blue">Lưu</button>
+                        <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                    </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>

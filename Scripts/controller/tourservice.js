@@ -17,7 +17,171 @@ $(document).ready(function () {
         switch (id) {
             case "1":
                 $("#modal-insert-services-tour").modal("hide");
-                $("#modal-insert-restaurant").modal("show");
+                /***** popup insert sự kiện *****/
+                if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+                    alert("Vui lòng chọn 1 tour!");
+                }
+                else {
+                    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/TourManage/GetIdTour',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#modal-insert-services-tour").modal("hide");
+                            $("#modal-insert-restaurant").modal("show");
+                            /*** upload file restaurant đầu tiên ***/
+                            $('#RestaurantDocument1').change(function () {
+                                var data = new FormData();
+                                data.append('RestaurantDocument', $('#RestaurantDocument1')[0].files[0]);
+                                data.append('id', 1);
+
+                                var ajaxRequest = $.ajax({
+                                    type: "POST",
+                                    url: 'TourService/UploadFileRestaurant',
+                                    contentType: false,
+                                    processData: false,
+                                    data: data
+                                });
+
+                                ajaxRequest.done(function (xhr, textStatus) {
+                                    // Onsuccess
+                                });
+                            });
+                            
+                            /******** duplicate *******/
+                            function addNewOption() {
+                                var num = $('.OptionRestaurant').length, // how many "duplicatable" input fields we currently have
+                                    newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+                                    newElem = $('#OptionRestaurant' + num).clone().attr('id', 'OptionRestaurant' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+                                // manipulate the name/id values of the input inside the new element
+
+                                newElem.find('.RestaurantName').attr('id', 'RestaurantName' + newNum).attr('name', 'RestaurantName' + newNum);
+                                newElem.find('.RestaurantPrice').attr('id', 'RestaurantPrice' + newNum).attr('name', 'RestaurantPrice' + newNum).val('');
+                                newElem.find('.RestaurantAddress').attr('id', 'RestaurantAddress' + newNum).attr('name', 'RestaurantAddress' + newNum).val('');
+                                newElem.find('.RestaurantCode').attr('id', 'RestaurantCode' + newNum).attr('name', 'RestaurantCode' + newNum).val('');
+                                newElem.find('.RestaurantNote').attr('id', 'RestaurantNote' + newNum).attr('name', 'RestaurantNote' + newNum);
+                                newElem.find('.RestaurantDocument').attr('id', 'RestaurantDocument' + newNum);
+                                newElem.find('.NguoiLienHe').attr('id', 'NguoiLienHe' + newNum).attr('name', 'NguoiLienHe' + newNum).val('');
+                                newElem.find('.DienThoai').attr('id', 'DienThoai' + newNum).attr('name', 'DienThoai' + newNum).val('');
+                                newElem.find('.RestaurantCurrency').attr('id', 'RestaurantCurrency' + newNum).attr('name', 'RestaurantCurrency' + newNum);
+                                newElem.find('.OptionRestaurantA').attr('data-target', '#restaurant' + newNum);
+                                newElem.find('.OptionRestaurantBody').attr('id', 'restaurant' + newNum);
+
+                                newElem.find('.OptionTitle').html('OPTION ' + newNum);
+
+                                //deadline
+                                newElem.find('.btnNewDealine').attr('onclick', 'addNewDeadline(' + newNum + ')');
+                                newElem.find('.btnRemoveDealine').attr('onclick', 'removeDeadline(' + newNum + ',1)').attr('disabled', true);
+
+                                newElem.find('.DeadlineRestauran').attr('id', 'DeadlineRestauran' + newNum + 1);
+                                newElem.find('.DeadlineStatus').attr('id', 'DeadlineStatus' + newNum + 1).attr('name', 'DeadlineStatus' + newNum + 1);
+                                newElem.find('.DeadlineNote').attr('id', 'DeadlineNote' + newNum + 1).attr('name', 'DeadlineNote' + newNum + 1)
+                                newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + newNum + 1).attr('name', 'DeadlineTen' + newNum + 1)
+                                newElem.find('.DeadlineDeposit').attr('id', 'DeadlineDeposit' + newNum + 1).attr('name', 'DeadlineDeposit' + newNum + 1)
+                                newElem.find('.DeadlineThoiGian').attr('id', 'DeadlineThoiGian' + newNum + 1).attr('name', 'DeadlineThoiGian' + newNum + 1)
+                                newElem.find('.DeadlineRestauranA').attr('data-target', '#deadline-restauran' + newNum + 1);
+                                newElem.find('.DeadlineRestauranBody').attr('id', 'deadline-restauran' + newNum + 1);
+                                newElem.find('.DeadlineTitle').html('Deadline 1');
+
+                                var arr = newElem.find('.DeadlineRestauran').toArray();
+                                newElem.find('.DeadlineRestauran').each(function (index) {
+                                    if (arr.length - 1 != index)
+                                        this.remove();
+                                });
+                                $('#OptionRestaurant' + num).after(newElem);
+                                $('#countOptionRestaurant').val(newNum);
+
+                                $('#RestaurantDocument' + newNum).change(function () {
+                                    var data = new FormData();
+                                    data.append('RestaurantDocument', $('#RestaurantDocument' + newNum)[0].files[0]);
+                                    data.append('id', newNum);
+
+                                    var ajaxRequest = $.ajax({
+                                        type: "POST",
+                                        url: 'TourService/UploadFileRestaurant',
+                                        contentType: false,
+                                        processData: false,
+                                        data: data
+                                    });
+
+                                    ajaxRequest.done(function (xhr, textStatus) {
+                                        // Onsuccess
+                                    });
+                                });
+
+                                CKEDITOR.replace("RestaurantNote" + newNum);
+                                // for (var i = 1; i < newNum; i++) {
+                                newElem.find("#select2-RestaurantName" + num + "-container").parent().parent().parent().remove();
+                                newElem.find("#cke_RestaurantNote" + num).remove();
+                                newElem.find("#cke_DeadlineNote" + num + arr.length).remove();
+                                newElem.find("#select2-DeadlineStatus" + num + arr.length + "-container").parent().parent().parent().remove();
+                                newElem.find("#select2-RestaurantCurrency" + num + arr.length + "-container").parent().parent().parent().remove();
+                                //}
+                                $("#RestaurantCurrency" + newNum).select2();
+                                $("#RestaurantName" + newNum).select2();
+                                $("#DeadlineStatus" + newNum + 1).select2();
+                                CKEDITOR.replace("DeadlineNote" + newNum + 1);
+                                newElem.find('.btnRemoveOption').attr('disabled', false);
+                                $('#OptionRestaurant' + num).find('.actionsOption').remove();
+                            }
+                            function addNewDeadline(i) {
+                                var num = $('#OptionRestaurant' + i + ' .DeadlineRestauran').length, // how many "duplicatable" input fields we currently have
+                                    newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+                                    newElem = $('#DeadlineRestauran' + i + num).clone().attr('id', 'DeadlineRestauran' + i + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+                                // manipulate the name/id values of the input inside the new element
+
+                                $('#DeadlineRestauran' + i + num).find('.actions').remove();
+
+                                newElem.find('.DeadlineStatus').attr('name', 'DeadlineStatus' + i + newNum).attr('id', 'DeadlineStatus' + i + newNum);
+                                newElem.find('.DeadlineNote').attr('name', 'DeadlineNote' + i + newNum).attr('id', 'DeadlineNote' + i + newNum);
+                                newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + i + newNum).attr('name', 'DeadlineTen' + i + newNum)
+                                newElem.find('.DeadlineDeposit').attr('id', 'DeadlineDeposit' + i + newNum).attr('name', 'DeadlineDeposit' + i + newNum)
+                                newElem.find('.DeadlineThoiGian').attr('id', 'DeadlineThoiGian' + i + newNum).attr('name', 'DeadlineThoiGian' + i + newNum)
+
+                                newElem.find('.DeadlineRestauranA').attr('data-target', '#deadline-restauran' + i + newNum);
+                                newElem.find('.DeadlineRestauranBody').attr('id', 'deadline-restauran' + i + newNum);
+
+                                newElem.find('.DeadlineTitle').html('Deadline ' + newNum);
+
+                                newElem.find('.btnRemoveDealine').attr('onclick', 'removeDeadline(' + i + "," + newNum + ')');
+                                newElem.find('.btnRemoveDealine').attr('disabled', false);
+
+                                $('#DeadlineRestauran' + i + num).after(newElem);
+
+
+                                CKEDITOR.replace("DeadlineNote" + i + newNum);
+                                newElem.find("#select2-DeadlineStatus" + i + num + "-container").parent().parent().parent().remove();
+                                newElem.find("#cke_DeadlineNote" + i + num).remove();
+                                $("#DeadlineStatus" + i + newNum).select2();
+                            }
+                            function removeDeadline(x, y) {
+                                var actions = $('#DeadlineRestauran' + x + y).find('.actions').clone();
+                                actions.find('.btnRemoveDealine').attr('onclick', 'removeDeadline(' + x + "," + (y - 1) + ')');
+                                if (y == 2)
+                                    actions.find('.btnRemoveDealine').attr('disabled', true);
+                                $('#DeadlineRestauran' + x + (y - 1)).find('.caption').after(actions);
+                                $('#DeadlineRestauran' + x + y).remove();
+                            }
+                            function removeOption() {
+                                var num = $('.OptionRestaurant').length,
+                                    option = $('#OptionRestaurant' + (num - 1)),
+                                    optionremove = $('#OptionRestaurant' + num),
+                                    actions = $('#OptionRestaurant' + num).find('.actionsOption');
+                                if (num == 2)
+                                    actions.find('.btnRemoveOption').attr('disabled', true);
+                                option.find('.captionOption').after(actions);
+                                optionremove.remove();
+                                $('#countOptionRestaurant').val(num - 1);
+                            }
+                        }
+                    });
+                }
+
+                break;
                 break;
             case "2":
                 $("#modal-insert-services-tour").modal("hide");
@@ -170,116 +334,13 @@ $("#RestaurantName1").select2();
 $('#DeadlineStatus11').select2();
 CKEDITOR.replace("RestaurantNote1");
 CKEDITOR.replace("DeadlineNote11");
-
-function addNewOption() {
-    var num = $('.OptionRestaurant').length, // how many "duplicatable" input fields we currently have
-        newNum = new Number(num + 1),      // the numeric ID of the new input field being added
-        newElem = $('#OptionRestaurant' + num).clone().attr('id', 'OptionRestaurant' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
-    // manipulate the name/id values of the input inside the new element
-
-    newElem.find('.RestaurantName').attr('id', 'RestaurantName' + newNum).attr('name', 'RestaurantName' + newNum);
-    newElem.find('.RestaurantPrice').attr('id', 'RestaurantPrice' + newNum).attr('name', 'RestaurantPrice' + newNum).val('');
-    newElem.find('.RestaurantAddress').attr('id', 'RestaurantAddress' + newNum).attr('name', 'RestaurantAddress' + newNum).val('');
-    newElem.find('.RestaurantCode').attr('id', 'RestaurantCode' + newNum).attr('name', 'RestaurantCode' + newNum).val('');
-    newElem.find('.RestaurantDocument').attr('id', 'RestaurantDocument' + newNum).attr('name', 'RestaurantDocument' + newNum).val('');
-    newElem.find('.RestaurantNote').attr('id', 'RestaurantNote' + newNum).attr('name', 'RestaurantNote' + newNum);
-    newElem.find('.NguoiLienHe').attr('id', 'NguoiLienHe' + newNum).attr('name', 'NguoiLienHe' + newNum).val('');
-    newElem.find('.DienThoai').attr('id', 'DienThoai' + newNum).attr('name', 'DienThoai' + newNum).val('');
-
-    newElem.find('.OptionRestaurantA').attr('data-target', '#restaurant' + newNum);
-    newElem.find('.OptionRestaurantBody').attr('id', 'restaurant' + newNum);
-
-    newElem.find('.OptionTitle').html('OPTION ' + newNum);
-
-    //deadline
-    newElem.find('.btnNewDealine').attr('onclick', 'addNewDeadline(' + newNum + ')');
-    newElem.find('.btnRemoveDealine').attr('onclick', 'removeDeadline(' + newNum + ',1)').attr('disabled', true);
-
-    newElem.find('.DeadlineRestauran').attr('id', 'DeadlineRestauran' + newNum + 1);
-    newElem.find('.DeadlineStatus').attr('id', 'DeadlineStatus' + newNum + 1).attr('name', 'DeadlineStatus' + newNum + 1);
-    newElem.find('.DeadlineNote').attr('id', 'DeadlineNote' + newNum + 1).attr('name', 'DeadlineNote' + newNum + 1)
-    newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + newNum + 1).attr('name', 'DeadlineTen' + newNum + 1)
-    newElem.find('.DeadlineDeposit').attr('id', 'DeadlineDeposit' + newNum + 1).attr('name', 'DeadlineDeposit' + newNum + 1)
-    newElem.find('.DeadlineThoiGian').attr('id', 'DeadlineThoiGian' + newNum + 1).attr('name', 'DeadlineThoiGian' + newNum + 1)
-    newElem.find('.DeadlineRestauranA').attr('data-target', '#deadline-restauran' + newNum + 1);
-    newElem.find('.DeadlineRestauranBody').attr('id', 'deadline-restauran' + newNum + 1);
-    newElem.find('.DeadlineTitle').html('Deadline 1');
-
-    var arr = newElem.find('.DeadlineRestauran').toArray();
-    newElem.find('.DeadlineRestauran').each(function (index) {
-        if (arr.length - 1 != index)
-            this.remove();
-    });
-    $('#OptionRestaurant' + num).after(newElem);
-
-    CKEDITOR.replace("RestaurantNote" + newNum);
-    // for (var i = 1; i < newNum; i++) {
-    newElem.find("#select2-RestaurantName" + num + "-container").parent().parent().parent().remove();
-    newElem.find("#cke_RestaurantNote" + num).remove();
-    newElem.find("#cke_DeadlineNote" + num + arr.length).remove();
-    newElem.find("#select2-DeadlineStatus" + num + arr.length + "-container").parent().parent().parent().remove();
-    //}
-    $("#RestaurantName" + newNum).select2();
-    $("#DeadlineStatus" + newNum + 1).select2();
-    CKEDITOR.replace("DeadlineNote" + newNum + 1);
-    newElem.find('.btnRemoveOption').attr('disabled', false);
-    $('#OptionRestaurant' + num).find('.actionsOption').remove();
-}
-function addNewDeadline(i) {
-    var num = $('#OptionRestaurant' + i + ' .DeadlineRestauran').length, // how many "duplicatable" input fields we currently have
-        newNum = new Number(num + 1),      // the numeric ID of the new input field being added
-        newElem = $('#DeadlineRestauran' + i + num).clone().attr('id', 'DeadlineRestauran' + i + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
-    // manipulate the name/id values of the input inside the new element
-
-    $('#DeadlineRestauran' + i + num).find('.actions').remove();
-
-    newElem.find('.DeadlineStatus').attr('name', 'DeadlineStatus' + i + newNum).attr('id', 'DeadlineStatus' + i + newNum);
-    newElem.find('.DeadlineNote').attr('name', 'DeadlineNote' + i + newNum).attr('id', 'DeadlineNote' + i + newNum);
-    newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + i + newNum).attr('name', 'DeadlineTen' + i + newNum)
-    newElem.find('.DeadlineDeposit').attr('id', 'DeadlineDeposit' + i + newNum).attr('name', 'DeadlineDeposit' + i + newNum)
-    newElem.find('.DeadlineThoiGian').attr('id', 'DeadlineThoiGian' + i + newNum).attr('name', 'DeadlineThoiGian' + i + newNum)
-
-    newElem.find('.DeadlineRestauranA').attr('data-target', '#deadline-restauran' + i + newNum);
-    newElem.find('.DeadlineRestauranBody').attr('id', 'deadline-restauran' + i + newNum);
-
-    newElem.find('.DeadlineTitle').html('Deadline ' + newNum);
-
-    newElem.find('.btnRemoveDealine').attr('onclick', 'removeDeadline(' + i + "," + newNum + ')');
-    newElem.find('.btnRemoveDealine').attr('disabled', false);
-
-    $('#DeadlineRestauran' + i + num).after(newElem);
-
-
-    CKEDITOR.replace("DeadlineNote" + i + newNum);
-    newElem.find("#select2-DeadlineStatus" + i + num + "-container").parent().parent().parent().remove();
-    newElem.find("#cke_DeadlineNote" + i + num).remove();
-    $("#DeadlineStatus" + i + newNum).select2();
-}
-function removeDeadline(x, y) {
-
-    var actions = $('#DeadlineRestauran' + x + y).find('.actions').clone();
-    actions.find('.btnRemoveDealine').attr('onclick', 'removeDeadline(' + x + "," + (y - 1) + ')');
-    if (y == 2)
-        actions.find('.btnRemoveDealine').attr('disabled', true);
-    $('#DeadlineRestauran' + x + (y - 1)).find('.caption').after(actions);
-    $('#DeadlineRestauran' + x + y).remove();
-}
-
-function removeOption() {
-    var num = $('.OptionRestaurant').length,
-        option = $('#OptionRestaurant' + (num - 1)),
-        optionremove = $('#OptionRestaurant' + num),
-        actions = $('#OptionRestaurant' + num).find('.actionsOption');
-    if (num == 2)
-        actions.find('.btnRemoveOption').attr('disabled', true);
-    option.find('.captionOption').after(actions);
-    optionremove.remove();
-
-}
 //end nhà hàng
+
 //=============================================================================//
+
 //khách sạn
 $("#hotel-tour1").select2();
+$("#currency-hotel-tour1").select2();
 $('#star-hotel1').select2();
 $('#deadline-status-hotel11').select2();
 CKEDITOR.replace("note-hotel1");
@@ -292,6 +353,7 @@ function addNewOptionHotel() {
     newElem.find('.OptionTitle').html('OPTION ' + newNum);
 
     newElem.find('.hotel-tour').attr('id', 'hotel-tour' + newNum).attr('name', 'hotel-tour' + newNum);
+    newElem.find('.currency-hotel-tour').attr('id', 'currency-hotel-tour' + newNum).attr('name', 'currency-hotel-tour' + newNum);
     newElem.find('.star-hotel').attr('id', 'star-hotel' + newNum).attr('name', 'star-hotel' + newNum);
     newElem.find('.tungay-hotel').attr('id', 'tungay-hotel' + newNum).attr('name', 'tungay-hotel' + newNum).val('');
     newElem.find('.room-hotel').attr('id', 'room-hotel' + newNum).attr('name', 'room-hotel' + newNum).val('');
@@ -302,7 +364,6 @@ function addNewOptionHotel() {
     newElem.find('.price-hotel').attr('id', 'price-hotel' + newNum).attr('name', 'price-hotel' + newNum).val('');
     newElem.find('.phone-hotel').attr('id', 'phone-hotel' + newNum).attr('name', 'phone-hotel' + newNum).val('');
     newElem.find('.note-hotel').attr('id', 'note-hotel' + newNum).attr('name', 'note-hotel' + newNum);
-
     newElem.find('.OptionHotelA').attr('data-target', '#hotel' + newNum);
     newElem.find('.OptionHotelBody').attr('id', 'hotel' + newNum);
 
@@ -327,22 +388,25 @@ function addNewOptionHotel() {
             this.remove();
     });
     $('#OptionHotel' + num).after(newElem);
+    $('#countOptionHotel').val(newNum);
     newElem.find('.btnRemoveOption').attr('disabled', false);
     $('#OptionHotel' + num).find('.actionsOption').remove();
 
-
     newElem.find("#select2-hotel-tour" + num + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-currency-hotel-tour" + num + "-container").parent().parent().parent().remove();
     newElem.find("#select2-star-hotel" + num + "-container").parent().parent().parent().remove();
     newElem.find("#select2-deadline-status-hotel" + num + arr.length + "-container").parent().parent().parent().remove();
     newElem.find("#cke_note-hotel" + num).remove();
     newElem.find("#cke_deadline-note-hotel" + num + arr.length).remove();
 
     $("#hotel-tour" + newNum).select2();
+    $("#currency-hotel-tour" + newNum).select2();
     $('#star-hotel' + newNum).select2();
     CKEDITOR.replace("note-hotel" + newNum);
     $('#deadline-status-hotel' + newNum + 1).select2();
     CKEDITOR.replace("deadline-note-hotel" + newNum + 1);
 }
+
 function addNewDeadlineHotel(i) {
     var num = $('#OptionHotel' + i + ' .DeadlineHotel').length, // how many "duplicatable" input fields we currently have
         newNum = new Number(num + 1),      // the numeric ID of the new input field being added
@@ -367,7 +431,6 @@ function addNewDeadlineHotel(i) {
 
     $('#DeadlineHotel' + i + num).after(newElem);
 
-
     newElem.find("#select2-deadline-status-hotel" + i + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_deadline-note-hotel" + i + num).remove();
 
@@ -383,6 +446,7 @@ function removeOptionHotel() {
         actions.find('.btnRemoveOption').attr('disabled', true);
     option.find('.captionOption').after(actions);
     optionremove.remove();
+    $('#countOptionHotel').val(num - 1);
 }
 
 function removeDeadlineHotel(x, y) {
@@ -394,7 +458,9 @@ function removeDeadlineHotel(x, y) {
     $('#DeadlineHotel' + x + (y - 1)).find('.caption').after(actions);
     $('#DeadlineHotel' + x + y).remove();
 }//end khách sạn
+
 //===========================================================================//
+
 //Vận chuyển
 $("#name-transport1").select2();
 CKEDITOR.replace("ServiceNote11");
@@ -429,9 +495,9 @@ function addNewTranport() {
             this.remove();
     });
     $('#OptionTransport' + num).after(newElem);
+    $('#countOptionTransport').val(newNum);
     newElem.find('.btnRemoveOption').attr('disabled', false);
     $('#OptionTransport' + num).find('.actionsOption').remove();
-
 
     newElem.find("#select2-name-transport" + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_ServiceNote" + num + arr.length).remove();
@@ -481,7 +547,9 @@ function removeServiceTranport(x, y) {
     $('#ServiceTranport' + x + (y - 1)).find('.actionRemoveServiceTranport').html(actions);
     $('#ServiceTranport' + x + y).remove();
 }//end vận chuyển
+
 //===================================================================================//
+
 //vé máy bay
 $("#hang-plane1").select2();
 $("#loaitien-plane1").select2();
@@ -546,6 +614,7 @@ function addNewOptionPlane() {
     $('#tinhtrang-deadline-plane' + newNum + 1).select2();
     CKEDITOR.replace("PlaneNoteDeadline" + newNum + 1);
 }
+
 function addNewDeadlinePlane(i) {
     var num = $('#OptionPlane' + i + ' .DeadlinePlane').length, 
         newNum = new Number(num + 1),      
@@ -576,6 +645,7 @@ function addNewDeadlinePlane(i) {
     CKEDITOR.replace("PlaneNoteDeadline" + i + newNum);
     $("#tinhtrang-deadline-plane" + i + newNum).select2();
 }
+
 function removeOptionPlane() {
     var num = $('.OptionPlane').length,
        option = $('#OptionPlane' + (num - 1)),
@@ -586,6 +656,7 @@ function removeOptionPlane() {
     option.find('.captionOption').after(actions);
     optionremove.remove();
 }
+
 function removeDeadlinePlane(x, y) {
 
     var actions = $('#DeadlinePlane' + x + y).find('.actions').clone();
@@ -595,3 +666,17 @@ function removeDeadlinePlane(x, y) {
     $('#DeadlinePlane' + x + (y - 1)).find('.caption').after(actions);
     $('#DeadlinePlane' + x + y).remove();
 }//end vé máy bay
+
+
+
+function OnSuccessTourService() {
+    alert("Đã lưu!");
+    $("#modal-insert-hotel").modal("hide");
+    $("#modal-insert-restaurant").modal("hide");
+}
+
+function OnFailureTourService() {
+    alert("Lỗi. Vui lòng xem lại!");
+    $("#modal-insert-hotel").modal("hide");
+    $("#modal-insert-restaurant").modal("hide");
+}

@@ -2527,6 +2527,8 @@
     <Content Include="Views\TourStatus\_Partial_TourStatus.cshtml" />
     <Content Include="Views\TourSchedule\_Partial_EditScheduleTour.cshtml" />
     <Content Include="Views\TourSchedule\_Partial_InsertScheduleTour.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertQuotation.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_EditQuotation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

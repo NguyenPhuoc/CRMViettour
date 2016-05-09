@@ -16,6 +16,7 @@ namespace CRMViettour.Controllers.Tour
         // GET: TourService
         #region Init
 
+        private IGenericRepository<tbl_DeadlineOption> _deadlineOptionRepository;
         private IGenericRepository<tbl_Company> _companyRepository;
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_ServicesPartner> _servicesPartnerRepository;
@@ -40,6 +41,7 @@ namespace CRMViettour.Controllers.Tour
         private DataContext _db;
 
         public TourServiceController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
+            IGenericRepository<tbl_DeadlineOption> deadlineOptionRepository,
             IGenericRepository<tbl_Company> companyRepository,
             IGenericRepository<tbl_ServicesPartner> servicesPartnerRepository,
             IGenericRepository<tbl_Tour> tourRepository,
@@ -63,6 +65,7 @@ namespace CRMViettour.Controllers.Tour
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
+            this._deadlineOptionRepository = deadlineOptionRepository;
             this._dictionaryRepository = dictionaryRepository;
             this._companyRepository = companyRepository;
             this._servicesPartnerRepository = servicesPartnerRepository;
@@ -91,15 +94,355 @@ namespace CRMViettour.Controllers.Tour
 
         #region Khách sạn
 
+        [HttpPost]
+        public async Task<ActionResult> CreateHotel(FormCollection form)
+        {
+            int tourId = Convert.ToInt32(Session["idTour"].ToString());
+            try
+            {
+                for (int i = 1; i <= Convert.ToInt32(form["NumberOptionHotel"]); i++)
+                {
+                    // insert dịch vụ khách hàng
+                    var service = new tbl_ServicesPartner()
+                    {
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        CurrencyId = Convert.ToInt32(form["currency-hotel-tour" + i]),
+                        Note = form["note-hotel" + i].ToString(),
+                        NumberNight = form["night-hotel" + i] != "" ? Convert.ToInt32(form["night-hotel" + i]) : 0,
+                        NumberRoom = form["room-hotel" + i] != "" ? Convert.ToInt32(form["room-hotel" + i]) : 0,
+                        Phone = form["phone-hotel" + i].ToString(),
+                        Position = form["position-hotel" + i].ToString(),
+                        Price = form["price-hotel" + i] != null ? Convert.ToDouble(form["price-hotel" + i].ToString()) : 0,
+                        StaffContact = form["nguoi-lien-he-hotel" + i].ToString(),
+                        Standard = form["star-hotel"] + i != "" ? Convert.ToInt32(form["star-hotel"] + i) : 0,
+                        PartnerId = Convert.ToInt32(form["hotel-tour" + i])
+                    };
+                    if (form["tungay-hotel" + i] != "")
+                    {
+                        service.Time = Convert.ToDateTime(form["tungay-hotel" + i].ToString());
+                    }
+                    if (await _servicesPartnerRepository.Create(service))
+                    {
+                        // lưu option --> lịch sử liên hệ
+                        var contact = new tbl_ContactHistory
+                        {
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            DictionaryId = 1145,
+                            Note = form["note-hotel" + i].ToString(),
+                            PartnerId = service.PartnerId,
+                            Request = service.NumberRoom + " phòng, " + service.NumberNight + " đêm, giá/đơn vị: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                            StaffId = 9,
+                            TourId = tourId
+                        };
+                        if (form["tungay-hotel" + i] != "")
+                        {
+                            contact.ContactDate = Convert.ToDateTime(form["tungay-hotel" + i].ToString());
+                        }
+                        if (await _contactHistoryRepository.Create(contact))
+                        {
+                            // insert deadline dịch vụ
+                            for (int j = 1; j <= 3; j++)
+                            {
+                                if (form["deadline-name-hotel" + i + j] != "")
+                                {
+                                    // insert tbl_DeadlineOption
+                                    var deadline = new tbl_DeadlineOption
+                                    {
+                                        CreatedDate = DateTime.Now,
+                                        Deposit = form["deadline-total-hotel" + i + j] != null ? Convert.ToDecimal(form["deadline-total-hotel" + i + j].ToString()) : 0,
+                                        Name = form["deadline-name-hotel" + i + j].ToString(),
+                                        Note = form["deadline-note-hotel" + i + j].ToString(),
+                                        ServicesPartnerId = service.Id,
+                                        StaffId = 9,
+                                        StatusId = Convert.ToInt32(form["deadline-status-hotel" + i + j].ToString()),
+                                        Time = Convert.ToDateTime(form["deadline-thoigian-hotel" + i + j].ToString()),
+                                    };
+                                    if (await _deadlineOptionRepository.Create(deadline))
+                                    {
+                                        // insert tbl_AppointmentHistory
+                                        var appointment = new tbl_AppointmentHistory
+                                        {
+                                            CreatedDate = DateTime.Now,
+                                            ModifiedDate = DateTime.Now,
+                                            DictionaryId = 1214,
+                                            IsNotify = true,
+                                            IsRepeat = true,
+                                            Note = deadline.Note,
+                                            Notify = 5,
+                                            PartnerId = service.PartnerId,
+                                            Repeat = 5,
+                                            StaffId = 9,
+                                            StatusId = deadline.StatusId,
+                                            Time = deadline.Time ?? DateTime.Now,
+                                            Title = deadline.Name,
+                                            TourId = tourId
+                                        };
+                                        await _appointmentHistoryRepository.Create(appointment);
+                                    }
+                                    // insert tbl_TourOption
+                                    var touroption = new tbl_TourOption
+                                    {
+                                        DeadlineId = deadline.Id,
+                                        PartnerId = service.PartnerId,
+                                        ServiceId = 1048,
+                                        ServicePartnerId = service.Id,
+                                        TourId = tourId
+                                    };
+                                    await _tourOptionRepository.Create(touroption);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                            .Select(p => new TourServiceViewModel
+                            {
+                                Id = p.Id,
+                                Code = p.tbl_Partner.Code,
+                                ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
+                                ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
+                                Name = _partnerRepository.FindId(p.PartnerId).Name,
+                                Address = _partnerRepository.FindId(p.PartnerId).Address,
+                                StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
+                                Phone = _partnerRepository.FindId(p.PartnerId).Phone,
+                                Note = _partnerRepository.FindId(p.PartnerId).Note,
+                                TourOptionId = p.Id,
+                                TourId = p.TourId
+                            }).ToList();
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateHotel()
+        {
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
+        }
+
         #endregion
 
         #region Nhà hàng
+
+        /// <summary>
+        /// upload file nhà hàng
+        /// </summary>
+        /// <param name="RestaurantDocument"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult UploadFileRestaurant(HttpPostedFileBase RestaurantDocument, int id)
+        {
+            Session["RestaurantFile" + id] = RestaurantDocument;
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// thêm mới dịch vụ nhà hàng
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> CreateRestaurant(FormCollection form)
+        {
+            int tourId = Convert.ToInt32(Session["idTour"].ToString());
+            try
+            {
+                for (int i = 1; i <= Convert.ToInt32(form["NumberOptionRestaurant"]); i++)
+                {
+                    // insert dịch vụ khách hàng
+                    var service = new tbl_ServicesPartner()
+                    {
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        CurrencyId = Convert.ToInt32(form["RestaurantCurrency" + i]),
+                        Note = form["RestaurantNote" + i].ToString(),
+                        Phone = form["DienThoai" + i].ToString(),
+                        Price = form["RestaurantPrice" + i] != null ? Convert.ToDouble(form["RestaurantPrice" + i].ToString()) : 0,
+                        StaffContact = form["NguoiLienHe" + i].ToString(),
+                        PartnerId = Convert.ToInt32(form["RestaurantName" + i]),
+                        Address = form["RestaurantAddress" + i].ToString()
+                    };
+                    // tài liệu
+                    HttpPostedFileBase FileName = Session["RestaurantFile" + i] as HttpPostedFileBase;
+                    String newName = "";
+                    string FileSize="";
+                    if (FileName != null && FileName.ContentLength > 0)
+                    {
+                        FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                        newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                        String path = Server.MapPath("~/Upload/file/" + newName);
+                        FileName.SaveAs(path);
+                    }
+                    if  (newName != "" && FileSize != null)
+                    {
+                        service.FileName = newName;
+                        Random rd= new Random();
+                        // insert tbl_DocumentFile
+                        var document = new tbl_DocumentFile
+                        {
+                            Code = rd.Next(1111, 9999).ToString(),
+                            CreatedDate = DateTime.Now,
+                            FileName = newName,
+                            FileSize = FileSize,
+                            IsCustomer = false,
+                            IsRead = false,
+                            ModifiedDate = DateTime.Now,
+                            PartnerId = service.PartnerId,
+                            PermissionStaff = "9",
+                            StaffId = 9,
+                            TourId = tourId
+                        };
+                        await _documentFileRepository.Create(document);
+                    }
+                    //end file
+                    if (await _servicesPartnerRepository.Create(service))
+                    {
+                        // lưu option --> lịch sử liên hệ
+                        var contact = new tbl_ContactHistory
+                        {
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            DictionaryId = 1145,
+                            Note = service.Note,
+                            PartnerId = service.PartnerId,
+                            Request = "giá: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                            StaffId = 9,
+                            TourId = tourId
+                        };
+                        if (await _contactHistoryRepository.Create(contact))
+                        {
+                            // insert deadline dịch vụ
+                            for (int j = 1; j <= 3; j++)
+                            {
+                                if (form["deadline-name-hotel" + i + j] != "")
+                                {
+                                    // insert tbl_DeadlineOption
+                                    var deadline = new tbl_DeadlineOption
+                                    {
+                                        CreatedDate = DateTime.Now,
+                                        Deposit = form["DeadlineDeposit" + i + j] != null ? Convert.ToDecimal(form["DeadlineDeposit" + i + j].ToString()) : 0,
+                                        Name = form["DeadlineTen" + i + j].ToString(),
+                                        Note = form["DeadlineNote" + i + j].ToString(),
+                                        ServicesPartnerId = service.Id,
+                                        StaffId = 9,
+                                        StatusId = Convert.ToInt32(form["DeadlineStatus" + i + j].ToString()),
+                                        Time = Convert.ToDateTime(form["DeadlineThoiGian1" + i + j].ToString()),
+                                    };
+                                    if (await _deadlineOptionRepository.Create(deadline))
+                                    {
+                                        // insert tbl_AppointmentHistory
+                                        var appointment = new tbl_AppointmentHistory
+                                        {
+                                            CreatedDate = DateTime.Now,
+                                            ModifiedDate = DateTime.Now,
+                                            DictionaryId = 1214,
+                                            IsNotify = true,
+                                            IsRepeat = true,
+                                            Note = deadline.Note,
+                                            Notify = 5,
+                                            PartnerId = service.PartnerId,
+                                            Repeat = 5,
+                                            StaffId = 9,
+                                            StatusId = deadline.StatusId,
+                                            Time = deadline.Time ?? DateTime.Now,
+                                            Title = deadline.Name,
+                                            TourId = tourId
+                                        };
+                                        await _appointmentHistoryRepository.Create(appointment);
+                                    }
+                                    // insert tbl_TourOption
+                                    var touroption = new tbl_TourOption
+                                    {
+                                        DeadlineId = deadline.Id,
+                                        PartnerId = service.PartnerId,
+                                        ServiceId = 1047,
+                                        ServicePartnerId = service.Id,
+                                        TourId = tourId
+                                    };
+                                    await _tourOptionRepository.Create(touroption);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                            .Select(p => new TourServiceViewModel
+                            {
+                                Id = p.Id,
+                                Code = p.tbl_Partner.Code,
+                                ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
+                                ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
+                                Name = _partnerRepository.FindId(p.PartnerId).Name,
+                                Address = _partnerRepository.FindId(p.PartnerId).Address,
+                                StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
+                                Phone = _partnerRepository.FindId(p.PartnerId).Phone,
+                                Note = _partnerRepository.FindId(p.PartnerId).Note,
+                                TourOptionId = p.Id,
+                                TourId = p.TourId
+                            }).ToList();
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateRestaurant()
+        {
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
+        }
+
         #endregion
 
         #region Vận chuyển
+
+        [HttpPost]
+        public async Task<ActionResult> CreateTransport()
+        {
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateTransport()
+        {
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
+        }
+
         #endregion
 
         #region Vé máy bay
+
+        /// <summary>
+        /// upload file vé máy bay
+        /// </summary>
+        /// <param name="FileNamePlane"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UploadFilePlane(HttpPostedFileBase FileNamePlane, int id)
+        {
+            Session["PlaneFile" + id] = FileNamePlane;
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreatePlane()
+        {
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdatePlane()
+        {
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
+        }
 
         #endregion
 
@@ -136,7 +479,6 @@ namespace CRMViettour.Controllers.Tour
                     String newName = "";
                     if (FileName != null && FileName.ContentLength > 0)
                     {
-                        string FileSize = Common.ConvertFileSize(FileName.ContentLength);
                         newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
                         String path = Server.MapPath("~/Upload/file/" + newName);
                         FileName.SaveAs(path);
@@ -189,7 +531,6 @@ namespace CRMViettour.Controllers.Tour
             return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
         }
         #endregion
-
 
         #region Khác
         #endregion

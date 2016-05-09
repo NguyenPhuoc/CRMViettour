@@ -1,4 +1,6 @@
-﻿<div class="modal fade bs-modal-lg" id="modal-insert-transport" role="document" aria-hidden="true">
+﻿@using CRMViettour.Utilities
+
+<div class="modal fade bs-modal-lg" id="modal-insert-transport" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -24,15 +26,19 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-lg-2 col-md-2">Mã đối tác</label>
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <input name="code-transport1" id="code-transport1" type="text" class="form-control code-transport" />
-                                                    </div>
                                                     <label class="control-label col-lg-2 col-md-2">Tên đối tác</label>
                                                     <div class="col-lg-4 col-md-4">
                                                         <select class="form-control name-transport" id="name-transport1" style="width:100%;" name="name-transport1">
-                                                            <option>-----------</option>
+                                                            <option>-- Chọn đối tác vận chuyển --</option>
+                                                            @foreach (var item in LoadData.TransportList())
+                                                            {
+                                                                <option id="@item.Id">@item.Name</option>
+                                                            }
                                                         </select>
+                                                    </div>
+                                                    <label class="control-label col-lg-2 col-md-2">Mã đối tác</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input name="code-transport1" id="code-transport1" readonly="readonly" type="text" class="form-control code-transport" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -85,8 +91,9 @@
                 </div>
             </div>
             <div align="center" style="margin-bottom: 20px">
+                <input type="hidden" value="1" name="NumberOptionTransport" id="countOptionTransport" />
                 <button type="button" class="btn btn-success" onclick="addNewTranport()">Thêm option</button>
-                <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
+                <button type="submit" class="btn blue" id="btnLuuFunction">Lưu</button>
                 <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
             </div>
         </div>

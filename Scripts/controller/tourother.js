@@ -9,6 +9,7 @@ CKEDITOR.replace("insert-note-contracttour");
 CKEDITOR.replace("insert-note-reviewtour");
 CKEDITOR.replace("insert-note-liabilitycustomer");
 CKEDITOR.replace("insert-note-congnodt1");
+CKEDITOR.replace("insert-note-quotation");
 
 $("#insert-service-tour").select2();
 $("#insert-partner-tour").select2();
@@ -397,6 +398,8 @@ function OnSuccessCNDT() {
 
 }
 function OnSuccessTourTab() {
+    alert("Đã lưu!");
+
     $("#modal-insert-appointment").modal("hide");
     $("#modal-edit-appointment").modal("hide");
 
@@ -414,6 +417,9 @@ function OnSuccessTourTab() {
 
     $("#modal-insert-mark").modal("hide");
     $("#modal-edit-mark").modal("hide");
+
+    $("#modal-insert-quotation").modal("hide");
+    $("#modal-edit-quotation").modal("hide");
 
 }
 
@@ -443,6 +449,9 @@ function OnFailureTourTab() {
 
     $("#modal-insert-congnodt").modal("hide");
     $("#modal-edit-congnodt").modal("hide");
+
+    $("#modal-insert-quotation").modal("hide");
+    $("#modal-edit-quotation").modal("hide");
 }
 
 /** xóa lịch hẹn **/
@@ -603,6 +612,23 @@ function updateContract(id) {
             $("#edit-permission-contracttour").select2();
             CKEDITOR.replace("edit-note-contracttour");
             $("#modal-edit-contract").modal("show");
+
+            /** upload file **/
+            $("#edit-file-quotation").change(function () {
+                var data = new FormData();
+                data.append('FileNameQuotation', $('#edit-file-quotation')[0].files[0]);
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: 'TourOtherTab/UploadFileQuotation',
+                    contentType: false,
+                    processData: false,
+                    data: data
+                });
+
+                ajaxRequest.done(function (xhr, textStatus) {
+                    // Onsuccess
+                });
+            });
         }
     });
 }
@@ -782,63 +808,6 @@ function btnCreateLiabilityPartner() {
             dataType: "html",
             success: function (data) {
                 $("#modal-insert-congnodt").modal("show");
-                /*** duplicate thêm công nợ đối tác ***/
-                //$(function () {
-                //    $('#btnAddCongNo').click(function () {
-                //        var num = $('.clonedInputCongNo').length, // how many "duplicatable" input fields we currently have
-                //            newNum = new Number(num + 1),      // the numeric ID of the new input field being added
-                //            newElem = $('#entryCongNo' + num).clone().attr('id', 'entryCongNo' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
-                //        // manipulate the name/id values of the input inside the new element
-                //        newElem.find('.congnocurrencyfirst').attr('id', 'insert-currencyfirst-congno' + newNum).attr('name', 'FirstCurrencyType' + newNum);
-                //        newElem.find('.congnopartner').attr('id', 'insert-partner-congno' + newNum).attr('name', 'PartnerId' + newNum);
-                //        newElem.find('.congnofirst').attr('name', 'FirstPayment' + newNum).val('');
-                //        newElem.find('.congnomethod').attr('id', 'insert-method-congno' + newNum).attr('name', 'PaymentMethod' + newNum);
-                //        newElem.find('.congnosecond').attr('name', 'SecondPayment' + newNum).val('');
-                //        newElem.find('.congnoprice').attr('name', 'ServicePrice' + newNum).val('');
-                //        newElem.find('.congnoremaining').attr('name', 'TotalRemaining' + newNum).val('');
-                //        newElem.find('.congnonote').attr('id', 'insert-note-congnodt' + newNum).attr('name', 'Note' + newNum).val('');
-                //        newElem.find('.collapsedt').attr('data-target', '#demo-congnodt' + newNum);
-                //        newElem.find('.optioncongno').attr('id', 'demo-congnodt' + newNum);
-                //        newElem.find('.titleoption').text('OPTION ' + newNum);
-
-                //        // insert the new element after the last "duplicatable" input field
-                //        $('#entryCongNo' + num).after(newElem);
-                //        $("#insert-partner-congno" + newNum).select2();
-                //        $("#insert-method-congno" + newNum).select2();
-                //        $("#insert-currencyfirst-congno" + newNum).select2();
-                //        CKEDITOR.replace("insert-note-congnodt" + newNum);
-                //        $("#countOptionCongNo").val(newNum);
-
-                //        for (var i = 1; i < newNum; i++) {
-                //            $("#entryCongNo" + newNum + " #select2-insert-currencyfirst-congno" + i + "-container").parent().parent().parent().remove();
-                //            $("#entryCongNo" + newNum + " #select2-insert-partner-congno" + i + "-container").parent().parent().parent().remove();
-                //            $("#entryCongNo" + newNum + " #select2-insert-method-congno" + i + "-container").parent().parent().parent().remove();
-                //            $("#entryCongNo" + newNum).find("#cke_insert-note-congnodt" + i).remove();
-                //        }
-
-                //        // enable the "remove" button
-                //        $('#btnDelCongNo').attr('disabled', false);
-
-                //    });
-
-                //    $('#btnDelCongNo').click(function () {
-                //        // confirmation
-                //        var num = $('.clonedInputCongNo').length;
-                //        // how many "duplicatable" input fields we currently have
-                //        $('#entryCongNo' + num).slideUp('slow', function () {
-                //            $(this).remove();
-                //            // if only one element remains, disable the "remove" button
-                //            if (num - 1 === 1)
-                //                $('#btnDelCongNo').attr('disabled', true);
-                //            // enable the "add" button
-                //            $('#btnAddCongNo').attr('disabled', false).prop('value', "add section");
-                //        });
-                //        return false;
-
-                //        $('#btnAddCongNo').attr('disabled', false);
-                //    });
-                //    $('#btnDelCongNo').attr('disabled', true);
-                //});
             }
         });
     }
@@ -897,3 +866,84 @@ function deleteLiabilityPartner(id) {
         }
     });
 }
+
+/** thêm mới báo giá **/
+function btnCreateQuotation() {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 tour!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+        $.ajax({
+            type: "POST",
+            url: '/TourManage/GetIdTour',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#insert-code-country").select2();
+                $("#insert-tags").select2();
+                $("#insert-staff-quotation").select2();
+                $("#insert-currency-quotation").select2();
+                $("#modal-insert-quotation").modal("show");
+            }
+        });
+    }
+}
+
+/** cập nhật báo giá **/
+function updateQuotation(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/EditQuotation',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-quotation").html(data);
+            $("#edit-code-country").select2();
+            $("#edit-tags").select2();
+            $("#edit-staff-quotation").select2();
+            $("#edit-currency-quotation").select2();
+            $("#modal-edit-quotation").modal("show");
+            CKEDITOR.replace("edit-note-quotation");
+            $("#modal-edit-quotation").modal("show");
+        }
+    });
+}
+
+/** xóa báo giá **/
+function deleteQuotation(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/DeleteQuotation',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            alert("Xóa dữ liệu thành công!!!");
+            $("#viettourbaogia").html(data);
+        }
+    });
+}
+
+/** upload file báo giá **/
+$('#insert-file-quotation').change(function () {
+    var data = new FormData();
+    data.append('FileNameQuotation', $('#insert-file-quotation')[0].files[0]);
+
+    var ajaxRequest = $.ajax({
+        type: "POST",
+        url: 'TourOtherTab/UploadFileQuotation',
+        contentType: false,
+        processData: false,
+        data: data
+    });
+
+    ajaxRequest.done(function (xhr, textStatus) {
+        // Onsuccess
+    });
+});

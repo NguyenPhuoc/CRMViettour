@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace CRMViettour.Controllers.Tour
 {
@@ -15,6 +16,7 @@ namespace CRMViettour.Controllers.Tour
     {
         // GET: TourOtherTab
         #region Init
+        private IGenericRepository<tbl_Quotation> _quotationRepository;
         private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
         private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
         private IGenericRepository<tbl_ReviewTour> _reviewTourRepository;
@@ -39,6 +41,7 @@ namespace CRMViettour.Controllers.Tour
         private DataContext _db;
 
         public TourOtherTabController(
+            IGenericRepository<tbl_Quotation> quotationRepository,
             IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
             IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
             IGenericRepository<tbl_ReviewTour> reviewTourRepository,
@@ -63,6 +66,7 @@ namespace CRMViettour.Controllers.Tour
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
+            this._quotationRepository = quotationRepository;
             this._liabilityCustomerRepository = liabilityCustomerRepository;
             this._liabilityPartnerRepository = liabilityPartnerRepository;
             this._reviewTourRepository = reviewTourRepository;
@@ -1196,6 +1200,196 @@ namespace CRMViettour.Controllers.Tour
                 return PartialView("~/Views/TourTabInfo/_CongNoKH.cshtml");
             }
         }
+        #endregion
+
+        #region Báo giá
+
+        [HttpPost]
+        public ActionResult UploadFileQuotation(HttpPostedFileBase FileNameQuotation)
+        {
+            if (FileNameQuotation != null && FileNameQuotation.ContentLength > 0)
+            {
+                Session["QuotationFile"] = FileNameQuotation;
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditQuotation(int id)
+        {
+            var model = await _quotationRepository.GetById(id);
+            return PartialView("_Partial_EditQuotation", model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> CreateQuotation(tbl_Quotation model, FormCollection form)
+        {
+            try
+            {
+                string id = Session["idTour"].ToString();
+                model.TourId = Convert.ToInt32(id);
+                model.StartDate = DateTime.Now;
+                model.EndDate = DateTime.Now;
+                model.CreatedDate = DateTime.Now;
+                model.ModifiedDate = DateTime.Now;
+                model.TagsId = form["TagsId"].ToString();
+                model.DictionaryId = 29;
+                model.StaffId = 9;
+                if (form["QuotationDate"] != null)
+                {
+                    model.QuotationDate = Convert.ToDateTime(form["QuotationDate"].ToString());
+                }
+                if (Session["QuotationFile"] != null)
+                {
+                    //file
+                    HttpPostedFileBase FileName = Session["QuotationFile"] as HttpPostedFileBase;
+                    string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                    String path = Server.MapPath("~/Upload/file/" + newName);
+                    FileName.SaveAs(path);
+                    //end file
+
+                    if (FileName != null && FileSize != null)
+                    {
+                        String pathOld = Server.MapPath("~/Upload/file/" + model.FileName);
+                        if (System.IO.File.Exists(pathOld))
+                            System.IO.File.Delete(pathOld);
+                        model.FileName = newName;
+                    }
+                }
+
+                if (await _quotationRepository.Create(model))
+                {
+                    Session["QuotationFile"] = null;
+                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                        .Select(p => new tbl_Quotation {
+                            Id = p.Id,
+                            Code = p.Code,
+                            QuotationDate = p.QuotationDate,
+                            tbl_StaffQuotation = _staffRepository.FindId(p.StaffQuotationId),
+                            tbl_Staff = _staffRepository.FindId(p.StaffId),
+                            PriceTour = p.PriceTour,
+                            tbl_DictionaryCurrency = _dictionaryRepository.FindId(p.CurrencyId),
+                            FileName = p.FileName,
+                            Note = p.Note,
+                            CreatedDate = p.CreatedDate,
+                            ModifiedDate = p.ModifiedDate
+                        }).ToList();
+                    return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml");
+            }
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> UpdateQuotation(tbl_Quotation model, FormCollection form)
+        {
+            try
+            {
+                model.ModifiedDate = DateTime.Now;
+                model.TagsId = form["TagsId"].ToString();
+                model.StaffId = 9;
+                if (Session["QuotationFile"] != null)
+                {
+                    //file
+                    HttpPostedFileBase FileName = Session["QuotationFile"] as HttpPostedFileBase;
+                    string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                    String path = Server.MapPath("~/Upload/file/" + newName);
+                    FileName.SaveAs(path);
+                    //end file
+
+                    if (FileName != null && FileSize != null)
+                    {
+                        String pathOld = Server.MapPath("~/Upload/file/" + model.FileName);
+                        if (System.IO.File.Exists(pathOld))
+                            System.IO.File.Delete(pathOld);
+                        model.FileName = newName;
+                    }
+                }
+
+                if (await _quotationRepository.Update(model))
+                {
+                    Session["QuotationFile"] = null;
+                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                        .Select(p => new tbl_Quotation
+                        {
+                            Id = p.Id,
+                            Code = p.Code,
+                            QuotationDate = p.QuotationDate,
+                            tbl_StaffQuotation = _staffRepository.FindId(p.StaffQuotationId),
+                            tbl_Staff = _staffRepository.FindId(p.StaffId),
+                            PriceTour = p.PriceTour,
+                            tbl_DictionaryCurrency = _dictionaryRepository.FindId(p.CurrencyId),
+                            FileName = p.FileName,
+                            Note = p.Note,
+                            CreatedDate = p.CreatedDate,
+                            ModifiedDate = p.ModifiedDate
+                        }).ToList();
+                    return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteQuotation(int id)
+        {
+            try
+            {
+                int tourId = _quotationRepository.FindId(id).TourId ?? 0;
+                //file
+                tbl_Quotation documentFile = _quotationRepository.FindId(id) ?? new tbl_Quotation();
+                String path = Server.MapPath("~/Upload/file/" + documentFile.FileName);
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+                //end file
+                if (await _quotationRepository.Delete(id, true))
+                {
+                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                        .Select(p => new tbl_Quotation
+                        {
+                            Id = p.Id,
+                            Code = p.Code,
+                            QuotationDate = p.QuotationDate,
+                            tbl_StaffQuotation = _staffRepository.FindId(p.StaffQuotationId),
+                            tbl_Staff = _staffRepository.FindId(p.StaffId),
+                            PriceTour = p.PriceTour,
+                            tbl_DictionaryCurrency = _dictionaryRepository.FindId(p.CurrencyId),
+                            FileName = p.FileName,
+                            Note = p.Note,
+                            CreatedDate = p.CreatedDate,
+                            ModifiedDate = p.ModifiedDate
+                        }).ToList();
+                    return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TourTabInfo/_ViettourBaoGia.cshtml");
+            }
+        }
+
         #endregion
 
         #region Onsuccsess

@@ -564,6 +564,7 @@ function addNewOptionPlane() {
     newElem.find('.OptionTitle').html('OPTION ' + newNum);
 
     newElem.find('.contacter-plane').attr('id', 'contacter-plane' + newNum).attr('name', 'contacter-plane' + newNum).val('');
+    newElem.find('.contacter-phone-plane').attr('id', 'contacter-phone-plane' + newNum).attr('name', 'contacter-phone-plane' + newNum).val('');
     newElem.find('.hang-plane').attr('id', 'hang-plane' + newNum).attr('name', 'hang-plane' + newNum);
     newElem.find('.quantity-plane1').attr('id', 'quantity-plane1' + newNum).attr('name', 'quantity-plane1' + newNum).val('');
     newElem.find('.code-plane').attr('id', 'code-plane' + newNum).attr('name', 'code-plane' + newNum).val('');

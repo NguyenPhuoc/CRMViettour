@@ -729,7 +729,8 @@ namespace CRMViettour.Utilities
         /// <returns></returns>
         public static string NewCodeCustomerPersonal()
         {
-            var staf = _db.tbl_Customer.AsEnumerable().Where(c => c.CustomerType == CustomerType.Personal).Last();
+            _db = new DataContext();
+            var staf = _db.tbl_Customer.AsEnumerable().Where(c => c.CustomerType == CustomerType.Personal && c.IsTemp == false).Last();
             string num = staf.Code.Substring(3);
             string codechar = staf.Code.Substring(2, 1);
             string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -841,5 +842,10 @@ namespace CRMViettour.Utilities
             return model;
         }
 
+        public static bool TourUpdate(int id)
+        {
+            _db=new DataContext();
+            return _db.tbl_Tour.AsEnumerable().Where(c => c.Id == id).Select(c => c.IsUpdate).Single();
+        }
     }
 }

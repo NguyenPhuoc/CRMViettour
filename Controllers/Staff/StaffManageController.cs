@@ -1026,11 +1026,11 @@ namespace CRMViettour.Controllers
                     item.Code = LoadData.NewCodeStaff();
                     bool temp = false;
 
-                    var namebirthday = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FullName == item.FullName && c.Birthday == item.Birthday).SingleOrDefault();
+                    var namebirthday = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FullName == item.FullName && c.Birthday == item.Birthday).FirstOrDefault();
                     if (namebirthday != null)
                         temp = true;
 
-                    var cmnd = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.IdentityCard == item.IdentityCard).SingleOrDefault();
+                    var cmnd = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.IdentityCard == item.IdentityCard).FirstOrDefault();
                     if (cmnd != null)
                         temp = true;
 

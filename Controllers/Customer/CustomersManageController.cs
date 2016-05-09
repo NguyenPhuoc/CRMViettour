@@ -735,6 +735,7 @@ namespace CRMViettour.Controllers
                 model.IdentityTagId = customer.IdentityTagId ?? 0;
                 model.PassportCard = customer.PassportCard;
                 model.PassportTagId = customer.PassportTagId ?? 0;
+                model.IsTemp = customer.IsTemp;
             }
             var contact = _customerContactRepository.GetAllAsQueryable().FirstOrDefault(p => p.CustomerId == id);
             if (contact != null)

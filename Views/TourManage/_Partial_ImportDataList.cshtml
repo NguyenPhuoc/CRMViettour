@@ -1,0 +1,99 @@
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@model IEnumerable<tbl_Customer>
+    @{
+        int i = 0;
+    }
+    <div class="table-responsive table-custom-format">
+
+        <script>
+            $("#tbl-data-import").on("change", ".cbItem", function () {
+                var ItemID = $(this).val();
+                var currentlistItemID = $("#listItemIdI").val();
+                var stringBranchID = "";
+                if ($(this).prop('checked')) {
+                    currentlistItemID += ItemID + ",";
+                    $("#listItemIdI").val(currentlistItemID);
+                } else {
+                    $("#listItemIdI").val(currentlistItemID.replace(ItemID + ",", ""));
+                }
+            });
+            function DeleteImport() {
+                if ($("#listItemIdI").val() == "") {
+                    alert("Vui lòng chọn mục cần xóa !");
+                    return false;
+                }
+                var dataPost = { listItemId: $("#listItemIdI").val() };
+                $.ajax({
+                    type: "POST",
+                    url: '/TourManage/DeleteImport',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#import-data-customer").html(data);
+                        $("#listItemIdI").val("");
+                    }
+                });
+            }
+            function SaveImport() {
+                $.ajax({
+                    type: "POST",
+                    url: '/TourManage/SaveImport',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        var obj = jQuery.parseJSON(data);
+                        alert(obj.Message);
+                        $("#modal-import-customer").modal("hide");
+                        if (obj.IsPartialView) {
+                            $("#tableDictionary").replaceWith(obj.View);
+                        }
+                        else {
+                            if (obj.RedirectTo != null && obj.RedirectTo != "") {
+                                window.location.href = obj.RedirectTo;
+                            }
+                        }
+                    }
+                });
+            }
+        </script>
+        <table class="table table-striped table-bordered table-hover" id="tbl-data-import">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>STT</th>
+                    <th>HỌ TÊN</th>
+                    <th>D.O.B</th>
+                    <th>PP NO.</th>
+                    <th>D.O.I</th>
+                    <th>D.O.E</th>
+                    <th>ĐIỆN THOẠI</th>
+                    <th>EMAIL</th>
+                    <th>ĐỊA CHỈ</th>
+                    <th>CMND</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="@i" id="cb@i" class="cbItem" name="cb" onclick="CheckSelect()" />
+                        </td>
+                        <td>@(i+1)</td>
+                        <td>@item.FullName</td>
+                        <td>@string.Format("{0:dd-MM-yyyy}", item.Birthday)</td>
+                        <td>@item.PassportCard</td>
+                        <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDatePassport)</td>
+                        <td>@string.Format("{0:dd-MM-yyyy}", item.ExpiredDatePassport)</td>
+                        <td>@item.Phone</td>
+                        <td>@item.PersonalEmail</td>
+                        <td>@item.Address</td>
+                        <td>@item.IdentityCard</td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>

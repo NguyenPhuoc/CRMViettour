@@ -36,6 +36,7 @@ namespace CRMViettour.Controllers.Tour
         private IGenericRepository<tbl_Quotation> _quotationRepository;
         private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
         private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
+        private IGenericRepository<tbl_TourCustomer> _tourCustomerRepository;
         private DataContext _db;
 
         public TourTabInfoController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
@@ -58,6 +59,7 @@ namespace CRMViettour.Controllers.Tour
             IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
             IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
             IGenericRepository<tbl_Staff> staffRepository,
+            IGenericRepository<tbl_TourCustomer> tourCustomerRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -81,6 +83,7 @@ namespace CRMViettour.Controllers.Tour
             this._liabilityCustomerRepository = liabilityCustomerRepository;
             this._liabilityPartnerRepository = liabilityPartnerRepository;
             this._staffRepository = staffRepository;
+            this._tourCustomerRepository = tourCustomerRepository;
             _db = new DataContext();
         }
         #endregion
@@ -169,8 +172,9 @@ namespace CRMViettour.Controllers.Tour
         [HttpPost]
         public async Task<ActionResult> InfoKhachHang(int id)
         {
-
-            return PartialView("_KhachHang");
+            Session["idTour"] = id;
+            var model = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Select(c => c.tbl_Customer).ToList();
+            return PartialView("_KhachHang", model);
         }
         #endregion
 
@@ -286,8 +290,9 @@ namespace CRMViettour.Controllers.Tour
         [HttpPost]
         public ActionResult InfoDanhGia(int id)
         {
-            var model = _reviewTourDetailRepository.GetAllAsQueryable().AsEnumerable().Where(p=>p.tbl_ReviewTour.TourId == id)
-                .Select(p=> new ReviewTourModel {
+            var model = _reviewTourDetailRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.tbl_ReviewTour.TourId == id)
+                .Select(p => new ReviewTourModel
+                {
                     Id = p.Id,
                     Email = p.tbl_ReviewTour.tbl_Customer.PersonalEmail,
                     Name = p.tbl_ReviewTour.tbl_Customer.FullName,

@@ -45,6 +45,7 @@ namespace CRMViettour.Models
         public int PassportTagId { get; set; }
         public SingleVisa SingleVisa { get; set; }
         public List<tbl_CustomerVisa> ListCustomerVisa { get; set; }
+        public bool IsTemp { get; set; }
     }
 
     public class SingleVisa

@@ -15,6 +15,11 @@ $("#insert-partner-tour").select2();
 $("#insert-servicepartner-tour").select2();
 $("#insert-method-congno1").select2();
 $("#insert-partner-congno1").select2();
+//---------
+$("#update-country").select2();
+$("#update-status-visa").select2();
+$("#update-type-visa").select2();
+//---------
 
 $('#insert-service-tour').change(function () {
     $.getJSON('/TourOtherTab/LoadPartner/' + $('#insert-service-tour').val(), function (data) {

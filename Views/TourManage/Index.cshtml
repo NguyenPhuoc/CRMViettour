@@ -254,10 +254,10 @@
 @Html.Partial("_Partial_AddServices")
 @Html.Partial("_Partial_ImportCustomer")
 <div id="info-data-customer"></div>
-@* @Html.Partial("_Partial_UpdateStatus")
-    @Html.Partial("_Partial_UpdateVisa")
-    @Html.Partial("_Partial_Setup_UserInGroup")*@
+@Html.Partial("_Partial_UpdateVisa", new tbl_CustomerVisa())
 
+@* @Html.Partial("_Partial_UpdateStatus")
+    @Html.Partial("_Partial_Setup_UserInGroup")*@
 @section scripts{
     <script src="~/Scripts/controller/tour.js"></script>
     <script src="~/Scripts/controller/tourother.js"></script>
@@ -546,5 +546,20 @@
                 });
             }
         }
+
+        function deleteVisa(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/TourOtherTab/DeleteVisa',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#visa").html(data);
+                }
+            });
+        }
+
     </script>
 }

@@ -2529,6 +2529,8 @@
     <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
     <Content Include="Views\TourManage\_Partial_ImportDataList.cshtml" />
     <Content Include="Views\TourManage\_Partial_EditCustomer.cshtml" />
+    <Content Include="Upload\Customer - Personal.xlsx" />
+    <Content Include="Upload\Customer.zip" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

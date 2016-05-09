@@ -36,6 +36,7 @@ namespace CRMViettour.Controllers.Tour
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
         private IGenericRepository<tbl_Tour> _tourRepository;
         private IGenericRepository<tbl_ServicesPartner> _servicesPartnerRepository;
+        private IGenericRepository<tbl_TourCustomerVisa> _tourCustomerVisaRepository;
         private DataContext _db;
 
         public TourOtherTabController(
@@ -60,6 +61,7 @@ namespace CRMViettour.Controllers.Tour
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
             IGenericRepository<tbl_Tour> tourRepository,
             IGenericRepository<tbl_ServicesPartner> servicesPartnerRepository,
+            IGenericRepository<tbl_TourCustomerVisa> tourCustomerVisaRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -84,6 +86,7 @@ namespace CRMViettour.Controllers.Tour
             this._staffRepository = staffRepository;
             this._tourRepository = tourRepository;
             this._servicesPartnerRepository = servicesPartnerRepository;
+            this._tourCustomerVisaRepository = tourCustomerVisaRepository;
             _db = new DataContext();
         }
 
@@ -1222,6 +1225,71 @@ namespace CRMViettour.Controllers.Tour
                 CongNo = CongNoDoiTac
             };
             return Json(obj, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region Visa
+        [HttpPost]
+        public async Task<ActionResult> DeleteVisa(int id)
+        {
+            int tourId = Int16.Parse(Session["idTour"].ToString());
+            try
+            {
+                int tourvisa = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.CustomerId == id & c.TourId == tourId).Select(c => c.Id).SingleOrDefault();
+                if (await _tourCustomerVisaRepository.Delete(tourvisa, true))
+                {
+                    var list = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == tourId).Select(c => c.tbl_CustomerVisa).ToList();
+                    return PartialView("~/Views/TourTabInfo/_Visa.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/TourTabInfo/_Visa.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/TourTabInfo/_Visa.cshtml");
+            }
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> UpdateVisa(tbl_CustomerVisa model, FormCollection form)
+        {
+            try
+            {
+                int idTour = Int16.Parse(Session["idTour"].ToString());
+                if (form["listVisaId"] != null && form["listVisaId"] != "")
+                {
+                    var listIds = form["listVisaId"].Split(',');
+                    listIds = listIds.Take(listIds.Count() - 1).ToArray();
+                    if (listIds.Count() > 0)
+                    {
+                        foreach (var _id in listIds)
+                        {
+                            int id = Int16.Parse(_id);
+                            var visa = _customerVisaRepository.FindId(id);
+                            visa.TagsId = model.TagsId;
+                            if (model.Deadline != null)
+                                visa.Deadline = model.Deadline;
+                            if (model.CreatedDateVisa != null)
+                                visa.CreatedDateVisa = model.CreatedDateVisa;
+                            if (model.ExpiredDateVisa != null)
+                                visa.ExpiredDateVisa = model.ExpiredDateVisa;
+                            visa.VisaType = model.VisaType;
+                            visa.DictionaryId = model.DictionaryId;
+                            await _customerVisaRepository.Update(visa);
+                        }
+                    }
+                }
+                var list = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == idTour).Select(c => c.tbl_CustomerVisa).ToList();
+
+                return PartialView("~/Views/TourTabInfo/_Visa.cshtml", list);
+            }
+            catch
+            {
+                return PartialView("~/Views/TourTabInfo/_Visa.cshtml");
+            }
         }
         #endregion
     }

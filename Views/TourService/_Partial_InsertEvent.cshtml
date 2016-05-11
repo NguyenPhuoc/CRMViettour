@@ -15,22 +15,25 @@
             {
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="row clonedInputEventService" id="entryEventService1">
+                        <div class="row OptionEvent" id="OptionEvent1">
                             <div class="col-md-12">
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <a data-toggle="collapse" data-target="#demo-event1" style="cursor: pointer" class="btn btn-default eventcollapse"><i class="fa fa-minus"></i></a>
+                                            <a data-toggle="collapse" data-target="#demo-event1" style="cursor: pointer" class="btn btn-default OptionEventA"><i class="fa fa-minus"></i></a>
                                             <span class="caption-subject bold uppercase font-purple eventtitle">OPTION 1</span>
                                         </div>
+                                        <div class="actions actionsOptionEvent">
+                                            <button type="button" style="cursor: pointer" class="btn btn-danger btnRemoveOptionEvent" disabled="disabled" onclick="removeOptionEvent()"><i class="fa fa-times"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="portlet-body eventoption collapse in" id="demo-event1">
+                                    <div class="portlet-body OptionEventBody collapse in" id="demo-event1">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">Công ty</label>
                                                     <div class="col-lg-8 col-md-8">
-                                                        <select class="form-control eventcongty" name="CompanyId1" id="insert-company-event1" style="width: 100%">
+                                                        <select class="form-control insert-company-event" name="insert-company-event1" id="insert-company-event1" style="width: 100%">
                                                             <option>-- Chọn công ty --</option>
                                                             @foreach (var item in LoadData.CompanyList())
                                                             {
@@ -42,7 +45,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">File</label>
                                                     <div class="col-lg-8 col-md-8">
-                                                        <input type="file" class="form-control eventtailieu" name="FileName" id="insert-file-event1" />
+                                                        <input type="file" class="form-control insert-file-event" name="FileNameEvent" id="insert-file-event1" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -50,13 +53,21 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">Code</label>
                                                     <div class="col-lg-8 col-md-8">
-                                                        <input name="Code1" type="text" class="form-control eventcode" value="@rd.Next(1111,9999)" id="insert-code-event1" readonly="readonly" />
+                                                        <input type="text" name="insert-code-event1" class="form-control insert-code-event" value="@rd.Next(1111,9999)" id="insert-code-event1" readonly="readonly" />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">Tổng giá trị</label>
-                                                    <div class="col-lg-8 col-md-8">
-                                                        <input type="text" class="form-control eventgiatri" name="Price1" />
+                                                    <div class="col-lg-5 col-md-5">
+                                                        <input type="text" class="form-control insert-price-event" id="insert-price-event1" name="insert-price-event1" />
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <select class="form-control insert-currency-event" required="required" style="width: 100%" id="insert-currency-event1" name="insert-currency-event1">
+                                                            @foreach (var item in LoadData.CurrencyList())
+                                                            {
+                                                                <option value="@item.Id">@item.Name</option>
+                                                            }
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -64,11 +75,11 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input type="text" class="form-control eventlienhe" name="StaffContact1" />
+                                                        <input type="text" class="form-control insert-contact-event" id="insert-contact-event1" name="insert-contact-event1" />
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Điện thoại</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input type="text" class="form-control eventdienthoai" name="Phone1" />
+                                                        <input type="text" class="form-control insert-phone-event" name="insert-phone-event1" id="insert-phone-event1" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -76,7 +87,62 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
                                                     <div class="col-lg-10 col-md-10">
-                                                        <textarea class="form-control eventghichu" name="Note1" id="insert-note-event1"></textarea>
+                                                        <textarea class="form-control insert-note-event" name="insert-note-event1" id="insert-note-event1"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="portlet light bordered DeadlineEvent" id="DeadlineEvent11">
+                                                    <div class="portlet-title">
+                                                        <div class="caption">
+                                                            <a data-toggle="collapse" data-target="#deadline-event11" style="cursor: pointer" class="btn btn-default deadline-event-a"><i class="fa fa-minus"></i></a>
+                                                            <span class="caption-subject bold uppercase font-purple DeadlineEventTitle">Deadline 1</span>
+                                                        </div>
+                                                        <div class="actions">
+                                                            <button type="button" class="btn btn-default btnNewDealineEvent" onclick="addNewDeadlineEvent(1)"> <i class="fa fa-plus"></i></button>
+                                                            <button type="button" style="cursor: pointer" class="btn btn-danger btnRemoveDealineEvent" disabled="disabled" onclick="removeDeadlineEvent(1,1)"><i class="fa fa-times"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="portlet-body deadline-event-body collapse in" id="deadline-event11">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-lg-2 col-md-2">Tên</label>
+                                                                    <div class="col-lg-4 col-md-4">
+                                                                        <input name="deadline-name-event11" required="required" id="deadline-name-event11" type="text" class="form-control deadline-name-event" />
+                                                                    </div>
+                                                                    <label class="control-label col-lg-2 col-md-2">Deposit</label>
+                                                                    <div class="col-lg-4 col-md-4">
+                                                                        <input name="deadline-total-event11" required="required" id="deadline-total-event11" type="text" class="form-control deadline-total-event" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-lg-2 col-md-2">Thời gian</label>
+                                                                    <div class="col-lg-4 col-md-4">
+                                                                        <input type="date" class="form-control deadline-thoigian-event" required="required" name="deadline-thoigian-event11" id="deadline-thoigian-event11" />
+                                                                    </div>
+                                                                    <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
+                                                                    <div class="col-lg-4 col-md-4">
+                                                                        <select class="form-control deadline-status-event" required="required" id="deadline-status-event11" style="width:100%;" name="deadline-status-event11">
+                                                                            @foreach (var item in LoadData.StatusProcessList())
+                                                                            {
+                                                                                <option value="@item.Id">@item.Name</option>
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                                    <div class="col-lg-10 col-md-10">
+                                                                        <textarea class="form-control deadline-note-event" id="deadline-note-event11" name="deadline-note-event11"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -88,9 +154,8 @@
                     </div>
                 </div>
                 <div align="center" style="margin-bottom: 20px">
-                    <input type="hidden" value="1" id="countOptionEventService" name="NumberOptionEventService" />
-                    <button type="button" class="btn btn-success" id="btnAddEventService">Thêm option</button>
-                    <button type="button" class="btn btn-danger" id="btnDelEventService">Xóa option</button>
+                    <input type="hidden" value="1" name="NumberOptionEvent" id="countOptionEvent" />
+                    <button type="button" class="btn btn-success" onclick="addNewOptionEvent()">Thêm option</button>
                     <button type="submit" class="btn blue">Lưu</button>
                     <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
                 </div>

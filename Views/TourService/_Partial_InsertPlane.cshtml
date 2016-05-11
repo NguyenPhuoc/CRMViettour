@@ -27,17 +27,18 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">Hãng</label>
                                                     <div class="col-lg-8 col-md-8">
-                                                        <select class="form-control hang-plane" id="hang-plane1" style="width: 100%" name="hang-plane1">
-                                                            <option value=" 0">
-                                                                -------
-                                                            </option>
+                                                        <select class="form-control hang-plane" id="hang-plane1" required style="width: 100%" name="hang-plane1">
+                                                            @foreach (var item in LoadData.PlaneList())
+                                                            {
+                                                                <option value="@item.Name">@item.Name</option>
+                                                            }
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">SL vé</label>
                                                     <div class="col-lg-8 col-md-8">
-                                                        <input name="quantity-plane1" id="quantity-plane1" type="text" class="form-control quantity-plane" />
+                                                        <input name="quantity-plane1" id="quantity-plane1" required type="text" class="form-control quantity-plane" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -45,7 +46,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">Code</label>
                                                     <div class="col-lg-8 col-md-8">
-                                                        <input name="code-plane1" id="code-plane1" type="text" class="form-control code-plane" />
+                                                        <input name="code-plane1" id="code-plane1" type="text" class="form-control code-plane" required />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -54,7 +55,7 @@
                                                         <input name="price-code1" id="price-code1" type="text" class="form-control price-code" />
                                                     </div>
                                                     <div class="col-lg-3 col-md-3">
-                                                        <select class="form-control loaitien-plane" id="loaitien-plane1" style="width: 100%" name="loaitien-plane1">
+                                                        <select class="form-control loaitien-plane" id="loaitien-plane1" style="width: 100%" name="loaitien-plane1" required>
                                                             @foreach (var item in LoadData.CurrencyList())
                                                             {
                                                                 <option value="@item.Id">@item.Name</option>
@@ -67,7 +68,13 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Chuyến bay</label>
                                                     <div class="col-lg-10 col-md-10">
-                                                        <input name="flight-plane1" id="flight-plane1" class="form-control flight-plane" />
+                                                        <select class="form-control flight-plane" id="flight-plane1" style="width: 100%" name="flight-plane1" required>
+                                                            <option></option>
+                                                            @foreach (var item in LoadData.FlightList())
+                                                            {
+                                                                <option value="@item.Id">@item.Name</option>
+                                                            }
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -82,11 +89,11 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input name="contacter-plane1" id="contacter-plane1" type="text" class="form-control contacter-plane" />
+                                                        <input name="contacter-plane1" id="contacter-plane1" required type="text" class="form-control contacter-plane" />
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Số điện thoại</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input name="contacter-phone-plane1" id="contacter-phone-plane1" type="text" class="form-control contacter-phone-plane" />
+                                                        <input name="contacter-phone-plane1" id="contacter-phone-plane1" required type="text" class="form-control contacter-phone-plane" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,7 +116,7 @@
                                                                     <div class="form-group">
                                                                         <label class="control-label col-lg-2 col-md-2">Tên</label>
                                                                         <div class="col-lg-4 col-md-4">
-                                                                            <input name="name-deadline-plane11" id="name-deadline-plane11" type="text" class="form-control name-deadline-plane" />
+                                                                            <input name="name-deadline-plane11" required id="name-deadline-plane11" type="text" class="form-control name-deadline-plane" />
                                                                         </div>
                                                                         <label class="control-label col-lg-2 col-md-2">Số tiền</label>
                                                                         <div class="col-lg-4 col-md-4">
@@ -121,19 +128,15 @@
                                                                     <div class="form-group">
                                                                         <label class="control-label col-lg-2 col-md-2">Thời gian</label>
                                                                         <div class="col-lg-4 col-md-4">
-                                                                            <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                                <input type="date" class="form-control thoigian-deadline-plane" name="thoigian-deadline-plane11" id="thoigian-deadline-plane11" />
-                                                                                <span class="input-group-btn">
-                                                                                    <button class="btn default date-set" type="button">
-                                                                                        <i class="fa fa-calendar"></i>
-                                                                                    </button>
-                                                                                </span>
-                                                                            </div>
+                                                                            <input type="date" class="form-control thoigian-deadline-plane" name="thoigian-deadline-plane11" id="thoigian-deadline-plane11" />
                                                                         </div>
                                                                         <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
                                                                         <div class="col-lg-4 col-md-4">
                                                                             <select class="form-control tinhtrang-deadline-plane" style="width:100%" name="tinhtrang-deadline-plane11" id="tinhtrang-deadline-plane11">
-                                                                                <option>-----------</option>
+                                                                                @foreach (var item in LoadData.StatusProcessList())
+                                                                                {
+                                                                                    <option value="@item.Id">@item.Name</option>
+                                                                                }
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -142,7 +145,7 @@
                                                                     <div class="form-group">
                                                                         <label class="control-label col-lg-2 col-md-2">File</label>
                                                                         <div class="col-lg-10 col-md-10">
-                                                                            <input name="file-deadline-plane11" id="file-deadline-plane11" type="file" class="form-control file-deadline-plane" />
+                                                                            <input name="FileNamePlane" id="file-deadline-plane11" type="file" class="form-control file-deadline-plane" />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -168,6 +171,7 @@
                 </div>
             </div>
             <div align="center" style="margin-bottom: 20px">
+                <input type="hidden" value="1" name="NumberOptionPlane" id="countOptionPlane" />
                 <button type="button" class="btn btn-success" onclick="addNewOptionPlane()">Thêm option</button>
                 <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
                 <button type="button" class="btn default" data-dismiss="modal">Đóng</button>

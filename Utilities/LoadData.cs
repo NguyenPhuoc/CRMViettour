@@ -185,6 +185,26 @@ namespace CRMViettour.Utilities
         }
 
         /// <summary>
+        /// danh sách chuyến bay
+        /// </summary>
+        /// <returns></returns>
+        public static List<DictionaryViewModel> FlightList()
+        {
+            var model = CacheLayer.Get<List<DictionaryViewModel>>("flightList");
+            if (model == null)
+            {
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 25).Select(p => new DictionaryViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).ToList();
+                CacheLayer.Add<List<DictionaryViewModel>>(model, "flightList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
         /// danh sách loại tour
         /// </summary>
         /// <returns></returns>

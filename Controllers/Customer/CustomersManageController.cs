@@ -692,17 +692,6 @@ namespace CRMViettour.Controllers
 
         #region Update
         /// <summary>
-        /// partial view edit thông tin khách hàng
-        /// </summary>
-        /// <returns></returns>
-        /// 
-        //[ChildActionOnly]
-        //public ActionResult _Partial_EditCustomer()
-        //{
-        //    return PartialView("_Partial_EditCustomer", new CustomerViewModel());
-        //}
-
-        /// <summary>
         /// load thông tin khách hàng
         /// </summary>
         /// <param name="model"></param>

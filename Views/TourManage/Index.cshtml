@@ -199,10 +199,6 @@
 @Html.Partial("~/Views/TourOtherTab/_Partial_InsertContactHistory.cshtml", new tbl_ContactHistory())
 <div id="info-data-contacthistory"></div>
 
-<!----- viettour báo giá ----->
-@Html.Partial("~/Views/TourOtherTab/_Partial_InsertQuotation.cshtml", new tbl_Quotation())
-<div id="info-data-quotation"></div>
-
 <!----- document ----->
 @Html.Partial("~/Views/TourOtherTab/_Partial_InsertDocument.cshtml", new tbl_DocumentFile())
 <div id="info-data-doc"></div>
@@ -239,29 +235,29 @@
 <div id="info-data-eventservice"></div>
 
 <!----- nhà hàng ----->
-@Html.Partial("~/Views/TourService/_Partial_InsertRestaurant.cshtml", new tbl_ServicesPartner())
+@Html.Partial("~/Views/TourService/_Partial_InsertRestaurant.cshtml", new tbl_Partner())
 <div id="info-data-restaurantservice"></div>
 
 <!----- khách sạn ----->
-@Html.Partial("~/Views/TourService/_Partial_InsertHotel.cshtml", new tbl_ServicesPartner())
+@Html.Partial("~/Views/TourService/_Partial_InsertHotel.cshtml", new tbl_Partner())
 <div id="info-data-hotelservice"></div>
 
 <!----- vận chuyển ----->
-@Html.Partial("~/Views/TourService/_Partial_InsertTransport.cshtml", new tbl_ServicesPartner())
+@Html.Partial("~/Views/TourService/_Partial_InsertTransport.cshtml", new tbl_Partner())
 <div id="info-data-transportservice"></div>
 
 <!----- vé máy bay ----->
-@Html.Partial("~/Views/TourService/_Partial_InsertPlane.cshtml", new tbl_ServicesPartner())
+@Html.Partial("~/Views/TourService/_Partial_InsertPlane.cshtml", new tbl_Partner())
 <div id="info-data-planeservice"></div>
 
 @Html.Partial("_Partial_InsertServiceTour")
 @Html.Partial("_Partial_AddServices")
 @Html.Partial("_Partial_ImportCustomer")
 <div id="info-data-customer"></div>
-@* @Html.Partial("_Partial_UpdateStatus")
-    @Html.Partial("_Partial_UpdateVisa")
-    @Html.Partial("_Partial_Setup_UserInGroup")*@
+@Html.Partial("_Partial_UpdateVisa", new tbl_CustomerVisa())
 
+@* @Html.Partial("_Partial_UpdateStatus")
+    @Html.Partial("_Partial_Setup_UserInGroup")*@
 @section scripts{
     <script src="~/Scripts/controller/tour.js"></script>
     <script src="~/Scripts/controller/tourother.js"></script>
@@ -395,7 +391,6 @@
                 dataType: "html",
                 success: function (data) {
                     $("#info-data-customer").html(data);
-
 
                     /*** visa-passport ***/
                     $("#country-edit-cmnd").select2();
@@ -550,5 +545,20 @@
                 });
             }
         }
+
+        function deleteVisa(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/TourOtherTab/DeleteVisa',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#visa").html(data);
+                }
+            });
+        }
+
     </script>
 }

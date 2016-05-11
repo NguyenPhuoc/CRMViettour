@@ -101,7 +101,7 @@ namespace CRMViettour.Controllers.Quotation
         public async Task<ActionResult> EditInfoQuotation(int id)
         {
             var model = await _quotationRepository.GetById(id);
-            return PartialView("_Partial_EditQuotation", model);
+            return PartialView("_Partial_Edit_Quotation", model);
         }
 
         [HttpPost]

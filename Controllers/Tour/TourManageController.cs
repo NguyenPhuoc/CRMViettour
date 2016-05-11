@@ -690,6 +690,12 @@ namespace CRMViettour.Controllers
                                 var visa = listVisa[ii];
                                 visa.CustomerId = item.Id;
                                 await _customerVisaRepository.Create(visa);
+                                var tourvisa = new tbl_TourCustomerVisa
+                                {
+                                    CustomerId = visa.Id,
+                                    TourId = idtour
+                                };
+                                await _tourCustomerVisaRepository.Create(tourvisa);
                             }
                         }
                     }

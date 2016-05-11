@@ -46,7 +46,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input name="nguoilienhe-transport1" id="nguoilienhe-transport1" type="text" class="form-control nguoilienhe-transport" />
+                                                        <input name="nguoilienhe-transport1" id="nguoilienhe-transport1" required="required" type="text" class="form-control nguoilienhe-transport" />
                                                     </div>
                                                     <label class="control-label col-lg-2 col-md-2">Quốc gia</label>
                                                     <div class="col-lg-4 col-md-4">
@@ -58,22 +58,33 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Số điện thoại</label>
                                                     <div class="col-lg-4 col-md-4">
-                                                        <input name="phone-transport1" id="phone-transport1" type="text" class="form-control phone-transport" />
+                                                        <input name="phone-transport1" id="phone-transport1" required="required" type="text" class="form-control phone-transport" />
                                                     </div>
-
+                                                    <label class="control-label col-lg-2 col-md-2">Tài liệu</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input name="TransportDocument" id="file-transport1" type="file"  class="form-control file-transport" />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <h4>Các dịch vụ cung cấp</h4>
                                                 <a class="btn btn-primary btnNewServiceTranport" onclick="addNewServiceTranport(1)"><i class="fa fa-plus"></i> Thêm mới dịch vụ</a><br /><br />
                                                 <div class="form-group ServiceTranport" id="ServiceTranport11">
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <input type="text" class="form-control ServiceName" name="ServiceName11" id="ServiceName11" placeholder="Tên dịch vụ..." />
-                                                    </div>
                                                     <div class="col-lg-5 col-md-5">
+                                                        <input type="text" class="form-control ServiceName" required="required" name="ServiceName11" id="ServiceName11" placeholder="Tên dịch vụ..." />
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4">
                                                         <input type="text" class="form-control ServicePrice" name="ServicePrice11" id="ServicePrice11" placeholder="Giá..." />
                                                     </div>
-                                                    <div class="col-lg-1 col-md-1 actionRemoveServiceTranport">
+                                                    <div class="col-lg-2 col-md-2">
+                                                        <select class="form-control ServiceCurrency" required="required" style="width: 100%" id="ServiceCurrency1" name="ServiceCurrency1">
+                                                            @foreach (var item in LoadData.CurrencyList())
+                                                            {
+                                                                <option value="@item.Id">@item.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class=" col-lg-1 col-md-1 actionremoveservicetranport">
                                                         <button style="cursor: pointer" class="btn btn-danger btnRemoveServiceTranport" disabled="disabled" onclick="removeServiceTranport(1,1)"><i class="fa fa-times"></i></button>
                                                     </div>
                                                     <br />

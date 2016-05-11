@@ -25,6 +25,7 @@ namespace CRMViettour.Controllers.Tour
         private IGenericRepository<tbl_ReviewTourDetail> _reviewTourDetailRepository;
         private IGenericRepository<tbl_Customer> _customerRepository;
         private IGenericRepository<tbl_CustomerVisa> _customerVisaRepository;
+        private IGenericRepository<tbl_TourCustomerVisa> _tourCustomerVisaRepository;
         private IGenericRepository<tbl_Tags> _tagsRepository;
         private IGenericRepository<tbl_Task> _taskRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
@@ -60,6 +61,7 @@ namespace CRMViettour.Controllers.Tour
             IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
             IGenericRepository<tbl_Staff> staffRepository,
             IGenericRepository<tbl_TourCustomer> tourCustomerRepository,
+            IGenericRepository<tbl_TourCustomerVisa> tourCustomerVisaRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -84,6 +86,7 @@ namespace CRMViettour.Controllers.Tour
             this._liabilityPartnerRepository = liabilityPartnerRepository;
             this._staffRepository = staffRepository;
             this._tourCustomerRepository = tourCustomerRepository;
+            this._tourCustomerVisaRepository = tourCustomerVisaRepository;
             _db = new DataContext();
         }
         #endregion
@@ -218,7 +221,9 @@ namespace CRMViettour.Controllers.Tour
         [HttpPost]
         public async Task<ActionResult> InfoVisa(int id)
         {
-            return PartialView("_Visa");
+            Session["idTour"] = id;
+            var model = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Select(c => c.tbl_CustomerVisa).ToList();
+            return PartialView("_Visa", model);
         }
         #endregion
 

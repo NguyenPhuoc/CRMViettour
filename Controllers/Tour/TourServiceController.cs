@@ -232,7 +232,7 @@ namespace CRMViettour.Controllers.Tour
         /// <summary>
         /// upload file nhà hàng
         /// </summary>
-        /// <param name="RestaurantDocument"></param>
+        /// <param name="TransportDocument"></param>
         /// <param name="id"></param>
         /// <returns></returns>
         public ActionResult UploadFileRestaurant(HttpPostedFileBase RestaurantDocument, int id)
@@ -270,7 +270,7 @@ namespace CRMViettour.Controllers.Tour
                     // tài liệu
                     HttpPostedFileBase FileName = Session["RestaurantFile" + i] as HttpPostedFileBase;
                     String newName = "";
-                    string FileSize="";
+                    string FileSize = "";
                     if (FileName != null && FileName.ContentLength > 0)
                     {
                         FileSize = Common.ConvertFileSize(FileName.ContentLength);
@@ -278,10 +278,10 @@ namespace CRMViettour.Controllers.Tour
                         String path = Server.MapPath("~/Upload/file/" + newName);
                         FileName.SaveAs(path);
                     }
-                    if  (newName != "" && FileSize != null)
+                    if (newName != "" && FileSize != null)
                     {
                         service.FileName = newName;
-                        Random rd= new Random();
+                        Random rd = new Random();
                         // insert tbl_DocumentFile
                         var document = new tbl_DocumentFile
                         {
@@ -403,9 +403,124 @@ namespace CRMViettour.Controllers.Tour
 
         #region Vận chuyển
 
-        [HttpPost]
-        public async Task<ActionResult> CreateTransport()
+        /// <summary>
+        /// upload file nhà hàng
+        /// </summary>
+        /// <param name="RestaurantDocument"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult UploadFileTransport(HttpPostedFileBase TransportDocument, int id)
         {
+            Session["TransportFile" + id] = TransportDocument;
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateTransport(FormCollection form)
+        {
+            int tourId = Convert.ToInt32(Session["idTour"].ToString());
+            try
+            {
+                for (int i = 1; i < Convert.ToInt32(form["NumberOptionTransport"]); i++)
+                {
+                    for (int j = 1; j <= 3; j++)
+                    {
+                        // insert ServicePartner
+                        var service = new tbl_ServicesPartner{
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            StaffContact = form["nguoilienhe-transport" + i] != "" ? form["nguoilienhe-transport" + i].ToString() : "",
+                            Phone= form["phone-transport" + i] != "" ? form["phone-transport" + i].ToString() : "",
+                            PartnerId = Convert.ToInt32(form["name-transport" + i].ToString()),
+                            Name= form["ServiceName" + i + j] != "" ?form["ServiceName" + i + j].ToString() : "",
+                            Price = form["ServicePrice" + i + j] != "" ? Convert.ToDouble(form["ServicePrice" + i + j].ToString()) : 0,
+                            CurrencyId = Convert.ToInt32(form["ServiceCurrency" + i + j].ToString()),
+                            Note= form["ServiceNote" + i + j] != "" ? form["ServiceNote" + i + j].ToString() : "",
+                        };
+
+                        // tài liệu
+                        HttpPostedFileBase FileName = Session["TransportFile" + i] as HttpPostedFileBase;
+                        String newName = "";
+                        string FileSize = "";
+                        if (FileName != null && FileName.ContentLength > 0)
+                        {
+                            FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                            newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                            String path = Server.MapPath("~/Upload/file/" + newName);
+                            FileName.SaveAs(path);
+                        }
+                        if (newName != "" && FileSize != null)
+                        {
+                            service.FileName = newName;
+                            
+                            Random rd = new Random();
+                            // insert tbl_DocumentFile
+                            var document = new tbl_DocumentFile
+                            {
+                                Code = rd.Next(1111, 9999).ToString(),
+                                CreatedDate = DateTime.Now,
+                                FileName = newName,
+                                FileSize = FileSize,
+                                IsCustomer = false,
+                                IsRead = false,
+                                ModifiedDate = DateTime.Now,
+                                PartnerId = service.PartnerId,
+                                PermissionStaff = "9",
+                                StaffId = 9,
+                                TourId = tourId
+                            };
+                            await _documentFileRepository.Create(document);
+                        }
+                        //end file
+
+                        if (await _servicesPartnerRepository.Create(service))
+                        {
+                            // lưu option --> lịch sử liên hệ
+                            var contact = new tbl_ContactHistory
+                            {
+                                CreatedDate = DateTime.Now,
+                                ModifiedDate = DateTime.Now,
+                                DictionaryId = 1145,
+                                Note = service.Note,
+                                PartnerId = service.PartnerId,
+                                Request =  "dịch vụ: " + service.Name + ", giá: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                                StaffId = 9,
+                                TourId = tourId
+                            };
+
+                            if (await _contactHistoryRepository.Create(contact))
+                            {
+                                // insert tbl_TourOption
+                                var touroption = new tbl_TourOption
+                                {
+                                    PartnerId = service.PartnerId,
+                                    ServiceId = 1050,
+                                    ServicePartnerId = service.Id,
+                                    TourId = tourId
+                                };
+                                await _tourOptionRepository.Create(touroption);
+                            }
+                        }
+                    }
+                }
+            }
+            catch { }
+
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                           .Select(p => new TourServiceViewModel
+                           {
+                               Id = p.Id,
+                               Code = p.tbl_Partner.Code,
+                               ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
+                               ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
+                               Name = _partnerRepository.FindId(p.PartnerId).Name,
+                               Address = _partnerRepository.FindId(p.PartnerId).Address,
+                               StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
+                               Phone = _partnerRepository.FindId(p.PartnerId).Phone,
+                               Note = _partnerRepository.FindId(p.PartnerId).Note,
+                               TourOptionId = p.Id,
+                               TourId = p.TourId
+                           }).ToList();
             return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
         }
 
@@ -433,9 +548,151 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreatePlane()
+        public async Task<ActionResult> CreatePlane(FormCollection form)
         {
-            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
+            int tourId = Convert.ToInt32(Session["idTour"].ToString());
+            try
+            {
+                for (int i = 1; i <= Convert.ToInt32(form["NumberOptionPlane"]); i++)
+                {
+                    // insert dịch vụ vé máy bay
+                    var service = new tbl_ServicesPartner()
+                    {
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        CurrencyId = Convert.ToInt32(form["loaitien-plane" + i]),
+                        Note = form["note-plane" + i].ToString(),
+                        Phone = form["contacter-phone-plane" + i].ToString(),
+                        Price = form["price-code" + i] != null ? Convert.ToDouble(form["price-code" + i].ToString()) : 0,
+                        StaffContact = form["contacter-plane" + i].ToString(),
+                        PartnerId = Convert.ToInt32(form["hang-plane" + i]),
+                        Flight = form["flight-plane" + i] != null ? form["flight-plane" + i].ToString() : null,
+                        NumberTicket = form["quantity-plane" + i] != null ? Convert.ToInt32(form["quantity-plane" + i].ToString()) : 0
+                    };
+                    if (await _servicesPartnerRepository.Create(service))
+                    {
+                        // lưu option --> lịch sử liên hệ
+                        var contact = new tbl_ContactHistory
+                        {
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            DictionaryId = 1145,
+                            Note = service.Note,
+                            PartnerId = service.PartnerId,
+                            Request = "Chuyến bay: " + service.Flight + ", số lượng vé: "+ service.NumberTicket + ", giá/vé: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                            StaffId = 9,
+                            TourId = tourId
+                        };
+                        if (await _contactHistoryRepository.Create(contact))
+                        {
+                            // insert deadline dịch vụ
+                            for (int j = 1; j <= 3; j++)
+                            {
+                                if (form["name-deadline-plane" + i + j] != "")
+                                {
+                                    // insert tbl_DeadlineOption
+                                    var deadline = new tbl_DeadlineOption
+                                    {
+                                        CreatedDate = DateTime.Now,
+                                        Deposit = form["sotien-deadline-plane" + i + j] != null ? Convert.ToDecimal(form["sotien-deadline-plane" + i + j].ToString()) : 0,
+                                        Name = form["name-deadline-plane" + i + j].ToString(),
+                                        Note = form["PlaneNoteDeadline" + i + j].ToString(),
+                                        ServicesPartnerId = service.Id,
+                                        StaffId = 9,
+                                        StatusId = Convert.ToInt32(form["tinhtrang-deadline-plane" + i + j].ToString()),
+                                        Time = Convert.ToDateTime(form["thoigian-deadline-plane" + i + j].ToString()),
+                                    };
+                                    // tài liệu
+                                    HttpPostedFileBase FileName = Session["PlaneFile" + i + j] as HttpPostedFileBase;
+                                    String newName = "";
+                                    string FileSize = "";
+                                    if (FileName != null && FileName.ContentLength > 0)
+                                    {
+                                        FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                                        newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                                        String path = Server.MapPath("~/Upload/file/" + newName);
+                                        FileName.SaveAs(path);
+                                    }
+                                    if (newName != "" && FileSize != null)
+                                    {
+                                        service.FileName = newName;
+                                        Random rd = new Random();
+                                        // insert tbl_DocumentFile
+                                        var document = new tbl_DocumentFile
+                                        {
+                                            Code = rd.Next(1111, 9999).ToString(),
+                                            CreatedDate = DateTime.Now,
+                                            FileName = newName,
+                                            FileSize = FileSize,
+                                            IsCustomer = false,
+                                            IsRead = false,
+                                            ModifiedDate = DateTime.Now,
+                                            PartnerId = service.PartnerId,
+                                            PermissionStaff = "9",
+                                            StaffId = 9,
+                                            TourId = tourId
+                                        };
+                                        await _documentFileRepository.Create(document);
+                                    }
+                                    //end file
+                                    if (await _deadlineOptionRepository.Create(deadline))
+                                    {
+                                        // insert tbl_AppointmentHistory
+                                        var appointment = new tbl_AppointmentHistory
+                                        {
+                                            CreatedDate = DateTime.Now,
+                                            ModifiedDate = DateTime.Now,
+                                            DictionaryId = 1214,
+                                            IsNotify = true,
+                                            IsRepeat = true,
+                                            Note = deadline.Note,
+                                            Notify = 5,
+                                            PartnerId = service.PartnerId,
+                                            Repeat = 5,
+                                            StaffId = 9,
+                                            StatusId = deadline.StatusId,
+                                            Time = deadline.Time ?? DateTime.Now,
+                                            Title = deadline.Name,
+                                            TourId = tourId
+                                        };
+                                        await _appointmentHistoryRepository.Create(appointment);
+                                    }
+                                    // insert tbl_TourOption
+                                    var touroption = new tbl_TourOption
+                                    {
+                                        DeadlineId = deadline.Id,
+                                        PartnerId = service.PartnerId,
+                                        ServiceId = 1049,
+                                        ServicePartnerId = service.Id,
+                                        TourId = tourId
+                                    };
+                                    await _tourOptionRepository.Create(touroption);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                            .Select(p => new TourServiceViewModel
+                            {
+                                Id = p.Id,
+                                Code = p.tbl_Partner.Code,
+                                ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
+                                ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
+                                Name = _partnerRepository.FindId(p.PartnerId).Name,
+                                Address = _partnerRepository.FindId(p.PartnerId).Address,
+                                StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
+                                Phone = _partnerRepository.FindId(p.PartnerId).Phone,
+                                Note = _partnerRepository.FindId(p.PartnerId).Note,
+                                TourOptionId = p.Id,
+                                TourId = p.TourId
+                            }).ToList();
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
         }
 
         [HttpPost]
@@ -451,12 +708,12 @@ namespace CRMViettour.Controllers.Tour
         /// <summary>
         /// upload file sự kiện
         /// </summary>
-        /// <param name="FileName"></param>
+        /// <param name="FileNameEvent"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult UploadFileEvent(HttpPostedFileBase FileName, int id)
+        public ActionResult UploadFileEvent(HttpPostedFileBase FileNameEvent, int id)
         {
-            Session["EventFile" + id] = FileName;
+            Session["EventFile" + id] = FileNameEvent;
             return Json(JsonRequestBehavior.AllowGet);
         }
 
@@ -469,47 +726,132 @@ namespace CRMViettour.Controllers.Tour
         [ValidateInput(false)]
         public async Task<ActionResult> CreateEvent(FormCollection form)
         {
+            int tourId = Convert.ToInt32(Session["idTour"].ToString());
             try
             {
-                int tourId = Convert.ToInt32(Session["idTour"].ToString());
-                for (int i = 1; i <= Convert.ToInt32(form["NumberOptionEventService"].ToString()); i++)
+                for (int i = 1; i <= Convert.ToInt32(form["NumberOptionEvent"]); i++)
                 {
-                    //file
+                    // insert dịch vụ khách hàng
+                    var service = new tbl_ServicesPartner()
+                    {
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        CurrencyId = Convert.ToInt32(form["insert-currency-event" + i]),
+                        Note = form["insert-note-event" + i].ToString(),
+                        Phone = form["insert-phone-event" + i].ToString(),
+                        Price = form["insert-price-event" + i] != null ? Convert.ToDouble(form["insert-price-event" + i].ToString()) : 0,
+                        StaffContact = form["insert-contact-event" + i].ToString(),
+                        PartnerId = Convert.ToInt32(form["insert-company-event" + i])
+                    };
+                    // tài liệu
                     HttpPostedFileBase FileName = Session["EventFile" + i] as HttpPostedFileBase;
                     String newName = "";
+                    string FileSize = "";
                     if (FileName != null && FileName.ContentLength > 0)
                     {
+                        FileSize = Common.ConvertFileSize(FileName.ContentLength);
                         newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
                         String path = Server.MapPath("~/Upload/file/" + newName);
                         FileName.SaveAs(path);
                     }
-                    //end file
-
-                    var model = new tbl_Partner()
+                    if (newName != "" && FileSize != null)
                     {
-                        CompanyId = Convert.ToInt32(form["CompanyId" + i].ToString()),
-                        Name = _companyRepository.FindId(Convert.ToInt32(form["CompanyId" + i].ToString())).Name,
-                        Code = form["Code" + i].ToString(),
-                        StaffContact = form["StaffContact" + i].ToString(),
-                        Phone = form["Phone" + i].ToString(),
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        Note = form["Note" + i].ToString(),
-                        DictionaryId = 1051
-                    };
-
-                    if (await _partnerRepository.Create(model))
-                    {
-                        var item = new tbl_TourOption
+                        service.FileName = newName;
+                        Random rd = new Random();
+                        // insert tbl_DocumentFile
+                        var document = new tbl_DocumentFile
                         {
-                            PartnerId = model.Id,
-                            ServiceId = 1051,
+                            Code = rd.Next(1111, 9999).ToString(),
+                            CreatedDate = DateTime.Now,
+                            FileName = newName,
+                            FileSize = FileSize,
+                            IsCustomer = false,
+                            IsRead = false,
+                            ModifiedDate = DateTime.Now,
+                            PartnerId = service.PartnerId,
+                            PermissionStaff = "9",
+                            StaffId = 9,
                             TourId = tourId
                         };
-                        await _tourOptionRepository.Create(item);
+                        await _documentFileRepository.Create(document);
+                    }
+                    //end file
+                    if (await _servicesPartnerRepository.Create(service))
+                    {
+                        // lưu option --> lịch sử liên hệ
+                        var contact = new tbl_ContactHistory
+                        {
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            DictionaryId = 1145,
+                            Note = service.Note,
+                            PartnerId = service.PartnerId,
+                            Request = "Tổng giá trị: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                            StaffId = 9,
+                            TourId = tourId
+                        };
+                        if (await _contactHistoryRepository.Create(contact))
+                        {
+                            // insert deadline dịch vụ
+                            for (int j = 1; j <= 3; j++)
+                            {
+                                if (form["deadline-name-event" + i + j] != "")
+                                {
+                                    // insert tbl_DeadlineOption
+                                    var deadline = new tbl_DeadlineOption
+                                    {
+                                        CreatedDate = DateTime.Now,
+                                        Deposit = form["deadline-total-event" + i + j] != null ? Convert.ToDecimal(form["deadline-total-event" + i + j].ToString()) : 0,
+                                        Name = form["deadline-name-event" + i + j].ToString(),
+                                        Note = form["deadline-note-event" + i + j].ToString(),
+                                        ServicesPartnerId = service.Id,
+                                        StaffId = 9,
+                                        StatusId = Convert.ToInt32(form["deadline-status-event" + i + j].ToString()),
+                                        Time = Convert.ToDateTime(form["deadline-thoigian-event" + i + j].ToString()),
+                                    };
+                                    if (await _deadlineOptionRepository.Create(deadline))
+                                    {
+                                        // insert tbl_AppointmentHistory
+                                        var appointment = new tbl_AppointmentHistory
+                                        {
+                                            CreatedDate = DateTime.Now,
+                                            ModifiedDate = DateTime.Now,
+                                            DictionaryId = 1214,
+                                            IsNotify = true,
+                                            IsRepeat = true,
+                                            Note = deadline.Note,
+                                            Notify = 5,
+                                            PartnerId = service.PartnerId,
+                                            Repeat = 5,
+                                            StaffId = 9,
+                                            StatusId = deadline.StatusId,
+                                            Time = deadline.Time ?? DateTime.Now,
+                                            Title = deadline.Name,
+                                            TourId = tourId
+                                        };
+                                        await _appointmentHistoryRepository.Create(appointment);
+                                    }
+                                    // insert tbl_TourOption
+                                    var touroption = new tbl_TourOption
+                                    {
+                                        DeadlineId = deadline.Id,
+                                        PartnerId = service.PartnerId,
+                                        ServiceId = 1051,
+                                        ServicePartnerId = service.Id,
+                                        TourId = tourId
+                                    };
+                                    await _tourOptionRepository.Create(touroption);
+                                }
+                            }
+                        }
                     }
                 }
-                var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+            }
+            catch
+            {
+            }
+
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
                             .Select(p => new TourServiceViewModel
                             {
                                 Id = p.Id,
@@ -524,11 +866,7 @@ namespace CRMViettour.Controllers.Tour
                                 TourOptionId = p.Id,
                                 TourId = p.TourId
                             }).ToList();
-                return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
-            }
-            catch { }
-
-            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
+            return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
         }
         #endregion
 

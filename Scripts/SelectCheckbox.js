@@ -176,11 +176,13 @@ function SelectAllCheckVisa() {
     if (isChecked) {
         $("input:checkbox[name='checkvisa']").prop("checked", true);
         $("#btnUpdateVisa").attr("disabled", "disabled");
+        $("#btnUpdateVisa").removeAttr("href", "#modal-update-visa");
         $("#btnRemoveDocument").attr("disabled", "disabled");
     }
     else {
         $("input:checkbox[name='checkvisa']").prop("checked", false);
         $("#btnUpdateVisa").removeAttr("disabled", "disabled");
+        $("#btnUpdateVisa").attr("href", "#modal-update-visa");
         $("#btnRemoveDocument").removeAttr("disabled", "disabled");
     }
     CheckSelectVisa();
@@ -193,13 +195,16 @@ function CheckSelectVisa() {
     });
     if (cb == 0) {
         $("#btnUpdateVisa").attr("disabled", "disabled");
+        $("#btnUpdateVisa").removeAttr("href", "#modal-update-visa");
         $("#btnRemoveDocument").attr("disabled", "disabled");
     } else if (cb == 1) {
         $("#btnUpdateVisa").removeAttr("disabled", "disabled");
+        $("#btnUpdateVisa").attr("href", "#modal-update-visa");
         $("#btnRemoveDocument").removeAttr("disabled", "disabled");
     }
     else {
         $("#btnUpdateVisa").removeAttr("disabled", "disabled");
+        $("#btnUpdateVisa").attr("href", "#modal-update-visa");
         $("#btnRemoveDocument").removeAttr("disabled", "disabled");
     }
 }

@@ -1,54 +1,88 @@
-﻿
-<a href="#modal-update-visa" data-toggle="modal" class="btn btn-success" id="btnUpdateVisa">Cập nhật</a>
-<br />
-<br />
-<div class="table-scrollable table-custom-format">
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>
-                    <input type="checkbox" id="allcheckvisa" name="allcheck" onclick="SelectAllCheckVisa()" />
-                </th>
-                <th>STT</th>
-                <th>Mã DN-KH</th>
-                <th>Tên DN-KH</th>
-                <th>Quốc gia</th>
-                <th>Thời hạn (năm)</th>
-                <th>Ngày cấp</th>
-                <th>Ngày hết hạn</th>
-                <th>Trạng thái visa</th>
-                <th>Loại visa</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="odd gradeX">
-                <td>
-                    <input type="checkbox" id="checkvisa1" name="check" onclick="CheckSelectVisa()" />
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr class="odd gradeX">
-                <td>
-                    <input type="checkbox" id="checkvisa2" name="check" onclick="CheckSelectVisa()" />
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@model IEnumerable<tbl_CustomerVisa>
+    <a @*href="#modal-update-visa"*@ data-toggle="modal" disabled="disabled" class="btn btn-success" id="btnUpdateVisa">Cập nhật</a>
+    <br />
+    <br />
+    <div class="table-scrollable table-custom-format">
+        <table class="table table-striped table-bordered table-hover TableVisa">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="allcheckvisa" name="allcheck" onclick="SelectAllCheckVisa()" />
+                    </th>
+                    <th>STT</th>
+                    <th>Mã KH</th>
+                    <th>Tên KH</th>
+                    <th>Quốc gia</th>
+                    <th>Thời hạn (tháng)</th>
+                    <th>Ngày cấp</th>
+                    <th>Ngày hết hạn</th>
+                    <th>Trạng thái visa</th>
+                    <th>Loại visa</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    int i = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr class="odd gradeX">
+                            <td>
+                                <input type="checkbox" value="@item.Id" id="checkvisa@(item.Id)" name="checkvisa" class="cbVisa" onclick="CheckSelectVisa()" />
+                            </td>
+                            <td>@i</td>
+                            <td>@item.tbl_Customer.Code</td>
+                            <td>@item.tbl_Customer.FullName</td>
+                            <td>@(item.TagsId != null ? LoadData.LocationTags(item.TagsId.ToString()) : "")</td>
+                            <td>@(item.Deadline != null ? item.Deadline : 0)</td>
+                            <td>@(item.CreatedDateVisa != null ? string.Format("{0:dd-MM-yyyy}", @item.CreatedDateVisa) : "")</td>
+                            <td>@(item.ExpiredDateVisa != null ? string.Format("{0:dd-MM-yyyy}", @item.ExpiredDateVisa) : "")</td>
+                            <td>@(item.tbl_Dictionary != null ? item.tbl_Dictionary.Name : "")</td>
+                            <td>@item.VisaType</td>
+                            <td>
+                                <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục này ?'); deleteVisa(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(".TableVisa").on("change", ".cbVisa", function () {
+            var ItemID = $(this).val();
+            var currentlistItemID = $("#listVisaId").val();
+            var stringBranchID = "";
+            if ($(this).prop('checked')) {
+                currentlistItemID += ItemID + ",";
+                $("#listVisaId").val(currentlistItemID);
+            } else {
+                $("#listVisaId").val(currentlistItemID.replace(ItemID + ",", ""));
+            }
+
+        });
+
+        $(".TableVisa").on("change", "#allcheckvisa", function () {
+            var $this = $(this);
+            $("#listVisaId").val('');
+            var currentlistItemID = $("#listVisaId").val();
+            var ItemID = "";
+            if ($this.prop("checked")) {
+                $(".cbVisa").each(function () {
+                    ItemID = $(this).val();
+                    if ($(this).parent().hasClass('text-danger') == false) {
+                        $(this).prop("checked", true);
+                        currentlistItemID += ItemID + ",";
+                        $("#listVisaId").val(currentlistItemID);
+                    }
+                });
+            } else {
+                $(".cbVisa").prop("checked", false);
+                $("#listVisaId").val("");
+            }
+        });
+    </script>

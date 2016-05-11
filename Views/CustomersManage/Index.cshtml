@@ -234,6 +234,9 @@
 <div id="info-data-contacthistory">
 </div>
 
+<div id="info-data-tour-visa">
+</div>
+
 @Html.Partial("_Partial_EditSchedule")
 @Html.Partial("_Partial_InsertSchedule")
 
@@ -488,6 +491,23 @@
                     $("#edit-type-lienhe").select2();
                     CKEDITOR.replace("edit-note-lienhe");
                     $("#modal-edit-contacthistory").modal("show");
+                }
+            });
+        }
+
+        /** chon tour cho visa **/
+        function insertTourVisa(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/TourOtherTab/InsertTourVisa',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#info-data-tour-visa").html(data);
+                    $("#insert-tour-visa").select2();
+                    $("#modal-insert-tour-visa").modal("show");
                 }
             });
         }

@@ -82,6 +82,7 @@ namespace CRMViettour.App_Start
             container.RegisterType<IGenericRepository<tbl_TourCustomerVisa>, GenericRepository<tbl_TourCustomerVisa>>();
             container.RegisterType<IGenericRepository<tbl_TourOption>, GenericRepository<tbl_TourOption>>();
             container.RegisterType<IGenericRepository<tbl_TourSchedule>, GenericRepository<tbl_TourSchedule>>();
+            container.RegisterType<IGenericRepository<tbl_DeadlineOption>, GenericRepository<tbl_DeadlineOption>>();
 
             container.RegisterType<IBaseRepository, BaseRepository>();
             container.RegisterType<IHomeRepository, HomeRepository>();

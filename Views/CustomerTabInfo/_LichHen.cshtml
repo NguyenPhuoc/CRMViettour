@@ -35,7 +35,7 @@
                         <td>@Html.Raw(item.Note)</td>
                         <td>
                             <a style="cursor: pointer" onclick="updateAppointment(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                            <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa những mục đã chọn ?'); deleteAppointment(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            <a style="cursor: pointer" onclick="deleteAppointment(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
                         </td>
                     </tr>
                     i++;

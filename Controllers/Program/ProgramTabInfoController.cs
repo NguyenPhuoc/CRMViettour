@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using CRMViettour.Models;
 
 namespace CRMViettour.Controllers.Program
 {
@@ -27,6 +28,9 @@ namespace CRMViettour.Controllers.Program
         private IGenericRepository<tbl_ContactHistory> _contactHistoryRepository;
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
         private IGenericRepository<tbl_ServicesPartner> _servicesPartnerHistoryRepository;
+        private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
+        private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
+        private IGenericRepository<tbl_DeadlineOption> _deadlineOptionRepository;
         private DataContext _db;
 
         public ProgramTabInfoController(
@@ -42,6 +46,9 @@ namespace CRMViettour.Controllers.Program
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
             IGenericRepository<tbl_ServicesPartner> servicesPartnerHistoryRepository,
             IGenericRepository<tbl_PartnerNote> partnerNoteRepository,
+            IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
+            IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
+            IGenericRepository<tbl_DeadlineOption> deadlineOptionRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -56,6 +63,9 @@ namespace CRMViettour.Controllers.Program
             this._appointmentHistoryRepository = appointmentHistoryRepository;
             this._updateHistoryRepository = updateHistoryRepository;
             this._servicesPartnerHistoryRepository = servicesPartnerHistoryRepository;
+            this._liabilityCustomerRepository = liabilityCustomerRepository;
+            this._liabilityPartnerRepository = liabilityPartnerRepository;
+            this._deadlineOptionRepository = deadlineOptionRepository;
             _db = new DataContext();
         }
         #endregion
@@ -139,9 +149,28 @@ namespace CRMViettour.Controllers.Program
         }
 
         [HttpPost]
-        public ActionResult InfoChiTietTour()
+        public ActionResult InfoChiTietTour(int id)
         {
-            return PartialView("_ChiTietTour");
+            var model = _programRepository.GetAllAsQueryable().Where(c => c.Id == id)
+                  .Select(p => new TourListViewModel
+                  {
+                      Id = p.tbl_Tour.Id,
+                      Code = p.tbl_Tour.Code,
+                      Name = p.tbl_Tour.Name,
+                      NumberCustomer = p.tbl_Tour.NumberCustomer ?? 0,
+                      StartDate = p.tbl_Tour.StartDate,
+                      EndDate = p.tbl_Tour.EndDate,
+                      NumberDay = p.tbl_Tour.NumberDay ?? 0,
+                      TourType = p.tbl_Tour.tbl_DictionaryTypeTour.Name,
+                      Status = p.tbl_Tour.tbl_DictionaryStatus.Name,
+                  }).SingleOrDefault();
+            if (model != null)
+            {
+                model.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == model.Id).Sum(c => c.ServicePrice) ?? 0;
+                model.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == model.Id).Sum(c => c.TotalContract) ?? 0;
+            }
+
+            return PartialView("_ChiTietTour", model);
         }
         #endregion
 
@@ -208,8 +237,33 @@ namespace CRMViettour.Controllers.Program
         }
 
         [HttpPost]
-        public ActionResult InfoLichSuInvoiceDoiTac()
+        public async Task<ActionResult> InfoLichSuInvoiceDoiTac(int id)
         {
+
+            var tour = _programRepository.FindId(id).tbl_Tour;
+            if (tour != null)
+            {
+                var model = _db.tbl_TourOption.AsEnumerable().Where(c => c.TourId == tour.Id && c.DeadlineId != null)
+                                 .Select(c => new InvoiceListViewModel
+                                 {
+                                     Id = c.DeadlineId ?? 0,
+                                     Partner = c.tbl_DeadlineOption.tbl_ServicesPartner.tbl_Partner.Name,
+                                     Service = c.tbl_DeadlineOption.tbl_ServicesPartner.Name,
+                                     Name = c.tbl_DeadlineOption.Name,
+                                     Status = _dictionaryRepository.FindId(c.tbl_DeadlineOption.StatusId).Name,
+                                     Note = c.tbl_DeadlineOption.Note,
+                                     CodeTour = tour.Code,
+                                     NameTour = tour.Name,
+                                     NameStaff = c.tbl_DeadlineOption.tbl_Staff.FullName
+                                 }).ToList();
+                foreach (var item in model)
+                {
+                    var dt = _deadlineOptionRepository.FindId(item.Id).Time;
+                    if (dt != null)
+                        item.Date = dt ?? DateTime.Now;
+                }
+                return PartialView("_LichSuInvoiceDoiTac", model);
+            }
             return PartialView("_LichSuInvoiceDoiTac");
         }
         #endregion

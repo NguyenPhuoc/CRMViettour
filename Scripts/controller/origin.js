@@ -67,6 +67,7 @@ $("#tableDictionary").on("change", ".cbItem", function () {
 
 $("#tableDictionary").on("change", "#allcb", function () {
     var $this = $(this);
+    $("#listItemId").val('');
     var currentlistItemID = $("#listItemId").val();
     var ItemID = "";
     if ($this.prop("checked")) {

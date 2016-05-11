@@ -20,6 +20,13 @@ $("#insert-certificate").select2();
 $("#countryvisa1").select2();
 //$("#ngayhethanvisa1").datepicker();
 
+$("#insert-task-type").select2();
+$("#insert-department-task").select2();
+$("#insert-timetype-task").select2();
+$("#insert-tour-task").select2();
+$("#insert-priority-task").select2();
+CKEDITOR.replace("insert-note-task");
+
 $('.dataTable').dataTable({
     order: [],
     columnDefs: [{ orderable: false, targets: [0] }]
@@ -156,6 +163,7 @@ $("#tableDictionary").on("change", ".cbItem", function () {
 
 $("#tableDictionary").on("change", "#allcb", function () {
     var $this = $(this);
+    $("#listItemId").val('');
     var currentlistItemID = $("#listItemId").val();
     var ItemID = "";
     if ($this.prop("checked")) {
@@ -546,18 +554,20 @@ $('#FileName').change(function () {
 
 /** xóa tài liệu **/
 function deleteDocument(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/StaffManage/DeleteDocument',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#hosolienquan").html(data);
-        }
-    });
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/StaffManage/DeleteDocument',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#hosolienquan").html(data);
+            }
+        });
+    }
 }
 
 /** cập nhật tài liệu **/
@@ -649,18 +659,20 @@ $("#btnInsertVisa").click(function () {
 
 /** xóa visa **/
 function deleteVisa(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/StaffManage/DeleteVisa',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#visa").html(data);
-        }
-    });
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/StaffManage/DeleteVisa',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#visa").html(data);
+            }
+        });
+    }
 }
 
 /** cập nhật visa **/
@@ -707,3 +719,28 @@ function updateVisa(id) {
 $("#btnExport").click(function () {
     $("#exportForm").submit();
 });
+
+$("#btnAddTask").click(function () {
+    var dataPost = { id: $("table#tableDictionary").find("input[type='checkbox']").val() };
+    $.ajax({
+        type: "POST",
+        url: '/StaffManage/GetIdStaff',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#modal-insert-stafftask").modal('show');
+        }
+    });
+})
+function OnFailureStaff() {
+    alert("Lỗi...!");
+    $("#modal-insert-stafftask").modal('hide');
+    $("#modal-edit-stafftask").modal('hide');
+}
+
+function OnSuccessStaff() {
+    alert("Đã lưu!");
+    $("#modal-insert-stafftask").modal('hide');
+    $("#modal-edit-stafftask").modal('hide');
+}

@@ -141,7 +141,7 @@ namespace CRMViettour.Controllers
                     {
                         foreach (string id in listIds)
                         {
-                            var update = _db.tbl_UpdateHistory.AsEnumerable().FirstOrDefault(p=>p.ContractId.ToString() == id);
+                            var update = _db.tbl_UpdateHistory.AsEnumerable().FirstOrDefault(p => p.ContractId.ToString() == id);
                             _db.tbl_UpdateHistory.Remove(update);
                         }
                         if (await _contractRepository.DeleteMany(listIds, true))
@@ -372,8 +372,24 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult ExportFile()
         {
-            var contracts = _contractRepository.GetAllAsQueryable().ToList();
+            var contracts = _contractRepository.GetAllAsQueryable().AsEnumerable()
+                .Select(c => new tbl_Contract
+            {
+                Code = c.Code,
+                ContractDate = c.ContractDate,
+                Name = c.Name,
+                tbl_Customer = c.tbl_Customer,
+                tbl_Staff = c.tbl_Staff,
+                StartDate = c.StartDate,
+                NumberDay = c.NumberDay,
+                tbl_DictionaryStatus = c.tbl_DictionaryStatus,
+                tbl_Dictionary = c.tbl_Dictionary,
+                Note = c.Note,
+                TotalPrice = c.TotalPrice,
+                CreatedDate = c.CreatedDate,
+                ModifiedDate = c.ModifiedDate,
 
+            }).ToList();
             try
             {
                 byte[] bytes;
@@ -442,16 +458,16 @@ namespace CRMViettour.Controllers
                     worksheet.Cells[row, col].Value = contract.Code;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.ContractDate.ToString("dd/MM/yyyy");
+                    worksheet.Cells[row, col].Value = contract.ContractDate.ToString("d/M/yyyy");
                     col++;
 
                     worksheet.Cells[row, col].Value = contract.Name == null ? "" : contract.Name;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.tbl_Customer.FullName;
+                    worksheet.Cells[row, col].Value = contract.tbl_Customer != null ? contract.tbl_Customer.FullName : "";
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.tbl_Customer.Phone;
+                    worksheet.Cells[row, col].Value = contract.tbl_Customer != null ? contract.tbl_Customer.Phone : "";
                     col++;
 
                     //worksheet.Cells[row, col].Value = contract.;
@@ -466,7 +482,7 @@ namespace CRMViettour.Controllers
                     //worksheet.Cells[row, col].Value = contract.Position;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.StartDate.ToString("dd/MM/yyyy");
+                    worksheet.Cells[row, col].Value = contract.StartDate.ToString("d/M/yyyy");
                     col++;
 
                     worksheet.Cells[row, col].Value = contract.NumberDay;
@@ -484,25 +500,19 @@ namespace CRMViettour.Controllers
                     worksheet.Cells[row, col].Value = contract.TotalPrice;
                     col++;
 
-                    worksheet.Cells[row, col].Value = "VNĐ";
+                    //worksheet.Cells[row, col].Value = "VNĐ";
                     col++;
 
                     worksheet.Cells[row, col].Value = contract.tbl_Staff.FullName;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.CreatedDate.ToString("dd/MM/yyyy");
+                    worksheet.Cells[row, col].Value = contract.CreatedDate.ToString("d/M/yyyy");
                     col++;
 
                     //worksheet.Cells[row, col].Value = contract.tbl_UpdateHistory == null ? "" : contract.tbl_UpdateHistory.Last().tbl_Staff.FullName;
                     col++;
 
-                    worksheet.Cells[row, col].Value = contract.ModifiedDate.ToString("dd/MM/yyyy");
-                    col++;
-                    //if (contract.IsLock)
-                    //    worksheet.Cells[row, col].Value = "Khóa";
-                    //else
-                    //    worksheet.Cells[row, col].Value = string.Empty;
-
+                    worksheet.Cells[row, col].Value = contract.ModifiedDate.ToString("d/M/yyyy");
                     col++;
 
                 }

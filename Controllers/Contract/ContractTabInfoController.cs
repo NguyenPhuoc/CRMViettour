@@ -30,6 +30,8 @@ namespace CRMViettour.Controllers.Contract
         private IGenericRepository<tbl_Tour> _tourRepository;
         private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
         private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
+        private IGenericRepository<tbl_DeadlineOption> _deadlineOptionRepository;
+        private IGenericRepository<tbl_TourOption> _tourOptionRepository;
         private DataContext _db;
 
         public ContractTabInfoController(
@@ -48,6 +50,8 @@ namespace CRMViettour.Controllers.Contract
             IGenericRepository<tbl_Tour> tourRepository,
             IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
             IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
+            IGenericRepository<tbl_DeadlineOption> deadlineOptionRepository,
+            IGenericRepository<tbl_TourOption> tourOptionRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -65,6 +69,8 @@ namespace CRMViettour.Controllers.Contract
             this._tourRepository = tourRepository;
             this._liabilityCustomerRepository = liabilityCustomerRepository;
             this._liabilityPartnerRepository = liabilityPartnerRepository;
+            this._deadlineOptionRepository = deadlineOptionRepository;
+            this._tourOptionRepository = tourOptionRepository;
             _db = new DataContext();
         }
         #endregion
@@ -226,8 +232,32 @@ namespace CRMViettour.Controllers.Contract
         }
 
         [HttpPost]
-        public ActionResult InfoLichSuInvoiceDoiTac()
+        public async Task<ActionResult> InfoLichSuInvoiceDoiTac(int id)
         {
+            var tour = _contractRepository.FindId(id).tbl_Tour;
+            if (tour != null)
+            {
+                var model = _db.tbl_TourOption.AsEnumerable().Where(c => c.TourId == tour.Id && c.DeadlineId != null)
+                                 .Select(c => new InvoiceListViewModel
+                                 {
+                                     Id = c.DeadlineId ?? 0,
+                                     Partner = c.tbl_DeadlineOption.tbl_ServicesPartner.tbl_Partner.Name,
+                                     Service = c.tbl_DeadlineOption.tbl_ServicesPartner.Name,
+                                     Name = c.tbl_DeadlineOption.Name,
+                                     Status = _dictionaryRepository.FindId(c.tbl_DeadlineOption.StatusId).Name,
+                                     Note = c.tbl_DeadlineOption.Note,
+                                     CodeTour = tour.Code,
+                                     NameTour = tour.Name,
+                                     NameStaff = c.tbl_DeadlineOption.tbl_Staff.FullName
+                                 }).ToList();
+                foreach (var item in model)
+                {
+                    var dt = _deadlineOptionRepository.FindId(item.Id).Time;
+                    if (dt != null)
+                        item.Date = dt ?? DateTime.Now;
+                }
+                return PartialView("_LichSuInvoiceDoiTac", model);
+            }
             return PartialView("_LichSuInvoiceDoiTac");
         }
         #endregion

@@ -32,6 +32,9 @@ namespace CRMViettour.Controllers.Customer
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
         private IGenericRepository<tbl_ContactHistory> _contactHistoryRepository;
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
+        private IGenericRepository<tbl_TourSchedule> _tourScheduleRepository;
+        private IGenericRepository<tbl_Task> _taskRepository;
+        private IGenericRepository<tbl_Tour> _tourRepository;
         private DataContext _db;
 
         public StaffOtherTabController(
@@ -48,6 +51,9 @@ namespace CRMViettour.Controllers.Customer
             IGenericRepository<tbl_UpdateHistory> updateHistoryRepository,
             IGenericRepository<tbl_ContactHistory> contactHistoryRepository,
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
+            IGenericRepository<tbl_TourSchedule> tourScheduleRepository,
+            IGenericRepository<tbl_Task> taskRepository,
+            IGenericRepository<tbl_Tour> tourRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -64,6 +70,9 @@ namespace CRMViettour.Controllers.Customer
             this._appointmentHistoryRepository = appointmentHistoryRepository;
             this._updateHistoryRepository = updateHistoryRepository;
             this._staffRepository = staffRepository;
+            this._tourScheduleRepository = tourScheduleRepository;
+            this._taskRepository = taskRepository;
+            this._tourRepository = tourRepository;
             _db = new DataContext();
         }
 
@@ -79,7 +88,7 @@ namespace CRMViettour.Controllers.Customer
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.StaffId = 9;
-               
+
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
@@ -168,7 +177,7 @@ namespace CRMViettour.Controllers.Customer
             {
                 if (await _appointmentHistoryRepository.Delete(id, true))
                 {
-                    var  list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -208,7 +217,8 @@ namespace CRMViettour.Controllers.Customer
                     var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == model.StaffId)
                        .Select(p => new tbl_ContactHistory
                        {
-                           ContactDate = p.ContactDate,
+                           Id = p.Id,
+                           ContactDate = p.CreatedDate,
                            Request = p.Request,
                            Note = p.Note,
                            tbl_Staff = _staffRepository.FindId(p.StaffId),
@@ -252,7 +262,7 @@ namespace CRMViettour.Controllers.Customer
                     var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == model.StaffId)
                         .Select(p => new tbl_ContactHistory
                         {
-                            Id= p.Id,
+                            Id = p.Id,
                             ContactDate = p.ContactDate,
                             Request = p.Request,
                             Note = p.Note,
@@ -283,6 +293,7 @@ namespace CRMViettour.Controllers.Customer
                     var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == staffId)
                         .Select(p => new tbl_ContactHistory
                         {
+                            Id = p.Id,
                             ContactDate = p.ContactDate,
                             Request = p.Request,
                             Note = p.Note,
@@ -299,6 +310,124 @@ namespace CRMViettour.Controllers.Customer
             catch
             {
                 return PartialView("~/Views/StaffTabInfo/_LichSuLienHe.cshtml");
+            }
+        }
+        #endregion
+
+        #region Lịch sử đi tour
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteTourSchedule(int id)
+        {
+            try
+            {
+                int staffId = _tourScheduleRepository.FindId(id).StaffId ?? 0;
+                if (await _tourScheduleRepository.Delete(id, true))
+                {
+                    var list = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffId == staffId).ToList();
+                    return PartialView("~/Views/StaffTabInfo/_LichSuDiTour.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/StaffTabInfo/_LichSuDiTour.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/StaffTabInfo/_LichSuDiTour.cshtml");
+            }
+        }
+        #endregion
+
+        #region Nhiệm vụ
+
+        [HttpPost]
+        public async Task<ActionResult> EditTask(int id)
+        {
+            var model = await _taskRepository.GetById(id);
+            int depId = _staffRepository.FindId(Convert.ToInt32(model.Permission)).DepartmentId ?? 0;
+            ViewBag.DepartmentId = depId;
+            ViewBag.PermissionList = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.DepartmentId == depId);
+            return PartialView("_Partial_EditTaskStaff", model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> UpdateTask(tbl_Task model, FormCollection form)
+        {
+            try
+            {
+                model.ModifiedDate = DateTime.Now;
+                var cus = _customerRepository.FindId(model.CustomerId);
+                //model.Email = cus.PersonalEmail != null ? cus.PersonalEmail : cus.CompanyEmail != null ? cus.CompanyEmail : null;
+                //model.Phone = cus.Phone != null ? cus.Phone : null;
+                model.CodeTour = _tourRepository.FindId(model.TourId).Code;
+                model.Time = Int32.Parse((model.EndDate - model.StartDate).TotalDays.ToString());
+                if (await _taskRepository.Update(model))
+                {
+                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == model.StaffId)
+                            .Select(p => new tbl_Task
+                            {
+                                Id = p.Id,
+                                tbl_DictionaryTaskType = _dictionaryRepository.FindId(p.TaskTypeId),
+                                tbl_DictionaryTaskStatus = _dictionaryRepository.FindId(p.TaskStatusId),
+                                Name = p.Name,
+                                Permission = p.Permission,
+                                StartDate = p.StartDate,
+                                EndDate = p.EndDate,
+                                Time = p.Time,
+                                TimeType = p.TimeType,
+                                FinishDate = p.FinishDate,
+                                PercentFinish = p.PercentFinish,
+                                Note = p.Note
+                            }).ToList();
+                    return PartialView("~/Views/StaffTabInfo/_NhiemVu.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/StaffTabInfo/_NhiemVu.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/StaffTabInfo/_NhiemVu.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteTask(int id)
+        {
+            int staffId = _taskRepository.FindId(id).StaffId;
+            try
+            {
+                if (await _taskRepository.Delete(id, true))
+                {
+                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId)
+                              .Select(p => new tbl_Task
+                              {
+                                  Id = p.Id,
+                                  tbl_DictionaryTaskType = _dictionaryRepository.FindId(p.TaskTypeId),
+                                  tbl_DictionaryTaskStatus = _dictionaryRepository.FindId(p.TaskStatusId),
+                                  Name = p.Name,
+                                  Permission = p.Permission,
+                                  StartDate = p.StartDate,
+                                  EndDate = p.EndDate,
+                                  Time = p.Time,
+                                  TimeType = p.TimeType,
+                                  FinishDate = p.FinishDate,
+                                  PercentFinish = p.PercentFinish,
+                                  Note = p.Note
+                              }).ToList();
+                    return PartialView("~/Views/StaffTabInfo/_NhiemVu.cshtml", list);
+                }
+                else
+                {
+                    return PartialView("~/Views/StaffTabInfo/_NhiemVu.cshtml");
+                }
+            }
+            catch
+            {
+                return PartialView("~/Views/StaffTabInfo/_NhiemVu.cshtml");
             }
         }
         #endregion

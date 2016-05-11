@@ -9,9 +9,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Chọn tour visa</h4>
             </div>
-            @using (Html.BeginForm("InsertTourVisa", "TourOtherTab"))
+            @using (Ajax.BeginForm("InsertTourVisa", "CustomerOtherTab", null, new AjaxOptions { OnFailure = "OnFailureVisa", OnSuccess = "OnSuccessVisa", UpdateTargetId = "visa" }))
             {
-                @*<input type="hidden" name="" />*@
+                @Html.TextBoxFor(model => model.CustomerId, new { @class = "form-control", required = "required", @type = "hidden" })
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="row">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div align="center" style="margin-bottom: 20px">
-                    <button type="button" class="btn blue" id="btnInsertTourVisa">Lưu</button>
+                    <button type="submit" class="btn blue" id="btnInsertTourVisa">Lưu</button>
                     <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
                 </div>
             }
@@ -41,4 +41,3 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-

@@ -1190,6 +1190,11 @@ namespace CRMViettour.Controllers
                         await _customerRepository.Delete(item.Id, true);
                     }
                 }
+                var st = tour.StartDate ?? DateTime.Now;
+                var en = tour.EndDate ?? DateTime.Now;
+                TimeSpan totalDay = en - st;
+                tour.NumberDay = Int32.Parse(totalDay.TotalDays.ToString());
+                tour.NumberCustomer = _db.tbl_TourCustomer.AsEnumerable().Where(c => c.TourId == tour.Id).Count();
                 tour.IsUpdate = true;
                 await _tourRepository.Update(tour);
                 return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Cập nhật dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "TourManage") }, JsonRequestBehavior.AllowGet);

@@ -291,6 +291,7 @@
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\DictionaryViewModel.cs" />
     <Compile Include="Models\DocumentFileViewModel.cs" />
+    <Compile Include="Models\InvoiceListViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PartnerViewModel.cs" />
     <Compile Include="Models\ReviewTourModel.cs" />
@@ -2531,6 +2532,8 @@
     <Content Include="Views\TourManage\_Partial_EditCustomer.cshtml" />
     <Content Include="Upload\Customer - Personal.xlsx" />
     <Content Include="Upload\Customer.zip" />
+    <Content Include="Views\StaffOtherTab\_Partial_EditTaskStaff.cshtml" />
+    <Content Include="Views\StaffManage\_Partial_InsertTaskStaff.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,6 +30,9 @@ namespace CRMViettour.Controllers.Customer
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
         private IGenericRepository<tbl_ContactHistory> _contactHistoryRepository;
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
+        private IGenericRepository<tbl_TourCustomer> _tourCustomerRepository;
+        private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
+        private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
         private DataContext _db;
 
         public CustomerTabInfoController(
@@ -47,6 +50,9 @@ namespace CRMViettour.Controllers.Customer
             IGenericRepository<tbl_UpdateHistory> updateHistoryRepository,
             IGenericRepository<tbl_ContactHistory> contactHistoryRepository,
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
+            IGenericRepository<tbl_TourCustomer> tourCustomerRepository,
+            IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
+            IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -64,6 +70,9 @@ namespace CRMViettour.Controllers.Customer
             this._contactHistoryRepository = contactHistoryRepository;
             this._appointmentHistoryRepository = appointmentHistoryRepository;
             this._updateHistoryRepository = updateHistoryRepository;
+            this._tourCustomerRepository = tourCustomerRepository;
+            this._liabilityCustomerRepository = liabilityCustomerRepository;
+            this._liabilityPartnerRepository = liabilityPartnerRepository;
             _db = new DataContext();
         }
         #endregion
@@ -238,9 +247,28 @@ namespace CRMViettour.Controllers.Customer
         }
 
         [HttpPost]
-        public ActionResult InfoTourTuyen()
+        public async Task<ActionResult> InfoTourTuyen(int id)
         {
-            return PartialView("_TourTuyen");
+            var model = _tourCustomerRepository.GetAllAsQueryable().Where(c => c.CustomerId == id)
+                .Select(p => new TourListViewModel
+                {
+                    Id = p.tbl_Tour.Id,
+                    Code = p.tbl_Tour.Code,
+                    Name = p.tbl_Tour.Name,
+                    NumberCustomer = p.tbl_Tour.NumberCustomer ?? 0,
+                    StartDate = p.tbl_Tour.StartDate,
+                    EndDate = p.tbl_Tour.EndDate,
+                    NumberDay = p.tbl_Tour.NumberDay ?? 0,
+                    TourType = p.tbl_Tour.tbl_DictionaryTypeTour.Name,
+                    Status = p.tbl_Tour.tbl_DictionaryStatus.Name,
+                }).ToList();
+            foreach (var item in model)
+            {
+                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
+                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
+            }
+
+            return PartialView("_TourTuyen", model);
         }
         #endregion
 

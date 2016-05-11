@@ -141,6 +141,7 @@ $("#tableDictionary").on("change", ".cbItem", function () {
 
 $("#tableDictionary").on("change", "#allcb", function () {
     var $this = $(this);
+    $("#listItemId").val('');
     var currentlistItemID = $("#listItemId").val();
     var ItemID = "";
     if ($this.prop("checked")) {
@@ -562,18 +563,20 @@ $("#tabnguoilienhe").click(function () {
 
 /** xóa tài liệu **/
 function deleteDocument(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/CustomersManage/DeleteDocument',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#hosolienquan").html(data);
-        }
-    });
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/CustomersManage/DeleteDocument',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#hosolienquan").html(data);
+            }
+        });
+    }
 }
 
 /** cập nhật tài liệu **/
@@ -651,18 +654,20 @@ $("#btnInsertVisa").click(function () {
 
 /** xóa visa **/
 function deleteVisa(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/CustomersManage/DeleteVisa',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#visa").html(data);
-        }
-    });
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/CustomersManage/DeleteVisa',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#visa").html(data);
+            }
+        });
+    }
 }
 
 /** cập nhật visa **/

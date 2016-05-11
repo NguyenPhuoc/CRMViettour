@@ -32,6 +32,8 @@ namespace CRMViettour.Controllers.Customer
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
         private IGenericRepository<tbl_ContactHistory> _contactHistoryRepository;
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
+        private IGenericRepository<tbl_TourCustomerVisa> _tourCustomerVisaRepository;
+        private IGenericRepository<tbl_TourCustomer> _tourCustomerRepository;
         private DataContext _db;
 
         public CustomerOtherTabController(
@@ -48,6 +50,8 @@ namespace CRMViettour.Controllers.Customer
             IGenericRepository<tbl_UpdateHistory> updateHistoryRepository,
             IGenericRepository<tbl_ContactHistory> contactHistoryRepository,
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
+            IGenericRepository<tbl_TourCustomerVisa> tourCustomerVisaRepository,
+            IGenericRepository<tbl_TourCustomer> tourCustomerRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -64,6 +68,8 @@ namespace CRMViettour.Controllers.Customer
             this._appointmentHistoryRepository = appointmentHistoryRepository;
             this._updateHistoryRepository = updateHistoryRepository;
             this._staffRepository = staffRepository;
+            this._tourCustomerVisaRepository = tourCustomerVisaRepository;
+            this._tourCustomerRepository = tourCustomerRepository;
             _db = new DataContext();
         }
 
@@ -249,7 +255,7 @@ namespace CRMViettour.Controllers.Customer
                     var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
                         .Select(p => new tbl_ContactHistory
                         {
-                            Id=p.Id,
+                            Id = p.Id,
                             ContactDate = p.ContactDate,
                             Request = p.Request,
                             Note = p.Note,
@@ -297,6 +303,39 @@ namespace CRMViettour.Controllers.Customer
             {
                 return PartialView("~/Views/CustomerTabInfo/_LichSuLienHe.cshtml");
             }
+        }
+        #endregion
+
+        #region Visa
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> InsertTourVisa(tbl_TourCustomerVisa model)
+        {
+            try
+            {
+                var idCus = _customerVisaRepository.FindId(model.CustomerId).CustomerId;
+                var cusTour = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == model.TourId && c.CustomerId == idCus).SingleOrDefault();
+                var tourVisa = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.CustomerId == model.CustomerId && c.TourId == model.TourId).SingleOrDefault();
+                if (cusTour != null && tourVisa == null)
+                    await _tourCustomerVisaRepository.Create(model);
+
+                var list = _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == idCus).ToList();
+                return PartialView("~/Views/CustomerTabInfo/_Visa.cshtml", list);
+            }
+            catch
+            {
+                return PartialView("~/Views/CustomerTabInfo/_Visa.cshtml");
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> TourVisa(int id)
+        {
+            var model = new tbl_TourCustomerVisa
+            {
+                CustomerId = id
+            };
+            return PartialView("_Partial_InsertTourVisa", model);
         }
         #endregion
     }

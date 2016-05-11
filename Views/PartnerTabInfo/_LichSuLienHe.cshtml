@@ -34,7 +34,7 @@
                         <td>@item.tbl_Staff.FullName</td>
                         <td>
                             <a style="cursor: pointer" onclick="updateContactHistory(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                            <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục đã chọn ?'); deleteContactHistory(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            <a style="cursor: pointer" onclick="deleteContactHistory(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
                         </td>
                     </tr>
                     i++;

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using CRMViettour.Models;
 
 namespace CRMViettour.Controllers.Staff
 {
@@ -29,6 +30,10 @@ namespace CRMViettour.Controllers.Staff
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
         private IGenericRepository<tbl_ContactHistory> _contactHistoryRepository;
         private IGenericRepository<tbl_AppointmentHistory> _appointmentHistoryRepository;
+        private IGenericRepository<tbl_TourSchedule> _tourScheduleRepository;
+        private IGenericRepository<tbl_Tour> _tourRepository;
+        private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
+        private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
         private DataContext _db;
 
         public StaffTabInfoController(
@@ -45,6 +50,10 @@ namespace CRMViettour.Controllers.Staff
             IGenericRepository<tbl_UpdateHistory> updateHistoryRepository,
             IGenericRepository<tbl_ContactHistory> contactHistoryRepository,
             IGenericRepository<tbl_AppointmentHistory> appointmentHistoryRepository,
+            IGenericRepository<tbl_TourSchedule> tourScheduleRepository,
+            IGenericRepository<tbl_Tour> tourRepository,
+            IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
+            IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -61,6 +70,10 @@ namespace CRMViettour.Controllers.Staff
             this._contactHistoryRepository = contactHistoryRepository;
             this._appointmentHistoryRepository = appointmentHistoryRepository;
             this._updateHistoryRepository = updateHistoryRepository;
+            this._tourScheduleRepository = tourScheduleRepository;
+            this._tourRepository = tourRepository;
+            this._liabilityCustomerRepository = liabilityCustomerRepository;
+            this._liabilityPartnerRepository = liabilityPartnerRepository;
             _db = new DataContext();
         }
         #endregion
@@ -116,8 +129,23 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoNhiemVu(int id)
         {
-            //var model = await _taskRepository.GetAllAsQueryable().Where(p => p == id).ToListAsync();
-            return PartialView("_NhiemVu");
+            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == id)
+                              .Select(p => new tbl_Task
+                              {
+                                  Id = p.Id,
+                                  tbl_DictionaryTaskType = _dictionaryRepository.FindId(p.TaskTypeId),
+                                  tbl_DictionaryTaskStatus = _dictionaryRepository.FindId(p.TaskStatusId),
+                                  Name = p.Name,
+                                  Permission = p.Permission,
+                                  StartDate = p.StartDate,
+                                  EndDate = p.EndDate,
+                                  Time = p.Time,
+                                  TimeType = p.TimeType,
+                                  FinishDate = p.FinishDate,
+                                  PercentFinish = p.PercentFinish,
+                                  Note = p.Note
+                              }).ToList();
+            return PartialView("_NhiemVu", model);
         }
         #endregion
 
@@ -154,9 +182,27 @@ namespace CRMViettour.Controllers.Staff
         }
 
         [HttpPost]
-        public ActionResult InfoThauTour()
+        public async Task<ActionResult> InfoThauTour(int id)
         {
-            return PartialView("_ThauTour");
+            var model = _tourRepository.GetAllAsQueryable().Where(c => c.StaffId == id)
+                .Select(p => new TourListViewModel
+                {
+                    Id = p.Id,
+                    Code = p.Code,
+                    Name = p.Name,
+                    NumberCustomer = p.NumberCustomer ?? 0,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    NumberDay = p.NumberDay ?? 0,
+                    TourType = p.tbl_DictionaryTypeTour.Name,
+                    Status = p.tbl_DictionaryStatus.Name,
+                }).ToList();
+            foreach (var item in model)
+            {
+                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
+                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
+            }
+            return PartialView("_ThauTour", model);
         }
         #endregion
 
@@ -196,7 +242,32 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoKhachHang(int id)
         {
-            return PartialView("_KhachHang");
+            var model = _customerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffManager == id)
+                .Select(p => new CustomerListViewModel
+                {
+                    Id = p.Id,
+                    Address = p.Address,
+                    Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
+                    Career = p.CareerId != null ? p.tbl_DictionaryCareer.Name : "",
+                    Code = p.Code == null ? "" : p.Code,
+                    Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
+                    Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,
+                    StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("dd-MM-yyyy"),
+                    EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("dd-MM-yyyy"),
+                    Fullname = p.FullName == null ? "" : p.FullName,
+                    Phone = p.Phone == null ? "" : p.Phone,
+                    OtherPhone = p.MobilePhone == null ? "" : p.MobilePhone,
+                    Passport = p.PassportCard == null ? "" : p.PassportCard,
+                    Skype = p.Skype == null ? "" : p.Skype,
+                    TagsId = p.TagsId,
+                    IdentityCard = p.IdentityCard ?? "",
+                    Position = p.Position,
+                    Department = p.Department,
+                    CustomerType = p.CustomerType,
+                    TaxCode = p.TaxCode
+
+                }).ToList();
+            return PartialView("_KhachHang", model);
         }
         #endregion
 
@@ -210,7 +281,8 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoLichSuDiTour(int id)
         {
-            return PartialView("_LichSuDiTour");
+            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffId == id).ToList();
+            return PartialView("_LichSuDiTour", model);
         }
         #endregion
 

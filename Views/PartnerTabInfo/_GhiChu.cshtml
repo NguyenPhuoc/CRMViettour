@@ -30,7 +30,7 @@
                         <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
                         <td>
                             <a style="cursor: pointer" onclick="updateNote(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                            <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục đã chọn ?'); deleteNote(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            <a style="cursor: pointer" onclick="deleteNote(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
                         </td>
                     </tr>
                     j++;

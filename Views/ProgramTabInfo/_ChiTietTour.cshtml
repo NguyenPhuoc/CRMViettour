@@ -1,38 +1,23 @@
-﻿<div class="table-scrollable table-custom-format">
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Code tour</th>
-                <th>Tour</th>
-                <th>Ngày bắt đầu</th>
-                <th>Ngày kết thúc</th>
-                <th>Loại tour</th>
-                <th>Trạng thái</th>
-                <th>Tiến độ (%)</th>
-                <th>Thời hạn (số ngày)</th>
-                <th>Số lượng khách</th>
-                <th>Chi phí dự kiến</th>
-                <th>Chi phí thực tế</th>
-                <th>Ngày hoàn thành</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="odd gradeX">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+﻿@using CRM.Core
+@using CRMViettour.Models
+@using CRMViettour.Utilities
+@model TourListViewModel
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <p><b>Code tour:</b> @Model.Code</p>
+            <p><b>Tour:</b> @Model.Name</p>
+            <p><b>Ngày bát đầu:</b> @string.Format("{0:dd-MM-yyyy}", Model.StartDate)</p>
+            <p><b>Ngày kết thúc:</b> @string.Format("{0:dd-MM-yyyy}", Model.EndDate)</p>
+            <p><b>Loại tour:</b> @Model.TourType</p>
+        </div>
+        <div class="col-md-6">
+            <p><b>Trạng thái:</b> @Model.Status</p>
+            <p><b>Thời hạn (số ngày):</b> @Model.NumberDay</p>
+            <p><b>Số lượng khách:</b> @Model.NumberCustomer</p>
+            <p><b>Công nợ khách hàng:</b> @string.Format("{0:0,0}", Model.CongNoKhachHang)</p>
+            <p><b>Công nợ đối tác:</b> @string.Format("{0:0,0}", Model.CongNoDoiTac)</p>
+        </div>
+    </div>
+}

@@ -219,6 +219,7 @@ $("#tableDictionary").on("change", ".cbItem", function () {
 
 $("#tableDictionary").on("change", "#allcb", function () {
     var $this = $(this);
+    $("#listItemId").val('');
     var currentlistItemID = $("#listItemId").val();
     var ItemID = "";
     if ($this.prop("checked")) {
@@ -577,18 +578,20 @@ $('#FileName').change(function () {
 
 /** xóa tài liệu **/
 function deleteDocument(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/PartnerManage/DeleteDocument',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#tailieumau").html(data);
-        }
-    });
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/PartnerManage/DeleteDocument',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#tailieumau").html(data);
+            }
+        });
+    }
 }
 
 /** cập nhật tài liệu **/
@@ -943,18 +946,20 @@ function clickChangeService() {
 
 /** xóa ghi chú **/
 function deleteNote(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/PartnerManage/DeleteNote',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#ghichu").html(data);
-        }
-    });
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/PartnerManage/DeleteNote',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#ghichu").html(data);
+            }
+        });
+    }
 }
 
 /** cập nhật ghi chú **/

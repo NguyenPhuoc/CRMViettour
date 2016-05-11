@@ -39,7 +39,7 @@
                         <td>@string.Format("{0:dd-MM-yyyy}", item.ModifiedDate)</td>
                         <td>
                             <a style="cursor: pointer" onclick="updateVisa(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                            <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa những mục đã chọn ?'); deleteVisa(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            <a style="cursor: pointer" onclick="deleteVisa(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
                         </td>
                     </tr>
                 }

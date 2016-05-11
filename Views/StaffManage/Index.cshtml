@@ -44,6 +44,7 @@
                         <button class="btn yellow" id="btnPassword" onclick="confirm('Bạn có muốn khởi tạo lại mật khẩu không?');"><i class="fa fa-key"></i>&nbsp;Mật khẩu</button>
                         <button class="btn red" id="btnLock" onclick="confirm('Bạn có chắc chắn khóa tài khoản này không?');"><i class="fa fa-lock"></i>&nbsp;Khóa</button>
                         <button class="btn grey" id="btnUnLock" onclick="confirm('Bạn có chắc chắn mở khóa tài khoản này không?');"><i class="fa fa-unlock"></i>&nbsp;Mở khóa</button>
+                        <button class="btn blue" id="btnAddTask"><i class="fa fa-clipboard"></i>&nbsp;Phân công nhiệm vụ</button>
                         <a class="btn green" data-toggle="modal" href="#modal-import-staff"><i class="icon-action-redo"></i>&nbsp;Import</a>
                         <label class="btn btn-info fileContainer">
                             <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" id="btnExport" class="form-control" />&nbsp;Export</a>
@@ -234,6 +235,9 @@
     <div id="info-data-contacthistory">
     </div>
 
+    <!----- nhiệm vụ ----->
+    @Html.Partial("_Partial_InsertTaskStaff", new tbl_Task())
+    <div id="info-data-task"></div>
 
     @Html.Partial("_Partial_EditSchedule")
     @Html.Partial("_Partial_InsertSchedule")
@@ -521,34 +525,38 @@
 
             /** xóa lịch hẹn **/
             function deleteAppointment(id) {
-                var dataPost = { id: id };
-                $.ajax({
-                    type: "POST",
-                    url: '/StaffOtherTab/DeleteAppointment',
-                    data: JSON.stringify(dataPost),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "html",
-                    success: function (data) {
-                        alert("Xóa dữ liệu thành công!!!");
-                        $("#lichhen").html(data);
-                    }
-                });
+                if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+                    var dataPost = { id: id };
+                    $.ajax({
+                        type: "POST",
+                        url: '/StaffOtherTab/DeleteAppointment',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            alert("Xóa dữ liệu thành công!!!");
+                            $("#lichhen").html(data);
+                        }
+                    });
+                }
             }
 
             /** xóa lịch sử liên hệ **/
             function deleteContactHistory(id) {
-                var dataPost = { id: id };
-                $.ajax({
-                    type: "POST",
-                    url: '/StaffOtherTab/DeleteContactHistory',
-                    data: JSON.stringify(dataPost),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "html",
-                    success: function (data) {
-                        alert("Xóa dữ liệu thành công!!!");
-                        $("#lichsulienhe").html(data);
-                    }
-                });
+                if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+                    var dataPost = { id: id };
+                    $.ajax({
+                        type: "POST",
+                        url: '/StaffOtherTab/DeleteContactHistory',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            alert("Xóa dữ liệu thành công!!!");
+                            $("#lichsulienhe").html(data);
+                        }
+                    });
+                }
             }
 
             /** cập nhật lịch sử liên hệ **/
@@ -591,5 +599,22 @@
                     $("#import-data-staff").html(data);
                 })
             });
+
+            /** Xóa lịch sử đi tour **/
+            function deleteTourSchedule(id) {
+                if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+                    var dataPost = { id: id };
+                    $.ajax({
+                        type: "POST",
+                        url: '/StaffOtherTab/DeleteTourSchedule',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#lichsuditour").html(data);
+                        }
+                    });
+                }
+            }
         </script>
     }

@@ -104,21 +104,42 @@ function OnFailureAppointment() {
 //    });
 //}
 
-///** cập nhật lịch sử liên hệ **/
-//function updateContactHistory(id) {
-//    var dataPost = { id: id };
-//    $.ajax({
-//        type: "POST",
-//        url: '/StaffOtherTab/EditContactHistory',
-//        data: JSON.stringify(dataPost),
-//        contentType: "application/json; charset=utf-8",
-//        dataType: "html",
-//        success: function (data) {
-//            $("#info-data-contacthistory").html(data);
-//            $("#edit-ngay-lienhe").datepicker();
-//            $("#edit-type-lienhe").select2();
-//            CKEDITOR.replace("edit-note-lienhe");
-//            $("#modal-edit-contacthistory").modal("show");
-//        }
-//    });
-//}
+/** xóa nhiệm vụ **/
+function deleteTask(id) {
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/StaffOtherTab/DeleteTask',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#nhiemvu").html(data);
+            }
+        });
+    }
+}
+
+/** cập nhật nhiệm vụ **/
+function updateTask(id) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/StaffOtherTab/EditTask',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#info-data-task").html(data);
+                $("#edit-task-type").select2();
+                $("#edit-timetype-task").select2();
+                $("#edit-priority-task").select2();
+                $("#edit-tour-task").select2();
+                $("#edit-status-task").select2();
+                CKEDITOR.replace("edit-note-tourtask");
+                $("#modal-edit-stafftask").modal("show");
+            }
+        });
+}

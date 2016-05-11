@@ -1424,22 +1424,18 @@ namespace CRMViettour.Controllers
                         
                     };
 
-                worksheet.Cells[4, 1].Value = "Tour Code:";
-                worksheet.Cells[5, 1].Value = "Flight details:";
-                worksheet.Cells[6, 1].Value = "NAME LIST OF OUR GROUP TO HONG KONG/  DAYS";
-
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    worksheet.Cells[8, i + 1].Value = properties[i];
+                    worksheet.Cells[1, i + 1].Value = properties[i];
                 }
 
 
-                int row = 9;
+                int row = 2;
                 foreach (var customer in customers)
                 {
                     int col = 1;
 
-                    worksheet.Cells[row, col].Value = row - 8;
+                    worksheet.Cells[row, col].Value = row - 1;
                     col++;
 
                     worksheet.Cells[row, col].Value = customer.Fullname;
@@ -1497,26 +1493,23 @@ namespace CRMViettour.Controllers
                 }
                 row--;
                 worksheet.Cells["a1:r" + row].Style.Font.SetFromFont(new Font("Arial", 12));
-                worksheet.Cells["a6:r6,a8:r8"].Style.Font.Bold = true;
-                worksheet.Cells["a8:r8"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
-                worksheet.Cells["a6:r6"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                worksheet.Cells["a6:r6"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 255, 0));
+                worksheet.Cells["a1:r1"].Style.Font.Bold = true;
+                worksheet.Cells["a1:r1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
 
-                worksheet.Cells["a9:a" + row].Style.Font.Bold = true;
-                worksheet.Cells["a9:a" + row].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
-                worksheet.Cells["j8:r" + row].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                worksheet.Cells["j8:r" + row].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(217, 217, 217));
+                worksheet.Cells["a2:a" + row].Style.Font.Bold = true;
+                worksheet.Cells["a2:a" + row].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                worksheet.Cells["j1:r" + row].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells["j1:r" + row].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(217, 217, 217));
 
 
 
-                worksheet.Cells["a8:r" + row].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                worksheet.Cells["a8:r" + row].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                worksheet.Cells["a8:r" + row].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                worksheet.Cells["a8:r" + row].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                worksheet.Cells["a8:r" + row].AutoFitColumns();
+                worksheet.Cells["a1:r" + row].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:r" + row].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:r" + row].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:r" + row].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["a1:r" + row].AutoFitColumns();
 
-                worksheet.Row(6).Height = 18.75;
-                worksheet.Row(8).Height = 18;
+                worksheet.Row(1).Height = 18;
                 worksheet.Column(1).Width = 4.5;
                 worksheet.Column(2).Width = 18;
 

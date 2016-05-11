@@ -28,6 +28,8 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_Tags> _tagsRepository;
+        private IGenericRepository<tbl_Task> _taskRepository;
+        private IGenericRepository<tbl_Tour> _tourRepository;
         private DataContext _db;
 
         public StaffManageController(IGenericRepository<tbl_Staff> staffRepository,
@@ -35,6 +37,8 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_Tags> tagsRepository,
+            IGenericRepository<tbl_Task> taskRepository,
+            IGenericRepository<tbl_Tour> tourRepository,
             IBaseRepository baseRepository)
             : base(baseRepository)
         {
@@ -43,6 +47,8 @@ namespace CRMViettour.Controllers
             this._staffRepository = staffRepository;
             this._documentFileRepository = documentFileRepository;
             this._tagsRepository = tagsRepository;
+            this._taskRepository = taskRepository;
+            this._tourRepository = tourRepository;
             _db = new DataContext();
         }
         #endregion
@@ -1103,5 +1109,40 @@ namespace CRMViettour.Controllers
         }
         #endregion
 
+        [ValidateInput(false)]
+        public async Task<ActionResult> CreateTaskStaff(tbl_Task model, FormCollection form)
+        {
+            try
+            {
+                model.CreatedDate = DateTime.Now;
+                model.ModifiedDate = DateTime.Now;
+                model.TaskStatusId = 1193;
+                model.Permission = Session["idStaff"].ToString();
+                model.CodeTour = _tourRepository.FindId(model.TourId).Code;
+                model.IsNotify = false;
+                model.StaffId = 9;
+                await _taskRepository.Create(model);
+                //Response.Write("<script>alert('Đã lưu');</script>");
+            }
+            catch { }
+            return Json(JsonRequestBehavior.AllowGet);
+            //var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+            //                .Select(p => new tbl_Task
+            //                {
+            //                    Id = p.Id,
+            //                    tbl_DictionaryTaskType = _dictionaryRepository.FindId(p.TaskTypeId),
+            //                    Name = p.Name,
+            //                    Permission = p.Permission,
+            //                    StartDate = p.StartDate,
+            //                    EndDate = p.EndDate,
+            //                    Time = p.Time,
+            //                    TimeType = p.TimeType,
+            //                    FinishDate = p.FinishDate,
+            //                    PercentFinish = p.PercentFinish,
+            //                    tbl_Staff = _staffRepository.FindId(p.StaffId),
+            //                    Note = p.Note
+            //                }).ToList();
+            //return PartialView("~/Views/TourTabInfo/_NhiemVu.cshtml", list);
+        }
     }
 }

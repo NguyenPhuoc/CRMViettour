@@ -19,18 +19,20 @@ function OnFailureAppointment() {
 
 /** xóa lịch hẹn **/
 function deleteAppointment(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/CustomerOtherTab/DeleteAppointment',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#lichhen").html(data);
-        }
-    });
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/CustomerOtherTab/DeleteAppointment',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#lichhen").html(data);
+            }
+        });
+    }
 }
 
 ///** cập nhật lịch hẹn **/
@@ -90,18 +92,20 @@ function deleteAppointment(id) {
 
 /** xóa lịch sử liên hệ **/
 function deleteContactHistory(id) {
-    var dataPost = { id: id };
-    $.ajax({
-        type: "POST",
-        url: '/CustomerOtherTab/DeleteContactHistory',
-        data: JSON.stringify(dataPost),
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        success: function (data) {
-            alert("Xóa dữ liệu thành công!!!");
-            $("#lichsulienhe").html(data);
-        }
-    });
+    if (confirm('Bạn thực sự muốn xóa mục này ?')) {
+        var dataPost = { id: id };
+        $.ajax({
+            type: "POST",
+            url: '/CustomerOtherTab/DeleteContactHistory',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                alert("Xóa dữ liệu thành công!!!");
+                $("#lichsulienhe").html(data);
+            }
+        });
+    }
 }
 
 ///** cập nhật lịch sử liên hệ **/

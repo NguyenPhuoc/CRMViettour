@@ -29,6 +29,8 @@ namespace CRMViettour.Models
         public string NameCustomerContract { get; set; }
         public string PhoneCustomerContract { get; set; }
         public string Note { get; set; }
+        public CRM.Enum.CustomerType? CustomerType { get; set; }
+        public string TaxCode { get; set; }
     }
 
     public class CustomerViewModel

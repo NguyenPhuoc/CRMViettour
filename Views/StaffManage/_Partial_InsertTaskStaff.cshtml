@@ -1,0 +1,107 @@
+﻿@using CRMViettour.Utilities
+@using CRM.Core
+@model tbl_Task
+
+<div class="modal fade  bs-modal-lg" id="modal-insert-stafftask" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Phân công nhiệm vụ</h4>
+            </div>
+            @using (Ajax.BeginForm("CreateTaskStaff", "StaffManage", null, new AjaxOptions { OnFailure = "OnFailureStaff", OnSuccess = "OnSuccessStaff" }))
+            {
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Loại nhiệm vụ</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" style="width: 100%" name="TaskTypeId" id="insert-task-type">
+                                        @foreach (var item in LoadData.TaskTypeList())
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Tên nhiệm vụ</label>
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Tour </label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" id="insert-tour-task" name="TourId" style="width: 100%">
+                                        <option>-- Chọn Tour --</option>
+                                        @foreach (var item in LoadData.TourList())
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Ngày bắt đầu</label>
+                                <div class="col-lg-8 col-md-8">
+                                        @Html.TextBoxFor(model => model.StartDate, new { @type = "date", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Thời hạn</label>
+                                <div class="col-lg-4 col-md-4">
+                                    @Html.TextBoxFor(model => model.Time, new { @type = "number", @class = "form-control" })
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <select class="form-control" id="insert-timetype-task" style="width: 100%" name="TimeType">
+                                        <option value="phút">Phút</option>
+                                        <option value="giờ">Giờ</option>
+                                        <option value="ngày">Ngày</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Ngày kết thúc</label>
+                                <div class="col-lg-8 col-md-8">
+                                        @Html.TextBoxFor(model => model.EndDate, new { @type = "date", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4 col-md-4">Độ ưu tiên</label>
+                                <div class="col-lg-8 col-md-8">
+                                    <select class="form-control" id="insert-priority-task" style="width: 100%" name="TaskPriorityId">
+                                        <option>-- Chọn độ ưu tiên --</option>
+                                        @foreach (var item in LoadData.TaskPriorityList())
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2 col-md-2">Nội dung</label>
+                                <div class="col-lg-10 col-md-10">
+                                    @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "insert-note-task" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="center" style="margin-bottom: 20px">
+                <button type="submit" class="btn blue">Lưu</button>
+                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+            </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

@@ -156,3 +156,18 @@
         </div>
     </div>
 </div>
+<div class="col-md-12">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12">
+                <select class="form-control" style="width: 100%" id="customer-quanly-personal" name="SinglePersonal.StaffManager">
+                    <option>-- Chọn nhân viên quản lý của khách hàng này  --</option>
+                    @foreach (var item in LoadData.StaffList())
+                    {
+                        <option value="@item.Id">@item.FullName</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

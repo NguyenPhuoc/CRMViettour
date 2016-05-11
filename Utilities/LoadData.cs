@@ -124,7 +124,6 @@ namespace CRMViettour.Utilities
             return model;
         }
 
-
         /// <summary>
         /// danh sách tất cả các đối tác
         /// </summary>
@@ -180,6 +179,26 @@ namespace CRMViettour.Utilities
                     Name = p.Name
                 }).ToList();
                 CacheLayer.Add<List<DictionaryViewModel>>(model, "documentTypeList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách chuyến bay
+        /// </summary>
+        /// <returns></returns>
+        public static List<DictionaryViewModel> FlightList()
+        {
+            var model = CacheLayer.Get<List<DictionaryViewModel>>("flightList");
+            if (model == null)
+            {
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 25).Select(p => new DictionaryViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).ToList();
+                CacheLayer.Add<List<DictionaryViewModel>>(model, "flightList", 10080);
             }
 
             return model;
@@ -745,6 +764,102 @@ namespace CRMViettour.Utilities
             }
             string newcode = "KH" + codechar + codenum.ToString("D5");
             return newcode;
+        }
+
+        /// <summary>
+        /// danh sách đối tác khách sạn
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Partner> HotelList()
+        {
+            var model = CacheLayer.Get<List<tbl_Partner>>("hotelList");
+            if (model == null)
+            {
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1048).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                CacheLayer.Add<List<tbl_Partner>>(model, "hotelList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách đối tác nhà hàng
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Partner> RestaurantList()
+        {
+            var model = CacheLayer.Get<List<tbl_Partner>>("restaurantList");
+            if (model == null)
+            {
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1047).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                CacheLayer.Add<List<tbl_Partner>>(model, "restaurantList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách đối tác vé máy bay
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Partner> PlaneList()
+        {
+            var model = CacheLayer.Get<List<tbl_Partner>>("planeList");
+            if (model == null)
+            {
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1049).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                CacheLayer.Add<List<tbl_Partner>>(model, "planeList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách đối tác vận chuyển
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Partner> TransportList()
+        {
+            var model = CacheLayer.Get<List<tbl_Partner>>("transportList");
+            if (model == null)
+            {
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1050).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                CacheLayer.Add<List<tbl_Partner>>(model, "transportList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách đối tác sự kiện
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Partner> EventList()
+        {
+            var model = CacheLayer.Get<List<tbl_Partner>>("eventList");
+            if (model == null)
+            {
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1051).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                CacheLayer.Add<List<tbl_Partner>>(model, "eventList", 10080);
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách các đối tác khác
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Partner> OtherList()
+        {
+            var model = CacheLayer.Get<List<tbl_Partner>>("otherList");
+            if (model == null)
+            {
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1052).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                CacheLayer.Add<List<tbl_Partner>>(model, "otherList", 10080);
+            }
+
+            return model;
         }
 
         public static bool TourUpdate(int id)

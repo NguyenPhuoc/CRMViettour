@@ -11,6 +11,7 @@ $("#insert-address-company").select2();
 $("#customer-nhomkh-company").select2();
 $("#customer-nguonden-company").select2();
 $("#edit-customer-company").select2();
+$("#customer-quanly-company").select2();
 
 /*** cá nhân ***/
 $("#insert-address-personal").select2();
@@ -18,6 +19,7 @@ $("#customer-nghenghiep-personal").select2();
 $("#customer-nguonden-personal").select2();
 $("#customer-nhomkh-personal").select2();
 $("#customer-quydanh").select2();
+$("#customer-quanly-personal").select2();
 
 /*** người liên hệ ***/
 $("#customer-contact").select2();
@@ -543,24 +545,6 @@ $("#tabnguoilienhe").click(function () {
     }
 });
 
-/** upload file **/
-//$('#FileName').change(function () {
-//    var data = new FormData();
-//    data.append('FileName', $('#FileName')[0].files[0]);
-//    alert('aaaaaaaaaaaaaaaaaaa');
-//    var ajaxRequest = $.ajax({
-//        type: "POST",
-//        url: 'CustomersManage/UploadFile',
-//        contentType: false,
-//        processData: false,
-//        data: data
-//    });
-
-//    ajaxRequest.done(function (xhr, textStatus) {
-//        // Onsuccess
-//    });
-//});
-
 /** xóa tài liệu **/
 function deleteDocument(id) {
     if (confirm('Bạn thực sự muốn xóa mục này ?')) {
@@ -734,6 +718,7 @@ $("#btnEdit").click(function () {
             $("#edit-address-company").select2();
             $("#edit-nhomkh-company").select2();
             $("#edit-nguonden-company").select2();
+            $("#edit-quanly-company").select2();
             $("#edit-company").select2();
             $("#edit-customer-career").select2();
 
@@ -741,6 +726,7 @@ $("#btnEdit").click(function () {
             $("#edit-personal-quydanh").select2();
             $("#edit-address-personal").select2();
             $("#edit-nghenghiep-personal").select2();
+            $("#edit-quanly-personal").select2();
             $("#edit-nhomkh-personal").select2();
             $("#edit-nguonden-personal").select2();
 

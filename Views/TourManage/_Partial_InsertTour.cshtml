@@ -46,13 +46,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày khởi hành</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.StartDateTour, new { type = "date", @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.StartDateTour, new { type = "date", @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày về</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.EndDateTour, new { type = "date", @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.EndDateTour, new { type = "date", @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -109,18 +109,18 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-2 col-md-2">Phân quyền</label>
-                                                    <div class="col-lg-10 col-md-10">
-                                                        <select class="form-control" multiple="multiple" id="insert-permission-tour" style="width: 100%" name="SingleTour.Permission">
-                                                            @foreach (var item in LoadData.StaffList())
-                                                            {
-                                                                <option value="@item.Id">@item.FullName</option>
-                                                            }
-                                                        </select>
-                                                    </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Phân quyền</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    <select class="form-control" multiple="multiple" id="insert-permission-tour" style="width: 100%" name="SingleTour.Permission">
+                                                        @foreach (var item in LoadData.StaffList())
+                                                        {
+                                                            <option value="@item.Id">@item.FullName</option>
+                                                        }
+                                                    </select>
                                                 </div>
                                             </div>
+                                        </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
@@ -148,13 +148,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày đi</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.StartDateTourGuide, new { type = "date", @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.StartDateTourGuide, new { type = "date", @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày về</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.EndDateTourGuide, new { type = "date", @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.EndDateTourGuide, new { type = "date", @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="form-group">

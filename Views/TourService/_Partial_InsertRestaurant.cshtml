@@ -8,169 +8,168 @@
             </div>
             @using (Ajax.BeginForm("CreateRestaurant", "TourService", null, new AjaxOptions { OnFailure = "OnFailureTourService", OnSuccess = "OnSuccessTourService", UpdateTargetId = "dichvu" }))
             {
-            <div class="modal-body OptionRestaurant" id="OptionRestaurant1">
-                <div class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="portlet light bordered">
-                                <div class="portlet-title">
-                                    <div class="caption captionOption">
-                                        <a data-toggle="collapse" data-target="#restaurant1" style="cursor: pointer" class="btn btn-default OptionRestaurantA"><i class="fa fa-minus"></i></a>
-                                        <span class="caption-subject bold uppercase font-purple OptionTitle">OPTION 1</span>
+                <div class="modal-body OptionRestaurant" id="OptionRestaurant1">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet light bordered">
+                                    <div class="portlet-title">
+                                        <div class="caption captionOption">
+                                            <a data-toggle="collapse" data-target="#restaurant1" style="cursor: pointer" class="btn btn-default OptionRestaurantA"><i class="fa fa-minus"></i></a>
+                                            <span class="caption-subject bold uppercase font-purple OptionTitle">OPTION 1</span>
+                                        </div>
+                                        <div class="actions actionsOption">
+                                            <button style="cursor: pointer" class="btn btn-danger btnRemoveOption" type="button" disabled="disabled" onclick="removeOption()"><i class="fa fa-times"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="actions actionsOption">
-                                        <button style="cursor: pointer" class="btn btn-danger btnRemoveOption" disabled="disabled" onclick="removeOption()"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                                <div class="portlet-body OptionRestaurantBody collapse in" id="restaurant1">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-4 col-md-4">Nhà hàng</label>
-                                                <div class="col-lg-8 col-md-8">
-                                                    <select class="form-control RestaurantName" id="RestaurantName1" name="RestaurantName1" style="width: 100%">
-                                                        <option>-- Chọn nhà hàng --</option>
-                                                        @foreach (var item in LoadData.RestaurantList())
-                                                        {
-                                                            <option value="@item.Id">@item.Name</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-4 col-md-4">Địa chỉ</label>
-                                                <div class="col-lg-8 col-md-8">
-                                                    <input type="text" class="form-control RestaurantAddress" name="RestaurantAddress1" id="RestaurantAddress1" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-4 col-md-4">Giá</label>
-                                                <div class="col-lg-5 col-md-5">
-                                                    <input type="text" class="form-control RestaurantPrice" name="RestaurantPrice1" />
-                                                </div>
-                                                <div class="col-lg-3 col-md-3">
-                                                    <select class="form-control RestaurantCurrency" required="required" style="width: 100%" id="RestaurantCurrency1" name="RestaurantCurrency1">
-                                                        @foreach (var item in LoadData.CurrencyList())
-                                                        {
-                                                            <option value="@item.Id">@item.Name</option>
-                                                        }
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-4 col-md-4">Code</label>
-                                                <div class="col-lg-8 col-md-8">
-                                                    <input class="form-control RestaurantCode" id="RestaurantCode1" name="RestaurantCode1" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
-                                                <div class="col-lg-4 col-md-4">
-                                                    <input name="NguoiLienHe1" id="NguoiLienHe1" type="text" class="form-control NguoiLienHe" />
-                                                </div>
-                                                <label class="control-label col-lg-2 col-md-2">Số điện thoại</label>
-                                                <div class="col-lg-4 col-md-4">
-                                                    <input name="DienThoai1" id="DienThoai1" type="text" class="form-control DienThoai" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-2 col-md-2">Tài liệu</label>
-                                                <div class="col-lg-10 col-md-10">
-                                                    <input type="file" class="form-control RestaurantDocument" id="RestaurantDocument1" name="RestaurantDocument" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
-                                                <div class="col-lg-10 col-md-10">
-                                                    <textarea class="form-control RestaurantNote" name="RestaurantNote1" id="RestaurantNote1"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="portlet light bordered DeadlineRestauran" id="DeadlineRestauran11">
-
-                                                <div class="portlet-title">
-                                                    <div class="caption">
-                                                        <a data-toggle="collapse" data-target="#deadline-restauran11" style="cursor: pointer" class="btn btn-default DeadlineRestauranA"><i class="fa fa-minus"></i></a>
-                                                        <span class="caption-subject bold uppercase font-purple DeadlineTitle">Deadline 1</span>
-                                                    </div>
-                                                    <div class="actions">
-                                                        <button class="btn btn-default btnNewDealine" onclick="addNewDeadline(1)"><i class="fa fa-plus"></i></button>
-                                                        <button style="cursor: pointer" class="btn btn-danger btnRemoveDealine" onclick="removeDeadline(1,1)" disabled="disabled"><i class="fa fa-times"></i></button>
+                                    <div class="portlet-body OptionRestaurantBody collapse in" id="restaurant1">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-4 col-md-4">Nhà hàng</label>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <select class="form-control RestaurantName" id="RestaurantName1" name="RestaurantName1" style="width: 100%">
+                                                            <option>-- Chọn nhà hàng --</option>
+                                                            @foreach (var item in LoadData.RestaurantList())
+                                                            {
+                                                                <option value="@item.Id">@item.Name</option>
+                                                            }
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="portlet-body DeadlineRestauranBody collapse in" id="deadline-restauran11">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label col-lg-2 col-md-2">Tên</label>
-                                                                <div class="col-lg-4 col-md-4">
-                                                                    <input name="DeadlineTen11" id="DeadlineTen11" type="text" class="form-control DeadlineTen" />
-                                                                </div>
-                                                                <label class="control-label col-lg-2 col-md-2">Deposit</label>
-                                                                <div class="col-lg-4 col-md-4">
-                                                                    <input name="DeadlineDeposit11" id="DeadlineDeposit11" type="text" class="form-control DeadlineDeposit" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label col-lg-2 col-md-2">Thời gian</label>
-                                                                <div class="col-lg-4 col-md-4">
-                                                                    <input type="date" name="DeadlineThoiGian11" id="DeadlineThoiGian11" class="form-control DeadlineThoiGian" />
-                                                                </div>
-                                                                <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
-                                                                <div class="col-lg-4 col-md-4">
-                                                                    <select class="form-control DeadlineStatus" name="DeadlineStatus1" id="DeadlineStatus11" style="width:100%;">
-                                                                        @foreach (var item in LoadData.StatusProcessList())
-                                                                        {
-                                                                            <option value="@item.Id">@item.Name</option>
-                                                                        }
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-4 col-md-4">Địa chỉ</label>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <input type="text" class="form-control RestaurantAddress" readonly="readonly" name="RestaurantAddress1" id="RestaurantAddress1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-4 col-md-4">Giá</label>
+                                                    <div class="col-lg-5 col-md-5">
+                                                        <input type="number" class="form-control RestaurantPrice" min="0" name="RestaurantPrice1" />
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <select class="form-control RestaurantCurrency" required="required" style="width: 100%" id="RestaurantCurrency1" name="RestaurantCurrency1">
+                                                            @foreach (var item in LoadData.CurrencyList())
+                                                            {
+                                                                <option value="@item.Id">@item.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
 
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
-                                                                <div class="col-lg-10 col-md-10">
-                                                                    <textarea class="form-control DeadlineNote" name="DeadlineNote11" id="DeadlineNote11"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-4 col-md-4">Code</label>
+                                                    <div class="col-lg-8 col-md-8">
+                                                        <input class="form-control RestaurantCode" id="RestaurantCode1" readonly="readonly" name="RestaurantCode1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input name="NguoiLienHe1" id="NguoiLienHe1" type="text" class="form-control NguoiLienHe" />
+                                                    </div>
+                                                    <label class="control-label col-lg-2 col-md-2">Số điện thoại</label>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <input name="DienThoai1" id="DienThoai1" type="text" class="form-control DienThoai" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Tài liệu</label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <input type="file" class="form-control RestaurantDocument" id="RestaurantDocument1" name="RestaurantDocument" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <textarea class="form-control RestaurantNote" name="RestaurantNote1" id="RestaurantNote1"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="portlet light bordered DeadlineRestauran" id="DeadlineRestauran11">
+
+                                                    <div class="portlet-title">
+                                                        <div class="caption">
+                                                            <a data-toggle="collapse" data-target="#deadline-restauran11" style="cursor: pointer" class="btn btn-default DeadlineRestauranA"><i class="fa fa-minus"></i></a>
+                                                            <span class="caption-subject bold uppercase font-purple DeadlineTitle">Deadline 1</span>
+                                                        </div>
+                                                        <div class="actions">
+                                                            <button class="btn btn-default btnNewDealine" onclick="addNewDeadline(1)"><i class="fa fa-plus"></i></button>
+                                                            <button style="cursor: pointer" class="btn btn-danger btnRemoveDealine" type="button" onclick="removeDeadline(1,1)" disabled="disabled"><i class="fa fa-times"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="portlet-body DeadlineRestauranBody collapse in" id="deadline-restauran11">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-lg-2 col-md-2">Tên</label>
+                                                                    <div class="col-lg-4 col-md-4">
+                                                                        <input name="DeadlineTen11" id="DeadlineTen11" type="text" class="form-control DeadlineTen" />
+                                                                    </div>
+                                                                    <label class="control-label col-lg-2 col-md-2">Deposit</label>
+                                                                    <div class="col-lg-4 col-md-4">
+                                                                        <input name="DeadlineDeposit11" id="DeadlineDeposit11" type="number" min="0" class="form-control DeadlineDeposit" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-lg-2 col-md-2">Thời gian</label>
+                                                                    <div class="col-lg-4 col-md-4">
+                                                                        <input type="date" name="DeadlineThoiGian11" id="DeadlineThoiGian11" class="form-control DeadlineThoiGian" />
+                                                                    </div>
+                                                                    <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
+                                                                    <div class="col-lg-4 col-md-4">
+                                                                        <select class="form-control DeadlineStatus" name="DeadlineStatus11" id="DeadlineStatus11" style="width:100%;">
+                                                                            @foreach (var item in LoadData.StatusProcessList())
+                                                                            {
+                                                                                <option value="@item.Id">@item.Name</option>
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                                    <div class="col-lg-10 col-md-10">
+                                                                        <textarea class="form-control DeadlineNote" name="DeadlineNote11" id="DeadlineNote11"></textarea>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <input type="hidden" value="1" name="NumberDeadlineRestaurant1" class="countDeadline" id="countDeadlineRestaurant1" />
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div align="center" style="margin-bottom: 20px">
-                <input type="hidden" value="1" name="NumberOptionRestaurant" id="countOptionRestaurant" />
-                <button type="button" class="btn btn-success" onclick="addNewOption()">Thêm option</button>
-                <button type="submit" class="btn blue" id="btnLuuFunction">Lưu</button>
-                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
-            </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <input type="hidden" value="1" name="NumberOptionRestaurant" id="countOptionRestaurant" />
+                    <button type="button" class="btn btn-success" onclick="addNewOption()">Thêm option</button>
+                    <button type="submit" class="btn blue" id="btnLuuFunction">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
             }
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
 </div>
-

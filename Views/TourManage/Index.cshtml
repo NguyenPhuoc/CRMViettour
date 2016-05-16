@@ -250,6 +250,10 @@
 @Html.Partial("~/Views/TourService/_Partial_InsertPlane.cshtml", new tbl_Partner())
 <div id="info-data-planeservice"></div>
 
+<!----- báo giá ----->
+@Html.Partial("~/Views/TourOtherTab/_Partial_InsertQuotation.cshtml", new tbl_Quotation())
+<div id="info-data-quotation"></div>
+
 @Html.Partial("_Partial_InsertServiceTour")
 @Html.Partial("_Partial_AddServices")
 @Html.Partial("_Partial_ImportCustomer")

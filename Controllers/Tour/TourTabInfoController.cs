@@ -159,6 +159,7 @@ namespace CRMViettour.Controllers.Tour
                                FinishDate = p.FinishDate,
                                PercentFinish = p.PercentFinish,
                                tbl_Staff = _staffRepository.FindId(p.StaffId),
+                               tbl_DictionaryTaskPriority=_dictionaryRepository.FindId(p.TaskPriorityId),
                                Note = p.Note
                            }).ToList();
             return PartialView("_NhiemVu", model);

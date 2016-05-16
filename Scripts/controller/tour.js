@@ -626,7 +626,7 @@ $("#select-type-tour").change(function () {
 
 /** popup insert lịch đi tour **/
 $("#btnAddSchedule").click(function () {
-    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+    var dataPost = { id: $("table#tableDictionary").find("input[type='checkbox']:checked").val() };
     $.ajax({
         type: "POST",
         url: '/TourManage/GetIdTour',
@@ -635,6 +635,13 @@ $("#btnAddSchedule").click(function () {
         dataType: "html",
         success: function (data) {
             $("#modal-insert-tourschedule").modal('show');
+
+            $('#insert-partner-tour').change(function () {
+                $.getJSON('/TourService/LoadPartner/' + $('#insert-partner-tour').val(), function (data) {
+                    $('#Address').val(data.Address);
+                });
+            });
+
         }
     });
 })
@@ -642,7 +649,7 @@ $("#btnAddSchedule").click(function () {
 /** popup insert task tour **/
 
 $("#btnAddTask").click(function () {
-    var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+    var dataPost = { id: $("table#tableDictionary").find("input[type='checkbox']:checked").val() };
     $.ajax({
         type: "POST",
         url: '/TourManage/GetIdTour',
@@ -697,22 +704,20 @@ function OnFailureTour() {
 }
 
 function OnSuccessTour() {
-    alert("Đã lưu!");
     $("#modal-insert-tourtask").modal('hide');
     $("#modal-insert-tourschedule").modal('hide');
     $("#modal-edit-tourtask").modal('hide');
+    alert("Đã lưu!");
 }
 
 function OnFailureScheduleTour() {
     alert("Lỗi...!");
     $("#modal-insert-tourschedule").modal('hide');
-    $("#tabnhiemvu").click();
 }
 
 function OnSuccessScheduleTour() {
     alert("Đã lưu!");
     $("#modal-insert-tourschedule").modal('hide');
-    $("#tabnhiemvu").click();
 }
 function OnFailure() {
     alert("Cập nhật thất bại!");

@@ -25,14 +25,12 @@ $(".dataTable").dataTable().columnFilter({
                 { type: "text" }]
 });
 
-function OnSuccessPartner()
-{
+function OnSuccessPartner() {
     $("#modal-insert-note").modal("hide");
     $("#modal-edit-note").modal("hide");
 }
 
-function OnFailurePartner()
-{
+function OnFailurePartner() {
     alert("Lỗi, vui lòng kiểm tra lại!");
     $("#modal-insert-document").modal("hide");
     $("#modal-edit-document").modal("hide");
@@ -147,16 +145,18 @@ $("#btnEdit").click(function () {
 
                     newElem.find('.servicenameE').attr('name', 'PartnerServiceNameE' + newNum).val('');
                     newElem.find('.servicepriceE').attr('name', 'PartnerServicePriceE' + newNum).val('');
-                    newElem.find('.servicenoteE').attr('id', 'insert-noteservicepartnerE' + newNum).attr('name', 'PartnerServiceNoteE' + newNum).val('');
+                    newElem.find('.servicenoteE').attr('id', 'edit-noteservicepartnerE' + newNum).attr('name', 'PartnerServiceNoteE' + newNum).val('');
 
                     // insert the new element after the last "duplicatable" input field
-                    $('#entryE' + num).after(newElem);
-                    CKEDITOR.replace("insert-noteservicepartnerE" + newNum)
 
-                    for (var i = 1; i < newNum; i++) {
-                        $("#entryE" + newNum).find("#cke_insert-noteservicepartnerE" + i).remove();
-                        //$("#entry" + newNum + " #select2-countryvisa" + i + "-container").parent().parent().parent().remove();
-                    }
+                    $('#entryE' + num).after(newElem);
+                    CKEDITOR.replace("edit-noteservicepartnerE" + newNum)
+
+                    //for (var i = 1; i < newNum; i++) {
+                    newElem.find("#cke_edit-noteservicepartnerE" + num).remove();
+                    //newElem.find("#cke_edit-noteservicepartnerE1").remove();
+                    //$("#entry" + newNum + " #select2-countryvisa" + i + "-container").parent().parent().parent().remove();
+                    //}
 
                     // enable the "remove" button
                     $('#btnDelE').attr('disabled', false);

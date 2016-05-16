@@ -9,6 +9,7 @@ CKEDITOR.replace("insert-note-contracttour");
 CKEDITOR.replace("insert-note-reviewtour");
 CKEDITOR.replace("insert-note-liabilitycustomer");
 CKEDITOR.replace("insert-note-congnodt1");
+CKEDITOR.replace("insert-note-quotation");
 
 $("#insert-service-tour").select2();
 $("#insert-partner-tour").select2();
@@ -131,6 +132,15 @@ function btnAddLichHen() {
                     }
                 });
 
+                $('#insert-service-lichhen').change(function () {
+                    $.getJSON('/TourOtherTab/LoadPartner/' + $('#insert-service-lichhen').val(), function (data) {
+                        var items = '<option>-- Chọn đối tác --</option>';
+                        $.each(data, function (i, ward) {
+                            items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+                        });
+                        $('#insert-partner-lichhen').html(items);
+                    });
+                });
                 $("#modal-insert-appointment").modal("show");
             }
         });
@@ -420,6 +430,9 @@ function OnSuccessTourTab() {
     $("#modal-insert-mark").modal("hide");
     $("#modal-edit-mark").modal("hide");
 
+    $("#modal-edit-quotation").modal("hide");
+    $("#modal-insert-quotation").modal("hide");
+
 }
 
 function OnFailureTourTab() {
@@ -448,6 +461,9 @@ function OnFailureTourTab() {
 
     $("#modal-insert-congnodt").modal("hide");
     $("#modal-edit-congnodt").modal("hide");
+
+    $("#modal-edit-quotation").modal("hide");
+    $("#modal-insert-quotation").modal("hide");
 }
 
 /** xóa lịch hẹn **/
@@ -902,3 +918,84 @@ function deleteLiabilityPartner(id) {
         }
     });
 }
+
+/* thêm mới báo giá */
+function btnCreateQuotation() {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 tour!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+
+        $.ajax({
+            type: "POST",
+            url: '/TourManage/GetIdTour',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#insert-code-country").select2();
+                $("#insert-tags").select2();
+                $("#insert-staff-quotation").select2();
+                $("#insert-currency-quotation").select2();
+                $("#modal-insert-quotation").modal("show");
+            }
+        });
+    }
+}
+
+/* cập nhật báo giá */
+function updateQuotation(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/EditQuotation',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-quotation").html(data);
+            $("#edit-code-country").select2();
+            $("#edit-tags").select2();
+            $("#edit-staff-quotation").select2();
+            $("#edit-currency-quotation").select2();
+            $("#modal-edit-quotation").modal("show");
+            CKEDITOR.replace("edit-note-quotation");
+            $("#modal-edit-quotation").modal("show");
+        }
+    });
+}
+
+/* xóa báo giá */
+function deleteQuotation(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/TourOtherTab/DeleteQuotation',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            alert("Xóa dữ liệu thành công!!!");
+            $("#viettourbaogia").html(data);
+        }
+    });
+}
+
+/* upload file báo giá */
+$('#insert-file-quotation').change(function () {
+    var data = new FormData();
+    data.append('FileNameQuotation', $('#insert-file-quotation')[0].files[0]);
+
+    var ajaxRequest = $.ajax({
+        type: "POST",
+        url: 'TourOtherTab/UploadFileQuotation',
+        contentType: false,
+        processData: false,
+        data: data
+    });
+
+    ajaxRequest.done(function (xhr, textStatus) {
+        // Onsuccess
+    });
+});

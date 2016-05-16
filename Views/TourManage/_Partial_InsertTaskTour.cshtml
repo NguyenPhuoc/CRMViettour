@@ -63,7 +63,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-4 col-md-4">Thời hạn</label>
                                 <div class="col-lg-4 col-md-4">
-                                    @Html.TextBoxFor(model => model.Time, new { @type = "number", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.Time, new { @type = "number", @class = "form-control", min="0" })
                                 </div>
                                 <div class="col-lg-4 col-md-4">
                                     <select class="form-control" id="insert-timetype-task" style="width: 100%" name="TimeType">

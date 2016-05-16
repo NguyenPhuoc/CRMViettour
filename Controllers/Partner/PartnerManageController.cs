@@ -189,16 +189,16 @@ namespace CRMViettour.Controllers
 
                     for (int i = 1; i <= Convert.ToInt32(form["countServiceE"].Split(',')[0].ToString()); i++)
                     {
-                        if (form["PartnerServiceName" + i] != null)
+                        if (form["PartnerServiceNameE" + i] != null)
                         {
                             var sv = new tbl_ServicesPartner
                             {
-                                Name = form["PartnerServiceName" + i].ToString(),
+                                Name = form["PartnerServiceNameE" + i].ToString(),
                                 PartnerId = model.Id,
-                                Price = form["PartnerServicePrice" + i] != null ? Convert.ToDouble(form["PartnerServicePrice" + i]) : 0,
+                                Price = form["PartnerServicePriceE" + i] != null ? Convert.ToDouble(form["PartnerServicePriceE" + i]) : 0,
                                 CreatedDate = DateTime.Now,
                                 ModifiedDate = DateTime.Now,
-                                Note = form["PartnerServiceNote" + i].ToString()
+                                Note = form["PartnerServiceNoteE" + i].ToString()
                             };
                             await _servicesPartnerRepository.Create(sv);
 

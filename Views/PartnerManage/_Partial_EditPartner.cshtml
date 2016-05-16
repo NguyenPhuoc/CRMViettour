@@ -128,7 +128,7 @@
                                 {
                                     foreach (var item in services)
                                     {
-                                        <div class="clonedInputE" id="entryE1">
+                                        <div class="clonedInputE" id="entryE@(i)">
                                             <div class="form-group">
                                                 <div class="col-lg-6 col-md-6">
                                                     <input type="text" value="@item.Name" class="form-control servicenameE" placeholder="Tên dịch vụ..." name="PartnerServiceNameE@(i)" />
@@ -145,7 +145,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" id="countServiceE" name="countServiceE" value="@services.Count()" />
                                         i++;
                                     }
                                 }
@@ -177,6 +176,7 @@
                     <button type="submit" class="btn blue">Lưu</button>
                     <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
                 </div>
+                <input type="hidden" id="countServiceE" name="countServiceE" value="@services.Count()" />
             }
         </div>
         <!-- /.modal-content -->

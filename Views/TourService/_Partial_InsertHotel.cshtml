@@ -20,7 +20,7 @@
                                             <span class="caption-subject bold uppercase font-purple OptionTitle">OPTION 1</span>
                                         </div>
                                         <div class="actions actionsOption">
-                                            <button style="cursor: pointer" class="btn btn-danger btnRemoveOption" disabled="disabled" onclick="removeOptionHotel()"><i class="fa fa-times"></i></button>
+                                            <button style="cursor: pointer" type="button" class="btn btn-danger btnRemoveOption" disabled="disabled" onclick="removeOptionHotel()"><i class="fa fa-times"></i></button>
                                         </div>
                                     </div>
                                     <div class="portlet-body OptionHotelBody collapse in" id="hotel1">
@@ -74,7 +74,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">Code</label>
                                                     <div class="col-lg-8 col-md-8">
-                                                        <input name="code-hotel1" id="code-hotel1" required="required" type="text" class="form-control code-hotel" />
+                                                        <input name="code-hotel1" id="code-hotel1" readonly="readonly" required="required" type="text" class="form-control code-hotel" />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -127,7 +127,7 @@
                                                         </div>
                                                         <div class="actions">
                                                             <button class="btn btn-default btnNewDealine" onclick="addNewDeadlineHotel(1)"> <i class="fa fa-plus"></i></button>
-                                                            <button style="cursor: pointer" class="btn btn-danger btnRemoveDealine" disabled="disabled" onclick="removeDeadlineHotel(1,1)"><i class="fa fa-times"></i></button>
+                                                            <button style="cursor: pointer" type="button" class="btn btn-danger btnRemoveDealine" disabled="disabled" onclick="removeDeadlineHotel(1,1)"><i class="fa fa-times"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="portlet-body deadline-hotel-body collapse in" id="deadline-hotel11">
@@ -140,7 +140,7 @@
                                                                     </div>
                                                                     <label class="control-label col-lg-2 col-md-2">Deposit</label>
                                                                     <div class="col-lg-4 col-md-4">
-                                                                        <input name="deadline-total-hotel11" required="required" id="deadline-total-hotel11" type="text" class="form-control deadline-total-hotel" />
+                                                                        <input name="deadline-total-hotel11" required="required" id="deadline-total-hotel11" type="number" min="0" class="form-control deadline-total-hotel" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -172,6 +172,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <input type="hidden" value="1" name="NumberDeadlineHotel1" class="countDeadline" id="countDeadlineHotel1" />
                                             </div>
                                         </div>
                                     </div>

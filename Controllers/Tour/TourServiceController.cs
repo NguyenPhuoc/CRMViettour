@@ -95,6 +95,7 @@ namespace CRMViettour.Controllers.Tour
         #region Khách sạn
 
         [HttpPost]
+        [ValidateInput(false)]
         public async Task<ActionResult> CreateHotel(FormCollection form)
         {
             int tourId = Convert.ToInt32(Session["idTour"].ToString());
@@ -132,7 +133,7 @@ namespace CRMViettour.Controllers.Tour
                             DictionaryId = 1145,
                             Note = form["note-hotel" + i].ToString(),
                             PartnerId = service.PartnerId,
-                            Request = service.NumberRoom + " phòng, " + service.NumberNight + " đêm, giá/đơn vị: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                            Request = service.NumberRoom + " phòng, " + service.NumberNight + " đêm, giá/đơn vị: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                             StaffId = 9,
                             TourId = tourId
                         };
@@ -143,7 +144,7 @@ namespace CRMViettour.Controllers.Tour
                         if (await _contactHistoryRepository.Create(contact))
                         {
                             // insert deadline dịch vụ
-                            for (int j = 1; j <= 3; j++)
+                            for (int j = 1; j <= Convert.ToInt32(form["NumberDeadlineHotel" + i]); j++)
                             {
                                 if (form["deadline-name-hotel" + i + j] != "")
                                 {
@@ -200,7 +201,6 @@ namespace CRMViettour.Controllers.Tour
             catch
             {
             }
-
             var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
                             .Select(p => new TourServiceViewModel
                             {
@@ -208,15 +208,16 @@ namespace CRMViettour.Controllers.Tour
                                 Code = p.tbl_Partner.Code,
                                 ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
                                 ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
-                                Name = _partnerRepository.FindId(p.PartnerId).Name,
-                                Address = _partnerRepository.FindId(p.PartnerId).Address,
-                                StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
-                                Phone = _partnerRepository.FindId(p.PartnerId).Phone,
-                                Note = _partnerRepository.FindId(p.PartnerId).Note,
+                                Name = p.tbl_Partner.Name,
+                                Address = p.tbl_Partner.Address,
+                                StaffContact = p.tbl_Partner.StaffContact,
+                                Phone = p.tbl_Partner.Phone,
+                                Note = p.tbl_Partner.Note,
                                 TourOptionId = p.Id,
                                 TourId = p.TourId
                             }).ToList();
             return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
+
         }
 
         [HttpPost]
@@ -247,6 +248,7 @@ namespace CRMViettour.Controllers.Tour
         /// <param name="form"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateInput(false)]
         public async Task<ActionResult> CreateRestaurant(FormCollection form)
         {
             int tourId = Convert.ToInt32(Session["idTour"].ToString());
@@ -255,6 +257,7 @@ namespace CRMViettour.Controllers.Tour
                 for (int i = 1; i <= Convert.ToInt32(form["NumberOptionRestaurant"]); i++)
                 {
                     // insert dịch vụ khách hàng
+
                     var service = new tbl_ServicesPartner()
                     {
                         CreatedDate = DateTime.Now,
@@ -276,7 +279,7 @@ namespace CRMViettour.Controllers.Tour
                         FileSize = Common.ConvertFileSize(FileName.ContentLength);
                         newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
                         String path = Server.MapPath("~/Upload/file/" + newName);
-                        FileName.SaveAs(path);
+                        FileName.SaveAs(path);//======<<<=====
                     }
                     if (newName != "" && FileSize != null)
                     {
@@ -310,14 +313,15 @@ namespace CRMViettour.Controllers.Tour
                             DictionaryId = 1145,
                             Note = service.Note,
                             PartnerId = service.PartnerId,
-                            Request = "giá: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                            Request = "giá: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                             StaffId = 9,
-                            TourId = tourId
+                            TourId = tourId,
+                            ContactDate = DateTime.Now//=========<<<=====
                         };
                         if (await _contactHistoryRepository.Create(contact))
                         {
                             // insert deadline dịch vụ
-                            for (int j = 1; j <= 3; j++)
+                            for (int j = 1; j <= Convert.ToInt32(form["NumberDeadlineRestaurant" + i]); j++)
                             {
                                 if (form["deadline-name-hotel" + i + j] != "")
                                 {
@@ -331,7 +335,7 @@ namespace CRMViettour.Controllers.Tour
                                         ServicesPartnerId = service.Id,
                                         StaffId = 9,
                                         StatusId = Convert.ToInt32(form["DeadlineStatus" + i + j].ToString()),
-                                        Time = Convert.ToDateTime(form["DeadlineThoiGian1" + i + j].ToString()),
+                                        Time = Convert.ToDateTime(form["DeadlineThoiGian" + i + j].ToString()),
                                     };
                                     if (await _deadlineOptionRepository.Create(deadline))
                                     {
@@ -382,11 +386,11 @@ namespace CRMViettour.Controllers.Tour
                                 Code = p.tbl_Partner.Code,
                                 ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
                                 ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
-                                Name = _partnerRepository.FindId(p.PartnerId).Name,
-                                Address = _partnerRepository.FindId(p.PartnerId).Address,
-                                StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
-                                Phone = _partnerRepository.FindId(p.PartnerId).Phone,
-                                Note = _partnerRepository.FindId(p.PartnerId).Note,
+                                Name = p.tbl_Partner.Name,
+                                Address = p.tbl_Partner.Address,
+                                StaffContact = p.tbl_Partner.StaffContact,
+                                Phone = p.tbl_Partner.Phone,
+                                Note = p.tbl_Partner.Note,
                                 TourOptionId = p.Id,
                                 TourId = p.TourId
                             }).ToList();
@@ -416,26 +420,28 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public async Task<ActionResult> CreateTransport(FormCollection form)
         {
             int tourId = Convert.ToInt32(Session["idTour"].ToString());
             try
             {
-                for (int i = 1; i < Convert.ToInt32(form["NumberOptionTransport"]); i++)
+                for (int i = 1; i <= Convert.ToInt32(form["NumberOptionTransport"]); i++)
                 {
-                    for (int j = 1; j <= 3; j++)
+                    for (int j = 1; j <= Convert.ToInt32(form["NumberDeadlineTranport" + i]); j++)
                     {
                         // insert ServicePartner
-                        var service = new tbl_ServicesPartner{
+                        var service = new tbl_ServicesPartner
+                        {
                             CreatedDate = DateTime.Now,
                             ModifiedDate = DateTime.Now,
                             StaffContact = form["nguoilienhe-transport" + i] != "" ? form["nguoilienhe-transport" + i].ToString() : "",
-                            Phone= form["phone-transport" + i] != "" ? form["phone-transport" + i].ToString() : "",
+                            Phone = form["phone-transport" + i] != "" ? form["phone-transport" + i].ToString() : "",
                             PartnerId = Convert.ToInt32(form["name-transport" + i].ToString()),
-                            Name= form["ServiceName" + i + j] != "" ?form["ServiceName" + i + j].ToString() : "",
+                            Name = form["ServiceName" + i + j] != "" ? form["ServiceName" + i + j].ToString() : "",
                             Price = form["ServicePrice" + i + j] != "" ? Convert.ToDouble(form["ServicePrice" + i + j].ToString()) : 0,
                             CurrencyId = Convert.ToInt32(form["ServiceCurrency" + i + j].ToString()),
-                            Note= form["ServiceNote" + i + j] != "" ? form["ServiceNote" + i + j].ToString() : "",
+                            Note = form["ServiceNote" + i + j] != "" ? form["ServiceNote" + i + j].ToString() : "",
                         };
 
                         // tài liệu
@@ -452,7 +458,7 @@ namespace CRMViettour.Controllers.Tour
                         if (newName != "" && FileSize != null)
                         {
                             service.FileName = newName;
-                            
+
                             Random rd = new Random();
                             // insert tbl_DocumentFile
                             var document = new tbl_DocumentFile
@@ -480,14 +486,14 @@ namespace CRMViettour.Controllers.Tour
                             {
                                 CreatedDate = DateTime.Now,
                                 ModifiedDate = DateTime.Now,
+                                ContactDate = DateTime.Now,
                                 DictionaryId = 1145,
                                 Note = service.Note,
                                 PartnerId = service.PartnerId,
-                                Request =  "dịch vụ: " + service.Name + ", giá: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                                Request = "dịch vụ: " + service.Name + ", giá: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                                 StaffId = 9,
                                 TourId = tourId
                             };
-
                             if (await _contactHistoryRepository.Create(contact))
                             {
                                 // insert tbl_TourOption
@@ -507,20 +513,20 @@ namespace CRMViettour.Controllers.Tour
             catch { }
 
             var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
-                           .Select(p => new TourServiceViewModel
-                           {
-                               Id = p.Id,
-                               Code = p.tbl_Partner.Code,
-                               ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
-                               ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
-                               Name = _partnerRepository.FindId(p.PartnerId).Name,
-                               Address = _partnerRepository.FindId(p.PartnerId).Address,
-                               StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
-                               Phone = _partnerRepository.FindId(p.PartnerId).Phone,
-                               Note = _partnerRepository.FindId(p.PartnerId).Note,
-                               TourOptionId = p.Id,
-                               TourId = p.TourId
-                           }).ToList();
+                            .Select(p => new TourServiceViewModel
+                            {
+                                Id = p.Id,
+                                Code = p.tbl_Partner.Code,
+                                ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
+                                ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
+                                Name = p.tbl_Partner.Name,
+                                Address = p.tbl_Partner.Address,
+                                StaffContact = p.tbl_Partner.StaffContact,
+                                Phone = p.tbl_Partner.Phone,
+                                Note = p.tbl_Partner.Note,
+                                TourOptionId = p.Id,
+                                TourId = p.TourId
+                            }).ToList();
             return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
         }
 
@@ -548,6 +554,7 @@ namespace CRMViettour.Controllers.Tour
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public async Task<ActionResult> CreatePlane(FormCollection form)
         {
             int tourId = Convert.ToInt32(Session["idTour"].ToString());
@@ -576,17 +583,18 @@ namespace CRMViettour.Controllers.Tour
                         {
                             CreatedDate = DateTime.Now,
                             ModifiedDate = DateTime.Now,
+                            ContactDate = DateTime.Now,
                             DictionaryId = 1145,
                             Note = service.Note,
                             PartnerId = service.PartnerId,
-                            Request = "Chuyến bay: " + service.Flight + ", số lượng vé: "+ service.NumberTicket + ", giá/vé: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                            Request = "Chuyến bay: " + service.Flight + ", số lượng vé: " + service.NumberTicket + ", giá/vé: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                             StaffId = 9,
                             TourId = tourId
                         };
                         if (await _contactHistoryRepository.Create(contact))
                         {
                             // insert deadline dịch vụ
-                            for (int j = 1; j <= 3; j++)
+                            for (int j = 1; j <= Convert.ToInt32(form["NumberDeadlinePlane" + i]); j++)
                             {
                                 if (form["name-deadline-plane" + i + j] != "")
                                 {
@@ -684,11 +692,11 @@ namespace CRMViettour.Controllers.Tour
                                 Code = p.tbl_Partner.Code,
                                 ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
                                 ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
-                                Name = _partnerRepository.FindId(p.PartnerId).Name,
-                                Address = _partnerRepository.FindId(p.PartnerId).Address,
-                                StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
-                                Phone = _partnerRepository.FindId(p.PartnerId).Phone,
-                                Note = _partnerRepository.FindId(p.PartnerId).Note,
+                                Name = p.tbl_Partner.Name,
+                                Address = p.tbl_Partner.Address,
+                                StaffContact = p.tbl_Partner.StaffContact,
+                                Phone = p.tbl_Partner.Phone,
+                                Note = p.tbl_Partner.Note,
                                 TourOptionId = p.Id,
                                 TourId = p.TourId
                             }).ToList();
@@ -783,17 +791,18 @@ namespace CRMViettour.Controllers.Tour
                         {
                             CreatedDate = DateTime.Now,
                             ModifiedDate = DateTime.Now,
+                            ContactDate = DateTime.Now,
                             DictionaryId = 1145,
                             Note = service.Note,
                             PartnerId = service.PartnerId,
-                            Request = "Tổng giá trị: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.tbl_DictionaryCurrency.Name),
+                            Request = "Tổng giá trị: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                             StaffId = 9,
                             TourId = tourId
                         };
                         if (await _contactHistoryRepository.Create(contact))
                         {
                             // insert deadline dịch vụ
-                            for (int j = 1; j <= 3; j++)
+                            for (int j = 1; j <= Convert.ToInt32(form["NumberDeadlineEvent" + i]); j++)
                             {
                                 if (form["deadline-name-event" + i + j] != "")
                                 {
@@ -852,20 +861,20 @@ namespace CRMViettour.Controllers.Tour
             }
 
             var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
-                            .Select(p => new TourServiceViewModel
-                            {
-                                Id = p.Id,
-                                Code = p.tbl_Partner.Code,
-                                ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
-                                ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
-                                Name = _partnerRepository.FindId(p.PartnerId).Name,
-                                Address = _partnerRepository.FindId(p.PartnerId).Address,
-                                StaffContact = _partnerRepository.FindId(p.PartnerId).StaffContact,
-                                Phone = _partnerRepository.FindId(p.PartnerId).Phone,
-                                Note = _partnerRepository.FindId(p.PartnerId).Note,
-                                TourOptionId = p.Id,
-                                TourId = p.TourId
-                            }).ToList();
+                             .Select(p => new TourServiceViewModel
+                             {
+                                 Id = p.Id,
+                                 Code = p.tbl_Partner.Code,
+                                 ServiceId = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Id,
+                                 ServiceName = _dictionaryRepository.FindId(p.tbl_Partner.DictionaryId).Name,
+                                 Name = p.tbl_Partner.Name,
+                                 Address = p.tbl_Partner.Address,
+                                 StaffContact = p.tbl_Partner.StaffContact,
+                                 Phone = p.tbl_Partner.Phone,
+                                 Note = p.tbl_Partner.Note,
+                                 TourOptionId = p.Id,
+                                 TourId = p.TourId
+                             }).ToList();
             return PartialView("~/Views/TourTabInfo/_DichVu.cshtml", list);
         }
         #endregion
@@ -902,6 +911,19 @@ namespace CRMViettour.Controllers.Tour
             {
                 return PartialView("~/Views/TourTabInfo/_DichVu.cshtml");
             }
+        }
+        #endregion
+
+        #region Load Partner
+        public JsonResult LoadPartner(int id)
+        {
+            var model = _partnerRepository.GetAllAsQueryable().Where(p => p.Id == id).SingleOrDefault();
+            var obj = new
+            {
+                Code = model.Code,
+                Address = model.Address,
+            };
+            return Json(obj, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

@@ -2060,6 +2060,7 @@
     <Content Include="Scripts\controller\company.js" />
     <Content Include="Scripts\controller\contract.js" />
     <Content Include="Scripts\controller\currency.js" />
+    <Content Include="Scripts\controller\flight.js" />
     <Content Include="Scripts\controller\task.js" />
     <Content Include="Scripts\controller\tasktype.js" />
     <Content Include="Scripts\controller\taskpriority.js" />
@@ -2534,6 +2535,9 @@
     <Content Include="Upload\Customer.zip" />
     <Content Include="Views\StaffOtherTab\_Partial_EditTaskStaff.cshtml" />
     <Content Include="Views\StaffManage\_Partial_InsertTaskStaff.cshtml" />
+    <Content Include="Views\FlightManage\Index.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_EditQuotation.cshtml" />
+    <Content Include="Views\TourOtherTab\_Partial_InsertQuotation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

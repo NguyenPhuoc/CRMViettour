@@ -48,6 +48,14 @@ $(document).ready(function () {
                                     // Onsuccess
                                 });
                             });
+
+                            $('#RestaurantName1').change(function () {
+                                $.getJSON('/TourService/LoadPartner/' + $('#RestaurantName1').val(), function (data) {
+                                    $('#RestaurantAddress1').val(data.Address);
+                                    $('#RestaurantCode1').val(data.Code);
+                                });
+                            });
+
                         }
                     });
                 }
@@ -71,6 +79,13 @@ $(document).ready(function () {
                         success: function (data) {
                             $("#modal-insert-services-tour").modal("hide");
                             $("#modal-insert-hotel").modal("show");
+
+                            $('#hotel-tour1').change(function () {
+                                $.getJSON('/TourService/LoadPartner/' + $('#hotel-tour1').val(), function (data) {
+                                    $('#code-hotel1').val(data.Code);
+                                });
+                            });
+
                         }
                     });
                 }
@@ -111,6 +126,13 @@ $(document).ready(function () {
                                     // Onsuccess
                                 });
                             });
+
+                            $('#name-transport1').change(function () {
+                                $.getJSON('/TourService/LoadPartner/' + $('#name-transport1').val(), function (data) {
+                                    $('#code-transport1').val(data.Code);
+                                });
+                            });
+
                         }
                     });
                 }
@@ -152,7 +174,14 @@ $(document).ready(function () {
                                 });
                             });
 
-                            
+
+                            $('#hang-plane1').change(function () {
+                                $.getJSON('/TourService/LoadPartner/' + $('#hang-plane1').val(), function (data) {
+                                    $('#code-plane1').val(data.Code);
+                                });
+                            });
+
+
                         }
                     });
                 }
@@ -192,6 +221,13 @@ $(document).ready(function () {
                                     // Onsuccess
                                 });
                             });
+
+                            $('#insert-company-event1').change(function () {
+                                $.getJSON('/TourService/LoadPartner/' + $('#insert-company-event1').val(), function (data) {
+                                    $('#insert-code-event1').val(data.Code);
+                                });
+                            });
+
                         }
                     });
                 }
@@ -230,9 +266,9 @@ CKEDITOR.replace("deadline-note-event11");
 function addNewOptionEvent() {
     var num = $('.OptionEvent').length, // how many "duplicatable" input fields we currently have
         newNum = new Number(num + 1),      // the numeric ID of the new input field being added
-        newElem = $('#OptionEvent' + num).clone().attr('id', 'OptionHotel' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+        newElem = $('#OptionEvent' + num).clone().attr('id', 'OptionEvent' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
     // manipulate the name/id values of the input inside the new element
-    newElem.find('.OptionEventTitle').html('OPTION ' + newNum);
+    newElem.find('.eventTitle').html('OPTION ' + newNum);
 
     newElem.find('.insert-company-event').attr('id', 'insert-company-event' + newNum).attr('name', 'insert-company-event' + newNum);
     newElem.find('.insert-file-event').attr('id', 'insert-file-event' + newNum).val('');
@@ -244,6 +280,8 @@ function addNewOptionEvent() {
     newElem.find('.insert-note-event').attr('id', 'insert-note-event' + newNum).attr('name', 'insert-note-event' + newNum).val('');
     newElem.find('.OptionEventA').attr('data-target', '#demo-event' + newNum);
     newElem.find('.OptionEventBody').attr('id', 'demo-event' + newNum);
+
+    newElem.find('.countDeadline').attr('id', 'countDeadlineEvent' + newNum).attr('name', 'NumberDeadlineEvent' + newNum).val(1);
 
     //deadline
     newElem.find('.DeadlineEvent').attr('id', 'DeadlineEvent' + newNum + 1);
@@ -269,7 +307,7 @@ function addNewOptionEvent() {
     $('#OptionEvent' + num).after(newElem);
     $('#countOptionEvent').val(newNum);
     newElem.find('.btnRemoveOptionEvent').attr('disabled', false);
-    $('#OptionEvent' + num).find('.actionsOptionEvent').remove();
+    $('#OptionEvent' + num).find('.btnRemoveOptionEvent').remove();
 
     /*** upload file ***/
     $('#insert-file-event' + newNum).change(function () {
@@ -287,6 +325,11 @@ function addNewOptionEvent() {
 
         ajaxRequest.done(function (xhr, textStatus) {
             // Onsuccess
+        });
+    });
+    $('#insert-company-event' + newNum).change(function () {
+        $.getJSON('/TourService/LoadPartner/' + $('#insert-company-event' + newNum).val(), function (data) {
+            $('#insert-code-event' + newNum).val(data.Code);
         });
     });
 
@@ -325,6 +368,7 @@ function addNewDeadlineEvent(i) {
     newElem.find('.btnRemoveDealineEvent').attr('disabled', false);
 
     $('#DeadlineEvent' + i + num).after(newElem);
+    $("#countDeadlineEvent" + i).val(newNum);
 
     newElem.find("#select2-deadline-status-event" + i + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_deadline-note-event" + i + num).remove();
@@ -339,7 +383,7 @@ function removeOptionEvent() {
         actions = $('#OptionEvent' + num).find('.actionsOptionEvent');
     if (num == 2)
         actions.find('.btnRemoveOptionEvent').attr('disabled', true);
-    option.find('.captionOptionEvent').after(actions);
+    option.find('.actionsOptionEvent').after(actions);
     optionremove.remove();
     $('#countOptionEvent').val(num - 1);
 }
@@ -351,6 +395,7 @@ function removeDeadlineEvent(x, y) {
         actions.find('.btnRemoveDealineEvent').attr('disabled', true);
     $('#DeadlineEvent' + x + (y - 1)).find('.caption').after(actions);
     $('#DeadlineEvent' + x + y).remove();
+    $("#countDeadlineEvent" + x).val(y - 1);
 }
 //end event
 
@@ -359,6 +404,7 @@ function removeDeadlineEvent(x, y) {
 ///Nhà hàng
 $("#RestaurantName1").select2();
 $('#DeadlineStatus11').select2();
+$('#RestaurantCurrency1').select2();
 CKEDITOR.replace("RestaurantNote1");
 CKEDITOR.replace("DeadlineNote11");
 /******** duplicate *******/
@@ -389,12 +435,14 @@ function addNewOption() {
     newElem.find('.DeadlineRestauran').attr('id', 'DeadlineRestauran' + newNum + 1);
     newElem.find('.DeadlineStatus').attr('id', 'DeadlineStatus' + newNum + 1).attr('name', 'DeadlineStatus' + newNum + 1);
     newElem.find('.DeadlineNote').attr('id', 'DeadlineNote' + newNum + 1).attr('name', 'DeadlineNote' + newNum + 1)
-    newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + newNum + 1).attr('name', 'DeadlineTen' + newNum + 1)
-    newElem.find('.DeadlineDeposit').attr('id', 'DeadlineDeposit' + newNum + 1).attr('name', 'DeadlineDeposit' + newNum + 1)
-    newElem.find('.DeadlineThoiGian').attr('id', 'DeadlineThoiGian' + newNum + 1).attr('name', 'DeadlineThoiGian' + newNum + 1)
+    newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + newNum + 1).attr('name', 'DeadlineTen' + newNum + 1).val('')
+    newElem.find('.DeadlineDeposit').attr('id', 'DeadlineDeposit' + newNum + 1).attr('name', 'DeadlineDeposit' + newNum + 1).val('')
+    newElem.find('.DeadlineThoiGian').attr('id', 'DeadlineThoiGian' + newNum + 1).attr('name', 'DeadlineThoiGian' + newNum + 1).val('')
     newElem.find('.DeadlineRestauranA').attr('data-target', '#deadline-restauran' + newNum + 1);
     newElem.find('.DeadlineRestauranBody').attr('id', 'deadline-restauran' + newNum + 1);
     newElem.find('.DeadlineTitle').html('Deadline 1');
+
+    newElem.find('.countDeadline').attr('id', 'countDeadlineRestaurant' + newNum).attr('name', 'NumberDeadlineRestaurant' + newNum).val(1)
 
     var arr = newElem.find('.DeadlineRestauran').toArray();
     newElem.find('.DeadlineRestauran').each(function (index) {
@@ -422,13 +470,20 @@ function addNewOption() {
         });
     });
 
+    $('#RestaurantName' + newNum).change(function () {
+        $.getJSON('/TourService/LoadPartner/' + $('#RestaurantName' + newNum).val(), function (data) {
+            $('#RestaurantAddress' + newNum).val(data.Address);
+            $('#RestaurantCode' + newNum).val(data.Code);
+        });
+    });
+
     CKEDITOR.replace("RestaurantNote" + newNum);
     // for (var i = 1; i < newNum; i++) {
     newElem.find("#select2-RestaurantName" + num + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-RestaurantCurrency" + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_RestaurantNote" + num).remove();
     newElem.find("#cke_DeadlineNote" + num + arr.length).remove();
     newElem.find("#select2-DeadlineStatus" + num + arr.length + "-container").parent().parent().parent().remove();
-    newElem.find("#select2-RestaurantCurrency" + num + arr.length + "-container").parent().parent().parent().remove();
     //}
     $("#RestaurantCurrency" + newNum).select2();
     $("#RestaurantName" + newNum).select2();
@@ -447,9 +502,9 @@ function addNewDeadline(i) {
 
     newElem.find('.DeadlineStatus').attr('name', 'DeadlineStatus' + i + newNum).attr('id', 'DeadlineStatus' + i + newNum);
     newElem.find('.DeadlineNote').attr('name', 'DeadlineNote' + i + newNum).attr('id', 'DeadlineNote' + i + newNum);
-    newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + i + newNum).attr('name', 'DeadlineTen' + i + newNum)
-    newElem.find('.DeadlineDeposit').attr('id', 'DeadlineDeposit' + i + newNum).attr('name', 'DeadlineDeposit' + i + newNum)
-    newElem.find('.DeadlineThoiGian').attr('id', 'DeadlineThoiGian' + i + newNum).attr('name', 'DeadlineThoiGian' + i + newNum)
+    newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + i + newNum).attr('name', 'DeadlineTen' + i + newNum).val('')
+    newElem.find('.DeadlineDeposit').attr('id', 'DeadlineDeposit' + i + newNum).attr('name', 'DeadlineDeposit' + i + newNum).val('')
+    newElem.find('.DeadlineThoiGian').attr('id', 'DeadlineThoiGian' + i + newNum).attr('name', 'DeadlineThoiGian' + i + newNum).val('')
 
     newElem.find('.DeadlineRestauranA').attr('data-target', '#deadline-restauran' + i + newNum);
     newElem.find('.DeadlineRestauranBody').attr('id', 'deadline-restauran' + i + newNum);
@@ -460,7 +515,7 @@ function addNewDeadline(i) {
     newElem.find('.btnRemoveDealine').attr('disabled', false);
 
     $('#DeadlineRestauran' + i + num).after(newElem);
-
+    $("#countDeadlineRestaurant" + i).val(newNum);
 
     CKEDITOR.replace("DeadlineNote" + i + newNum);
     newElem.find("#select2-DeadlineStatus" + i + num + "-container").parent().parent().parent().remove();
@@ -474,6 +529,7 @@ function removeDeadline(x, y) {
         actions.find('.btnRemoveDealine').attr('disabled', true);
     $('#DeadlineRestauran' + x + (y - 1)).find('.caption').after(actions);
     $('#DeadlineRestauran' + x + y).remove();
+    $("#countDeadlineRestaurant" + x).val(y - 1);
 }
 function removeOption() {
     var num = $('.OptionRestaurant').length,
@@ -529,11 +585,13 @@ function addNewOptionHotel() {
     newElem.find('.deadline-hotel-a').attr('data-target', '#deadline-hotel' + newNum + 1);
     newElem.find('.deadline-hotel-body').attr('id', 'deadline-hotel' + newNum + 1);
 
-    newElem.find('.deadline-name-hotel').attr('id', 'deadline-name-hotel' + newNum + 1).attr('name', 'deadline-name-hotel' + newNum + 1);
-    newElem.find('.deadline-total-hotel').attr('id', 'deadline-total-hotel' + newNum + 1).attr('name', 'deadline-total-hotel' + newNum + 1);
-    newElem.find('.deadline-thoigian-hotel').attr('id', 'deadline-thoigian-hotel' + newNum + 1).attr('name', 'deadline-thoigian-hotel' + newNum + 1)
+    newElem.find('.deadline-name-hotel').attr('id', 'deadline-name-hotel' + newNum + 1).attr('name', 'deadline-name-hotel' + newNum + 1).val('');
+    newElem.find('.deadline-total-hotel').attr('id', 'deadline-total-hotel' + newNum + 1).attr('name', 'deadline-total-hotel' + newNum + 1).val('');
+    newElem.find('.deadline-thoigian-hotel').attr('id', 'deadline-thoigian-hotel' + newNum + 1).attr('name', 'deadline-thoigian-hotel' + newNum + 1).val('');
     newElem.find('.deadline-status-hotel').attr('id', 'deadline-status-hotel' + newNum + 1).attr('name', 'deadline-status-hotel' + newNum + 1);
     newElem.find('.deadline-note-hotel').attr('id', 'deadline-note-hotel' + newNum + 1).attr('name', 'deadline-note-hotel' + newNum + 1)
+
+    newElem.find('.countDeadline').attr('id', 'countDeadlineHotel' + newNum).attr('name', 'NumberDeadlineHotel' + newNum).val(1)
 
     var arr = newElem.find('.DeadlineHotel').toArray();
     newElem.find('.DeadlineHotel').each(function (index) {
@@ -551,6 +609,12 @@ function addNewOptionHotel() {
     newElem.find("#select2-deadline-status-hotel" + num + arr.length + "-container").parent().parent().parent().remove();
     newElem.find("#cke_note-hotel" + num).remove();
     newElem.find("#cke_deadline-note-hotel" + num + arr.length).remove();
+
+    $('#hotel-tour' + newNum).change(function () {
+        $.getJSON('/TourService/LoadPartner/' + $('#hotel-tour' + newNum).val(), function (data) {
+            $('#code-hotel' + newNum).val(data.Code);
+        });
+    });
 
     $("#hotel-tour" + newNum).select2();
     $("#currency-hotel-tour" + newNum).select2();
@@ -582,6 +646,7 @@ function addNewDeadlineHotel(i) {
     newElem.find('.btnRemoveDealine').attr('disabled', false);
 
     $('#DeadlineHotel' + i + num).after(newElem);
+    $("#countDeadlineHotel" + i).val(newNum);
 
     newElem.find("#select2-deadline-status-hotel" + i + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_deadline-note-hotel" + i + num).remove();
@@ -608,6 +673,7 @@ function removeDeadlineHotel(x, y) {
         actions.find('.btnRemoveDealine').attr('disabled', true);
     $('#DeadlineHotel' + x + (y - 1)).find('.caption').after(actions);
     $('#DeadlineHotel' + x + y).remove();
+    $("#countDeadlineHotel" + x).val(y - 1);
 }
 //end khách sạn
 
@@ -615,7 +681,7 @@ function removeDeadlineHotel(x, y) {
 
 //Vận chuyển
 $("#name-transport1").select2();
-$("#ServiceCurrency1").select2();
+$("#ServiceCurrency11").select2();
 CKEDITOR.replace("ServiceNote11");
 /******** duplicate *******/
 function addNewTranport() {
@@ -633,6 +699,7 @@ function addNewTranport() {
     newElem.find('.file-transport').attr('id', 'file-transport' + newNum).val('');
     newElem.find('.OptionTransportA').attr('data-target', '#transport' + newNum);
     newElem.find('.OptionTransportBody').attr('id', 'transport' + newNum);
+    newElem.find('.countDeadline').attr('id', 'countDeadlineTranport' + newNum).attr('name', 'NumberDeadlineTranport' + newNum).val(1);
 
     //service
     newElem.find('.ServiceTranport').attr('id', 'ServiceTranport' + newNum + 1);
@@ -672,11 +739,18 @@ function addNewTranport() {
             // Onsuccess
         });
     });
+    $('#name-transport' + newNum).change(function () {
+        $.getJSON('/TourService/LoadPartner/' + $('#name-transport' + newNum).val(), function (data) {
+            $('#code-transport' + newNum).val(data.Code);
+        });
+    });
 
     newElem.find("#select2-name-transport" + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_ServiceNote" + num + arr.length).remove();
+    newElem.find("#select2-ServiceCurrency" + num + arr.length + "-container").parent().parent().parent().remove();
 
     $('#name-transport' + newNum).select2();
+    $("#ServiceCurrency" + newNum + 1).select2();
     CKEDITOR.replace("ServiceNote" + newNum + 1);
 }
 function addNewServiceTranport(i) {
@@ -687,17 +761,17 @@ function addNewServiceTranport(i) {
 
     $('#ServiceTranport' + i + num).find('.btnRemoveServiceTranport').remove();
 
-    newElem.find('.ServiceCurrency').attr('id', 'ServiceCurrency' + newNum + 1).attr('name', 'ServiceCurrency' + newNum + 1);
+    newElem.find('.ServiceCurrency').attr('id', 'ServiceCurrency' + i + newNum).attr('name', 'ServiceCurrency' + i + newNum);
     newElem.find('.ServiceName').attr('name', 'ServiceName' + i + newNum).attr('id', 'ServiceName' + i + newNum).val('');
     newElem.find('.ServicePrice').attr('name', 'ServicePrice' + i + newNum).attr('id', 'ServicePrice' + i + newNum).val('');
     newElem.find('.ServiceNote').attr('id', 'ServiceNote' + i + newNum).attr('name', 'ServiceNote' + i + newNum);
 
     newElem.find('.btnRemoveServiceTranport').attr('onclick', 'removeServiceTranport(' + i + "," + newNum + ')');
     newElem.find('.btnRemoveServiceTranport').attr('disabled', false);
-    newElem.find("#select2-ServiceCurrency" + num + "-container").parent().parent().parent().remove();
-
+    newElem.find("#select2-ServiceCurrency" + i + num + "-container").parent().parent().parent().remove();
+    $("#countDeadlineTranport" + i).val(newNum);
     $('#ServiceTranport' + i + num).after(newElem);
-    $("#ServiceCurrency" + newNum).select2();
+    $("#ServiceCurrency" + i + newNum).select2();
     newElem.find("#cke_ServiceNote" + i + num).remove();
     CKEDITOR.replace("ServiceNote" + i + newNum);
 }
@@ -719,6 +793,7 @@ function removeServiceTranport(x, y) {
         actions.attr('disabled', true);
     $('#ServiceTranport' + x + (y - 1)).find('.actionRemoveServiceTranport').html(actions);
     $('#ServiceTranport' + x + y).remove();
+    $("#countDeadlineTranport" + x).val(y - 1);
 }
 //end vận chuyển
 
@@ -751,6 +826,8 @@ function addNewOptionPlane() {
 
     newElem.find('.OptionPlaneA').attr('data-target', '#plane' + newNum);
     newElem.find('.OptionPlaneBody').attr('id', 'plane' + newNum);
+
+    newElem.find('.countDeadline').attr('id', 'countDeadlinePlane' + newNum).attr('name', 'NumberDeadlinePlane' + newNum).val(1);
 
     //deadline
     newElem.find('.DeadlinePlane').attr('id', 'DeadlinePlane' + newNum + 1);
@@ -792,6 +869,12 @@ function addNewOptionPlane() {
     CKEDITOR.replace("note-plane" + newNum);
     $('#tinhtrang-deadline-plane' + newNum + 1).select2();
     CKEDITOR.replace("PlaneNoteDeadline" + newNum + 1);
+
+    $('#hang-plane' + newNum).change(function () {
+        $.getJSON('/TourService/LoadPartner/' + $('#hang-plane' + newNum).val(), function (data) {
+            $('#code-plane' + newNum).val(data.Code);
+        });
+    });
 }
 function addNewDeadlinePlane(i) {
     var num = $('#OptionPlane' + i + ' .DeadlinePlane').length,
@@ -811,6 +894,7 @@ function addNewDeadlinePlane(i) {
     newElem.find('.DeadlinePlaneBody').attr('id', 'deadline-plane' + i + newNum);
 
     newElem.find('.DeadlineTitle').html('Deadline ' + newNum);
+    $("#countDeadlinePlane" + i).val(newNum);
 
     newElem.find('.btnRemoveDeadlinePlane').attr('onclick', 'removeDeadlinePlane(' + i + "," + newNum + ')');
     newElem.find('.btnRemoveDeadlinePlane').attr('disabled', false);
@@ -860,6 +944,7 @@ function removeDeadlinePlane(x, y) {
         actions.find('.btnRemoveDeadlinePlane').attr('disabled', true);
     $('#DeadlinePlane' + x + (y - 1)).find('.caption').after(actions);
     $('#DeadlinePlane' + x + y).remove();
+    $("#countDeadlinePlane" + x).val(y - 1);
 }
 //end vé máy bay
 

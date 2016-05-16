@@ -374,7 +374,7 @@ namespace CRMViettour.Controllers
                 model.TourId = Convert.ToInt32(Session["idTour"].ToString());
                 model.StaffId = 9;
                 await _tourScheduleRepository.Create(model);
-                Response.Write("<script>alert('Đã lưu');</script>");
+                //Response.Write("<script>alert('Đã lưu');</script>");
             }
             catch { }
 

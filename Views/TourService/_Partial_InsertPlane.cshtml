@@ -6,160 +6,165 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Vé máy bay</h4>
             </div>
-            <div class="modal-body OptionPlane" id="OptionPlane1">
-                <div class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="portlet light bordered">
-                                <div class="portlet-title">
-                                    <div class="caption captionOption">
-                                        <a data-toggle="collapse" data-target="#plane1" style="cursor: pointer" class="btn btn-default OptionPlaneA"><i class="fa fa-minus"></i></a>
-                                        <span class="caption-subject bold uppercase font-purple OptionTitle">OPTION 1</span>
+            @using (Ajax.BeginForm("CreatePlane", "TourService", null, new AjaxOptions { OnFailure = "OnFailureTourService", OnSuccess = "OnSuccessTourService", UpdateTargetId = "dichvu" }))
+            {
+                <div class="modal-body OptionPlane" id="OptionPlane1">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet light bordered">
+                                    <div class="portlet-title">
+                                        <div class="caption captionOption">
+                                            <a data-toggle="collapse" data-target="#plane1" style="cursor: pointer" class="btn btn-default OptionPlaneA"><i class="fa fa-minus"></i></a>
+                                            <span class="caption-subject bold uppercase font-purple OptionTitle">OPTION 1</span>
+                                        </div>
+                                        <div class="actions actionsOption">
+                                            <button style="cursor: pointer" disabled="disabled" type="button" onclick="removeOptionPlane()" class="btn btn-danger btnRemoveOption"><i class="fa fa-times"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="actions actionsOption">
-                                        <button style="cursor: pointer" disabled="disabled" onclick="removeOptionPlane()" class="btn btn-danger btnRemoveOption"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                                <div class="portlet-body OptionPlaneBody collapse in" id="plane1">
-                                    <div class="form-horizontal">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-4 col-md-4">Hãng</label>
-                                                    <div class="col-lg-8 col-md-8">
-                                                        <select class="form-control hang-plane" id="hang-plane1" required style="width: 100%" name="hang-plane1">
-                                                            @foreach (var item in LoadData.PlaneList())
+                                    <div class="portlet-body OptionPlaneBody collapse in" id="plane1">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-4 col-md-4">Hãng</label>
+                                                        <div class="col-lg-8 col-md-8">
+                                                            <select class="form-control hang-plane" id="hang-plane1" required style="width: 100%" name="hang-plane1">
+                                                                <option>-- Chọn đối tác bay --</option>
+                                                                @foreach (var item in LoadData.PlaneList())
                                                             {
-                                                                <option value="@item.Name">@item.Name</option>
+                                                            <option value="@item.Id">@item.Name</option>
                                                             }
-                                                        </select>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-4 col-md-4">SL vé</label>
+                                                        <div class="col-lg-8 col-md-8">
+                                                            <input name="quantity-plane1" id="quantity-plane1" required type="number" min="0" class="form-control quantity-plane" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-4 col-md-4">SL vé</label>
-                                                    <div class="col-lg-8 col-md-8">
-                                                        <input name="quantity-plane1" id="quantity-plane1" required type="text" class="form-control quantity-plane" />
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-4 col-md-4">Code</label>
+                                                        <div class="col-lg-8 col-md-8">
+                                                            <input name="code-plane1" id="code-plane1" type="text" readonly="readonly" class="form-control code-plane" required />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-4 col-md-4">Code</label>
-                                                    <div class="col-lg-8 col-md-8">
-                                                        <input name="code-plane1" id="code-plane1" type="text" class="form-control code-plane" required />
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-4 col-md-4">Giá/vé</label>
-                                                    <div class="col-lg-5 col-md-5">
-                                                        <input name="price-code1" id="price-code1" type="text" class="form-control price-code" />
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3">
-                                                        <select class="form-control loaitien-plane" id="loaitien-plane1" style="width: 100%" name="loaitien-plane1" required>
-                                                            @foreach (var item in LoadData.CurrencyList())
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-4 col-md-4">Giá/vé</label>
+                                                        <div class="col-lg-5 col-md-5">
+                                                            <input name="price-code1" id="price-code1" type="number" min="0" class="form-control price-code" />
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <select class="form-control loaitien-plane" id="loaitien-plane1" style="width: 100%" name="loaitien-plane1" required>
+                                                                @foreach (var item in LoadData.CurrencyList())
                                                             {
-                                                                <option value="@item.Id">@item.Name</option>
+                                                            <option value="@item.Id">@item.Name</option>
                                                             }
-                                                        </select>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-2 col-md-2">Chuyến bay</label>
-                                                    <div class="col-lg-10 col-md-10">
-                                                        <select class="form-control flight-plane" id="flight-plane1" style="width: 100%" name="flight-plane1" required>
-                                                            <option></option>
-                                                            @foreach (var item in LoadData.FlightList())
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-2 col-md-2">Chuyến bay</label>
+                                                        <div class="col-lg-10 col-md-10">
+                                                            <select class="form-control flight-plane" id="flight-plane1" style="width: 100%" name="flight-plane1" required>
+                                                                <option></option>
+                                                                @foreach (var item in LoadData.FlightList())
                                                             {
-                                                                <option value="@item.Id">@item.Name</option>
+                                                            <option value="@item.Id">@item.Name</option>
                                                             }
-                                                        </select>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
-                                                    <div class="col-lg-10 col-md-10">
-                                                        <textarea name="note-plane1" class="form-control note-plane" id="note-plane1"></textarea>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                        <div class="col-lg-10 col-md-10">
+                                                            <textarea name="note-plane1" class="form-control note-plane" id="note-plane1"></textarea>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <input name="contacter-plane1" id="contacter-plane1" required type="text" class="form-control contacter-plane" />
-                                                    </div>
-                                                    <label class="control-label col-lg-2 col-md-2">Số điện thoại</label>
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <input name="contacter-phone-plane1" id="contacter-phone-plane1" required type="text" class="form-control contacter-phone-plane" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="portlet light bordered DeadlinePlane" id="DeadlinePlane11">
-                                                    <div class="portlet-title">
-                                                        <div class="caption">
-                                                            <a data-toggle="collapse" data-target="#deadline-plane11" style="cursor: pointer" class="btn btn-default DeadlinePlaneA"><i class="fa fa-minus"></i></a>
-                                                            <span class="caption-subject bold uppercase font-purple DeadlineTitle">Deadline 1</span>
-                                                        </div>
-                                                        <div class="actions">
-                                                            <button class="btn btn-default btnAddNewDeadlinePlane" onclick="addNewDeadlinePlane(1)"> <i class="fa fa-plus"></i></button>
-                                                            <button style="cursor: pointer" class="btn btn-danger btnRemoveDeadlinePlane" disabled="disabled" onclick="removeDeadlinePlane(1,1)"><i class="fa fa-times"></i></button>
                                                         </div>
                                                     </div>
-                                                    <div class="portlet-body DeadlinePlaneBody collapse in" id="deadline-plane11">
-                                                        <div class="form-horizontal">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-lg-2 col-md-2">Tên</label>
-                                                                        <div class="col-lg-4 col-md-4">
-                                                                            <input name="name-deadline-plane11" required id="name-deadline-plane11" type="text" class="form-control name-deadline-plane" />
-                                                                        </div>
-                                                                        <label class="control-label col-lg-2 col-md-2">Số tiền</label>
-                                                                        <div class="col-lg-4 col-md-4">
-                                                                            <input name="sotien-deadline-plane11" id="sotien-deadline-plane11" type="text" class="form-control sotien-deadline-plane" />
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-lg-2 col-md-2">Người liên hệ</label>
+                                                        <div class="col-lg-4 col-md-4">
+                                                            <input name="contacter-plane1" id="contacter-plane1" required type="text" class="form-control contacter-plane" />
+                                                        </div>
+                                                        <label class="control-label col-lg-2 col-md-2">Số điện thoại</label>
+                                                        <div class="col-lg-4 col-md-4">
+                                                            <input name="contacter-phone-plane1" id="contacter-phone-plane1" required type="text" class="form-control contacter-phone-plane" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="portlet light bordered DeadlinePlane" id="DeadlinePlane11">
+                                                        <div class="portlet-title">
+                                                            <div class="caption">
+                                                                <a data-toggle="collapse" data-target="#deadline-plane11" style="cursor: pointer" class="btn btn-default DeadlinePlaneA"><i class="fa fa-minus"></i></a>
+                                                                <span class="caption-subject bold uppercase font-purple DeadlineTitle">Deadline 1</span>
+                                                            </div>
+                                                            <div class="actions">
+                                                                <button class="btn btn-default btnAddNewDeadlinePlane" onclick="addNewDeadlinePlane(1)"> <i class="fa fa-plus"></i></button>
+                                                                <button style="cursor: pointer" class="btn btn-danger btnRemoveDeadlinePlane" disabled="disabled" onclick="removeDeadlinePlane(1,1)"><i class="fa fa-times"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="portlet-body DeadlinePlaneBody collapse in" id="deadline-plane11">
+                                                            <div class="form-horizontal">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-lg-2 col-md-2">Tên</label>
+                                                                            <div class="col-lg-4 col-md-4">
+                                                                                <input name="name-deadline-plane11" required id="name-deadline-plane11" type="text" class="form-control name-deadline-plane" />
+                                                                            </div>
+                                                                            <label class="control-label col-lg-2 col-md-2">Số tiền</label>
+                                                                            <div class="col-lg-4 col-md-4">
+                                                                                <input name="sotien-deadline-plane11" id="sotien-deadline-plane11" type="number" min="0" class="form-control sotien-deadline-plane" />
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-lg-2 col-md-2">Thời gian</label>
-                                                                        <div class="col-lg-4 col-md-4">
-                                                                            <input type="date" class="form-control thoigian-deadline-plane" name="thoigian-deadline-plane11" id="thoigian-deadline-plane11" />
-                                                                        </div>
-                                                                        <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
-                                                                        <div class="col-lg-4 col-md-4">
-                                                                            <select class="form-control tinhtrang-deadline-plane" style="width:100%" name="tinhtrang-deadline-plane11" id="tinhtrang-deadline-plane11">
-                                                                                @foreach (var item in LoadData.StatusProcessList())
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-lg-2 col-md-2">Thời gian</label>
+                                                                            <div class="col-lg-4 col-md-4">
+                                                                                <input type="date" class="form-control thoigian-deadline-plane" name="thoigian-deadline-plane11" id="thoigian-deadline-plane11" />
+                                                                            </div>
+                                                                            <label class="control-label col-lg-2 col-md-2">Tình trạng</label>
+                                                                            <div class="col-lg-4 col-md-4">
+                                                                                <select class="form-control tinhtrang-deadline-plane" style="width:100%" name="tinhtrang-deadline-plane11" id="tinhtrang-deadline-plane11">
+                                                                                    @foreach (var item in LoadData.StatusProcessList())
                                                                                 {
-                                                                                    <option value="@item.Id">@item.Name</option>
+                                                                                <option value="@item.Id">@item.Name</option>
                                                                                 }
-                                                                            </select>
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-lg-2 col-md-2">File</label>
-                                                                        <div class="col-lg-10 col-md-10">
-                                                                            <input name="FileNamePlane" id="file-deadline-plane11" type="file" class="form-control file-deadline-plane" />
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-lg-2 col-md-2">File</label>
+                                                                            <div class="col-lg-10 col-md-10">
+                                                                                <input name="FileNamePlane" id="file-deadline-plane11" type="file" class="form-control file-deadline-plane" />
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
-                                                                        <div class="col-lg-10 col-md-10">
-                                                                            <textarea name="PlaneNoteDeadline11" class="form-control PlaneNoteDeadline" id="PlaneNoteDeadline11"></textarea>
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-lg-2 col-md-2">Ghi chú</label>
+                                                                            <div class="col-lg-10 col-md-10">
+                                                                                <textarea name="PlaneNoteDeadline11" class="form-control PlaneNoteDeadline" id="PlaneNoteDeadline11"></textarea>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <input type="hidden" value="1" name="NumberDeadlinePlane1" class="countDeadline" id="countDeadlinePlane1" />
                                                 </div>
                                             </div>
                                         </div>
@@ -169,13 +174,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div align="center" style="margin-bottom: 20px">
-                <input type="hidden" value="1" name="NumberOptionPlane" id="countOptionPlane" />
-                <button type="button" class="btn btn-success" onclick="addNewOptionPlane()">Thêm option</button>
-                <button type="button" class="btn blue" id="btnLuuFunction">Lưu</button>
-                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
-            </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <input type="hidden" value="1" name="NumberOptionPlane" id="countOptionPlane" />
+                    <button type="button" class="btn btn-success" onclick="addNewOptionPlane()">Thêm option</button>
+                    <button type="submit" class="btn blue" id="btnLuuFunction">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
         </div>
         <!-- /.modal-content -->
     </div>

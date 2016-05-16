@@ -21,7 +21,7 @@
                                     <div class="portlet-title">
                                         <div class="caption">
                                             <a data-toggle="collapse" data-target="#demo-event1" style="cursor: pointer" class="btn btn-default OptionEventA"><i class="fa fa-minus"></i></a>
-                                            <span class="caption-subject bold uppercase font-purple eventtitle">OPTION 1</span>
+                                            <span class="caption-subject bold uppercase font-purple eventTitle">OPTION 1</span>
                                         </div>
                                         <div class="actions actionsOptionEvent">
                                             <button type="button" style="cursor: pointer" class="btn btn-danger btnRemoveOptionEvent" disabled="disabled" onclick="removeOptionEvent()"><i class="fa fa-times"></i></button>
@@ -31,11 +31,11 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label col-lg-4 col-md-4">Công ty</label>
+                                                    <label class="control-label col-lg-4 col-md-4">Đối tác</label>
                                                     <div class="col-lg-8 col-md-8">
                                                         <select class="form-control insert-company-event" name="insert-company-event1" id="insert-company-event1" style="width: 100%">
-                                                            <option>-- Chọn công ty --</option>
-                                                            @foreach (var item in LoadData.CompanyList())
+                                                            <option>-- Chọn đối tác sự kiện --</option>
+                                                            @foreach (var item in LoadData.EventList())
                                                             {
                                                                 <option value="@item.Id">@item.Name</option>
                                                             }
@@ -53,13 +53,13 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">Code</label>
                                                     <div class="col-lg-8 col-md-8">
-                                                        <input type="text" name="insert-code-event1" class="form-control insert-code-event" value="@rd.Next(1111,9999)" id="insert-code-event1" readonly="readonly" />
+                                                        <input type="text" name="insert-code-event1" class="form-control insert-code-event" id="insert-code-event1" readonly="readonly" />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-4 col-md-4">Tổng giá trị</label>
                                                     <div class="col-lg-5 col-md-5">
-                                                        <input type="text" class="form-control insert-price-event" id="insert-price-event1" name="insert-price-event1" />
+                                                        <input type="number" min="0" class="form-control insert-price-event" id="insert-price-event1" name="insert-price-event1" />
                                                     </div>
                                                     <div class="col-lg-3 col-md-3">
                                                         <select class="form-control insert-currency-event" required="required" style="width: 100%" id="insert-currency-event1" name="insert-currency-event1">
@@ -113,7 +113,7 @@
                                                                     </div>
                                                                     <label class="control-label col-lg-2 col-md-2">Deposit</label>
                                                                     <div class="col-lg-4 col-md-4">
-                                                                        <input name="deadline-total-event11" required="required" id="deadline-total-event11" type="text" class="form-control deadline-total-event" />
+                                                                        <input name="deadline-total-event11" required="required" id="deadline-total-event11" type="number" min="0" class="form-control deadline-total-event" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -145,6 +145,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <input type="hidden" value="1" name="NumberDeadlineEvent1" class="countDeadline" id="countDeadlineEvent1" />
                                             </div>
                                         </div>
                                     </div>

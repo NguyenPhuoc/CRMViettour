@@ -231,7 +231,6 @@
     <Compile Include="Controllers\DocumentManageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LivechatManageController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapManageController.cs" />
     <Compile Include="Controllers\MarketingManageController.cs" />
     <Compile Include="Controllers\Other\CurrencyManageController.cs" />
@@ -291,6 +290,7 @@
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\DictionaryViewModel.cs" />
     <Compile Include="Models\DocumentFileViewModel.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvoiceListViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PartnerViewModel.cs" />

@@ -87,8 +87,8 @@ namespace CRMViettour.App_Start
             container.RegisterType<IBaseRepository, BaseRepository>();
             container.RegisterType<IHomeRepository, HomeRepository>();
             container.RegisterType<IConfigRepository, ConfigRepository>();
-            container.RegisterType<ManageController>(new InjectionConstructor());
-            container.RegisterType<AccountController>(new InjectionConstructor(typeof(AccountRepository)));
+           // container.RegisterType<ManageController>(new InjectionConstructor());
+          //  container.RegisterType<AccountController>(new InjectionConstructor(typeof(AccountRepository)));
         }
     }
 }

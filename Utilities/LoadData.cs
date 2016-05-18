@@ -862,9 +862,24 @@ namespace CRMViettour.Utilities
             return model;
         }
 
+        /// <summary>
+        /// danh sách các đối function
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Function> FunctionList()
+        {
+            var model = CacheLayer.Get<List<tbl_Function>>("functionList");
+            if (model == null)
+            {
+                model = _db.tbl_Function.AsEnumerable().Where(c => c.IsDelete == false).Select(p => new tbl_Function { Id = p.Id, Name = p.Name }).ToList();
+                CacheLayer.Add<List<tbl_Function>>(model, "functionList", 10080);
+            }
+            return model;
+        }
+
         public static bool TourUpdate(int id)
         {
-            _db=new DataContext();
+            _db = new DataContext();
             return _db.tbl_Tour.AsEnumerable().Where(c => c.Id == id).Select(c => c.IsUpdate).Single();
         }
     }

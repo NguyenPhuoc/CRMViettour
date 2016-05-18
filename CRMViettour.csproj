@@ -290,6 +290,7 @@
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\DictionaryViewModel.cs" />
     <Compile Include="Models\DocumentFileViewModel.cs" />
+    <Compile Include="Models\FunctionViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvoiceListViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -2054,6 +2055,7 @@
     <Content Include="Scripts\ammap\themes\patterns.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\controller\module.js" />
     <Content Include="Scripts\controller\appointmentlist.js" />
     <Content Include="Scripts\controller\appointmenttype.js" />
     <Content Include="Scripts\controller\career.js" />
@@ -2538,11 +2540,19 @@
     <Content Include="Views\FlightManage\Index.cshtml" />
     <Content Include="Views\TourOtherTab\_Partial_EditQuotation.cshtml" />
     <Content Include="Views\TourOtherTab\_Partial_InsertQuotation.cshtml" />
+    <Content Include="Views\ModuleManage\Index.cshtml" />
+    <Content Include="Views\ModuleManage\_Partial_FormList.cshtml" />
+    <Content Include="Views\ModuleManage\_Partial_FunctionList.cshtml" />
+    <Content Include="Views\CustomerOtherTab\_Partial_InsertTourVisa.cshtml" />
+    <Content Include="Views\ModuleManage\_Partial_InsertModule.cshtml" />
+    <Content Include="Views\ModuleManage\_Partial_EditModule.cshtml" />
+    <Content Include="Views\ModuleManage\_Partial_InsertForm.cshtml" />
+    <Content Include="Views\ModuleManage\_Partial_EditForm.cshtml" />
+    <Content Include="Views\ModuleManage\_Partial_InsertFunction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="FakesAssemblies\" />
-    <Folder Include="Views\ModuleManage\" />
     <Folder Include="Views\VisaStatistic\" />
   </ItemGroup>
   <ItemGroup>

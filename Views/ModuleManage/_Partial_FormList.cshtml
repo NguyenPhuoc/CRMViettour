@@ -1,0 +1,39 @@
+﻿@using CRM.Core
+@using CRMViettour.Models
+@using CRMViettour.Utilities
+@model IEnumerable<tbl_Form>
+    @{ int i = 1;}
+    <div class="table-scrollable table-custom-format">
+        <table class="table table-bordered table-hover" id="tableForm">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="odd gradeX" onclick="functionForm(@item.Id)">
+                            <td>@i</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <a style="cursor: pointer" onclick="updateForm(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
+                                <a style="cursor: pointer" onclick="deleteForm(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $("table#tableForm").delegate("tr", "click", function (e) {
+            $('tr').not(this).removeClass('oneselected');
+            $(this).toggleClass('oneselected');
+        });
+    </script>

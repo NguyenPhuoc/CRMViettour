@@ -1,0 +1,139 @@
+﻿@using CRM.Core
+@using CRMViettour.Models
+@using CRMViettour.Utilities
+
+@{
+    ViewBag.Title = "Quản lý Module";
+}
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>DANH SÁCH MODULE</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="@Url.Action("Index", "ModuleManage")">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+        <div class="col-md-6">
+            <!-- BEGIN ALERTS PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-cogs font-green-sharp"></i>
+                        <span class="caption-subject font-green-sharp bold uppercase">Module</span>
+                    </div>
+                    <div class="tools">
+                        <a class="btn btn-default" style="height:inherit" href="@Url.Action("Index", "ModuleManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                        <button class="btn btn-primary" id="btnAdd" href="#modal-insert-module" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                        <button class="btn btn-warning" id="btnEdit" @*href="#modal-edit-module"*@ data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                        <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                        <form action="@Url.Action("DeleteModule", "ModuleManage")" method="post" style="position:absolute">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="listItemId" name="listItemId" />
+                        </form>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
+                        <table class="table table-bordered table-hover" id="tableDictionary">
+                            <thead>
+                                <tr>
+                                    <th class="table-checkbox">
+                                        <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                                    </th>
+                                    <th>STT</th>
+                                    <th>Tên</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" value="@item.Id" id="cb@(item.Id)" class="cbItem" name="cb" onclick="CheckSelect()" />
+                                        </td>
+                                        <td>@i</td>
+                                        <td>@item.Name</td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END ALERTS PORTLET-->
+        </div>
+        <div class="col-md-6">
+            <!-- BEGIN ALERTS PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-cogs font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">Form</span>
+                    </div>
+                    <div class="tools">
+                        <button class="btn btn-primary" id="btnAddForm" disabled="disabled" href="#modal-insert-form" @*onclick="btnAddForm()"*@ data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                    </div>
+                </div>
+                <div class="portlet-body" id="tblForm">                   
+                     @Html.Action("_Partial_FormList", "ModuleManage")
+                </div>
+            </div>
+            <!-- END ALERTS PORTLET-->
+            <!-- BEGIN ALERTS PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-cogs font-blue"></i>
+                        <span class="caption-subject font-blue bold uppercase">Function</span>
+                    </div>
+                    <div class="tools">
+                        <button class="btn btn-primary" id="btnAddFunction" disabled="disabled" @*href="#modal-insert-function"*@ onclick="btnAddFunction()" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                    </div>
+                </div>
+                <div class="portlet-body" id="tblFunction">
+                     @Html.Action("_Partial_FunctionList", "ModuleManage")
+                </div>
+            </div>
+            <!-- END ALERTS PORTLET-->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</div>
+<!--Module-->
+@Html.Partial("_Partial_InsertModule", new tbl_Module())
+<div id="info-data-module">
+</div>
+
+<!--Form-->
+@Html.Partial("_Partial_InsertForm", new tbl_Form())
+<div id="info-data-form">
+</div>
+
+<!--Form-->
+@Html.Partial("_Partial_InsertFunction", new tbl_FormFunction())
+<div id="info-data-function">
+</div>
+
+@section scripts{
+    <script src="~/Scripts/controller/module.js"></script>
+}

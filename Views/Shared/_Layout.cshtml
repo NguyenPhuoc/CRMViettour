@@ -77,5 +77,10 @@
     <script src="~/Scripts/SelectCheckbox.js"></script>
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/scriptTemplate.js"></script>
+    <script>
+        $("#btnLogOff").click(function () {
+            document.getElementById('logoutForm').submit();
+        });
+    </script>
 </body>
 </html>

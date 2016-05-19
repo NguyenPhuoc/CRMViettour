@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using CRMViettour.Models;
+using CRM.Infrastructure;
 
 namespace CRMViettour.Controllers
 {
@@ -49,6 +50,24 @@ namespace CRMViettour.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
+
+                    using (DataContext _db = new DataContext())
+                    {
+                        var item = _db.tbl_Staff.FirstOrDefault(p => p.Code == model.UserName);
+                        if (item != null)
+                        {
+                            HttpCookie myCookie = new HttpCookie("CookieUser" + model.UserName);
+                            myCookie["MaNV"] = item.Id.ToString();
+                            myCookie["Code"] = item.Code;
+                            myCookie["HoTen"] = item.FullName;
+                            myCookie["MaPB"] = item.DepartmentId.ToString();
+                            myCookie["MaNKD"] = item.StaffGroupId.ToString();
+                            myCookie["MaCN"] = item.HeadquarterId.ToString();
+                            myCookie.Expires = DateTime.Now.AddDays(30);
+                            Response.Cookies.Add(myCookie);
+                        }
+                    }
+
                     return RedirectToLocal(returnUrl);
                 }
                 else
@@ -290,7 +309,7 @@ namespace CRMViettour.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -378,7 +397,8 @@ namespace CRMViettour.Controllers
 
         private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
             {
             }
 

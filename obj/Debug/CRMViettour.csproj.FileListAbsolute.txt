@@ -29,3 +29,13 @@ E:\WORK\DIP VIETNAM\viettour\CRMViettour\bin\Microsoft.Web.Infrastructure.xml
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\obj\Debug\CRMViettour.dll
 E:\WORK\DIP VIETNAM\viettour\CRMViettour\obj\Debug\CRMViettour.pdb
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\obj\Debug\CRMViettour.csprojResolveAssemblyReference.cache
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\obj\Debug\CRMViettour.dll
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\obj\Debug\CRMViettour.pdb
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRMViettour.dll.config
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRMViettour.dll
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRMViettour.pdb
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\EPPlus.dll
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\EPPlus.xml
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\Microsoft.Web.Infrastructure.xml

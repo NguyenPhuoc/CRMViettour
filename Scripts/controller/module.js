@@ -131,7 +131,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
             dataType: "html",
             success: function (data) {
                 $("#tblForm").html(data);
-                //====
+                //=====
                 $("table#tableForm").delegate("tr", "click", function (e) {
                     $('tr').not(this).removeClass('oneselected');
                     $(this).toggleClass('oneselected');
@@ -150,7 +150,7 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
                         }
                     });
                 });
-                //=====
+                //======
             }
         });
 

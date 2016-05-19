@@ -123,9 +123,73 @@ namespace CRMViettour.Controllers
             return View();
         }
 
+        int SDBID = 6;
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId & p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsDelete = list.Contains(2);
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.ShowDataById == PermissionsId & p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+        }
+
         public ActionResult _Partial_ListTours()
         {
-            var model = _tourRepository.GetAllAsQueryable()
+            Permission(1, 24);
+
+            //Luu khi dang nhap
+            int StaffID = 9, BranchID = 0, DepartmentID = 0, GroupID = 0;
+            if (SDBID == 6)
+                return PartialView("_Partial_ListTours");
+
+            try
+            {
+                int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+                switch (SDBID)
+                {
+                    case 2: maPB = DepartmentID;
+                        maCN = BranchID;
+                        break;
+                    case 3: maNKD = GroupID;
+                        maCN = BranchID; break;
+                    case 4: maNV = StaffID; break;
+                    case 5: maCN = BranchID; break;
+                }
+
+                var model = _tourRepository.GetAllAsQueryable().Where(p => (p.CreateStaffId == maNV | maNV == 0)
+                    & (p.tbl_StaffCreate.DepartmentId == maPB | maPB == 0)
+                    & (p.tbl_StaffCreate.StaffGroupId == maNKD | maNKD == 0)
+                    & (p.tbl_StaffCreate.HeadquarterId == maCN | maCN == 0))
+                    .Select(p => new TourListViewModel
+                    {
+                        Id = p.Id,
+                        Code = p.Code,
+                        Name = p.Name,
+                        CustomerName = p.tbl_Customer.FullName,
+                        NumberCustomer = p.NumberCustomer ?? 0,
+                        DestinationPlace = p.tbl_TagsDestinationPlace.Tag,
+                        StartDate = p.StartDate,
+                        EndDate = p.EndDate,
+                        NumberDay = p.NumberDay ?? 0,
+                        TourGuide = p.tbl_TourGuide.FirstOrDefault() == null ? "" : p.tbl_TourGuide.FirstOrDefault().tbl_Staff.FullName,
+                        TourType = p.tbl_DictionaryTypeTour.Name
+                    }).ToList();
+
+                foreach (var item in model)
+                {
+                    item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
+                    item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
+                }
+                return PartialView("_Partial_ListTours", model);
+            }
+            catch
+            { }
+
+            return PartialView("_Partial_ListTours");
+            /*var model = _tourRepository.GetAllAsQueryable()
                 .Select(p => new TourListViewModel
                 {
                     Id = p.Id,
@@ -147,7 +211,7 @@ namespace CRMViettour.Controllers
                 item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
                 item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
             }
-            return PartialView("_Partial_ListTours", model);
+            return PartialView("_Partial_ListTours", model);*/
         }
 
         #endregion

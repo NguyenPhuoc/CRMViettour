@@ -1,6 +1,15 @@
 ﻿@using CRM.Core
 @using CRMViettour.Utilities
 
+<style>
+    .selectForm {
+        background-color: #C4DDFD;
+    }
+
+    .dataFunc:hover {
+        background: #ECF5FF;
+    }
+</style>
 <div class="modal fade  bs-modal-lg" id="modal-setup-role" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -11,7 +20,7 @@
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="row">
-                        <div class="col-md-7" style="height:540px; overflow:scroll">
+                        <div class="col-md-7" style="height:540px; overflow:scroll" id="ModuleForm">
                             <div class="input-group input-group-sm">
                                 <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-filter"></i></span>
                                 <input type="text" class="form-control" aria-describedby="sizing-addon3">

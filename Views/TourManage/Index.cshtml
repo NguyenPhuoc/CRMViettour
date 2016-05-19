@@ -33,7 +33,10 @@
             <div class="col-md-12">
                 <div class="pull-left">
                     <a href="@Url.Action("Index", "TourManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                    <button class="btn btn-primary" id="btnAdd" href="#modal-insert-tour" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm mới tour</button>
+                    @if (@ViewBag.IsAdd!=null)
+                    {   
+                        <button class="btn btn-primary" id="btnAdd" href="#modal-insert-tour" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm mới tour</button>
+                    }
                     <button class="btn btn-warning" id="btnEdit" href="#modal-edit-tour" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
                     <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
                     <form action="@Url.Action("Delete", "TourManage")" method="post" style="position:absolute">

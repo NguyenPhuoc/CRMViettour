@@ -294,6 +294,10 @@ $("#btnSetupRole").click(function () {
 
 $(".dataFunc").click(function () {
     var $t = $(this);
+    //css .selectForm bên _Partial_SetupRole
+    $('.dataFunc').not(this).removeClass('selectForm');
+    $t.toggleClass('selectForm');
+
     $.getJSON('/PermissionManage/JsonFunction/' + $t.data('id'), function (data) {
         var items = '';
         $.each(data, function (i, ward) {

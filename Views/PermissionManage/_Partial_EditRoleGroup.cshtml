@@ -1,45 +1,45 @@
-﻿<div class="modal fade " id="modal-edit-grouprole" role="document" aria-hidden="true">
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@model tbl_Permissions
+
+<div class="modal fade " id="modal-edit-grouprole" role="document" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Cập nhật nhóm quyền</h4>
             </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="control-label col-lg-3 col-md-3">Tên nhóm</label>
-                                <div class="col-lg-9 col-md-9">
-                                    <input type="text" value="" name="StaffRoleGroupName" class="form-control" />
+            @using (Html.BeginForm("Update", "PermissionManage"))
+            {
+                @Html.HiddenFor(model => model.Id);
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Tên nhóm</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", required = "required" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-3 col-md-3">Diễn giải</label>
-                                <div class="col-lg-9 col-md-9">
-                                    <textarea class="form-control" name="StaffRoleGroupNote"></textarea>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3 col-md-3">Diễn giải</label>
+                                    <div class="col-lg-9 col-md-9">
+                                        @Html.TextAreaFor(model => model.Note, new { @class = "form-control", id = "edit-note", required = "required" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-3 col-md-3"></label>
-                                <div class="col-lg-9 col-md-9">
-                                    <input type="checkbox" name="StaffRoleGroupPermission" /> Phân quyền cho đại lý
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div align="center" style="margin-bottom: 20px">
-                <button type="button" class="btn blue" id="btnLuuSua">Lưu</button>
-                <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
-            </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue" id="btnLuuSua">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
+                </div>
+            }
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
 </div>
-
-
-

@@ -131,6 +131,26 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
             dataType: "html",
             success: function (data) {
                 $("#tblForm").html(data);
+                //====
+                $("table#tableForm").delegate("tr", "click", function (e) {
+                    $('tr').not(this).removeClass('oneselected');
+                    $(this).toggleClass('oneselected');
+                });
+                $("table#tableForm").delegate("thead > tr", "click", function (e) {
+                    var dataPost = { id: 0 };
+                    $.ajax({
+                        type: "POST",
+                        url: '/ModuleManage/InfoFunction',
+                        data: JSON.stringify(dataPost),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (data) {
+                            $("#tblFunction").html(data);
+                            $("#btnAddFunction").attr('disabled', true)
+                        }
+                    });
+                });
+                //=====
             }
         });
 
@@ -150,6 +170,27 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
         $("#btnAddFunction").attr('disabled', true)
 
     } else {
+        dataPost = { id: 0 };
+        $.ajax({
+            type: "POST",
+            url: '/ModuleManage/InfoFunction',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#tblFunction").html(data);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: '/ModuleManage/InfoForm',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#tblForm").html(data);
+            }
+        });
         $("#btnAddForm").attr('disabled', true)
         $("#btnAddFunction").attr('disabled', true)
     }

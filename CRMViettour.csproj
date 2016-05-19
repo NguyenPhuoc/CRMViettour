@@ -234,7 +234,7 @@
     <Compile Include="Controllers\MapManageController.cs" />
     <Compile Include="Controllers\MarketingManageController.cs" />
     <Compile Include="Controllers\Other\CurrencyManageController.cs" />
-    <Compile Include="Controllers\Permission\PermissionManageController.cs" />
+    <Compile Include="Controllers\Permission\PermissionManageController .cs" />
     <Compile Include="Controllers\OpportunityManageController.cs" />
     <Compile Include="Controllers\Other\DocumentTypeManageController.cs" />
     <Compile Include="Controllers\Other\LocationTagsManageController.cs" />
@@ -2055,6 +2055,7 @@
     <Content Include="Scripts\ammap\themes\patterns.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\controller\permission.js" />
     <Content Include="Scripts\controller\module.js" />
     <Content Include="Scripts\controller\appointmentlist.js" />
     <Content Include="Scripts\controller\appointmenttype.js" />
@@ -2549,6 +2550,7 @@
     <Content Include="Views\ModuleManage\_Partial_InsertForm.cshtml" />
     <Content Include="Views\ModuleManage\_Partial_EditForm.cshtml" />
     <Content Include="Views\ModuleManage\_Partial_InsertFunction.cshtml" />
+    <Content Include="Views\PermissionManage\_NguoiDung.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

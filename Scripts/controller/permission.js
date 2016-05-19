@@ -1,22 +1,94 @@
-﻿function addRow2Colum() {
-    $("table.table-addrow tbody").append("<tr><td><input type='checkbox' value='0' id='cb' name='cb' checked='checked' /></td>"
-        + "<td></td><td><input type='text' value='' id='txtName' class='form-control' /></td></tr>");
-    $("#btnSave").removeAttr("disabled", "disabled");
-    $("#btnAdd").attr("disabled", "disabled");
-}
+﻿$(".dataTable").dataTable().columnFilter({
+    sPlaceHolder: "head:after",
+    aoColumns: [null,
+                null,
+                { type: "text" },
+                { type: "text" }]
+});
 
-function updateRow2Colum() {
-    $('tbody tr td').find("input:checkbox").each(function () {
-        if (this.checked) {
-            var tr = $(this).closest("tr").find("td:last");
-            var text = tr.text();
-            tr.text("");
-            tr.append("<input type='text' id='txtName' value='" + text + "' class='form-control' />");
+/** cập nhật permission **/
+$("#btnEdit").click(function () {
+    var dataPost = {
+        id: $("input[type='checkbox']:checked").val()
+    };
+    $.ajax({
+        type: "POST",
+        url: '/PermissionManage/Edit',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-permission").html(data);
+            //CKEDITOR.replace("edit-note-lichhen");
+            $("#modal-edit-grouprole").modal("show");
         }
     });
-    $("#btnAdd").attr("disabled", "disabled");
-    $("#btnEdit").attr("disabled", "disabled");
-}
+});
+
+/** thêm user **/
+$("#btnAddUser").click(function () {
+    var dataPost = {
+        id: $("input[type='checkbox']:checked").val()
+    };
+    $.ajax({
+        type: "POST",
+        url: '/PermissionManage/AddUser',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#info-data-adduser").html(data);
+            $(".dataTable2").dataTable().columnFilter({
+                sPlaceHolder: "head:after",
+                aoColumns: [null,
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" }]
+            });
+            $("#tableStaff").on("change", ".checkAddUser", function () {
+                var ItemID = $(this).val();
+                var currentlistItemID = $("#listItemIdAdd").val();
+                var stringBranchID = "";
+                if ($(this).prop('checked')) {
+                    currentlistItemID += ItemID + ",";
+                    $("#listItemIdAdd").val(currentlistItemID);
+                } else {
+                    $("#listItemIdAdd").val(currentlistItemID.replace(ItemID + ",", ""));
+                }
+            });
+            $("#btnLuuAddUser").on("click", function () {
+                if ($("#listItemIdAdd").val() == "") {
+                    alert("Vui lòng chọn người dùng !");
+                    return false;
+                }
+                var $form = $("#formAddUser");
+                var options = {
+                    url: $form.attr("action"),
+                    type: $form.attr("method"),
+                    data: $form.serialize(),
+                };
+                $.ajax(options).done(function (data) {
+                    if (data.Succeed) {
+                        alert(data.Message);
+                        if (data.RedirectTo != null && data.RedirectTo != "") {
+                            window.location.href = data.RedirectTo;
+                        }
+                    }
+                    else {
+                        alert(data.Message);
+                    }
+                });
+            });
+
+
+            $("#modal-add-user").modal("show");
+        }
+    });
+});
 
 $("#btnSave").click(function () {
     var dataPost = {
@@ -26,7 +98,7 @@ $("#btnSave").click(function () {
 
     $.ajax({
         type: "POST",
-        url: '/AppointmentType/SaveData',
+        url: '/PermissionManage/SaveData',
         data: JSON.stringify(dataPost),
         contentType: "application/json; charset=utf-8",
         dataType: "html",
@@ -37,7 +109,6 @@ $("#btnSave").click(function () {
 })
 
 /** Xoa du lieu **/
-
 $("#btnRemove").on("click", function () {
     if ($("#listItemId").val() == "") {
         alert("Vui lòng chọn mục cần xóa !");
@@ -116,3 +187,177 @@ function DeleteSelectedItem(selector, tableWrapper, table, callBack) {
         }
     });
 }
+
+/** chọn từng dòng để hiển thị thông tin chi tiết dưới các tab **/
+$("table#tableDictionary").delegate("tr", "click", function (e) {
+    $('tr').not(this).removeClass('oneselected');
+    $(this).toggleClass('oneselected');
+    var tab = $(".tab-content").find('.active').data("id");
+    var dataPost = { id: $(this).find("input[type='checkbox']").val() };
+    switch (tab) {
+        case 'nguoidung':
+            $.ajax({
+                type: "POST",
+                url: '/PermissionManage/InfoNguoiDung',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#nguoidung").html(data);
+                }
+            });
+            break;
+        case 'quyentruycap':
+            $.ajax({
+                type: "POST",
+                url: '/PermissionManage/InfoQuyenTruyCap',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#quyentruycap").html(data);
+                }
+            });
+            break;
+    }
+});
+
+/** click chọn từng tab -> hiển thị thông tin **/
+$("#tabnguoidung").click(function () {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 nhóm!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+        $.ajax({
+            type: "POST",
+            url: '/PermissionManage/InfoNguoiDung',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#nguoidung").html(data);
+            }
+        });
+    }
+});
+
+$("#tabquyentruycap").click(function () {
+    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+        alert("Vui lòng chọn 1 nhóm!");
+    }
+    else {
+        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+        $.ajax({
+            type: "POST",
+            url: '/PermissionManage/InfoNguoiDung',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#quyentruycap").html(data);
+            }
+        });
+    }
+});
+
+function deleteUser(id) {
+    var dataPost = { id: id };
+    $.ajax({
+        type: "POST",
+        url: '/PermissionManage/InfoQuyenTruyCap',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#nguoidung").html(data);
+        }
+    });
+}
+
+/** thiết lập **/
+$("#btnSetupRole").click(function () {
+    var dataPost = {
+        id: $("input[type='checkbox']:checked").val()
+    };
+    $.ajax({
+        type: "POST",
+        url: '/PermissionManage/GetIdPermission',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#modal-setup-role").modal("show");
+        }
+    });
+});
+
+$(".dataFunc").click(function () {
+    var $t = $(this);
+    $.getJSON('/PermissionManage/JsonFunction/' + $t.data('id'), function (data) {
+        var items = '';
+        $.each(data, function (i, ward) {
+            if (ward.ckeck)
+                items += "<input type='checkbox' checked value='" + ward.id + "' class='funcData' name='StaffSetupActionId' /> ";
+            else
+                items += "<input type='checkbox' value='" + ward.id + "' class='funcData' name='StaffSetupActionId' /> ";
+            items += ward.name;
+            items += "<br />";
+        });
+        $('#funcData').html(items);
+        $("#listItemIdFunc").val('');
+        $(".funcData").change(function () {
+            var items = '';
+            $(".funcData").each(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    items += $this.val() + ',';
+                }
+            });
+            $("#listItemIdFunc").val(items);
+        })
+        $("input[type=radio][name=StaffSetupRoleId]").change(function () {
+            //alert($(this).val())
+            //if ($("#listItemIdFunc").val() != '') {
+            var dataPost = {
+                idDataBy: $(this).val(),
+                lst: $("#listItemIdFunc").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: '/PermissionManage/SaveSetupRole',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                }
+            });
+            // }
+        })
+        $("input[type=checkbox][name=StaffSetupActionId]").change(function () {
+            //$("#listItemIdFunc").val()
+            //if ($("#listItemIdFunc").val() != '') {
+            var dataPost = {
+                idDataBy: $(this).val(),
+                lst: $("#listItemIdFunc").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: '/PermissionManage/SaveSetupRole',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                }
+            });
+            //  }
+        })
+    });
+    $.getJSON('/PermissionManage/JsonShowDataBy/' + $t.data('id'), function (data) {
+        if (data.id != 0) {
+            $("input[name=StaffSetupRoleId][value='" + data.id + "']").prop("checked", true);
+        } else {
+            $("input[name=StaffSetupRoleId][value='1']").prop("checked", true);
+        }
+    })
+})

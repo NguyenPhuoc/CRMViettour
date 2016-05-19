@@ -48,12 +48,15 @@ namespace CRMViettour.App_Start
             container.RegisterType<IGenericRepository<tbl_CustomerVisa>, GenericRepository<tbl_CustomerVisa>>();
             container.RegisterType<IGenericRepository<tbl_Form>, GenericRepository<tbl_Form>>();
             container.RegisterType<IGenericRepository<tbl_FormFunction>, GenericRepository<tbl_FormFunction>>();
+            container.RegisterType<IGenericRepository<tbl_ShowDataBy>, GenericRepository<tbl_ShowDataBy>>();
+            container.RegisterType<IGenericRepository<tbl_AccessData>, GenericRepository<tbl_AccessData>>();
+            container.RegisterType<IGenericRepository<tbl_ActionData>, GenericRepository<tbl_ActionData>>();
             container.RegisterType<IGenericRepository<tbl_Function>, GenericRepository<tbl_Function>>();
             container.RegisterType<IGenericRepository<tbl_Headquater>, GenericRepository<tbl_Headquater>>();
             container.RegisterType<IGenericRepository<tbl_Module>, GenericRepository<tbl_Module>>();
             container.RegisterType<IGenericRepository<tbl_Partner>, GenericRepository<tbl_Partner>>();
             container.RegisterType<IGenericRepository<tbl_PartnerNote>, GenericRepository<tbl_PartnerNote>>();
-           // container.RegisterType<IGenericRepository<tbl_RoleGroup>, GenericRepository<tbl_RoleGroup>>();
+            container.RegisterType<IGenericRepository<tbl_Permissions>, GenericRepository<tbl_Permissions>>();
             container.RegisterType<IGenericRepository<tbl_ServicesPartner>, GenericRepository<tbl_ServicesPartner>>();
             container.RegisterType<IGenericRepository<tbl_Staff>, GenericRepository<tbl_Staff>>();
             container.RegisterType<IGenericRepository<tbl_StaffGroup>, GenericRepository<tbl_StaffGroup>>();

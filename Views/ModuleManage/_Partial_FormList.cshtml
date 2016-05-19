@@ -21,7 +21,7 @@
                             <td>@i</td>
                             <td>@item.Name</td>
                             <td>
-                                <a style="cursor: pointer" onclick="updateForm(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
+                                <a style="cursor: pointer" onclick="updateForm(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a> &nbsp;
                                 <a style="cursor: pointer" onclick="deleteForm(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
                             </td>
                         </tr>
@@ -31,9 +31,23 @@
             </tbody>
         </table>
     </div>
-    <script>
+    @*<script>
         $("table#tableForm").delegate("tr", "click", function (e) {
             $('tr').not(this).removeClass('oneselected');
             $(this).toggleClass('oneselected');
         });
-    </script>
+        $("table#tableForm").delegate("thead > tr", "click", function (e) {
+            var dataPost = { id: 0 };
+            $.ajax({
+                type: "POST",
+                url: '/ModuleManage/InfoFunction',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#tblFunction").html(data);
+                    $("#btnAddFunction").attr('disabled', true)
+                }
+            });
+        });
+    </script>*@

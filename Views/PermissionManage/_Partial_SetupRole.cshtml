@@ -1,4 +1,7 @@
-﻿<div class="modal fade  bs-modal-lg" id="modal-setup-role" role="document" aria-hidden="true">
+﻿@using CRM.Core
+@using CRMViettour.Utilities
+@*@model tbl_FormFunction*@
+<div class="modal fade  bs-modal-lg" id="modal-setup-role" role="document" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,75 +11,57 @@
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-7" style="height:540px; overflow:scroll">
                             <div class="input-group input-group-sm">
                                 <span class="input-group-addon" id="sizing-addon3"><i class="fa fa-filter"></i></span>
                                 <input type="text" class="form-control" aria-describedby="sizing-addon3">
                             </div>
-                            <div class="dd-handle">
-                                <a data-toggle="collapse" href="#collapse11">
-                                    <i class="fa fa-minus"></i>&nbsp;<b>Nhân viên</b></a>
-                            </div>
-                            <div id="collapse11" class="panel-collapse collapse in">
-                                <div class="dd-handle marginleft"><a href="#">Phòng ban</a></div>
-                                <div class="dd-handle marginleft"><a href="#">Chức vụ</a></div>
-                                <div class="dd-handle marginleft"><a href="#">Phân quyền</a></div>
-                            </div>
-                            <div class="dd-handle">
-                                <a data-toggle="collapse" href="#collapse21">
-                                    <i class="fa fa-minus"></i>&nbsp;<b>Khách hàng</b></a>
-                            </div>
-                            <div id="collapse21" class="panel-collapse collapse in">
-                                <div class="dd-handle marginleft"><a href="#">Nhóm khách hàng</a></div>
-                                <div class="dd-handle marginleft"><a href="#">Ngành nghề</a></div>
-                                <div class="dd-handle marginleft"><a href="#">Quy mô</a></div>
-                            </div>
+                            @{
+                                int i = 1;
+                            }
+                            @foreach (var item in LoadData.ModuleFormList())
+                            {
+                                <div class="dd-handle">
+                                    <a data-toggle="collapse" class="collapsed" href="#collapseS@(i)">
+                                        <i class="fa fa-plus"></i>&nbsp;<b>@item.Name</b>
+                                    </a>
+                                </div>
+                                <div id="collapseS@(i)" class="panel-collapse collapse">
+                                    @foreach (var it in item.tbl_Form)
+                                    {
+                                        <div class="dd-handle marginleft dataFunc" data-id="@it.Id"><a href="#">@it.Name</a></div>
+                                    }
+                                </div>
+                                    i++;
+                            }
                         </div>
                         <div class="col-md-5">
                             <div class="title-permission">Quyền truy cập</div>
                             <div class="list-permission">
-                                <input type="radio" name="StaffSetupRoleId" />
-                                Tất cả
-                                <br />
-                                <input type="radio" name="StaffSetupRoleId" />
-                                Theo phòng
-                                <br />
-                                <input type="radio" name="StaffSetupRoleId" />
-                                Theo nhóm
-                                <br />
-                                <input type="radio" name="StaffSetupRoleId" />
-                                Theo nhân viên
-                                <br />
-                                <input type="radio" name="StaffSetupRoleId" />
-                                Theo đại lý
-                                <br />
-                                <input type="radio" name="StaffSetupRoleId" checked="checked" />
-                                Không có quyền truy cập
-                                <br />
+                                @{
+                                    int ck = 1;
+                                }
+                                @foreach (var item in LoadData.ShowDataByList())
+                                {
+                                    if (ck == 1)
+                                    {
+                                        <input type="radio" value="@item.Id" checked name="StaffSetupRoleId" />
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" value="@item.Id" name="StaffSetupRoleId" />
+                                    }
+                                    @Html.Raw(item.Name)
+                                    <br />
+                                    ck++;
+                                }
                             </div>
                             <div class="title-permission">Thao tác</div>
-                            <div class="list-permission">
-                                <input type="checkbox" name="StaffSetupActionId" />
-                                Thêm
-                                <br />
-                                <input type="checkbox" name="StaffSetupActionId" />
-                                Xóa
-                                <br />
-                                <input type="checkbox" name="StaffSetupActionId" />
-                                Sửa
-                                <br />
-                                <input type="checkbox" name="StaffSetupActionId" />
-                                Import
-                                <br />
-                                <input type="checkbox" name="StaffSetupActionId" />
-                                Export
-                                <br />
-                                <input type="checkbox" name="StaffSetupActionId" />
-                                In
-                                    <br />
+                            <div class="list-permission" id="funcData">
+
                             </div>
+                            <input type="hidden" name="listItemIdFunc" value="" id="listItemIdFunc" />
                             <div style="margin-bottom: 20px" align="right">
-                                <button type="button" class="btn blue" id="btnSavePermission">Lưu</button>
                                 <button type="button" class="btn default" data-dismiss="modal">Đóng</button>
                             </div>
                         </div>

@@ -877,6 +877,47 @@ namespace CRMViettour.Utilities
             return model;
         }
 
+        /// <summary>
+        /// danh sách module vs form
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Module> ModuleFormList()
+        {
+            var model = CacheLayer.Get<List<tbl_Module>>("moduleformlist");
+            if (model == null)
+            {
+                model = _db.tbl_Module.AsEnumerable().Select(p => new tbl_Module
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                }).ToList();
+                foreach (var item in model)
+                {
+                    item.tbl_Form = _db.tbl_Form.AsEnumerable().Where(c => c.ModuleId == item.Id).Select(c => new tbl_Form
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    }).ToList();
+                }
+                CacheLayer.Add<List<tbl_Module>>(model, "moduleformlist", 10080);
+            }
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách quyền truy cập
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_ShowDataBy> ShowDataByList()
+        {
+            var model = CacheLayer.Get<List<tbl_ShowDataBy>>("showdatabylist");
+            if (model == null)
+            {
+                model = _db.tbl_ShowDataBy.AsEnumerable().ToList();
+                CacheLayer.Add<List<tbl_ShowDataBy>>(model, "showdatabylist", 10080);
+            }
+            return model;
+        }
         public static bool TourUpdate(int id)
         {
             _db = new DataContext();

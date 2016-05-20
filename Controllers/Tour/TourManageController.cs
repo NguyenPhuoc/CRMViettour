@@ -140,10 +140,21 @@ namespace CRMViettour.Controllers
         {
             Permission(1, 24);
 
-            //Luu khi dang nhap
-            int StaffID = 9, BranchID = 0, DepartmentID = 0, GroupID = 0;
+            //Luu khi dang nhap 
+            int StaffID = 0, BranchID = 0, DepartmentID = 0, GroupID = 0;
+            if (Request.IsAuthenticated)
+            {
+                string user = User.Identity.Name;
+                if (Request.Cookies["CookieUser" + user] != null)
+                {
+                    StaffID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
+                    BranchID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaCN"]);
+                    DepartmentID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaPB"]);
+                    GroupID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNKD"]);
+                }
+            }
             if (SDBID == 6)
-                return PartialView("_Partial_ListTours");
+                return PartialView("_Partial_ListTours", new List<TourListViewModel>());
 
             try
             {
@@ -151,8 +162,7 @@ namespace CRMViettour.Controllers
                 switch (SDBID)
                 {
                     case 2: maPB = DepartmentID;
-                        maCN = BranchID;
-                        break;
+                        maCN = BranchID; break;
                     case 3: maNKD = GroupID;
                         maCN = BranchID; break;
                     case 4: maNV = StaffID; break;

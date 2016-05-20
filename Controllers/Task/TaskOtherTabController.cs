@@ -90,7 +90,7 @@ namespace CRMViettour.Controllers.Task
                         System.IO.File.Delete(path);
                 }
 
-                if (await _taskHandlingRepository.Delete(id, true))
+                if (await _taskHandlingRepository.Delete(id, false))
                 {
                     var list = _taskHandlingRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId).Select(p => new tbl_TaskHandling
                     {
@@ -124,7 +124,7 @@ namespace CRMViettour.Controllers.Task
             try
             {
 
-                if (await _taskStaffRepository.Delete(id, true))
+                if (await _taskStaffRepository.Delete(id, false))
                 {
                     var list = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == tasId).ToList();
                     return PartialView("~/Views/TaskTabInfo/_DSNhanVienDangLamNhiemVu.cshtml", list);
@@ -225,7 +225,7 @@ namespace CRMViettour.Controllers.Task
             int tasId = _appointmentHistoryRepository.FindId(id).TaskId ?? 0;
             try
             {
-                if (await _appointmentHistoryRepository.Delete(id, true))
+                if (await _appointmentHistoryRepository.Delete(id, false))
                 {
                     var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId)
                             .Select(p => new tbl_AppointmentHistory
@@ -410,7 +410,7 @@ namespace CRMViettour.Controllers.Task
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
                 //end file
-                if (await _documentFileRepository.Delete(id, true))
+                if (await _documentFileRepository.Delete(id, false))
                 {
                     var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId == tasId)
                      .Select(p => new tbl_DocumentFile
@@ -478,7 +478,7 @@ namespace CRMViettour.Controllers.Task
             int tasId = _taskNoteRepository.FindId(id).TaskId;
             try
             {
-                if (await _taskNoteRepository.Delete(id, true))
+                if (await _taskNoteRepository.Delete(id, false))
                 {
                     var list = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId).Select(p => new tbl_TaskNote
                     {

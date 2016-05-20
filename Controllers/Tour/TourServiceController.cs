@@ -889,7 +889,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
-                await _tourOptionRepository.Delete(optionid, true);
+                await _tourOptionRepository.Delete(optionid, false);
                 var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourid).
                             Select(p => new TourServiceViewModel
                             {

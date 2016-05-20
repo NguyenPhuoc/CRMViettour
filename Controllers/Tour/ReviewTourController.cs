@@ -149,7 +149,7 @@ namespace CRMViettour.Controllers
                     // delete
                     foreach (var item in _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == model.Id))
                     {
-                        await _reviewTourDetailRepository.Delete(item.Id, true);
+                        await _reviewTourDetailRepository.Delete(item.Id, false);
                     }
 
                     // insert
@@ -186,7 +186,7 @@ namespace CRMViettour.Controllers
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _reviewTourRepository.DeleteMany(listIds, true))
+                        if (await _reviewTourRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "ReviewTour") }, JsonRequestBehavior.AllowGet);
                         }

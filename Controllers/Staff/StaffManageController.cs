@@ -234,7 +234,7 @@ namespace CRMViettour.Controllers
                     {
                         foreach (var v in visaList)
                         {
-                            await _staffVisaRepository.Delete(v.Id, true);
+                            await _staffVisaRepository.Delete(v.Id, false);
                         }
                     }
 
@@ -297,7 +297,7 @@ namespace CRMViettour.Controllers
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _staffRepository.DeleteMany(listIds, true))
+                        if (await _staffRepository.DeleteMany(listIds, false))
                         {
                             UpdateHistory.SaveStaff(9, "Xóa danh sách nhân viên");
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "StaffManage") }, JsonRequestBehavior.AllowGet);
@@ -458,7 +458,7 @@ namespace CRMViettour.Controllers
             try
             {
                 var sId = _staffVisaRepository.FindId(id).StaffId;
-                if (await _staffVisaRepository.Delete(id, true))
+                if (await _staffVisaRepository.Delete(id, false))
                 {
                     UpdateHistory.SaveStaff(9, "Xóa danh sách visa của nhân viên");
                     var list = _db.tbl_StaffVisa.AsEnumerable().Where(p => p.StaffId == sId).ToList();
@@ -647,7 +647,7 @@ namespace CRMViettour.Controllers
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
                 //end file
-                if (await _documentFileRepository.Delete(id, true))
+                if (await _documentFileRepository.Delete(id, false))
                 {
                     UpdateHistory.SaveStaff(9, "Xóa danh sách tài liệu của nhân viên");
                     //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == sId).ToList();

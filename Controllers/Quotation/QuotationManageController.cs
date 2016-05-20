@@ -158,7 +158,7 @@ namespace CRMViettour.Controllers.Quotation
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _quotationRepository.DeleteMany(listIds, true))
+                        if (await _quotationRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "QuotationManage") }, JsonRequestBehavior.AllowGet);
                         }

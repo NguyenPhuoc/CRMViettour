@@ -135,7 +135,7 @@ namespace CRMViettour.Controllers.Permission
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _permissionsRepository.DeleteMany(listIds, true))
+                        if (await _permissionsRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "PermissionManage") }, JsonRequestBehavior.AllowGet);
                         }
@@ -348,7 +348,7 @@ namespace CRMViettour.Controllers.Permission
                 {
                     foreach (var item in actis)
                     {
-                        await _actionDataRepository.Delete(item.Id, true);
+                        await _actionDataRepository.Delete(item.Id, false);
                     }
                     foreach (var _id in listIdFuncs)
                     {

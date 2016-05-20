@@ -157,7 +157,7 @@ namespace CRMViettour.Controllers.Staff
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _moduleRepository.DeleteMany(listIds, true))
+                        if (await _moduleRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "ModuleManage") }, JsonRequestBehavior.AllowGet);
                         }
@@ -225,7 +225,7 @@ namespace CRMViettour.Controllers.Staff
             try
             {
                 int idModule = _formRepository.FindId(id).ModuleId ?? 0;
-                if (await _formRepository.Delete(id, true))
+                if (await _formRepository.Delete(id, false))
                 {
                     var model = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == idModule).ToList();
                     return PartialView("_Partial_FormList", model);
@@ -295,7 +295,7 @@ namespace CRMViettour.Controllers.Staff
             try
             {
                 int idForm = _formFunctionRepository.FindId(id).FormId;
-                if (await _formFunctionRepository.Delete(id, true))
+                if (await _formFunctionRepository.Delete(id, false))
                 {
                     var model = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == idForm).Select(c => new FunctionViewModel
                     {

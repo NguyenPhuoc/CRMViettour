@@ -175,7 +175,7 @@ namespace CRMViettour.Controllers.Customer
             int staffId = _appointmentHistoryRepository.FindId(id).StaffId;
             try
             {
-                if (await _appointmentHistoryRepository.Delete(id, true))
+                if (await _appointmentHistoryRepository.Delete(id, false))
                 {
                     var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId)
                             .Select(p => new tbl_AppointmentHistory
@@ -288,7 +288,7 @@ namespace CRMViettour.Controllers.Customer
             try
             {
                 int staffId = _contactHistoryRepository.FindId(id).StaffId;
-                if (await _contactHistoryRepository.Delete(id, true))
+                if (await _contactHistoryRepository.Delete(id, false))
                 {
                     var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == staffId)
                         .Select(p => new tbl_ContactHistory
@@ -322,7 +322,7 @@ namespace CRMViettour.Controllers.Customer
             try
             {
                 int staffId = _tourScheduleRepository.FindId(id).StaffId ?? 0;
-                if (await _tourScheduleRepository.Delete(id, true))
+                if (await _tourScheduleRepository.Delete(id, false))
                 {
                     var list = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffId == staffId).ToList();
                     return PartialView("~/Views/StaffTabInfo/_LichSuDiTour.cshtml", list);
@@ -400,7 +400,7 @@ namespace CRMViettour.Controllers.Customer
             int staffId = _taskRepository.FindId(id).StaffId;
             try
             {
-                if (await _taskRepository.Delete(id, true))
+                if (await _taskRepository.Delete(id, false))
                 {
                     var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId)
                               .Select(p => new tbl_Task

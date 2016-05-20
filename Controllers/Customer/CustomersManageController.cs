@@ -341,7 +341,7 @@ namespace CRMViettour.Controllers
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _customerRepository.DeleteMany(listIds, true))
+                        if (await _customerRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "CustomersManage") }, JsonRequestBehavior.AllowGet);
                         }
@@ -520,7 +520,7 @@ namespace CRMViettour.Controllers
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
                 //end file
-                if (await _documentFileRepository.Delete(id, true))
+                if (await _documentFileRepository.Delete(id, false))
                 {
                     var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId)
                      .Select(p => new tbl_DocumentFile
@@ -672,7 +672,7 @@ namespace CRMViettour.Controllers
             {
                 int visaId = _customerVisaRepository.FindId(id).CustomerId;
 
-                if (await _customerVisaRepository.Delete(id, true))
+                if (await _customerVisaRepository.Delete(id, false))
                 {
                     var list = _db.tbl_CustomerVisa.AsEnumerable().Where(p => p.CustomerId == visaId).ToList();
                     return PartialView("~/Views/CustomerTabInfo/_Visa.cshtml", list);
@@ -785,7 +785,7 @@ namespace CRMViettour.Controllers
                         {
                             foreach (var v in visaList)
                             {
-                                await _customerVisaRepository.Delete(v.Id, true);
+                                await _customerVisaRepository.Delete(v.Id, false);
                             }
                         }
 
@@ -861,7 +861,7 @@ namespace CRMViettour.Controllers
                         {
                             foreach (var v in visaList)
                             {
-                                await _customerVisaRepository.Delete(v.Id, true);
+                                await _customerVisaRepository.Delete(v.Id, false);
                             }
                         }
 
@@ -937,7 +937,7 @@ namespace CRMViettour.Controllers
                         {
                             foreach (var v in visaList)
                             {
-                                await _customerContactVisaRepository.Delete(v.Id, true);
+                                await _customerContactVisaRepository.Delete(v.Id, false);
                             }
                         }
 

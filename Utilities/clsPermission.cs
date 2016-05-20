@@ -20,6 +20,7 @@ namespace CRMViettour.Utilities
                     item.BranchID = Convert.ToInt32(HttpContext.Current.Request.Cookies["CookieUser" + user]["MaCN"]);
                     item.DepartmentID = Convert.ToInt32(HttpContext.Current.Request.Cookies["CookieUser" + user]["MaPB"]);
                     item.GroupID = Convert.ToInt32(HttpContext.Current.Request.Cookies["CookieUser" + user]["MaNKD"]);
+                    item.PermissionID = Convert.ToInt32(HttpContext.Current.Request.Cookies["CookieUser" + user]["PerID"]);
                 }
             }
             return item;

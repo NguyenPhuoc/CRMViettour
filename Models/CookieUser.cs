@@ -11,5 +11,6 @@ namespace CRMViettour.Models
         public int BranchID { get; set; }
         public int DepartmentID { get; set; }
         public int GroupID { get; set; }
+        public int PermissionID { get; set; }
     }
 }

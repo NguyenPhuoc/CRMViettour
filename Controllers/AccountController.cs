@@ -63,6 +63,7 @@ namespace CRMViettour.Controllers
                             myCookie["MaPB"] = item.DepartmentId.ToString();
                             myCookie["MaNKD"] = item.StaffGroupId.ToString();
                             myCookie["MaCN"] = item.HeadquarterId.ToString();
+                            myCookie["PerID"] = (item.PermissionId != null ? item.PermissionId.ToString() : "0");
                             myCookie.Expires = DateTime.Now.AddDays(30);
                             Response.Cookies.Add(myCookie);
                         }

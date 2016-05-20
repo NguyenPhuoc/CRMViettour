@@ -14,6 +14,7 @@ using OfficeOpenXml;
 
 namespace CRMViettour.Controllers
 {
+    [Authorize]
     public class TourManageController : BaseController
     {
         //
@@ -139,7 +140,7 @@ namespace CRMViettour.Controllers
         public ActionResult _Partial_ListTours()
         {
             // phân quyền
-            Permission(1, 24);
+            Permission(clsPermission.GetUser().PermissionID, 24);
 
             //Luu khi dang nhap
 

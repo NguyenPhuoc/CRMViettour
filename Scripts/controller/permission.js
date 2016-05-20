@@ -207,18 +207,18 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
                 }
             });
             break;
-        case 'quyentruycap':
-            $.ajax({
-                type: "POST",
-                url: '/PermissionManage/InfoQuyenTruyCap',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#quyentruycap").html(data);
-                }
-            });
-            break;
+        //case 'quyentruycap':
+        //    $.ajax({
+        //        type: "POST",
+        //        url: '/PermissionManage/InfoQuyenTruyCap',
+        //        data: JSON.stringify(dataPost),
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "html",
+        //        success: function (data) {
+        //            $("#quyentruycap").html(data);
+        //        }
+        //    });
+        //    break;
     }
 });
 
@@ -242,30 +242,33 @@ $("#tabnguoidung").click(function () {
     }
 });
 
-$("#tabquyentruycap").click(function () {
-    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
-        alert("Vui lòng chọn 1 nhóm!");
-    }
-    else {
-        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
-        $.ajax({
-            type: "POST",
-            url: '/PermissionManage/InfoNguoiDung',
-            data: JSON.stringify(dataPost),
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            success: function (data) {
-                $("#quyentruycap").html(data);
-            }
-        });
-    }
-});
+//$("#tabquyentruycap").click(function () {
+//    if ($("table#tableDictionary").find('tr.oneselected').length === 0) {
+//        alert("Vui lòng chọn 1 nhóm!");
+//    }
+//    else {
+//        var dataPost = { id: $("table#tableDictionary").find('tr.oneselected').find("input[type='checkbox']").val() };
+//        $.ajax({
+//            type: "POST",
+//            url: '/PermissionManage/InfoNguoiDung',
+//            data: JSON.stringify(dataPost),
+//            contentType: "application/json; charset=utf-8",
+//            dataType: "html",
+//            success: function (data) {
+//                $("#quyentruycap").html(data);
+//            }
+//        });
+//    }
+//});
 
 function deleteUser(id) {
+    if (!confirm("Bạn thực sự muốn xóa người dùng khỏi nhóm này ?")) {
+        return false;
+    }
     var dataPost = { id: id };
     $.ajax({
         type: "POST",
-        url: '/PermissionManage/InfoQuyenTruyCap',
+        url: '/PermissionManage/DeleteUser',
         data: JSON.stringify(dataPost),
         contentType: "application/json; charset=utf-8",
         dataType: "html",

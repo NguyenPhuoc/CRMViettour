@@ -82,7 +82,7 @@ namespace CRMViettour.Controllers.Staff
         public async Task<ActionResult> InfoForm(int id)
         {
             Session["idModule"] = id;
-            var model = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == id).ToList();
+            var model = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == id && c.IsDelete == false).ToList();
             return PartialView("_Partial_FormList", model);
         }
         #endregion
@@ -210,7 +210,7 @@ namespace CRMViettour.Controllers.Staff
             try
             {
                 await _formRepository.Update(model);
-                var list = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == model.ModuleId).ToList();
+                var list = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == model.ModuleId && c.IsDelete == false).ToList();
                 return PartialView("_Partial_FormList", list);
             }
             catch
@@ -224,10 +224,11 @@ namespace CRMViettour.Controllers.Staff
         {
             try
             {
-                int idModule = _formRepository.FindId(id).ModuleId ?? 0;
-                if (await _formRepository.Delete(id, false))
+                var form = _formRepository.FindId(id);
+                form.IsDelete = true;
+                if (await _formRepository.Update(form))
                 {
-                    var model = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == idModule).ToList();
+                    var model = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == form.ModuleId && c.IsDelete == false).ToList();
                     return PartialView("_Partial_FormList", model);
                 }
                 return PartialView("_Partial_FormList");

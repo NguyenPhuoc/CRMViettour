@@ -318,6 +318,7 @@ namespace CRMViettour.Controllers.Permission
                 if (accs != null)
                 {
                     accs.ShowDataById = idDataBy;
+                    accs.PermissionId = idPermission;
                     await _accessDataRepository.Update(accs);
                 }
                 else
@@ -325,6 +326,7 @@ namespace CRMViettour.Controllers.Permission
                     var _accs = new tbl_AccessData()
                     {
                         FormId = idForm,
+                        PermissionId = idPermission,
                         ShowDataById = idDataBy
                     };
                     await _accessDataRepository.Create(_accs);

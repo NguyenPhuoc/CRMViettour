@@ -20,6 +20,7 @@ using System.Globalization;
 
 namespace CRMViettour.Controllers
 {
+    [Authorize]
     public class CustomersManageController : BaseController
     {
         //
@@ -78,6 +79,45 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region Index
+        int SDBID = 6;
+        int StaffID = 0, BranchID = 0, DepartmentID = 0, GroupID = 0, perID = 0;
+        int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+        void Permission(int formId)
+        {
+            if (Request.IsAuthenticated)
+            {
+                string user = User.Identity.Name;
+                if (Request.Cookies["CookieUser" + user] != null)
+                {
+                    StaffID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
+                    BranchID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaCN"]);
+                    DepartmentID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaPB"]);
+                    GroupID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNKD"]);
+                    perID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["PerID"]);
+                }
+            }
+
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == perID && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+
+            switch (SDBID)
+            {
+                case 2: maPB = DepartmentID;
+                    maCN = BranchID; break;
+                case 3: maNKD = GroupID;
+                    maCN = BranchID; break;
+                case 4: maNV = StaffID; break;
+                case 5: maCN = BranchID; break;
+            }
+        }
 
         [HttpPost]
         public ActionResult GetIdCustomer(int id)
@@ -88,7 +128,17 @@ namespace CRMViettour.Controllers
 
         public ActionResult Index()
         {
-            var model = _customerRepository.GetAllAsQueryable().AsEnumerable()
+
+            Permission(1);
+
+            if (SDBID == 6)
+                return View(new List<CustomerListViewModel>());
+
+
+            var model = _customerRepository.GetAllAsQueryable().AsEnumerable().Where(p => (p.StaffManager == maNV | maNV == 0)
+                    & (p.tbl_StaffManager.DepartmentId == maPB | maPB == 0)
+                    & (p.tbl_StaffManager.StaffGroupId == maNKD | maNKD == 0)
+                    & (p.tbl_StaffManager.HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false))
                 .Select(p => new CustomerListViewModel
                 {
                     Id = p.Id,

@@ -7,11 +7,9 @@ namespace CRMViettour.Models
 {
     public class CookieUser
     {
-        public int MaNV { get; set; }
-        public string Code { get; set; }
-        public string HoTen { get; set; }
-        public int MaPB { get; set; }
-        public int MaNKD { get; set; }
-        public int MaCN { get; set; }
+        public int StaffID { get; set; }
+        public int BranchID { get; set; }
+        public int DepartmentID { get; set; }
+        public int GroupID { get; set; }
     }
 }

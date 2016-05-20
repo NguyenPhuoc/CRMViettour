@@ -138,25 +138,26 @@ namespace CRMViettour.Controllers
 
         public ActionResult _Partial_ListTours()
         {
+            // phân quyền
             Permission(1, 24);
 
             //Luu khi dang nhap
-            int StaffID = 9, BranchID = 0, DepartmentID = 0, GroupID = 0;
+
             if (SDBID == 6)
-                return PartialView("_Partial_ListTours");
+                return PartialView("_Partial_ListTours", new List<TourListViewModel>());
 
             try
             {
                 int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
                 switch (SDBID)
                 {
-                    case 2: maPB = DepartmentID;
-                        maCN = BranchID;
+                    case 2: maPB = clsPermission.GetUser().DepartmentID;
+                        maCN = clsPermission.GetUser().BranchID;
                         break;
-                    case 3: maNKD = GroupID;
-                        maCN = BranchID; break;
-                    case 4: maNV = StaffID; break;
-                    case 5: maCN = BranchID; break;
+                    case 3: maNKD = clsPermission.GetUser().GroupID;
+                        maCN = clsPermission.GetUser().BranchID; break;
+                    case 4: maNV = clsPermission.GetUser().StaffID; break;
+                    case 5: maCN = clsPermission.GetUser().BranchID; break;
                 }
 
                 var model = _tourRepository.GetAllAsQueryable().Where(p => (p.CreateStaffId == maNV | maNV == 0)
@@ -362,7 +363,7 @@ namespace CRMViettour.Controllers
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _tourRepository.DeleteMany(listIds, true))
+                        if (await _tourRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "TourManage") }, JsonRequestBehavior.AllowGet);
                         }
@@ -839,7 +840,7 @@ namespace CRMViettour.Controllers
                 var history = _db.tbl_UpdateHistory.AsEnumerable().Where(c => c.CustomerId == id).ToList();
                 foreach (var item in history)
                 {
-                    await _updateHistoryRepository.Delete(item.Id, true);
+                    await _updateHistoryRepository.Delete(item.Id, false);
                 }
                 await _tourCustomerRepository.Delete(ctu.Id, true);
 
@@ -964,7 +965,7 @@ namespace CRMViettour.Controllers
                         {
                             foreach (var v in visaList)
                             {
-                                await _customerVisaRepository.Delete(v.Id, true);
+                                await _customerVisaRepository.Delete(v.Id, false);
                             }
                         }
 
@@ -1041,7 +1042,7 @@ namespace CRMViettour.Controllers
                         {
                             foreach (var v in visaList)
                             {
-                                await _customerVisaRepository.Delete(v.Id, true);
+                                await _customerVisaRepository.Delete(v.Id, false);
                             }
                         }
 
@@ -1117,7 +1118,7 @@ namespace CRMViettour.Controllers
                         {
                             foreach (var v in visaList)
                             {
-                                await _customerContactVisaRepository.Delete(v.Id, true);
+                                await _customerContactVisaRepository.Delete(v.Id, false);
                             }
                         }
 
@@ -1249,9 +1250,9 @@ namespace CRMViettour.Controllers
                         var history = _db.tbl_UpdateHistory.AsEnumerable().Where(c => c.CustomerId == item.Id).ToList();
                         foreach (var it in history)
                         {
-                            await _updateHistoryRepository.Delete(it.Id, true);
+                            await _updateHistoryRepository.Delete(it.Id, false);
                         }
-                        await _customerRepository.Delete(item.Id, true);
+                        await _customerRepository.Delete(item.Id, false);
                     }
                 }
                 var st = tour.StartDate ?? DateTime.Now;

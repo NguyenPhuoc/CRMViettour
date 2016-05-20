@@ -183,7 +183,7 @@ namespace CRMViettour.Controllers
                     {
                         foreach (var item in service)
                         {
-                            await _servicesPartnerRepository.Delete(item.Id, true);
+                            await _servicesPartnerRepository.Delete(item.Id, false);
                         }
                     }
 
@@ -226,7 +226,7 @@ namespace CRMViettour.Controllers
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _partnerRepository.DeleteMany(listIds, true))
+                        if (await _partnerRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "PartnerManage") }, JsonRequestBehavior.AllowGet);
                         }
@@ -423,7 +423,7 @@ namespace CRMViettour.Controllers
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
                 //end file
-                if (await _documentFileRepository.Delete(id, true))
+                if (await _documentFileRepository.Delete(id, false))
                 {
                     //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == partnerId).ToList();
                     var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == partnerId)
@@ -525,7 +525,7 @@ namespace CRMViettour.Controllers
             try
             {
                 int partnerId = _partnerNoteRepository.FindId(id).PartnerId;
-                if (await _partnerNoteRepository.Delete(id, true))
+                if (await _partnerNoteRepository.Delete(id, false))
                 {
                     var list = _db.tbl_PartnerNote.AsEnumerable().Where(p => p.PartnerId == partnerId).ToList();
                     return PartialView("~/Views/PartnerTabInfo/_GhiChu.cshtml", list);

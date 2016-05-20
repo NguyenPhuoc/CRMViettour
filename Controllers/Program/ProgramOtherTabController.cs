@@ -166,7 +166,7 @@ namespace CRMViettour.Controllers.Customer
             int proId = _appointmentHistoryRepository.FindId(id).ProgramId ?? 0;
             try
             {
-                if (await _appointmentHistoryRepository.Delete(id, true))
+                if (await _appointmentHistoryRepository.Delete(id, false))
                 {
                     var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ProgramId == proId)
                             .Select(p => new tbl_AppointmentHistory
@@ -280,7 +280,7 @@ namespace CRMViettour.Controllers.Customer
             try
             {
                 int proId = _contactHistoryRepository.FindId(id).ProgramId ?? 0;
-                if (await _contactHistoryRepository.Delete(id, true))
+                if (await _contactHistoryRepository.Delete(id, false))
                 {
                     var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ProgramId == proId)
                         .Select(p => new tbl_ContactHistory

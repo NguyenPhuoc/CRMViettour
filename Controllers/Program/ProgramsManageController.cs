@@ -140,7 +140,7 @@ namespace CRMViettour.Controllers
                     listIds = listIds.Take(listIds.Count() - 1).ToArray();
                     if (listIds.Count() > 0)
                     {
-                        if (await _programRepository.DeleteMany(listIds, true))
+                        if (await _programRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "ProgramsManage") }, JsonRequestBehavior.AllowGet);
                         }
@@ -329,7 +329,7 @@ namespace CRMViettour.Controllers
                     System.IO.File.Delete(path);
                 //end file
 
-                if (await _documentFileRepository.Delete(id, true))
+                if (await _documentFileRepository.Delete(id, false))
                 {
                     //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId).ToList();
                     var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId)

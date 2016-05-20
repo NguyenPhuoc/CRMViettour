@@ -2725,8 +2725,6 @@
     <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
     <Content Include="Views\TourManage\_Partial_ImportDataList.cshtml" />
     <Content Include="Views\TourManage\_Partial_EditCustomer.cshtml" />
-    <Content Include="Upload\Customer - Personal.xlsx" />
-    <Content Include="Upload\Customer.zip" />
     <Content Include="Views\StaffOtherTab\_Partial_EditTaskStaff.cshtml" />
     <Content Include="Views\StaffManage\_Partial_InsertTaskStaff.cshtml" />
     <Content Include="Views\FlightManage\Index.cshtml" />
@@ -2743,6 +2741,8 @@
     <Content Include="Views\ModuleManage\_Partial_InsertFunction.cshtml" />
     <Content Include="Views\PermissionManage\_NguoiDung.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Upload\Customer - Organization.xlsx" />
+    <Content Include="Upload\Staffs.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

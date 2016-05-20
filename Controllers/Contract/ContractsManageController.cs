@@ -144,7 +144,7 @@ namespace CRMViettour.Controllers
                             var update = _db.tbl_UpdateHistory.AsEnumerable().FirstOrDefault(p => p.ContractId.ToString() == id);
                             _db.tbl_UpdateHistory.Remove(update);
                         }
-                        if (await _contractRepository.DeleteMany(listIds, true))
+                        if (await _contractRepository.DeleteMany(listIds, false))
                         {
                             return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "ContractsManage") }, JsonRequestBehavior.AllowGet);
                         }
@@ -335,7 +335,7 @@ namespace CRMViettour.Controllers
                     System.IO.File.Delete(path);
                 //end file
 
-                if (await _documentFileRepository.Delete(id, true))
+                if (await _documentFileRepository.Delete(id, false))
                 {
                     // var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId).ToList();
                     var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == conId)

@@ -38,9 +38,37 @@ namespace CRMViettour.Controllers
 
         #endregion
 
+        int SDBID = 6;
+        int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+
+            switch (SDBID)
+            {
+                case 2: maPB = clsPermission.GetUser().DepartmentID;
+                    maCN = clsPermission.GetUser().BranchID;
+                    break;
+                case 3: maNKD = clsPermission.GetUser().GroupID;
+                    maCN = clsPermission.GetUser().BranchID; break;
+                case 4: maNV = clsPermission.GetUser().StaffID; break;
+                case 5: maCN = clsPermission.GetUser().BranchID; break;
+            }
+        }
+
         public ActionResult Index()
         {
-            var company = _companyRepository.GetAllAsQueryable().Select(p => new CompanyViewModel
+            Permission(clsPermission.GetUser().PermissionID, 3);
+            var company = _companyRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Select(p => new CompanyViewModel
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -160,6 +188,9 @@ namespace CRMViettour.Controllers
         [ChildActionOnly]
         public ActionResult _Partial_CompanyDocument()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             int idCompany = _companyRepository.GetAllAsQueryable().FirstOrDefault().Id;
             var model = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CompanyId == idCompany)
                 .Select(p => new DocumentFileViewModel
@@ -180,6 +211,7 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult CompanyDocumentList(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 52);
             var model = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == id)
                 .Select(p => new DocumentFileViewModel
                 {

@@ -123,7 +123,7 @@ function DeleteSelectedItem(selector, tableWrapper, table, callBack) {
 }
 
 /** button thêm tài liệu của công ty **/
-$("#btnDocumentFile").click(function () {
+function btnDocumentFile() {
     var dataPost = {
         id: $("input[type='checkbox']:checked").val()
     };
@@ -138,8 +138,7 @@ $("#btnDocumentFile").click(function () {
             $("#modal-insert-document").modal("show");
         }
     });
-
-})
+}
 
 $("table#tableDictionary").delegate("tr", "click", function () {
     var dataPost = { id: $(this).find("input[type='checkbox']").val() };

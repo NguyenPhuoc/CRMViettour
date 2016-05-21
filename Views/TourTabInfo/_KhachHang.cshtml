@@ -16,22 +16,37 @@
         }
         if (temp)
         {
-            <a href="#modal-update-status" data-toggle="modal" class="btn btn-success" id="btnUpdateCustomer">Cập nhật trạng thái</a>
-            <a class="btn btn-primary" onclick="btnImportCustomer()">Imprort KH</a>
-            <button class="btn btn-warning" onclick="capNhatKH()">Cập nhật KH</button>
+            if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+            {<a href="#modal-update-status" data-toggle="modal" class="btn btn-success" id="btnUpdateCustomer">Cập nhật trạng thái</a>}
+            if (ViewBag.IsImport != null && ViewBag.IsImport)
+            {<a class="btn btn-primary" onclick="btnImportCustomer()">Imprort KH</a>}
+            if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+            { <button class="btn btn-warning" onclick="capNhatKH()">Cập nhật KH</button>}
         }
         else if (it == 0)
         {
-            <a href="#modal-update-status" data-toggle="modal" class="btn btn-success" id="btnUpdateCustomer">Cập nhật trạng thái</a>
-            <a class="btn btn-primary" onclick="btnImportCustomer()">Imprort KH</a>
-            <button class="btn btn-warning" onclick="capNhatKH()">Cập nhật KH</button>
+            if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+            {<a href="#modal-update-status" data-toggle="modal" class="btn btn-success" id="btnUpdateCustomer">Cập nhật trạng thái</a>}
+            if (ViewBag.IsImport != null && ViewBag.IsImport)
+            {<a class="btn btn-primary" onclick="btnImportCustomer()">Imprort KH</a>}
+            if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+            { <button class="btn btn-warning" onclick="capNhatKH()">Cập nhật KH</button>}
+            @*<a href="#modal-update-status" data-toggle="modal" class="btn btn-success" id="btnUpdateCustomer">Cập nhật trạng thái</a>
+                <a class="btn btn-primary" onclick="btnImportCustomer()">Imprort KH</a>
+                <button class="btn btn-warning" onclick="capNhatKH()">Cập nhật KH</button>*@
         }
     }
     else
     {
-        <a href="#modal-update-status" data-toggle="modal" class="btn btn-success" id="btnUpdateCustomer">Cập nhật trạng thái</a>
-        <a class="btn btn-primary" onclick="btnImportCustomer()">Imprort KH</a>
-        <button class="btn btn-warning" onclick="capNhatKH()">Cập nhật KH</button>
+        if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+        {<a href="#modal-update-status" data-toggle="modal" class="btn btn-success" id="btnUpdateCustomer">Cập nhật trạng thái</a>}
+        if (ViewBag.IsImport != null && ViewBag.IsImport)
+        {<a class="btn btn-primary" onclick="btnImportCustomer()">Imprort KH</a>}
+        if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+        { <button class="btn btn-warning" onclick="capNhatKH()">Cập nhật KH</button>}
+        @*<a href="#modal-update-status" data-toggle="modal" class="btn btn-success" id="btnUpdateCustomer">Cập nhật trạng thái</a>
+            <a class="btn btn-primary" onclick="btnImportCustomer()">Imprort KH</a>
+            <button class="btn btn-warning" onclick="capNhatKH()">Cập nhật KH</button>*@
     }
     <br />
     <br />
@@ -77,10 +92,12 @@
                             <td>@string.Format("{0:dd-MM-yyyy}", item.ExpiredDatePassport)</td>
                             <td>@Html.Raw(item.Note)</td>
                             <td>
-                                <a style="cursor: pointer" onclick="updateCustomer(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
+                                @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                                { <a style="cursor: pointer" onclick="updateCustomer(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
                                 @if (item.IsTemp)
                                 {
-                                    <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục này ?'); deleteCustomer(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                                    if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                                    {<a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục này ?'); deleteCustomer(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
                                 }
                             </td>
                         </tr>

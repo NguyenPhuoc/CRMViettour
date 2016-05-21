@@ -80,42 +80,29 @@ namespace CRMViettour.Controllers
 
         #region Index
         int SDBID = 6;
-        int StaffID = 0, BranchID = 0, DepartmentID = 0, GroupID = 0, perID = 0;
         int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
-        void Permission(int formId)
+        void Permission(int PermissionsId, int formId)
         {
-            if (Request.IsAuthenticated)
-            {
-                string user = User.Identity.Name;
-                if (Request.Cookies["CookieUser" + user] != null)
-                {
-                    StaffID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
-                    BranchID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaCN"]);
-                    DepartmentID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaPB"]);
-                    GroupID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNKD"]);
-                    perID = Convert.ToInt32(Request.Cookies["CookieUser" + user]["PerID"]);
-                }
-            }
-
-            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
             ViewBag.IsAdd = list.Contains(1);
             ViewBag.IsDelete = list.Contains(2);
             ViewBag.IsEdit = list.Contains(3);
             ViewBag.IsImport = list.Contains(4);
             ViewBag.IsExport = list.Contains(5);
 
-            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == perID && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
             if (ltAccess != 0)
                 this.SDBID = ltAccess;
 
             switch (SDBID)
             {
-                case 2: maPB = DepartmentID;
-                    maCN = BranchID; break;
-                case 3: maNKD = GroupID;
-                    maCN = BranchID; break;
-                case 4: maNV = StaffID; break;
-                case 5: maCN = BranchID; break;
+                case 2: maPB = clsPermission.GetUser().DepartmentID;
+                    maCN = clsPermission.GetUser().BranchID;
+                    break;
+                case 3: maNKD = clsPermission.GetUser().GroupID;
+                    maCN = clsPermission.GetUser().BranchID; break;
+                case 4: maNV = clsPermission.GetUser().StaffID; break;
+                case 5: maCN = clsPermission.GetUser().BranchID; break;
             }
         }
 
@@ -129,11 +116,10 @@ namespace CRMViettour.Controllers
         public ActionResult Index()
         {
 
-            Permission(1);
+            Permission(clsPermission.GetUser().PermissionID, 1);
 
             if (SDBID == 6)
                 return View(new List<CustomerListViewModel>());
-
 
             var model = _customerRepository.GetAllAsQueryable().AsEnumerable().Where(p => (p.StaffManager == maNV | maNV == 0)
                     & (p.tbl_StaffManager.DepartmentId == maPB | maPB == 0)

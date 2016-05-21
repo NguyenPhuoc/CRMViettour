@@ -8,6 +8,7 @@ using CRM.Core;
 using CRM.Infrastructure;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Customer
 {
@@ -76,7 +77,15 @@ namespace CRMViettour.Controllers.Customer
             _db = new DataContext();
         }
         #endregion
-
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+        }
         #region Phản hồi khách hàng
         [ChildActionOnly]
         public ActionResult _PhanHoiKhachHang()
@@ -102,7 +111,7 @@ namespace CRMViettour.Controllers.Customer
         [HttpPost]
         public async Task<ActionResult> InfoNguoiLienHe(int id)
         {
-            var model = await _customerContactRepository.GetAllAsQueryable().Where(p => p.CustomerId == id).ToListAsync();
+            var model = await _customerContactRepository.GetAllAsQueryable().Where(p => p.CustomerId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_NguoiLienHe", model);
         }
         #endregion
@@ -117,7 +126,7 @@ namespace CRMViettour.Controllers.Customer
         [HttpPost]
         public async Task<ActionResult> InfoCapNhatThayDoi(int id)
         {
-            var model = await _updateHistoryRepository.GetAllAsQueryable().Where(p => p.CustomerId == id).ToListAsync();
+            var model = await _updateHistoryRepository.GetAllAsQueryable().Where(p => p.CustomerId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_CapNhatThayDoi", model);
         }
         #endregion
@@ -140,14 +149,17 @@ namespace CRMViettour.Controllers.Customer
         [ChildActionOnly]
         public ActionResult _HoSoLienQuan()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_HoSoLienQuan");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoHoSoLienQuan(int id)
         {
-            //var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.CustomerId == id).ToListAsync();
-            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == id)
+            Permission(clsPermission.GetUser().PermissionID, 55);
+            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == id && p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -166,13 +178,17 @@ namespace CRMViettour.Controllers.Customer
         [ChildActionOnly]
         public ActionResult _LichHen()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichHen");
         }
 
         [HttpPost]
         public ActionResult InfoLichHen(int id)
         {
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == id)
+            Permission(clsPermission.GetUser().PermissionID, 53);
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == id && p.IsDelete == false)
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Id = p.Id,
@@ -190,13 +206,17 @@ namespace CRMViettour.Controllers.Customer
         [ChildActionOnly]
         public ActionResult _LichSuLienHe()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichSuLienHe");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
-            var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.CustomerId == id)
+            Permission(clsPermission.GetUser().PermissionID, 56);
+            var model = _contactHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == id && p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -205,7 +225,7 @@ namespace CRMViettour.Controllers.Customer
                            Note = p.Note,
                            tbl_Staff = _staffRepository.FindId(p.StaffId),
                            tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId)
-                       }).ToListAsync();
+                       }).ToList();
             return PartialView("_LichSuLienHe", model);
         }
         #endregion
@@ -249,7 +269,7 @@ namespace CRMViettour.Controllers.Customer
         [HttpPost]
         public async Task<ActionResult> InfoTourTuyen(int id)
         {
-            var model = _tourCustomerRepository.GetAllAsQueryable().Where(c => c.CustomerId == id)
+            var model = _tourCustomerRepository.GetAllAsQueryable().Where(c => c.CustomerId == id && c.IsDelete == false)
                 .Select(p => new TourListViewModel
                 {
                     Id = p.tbl_Tour.Id,
@@ -276,13 +296,17 @@ namespace CRMViettour.Controllers.Customer
         [ChildActionOnly]
         public ActionResult _Visa()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_Visa");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoVisa(int id)
         {
-            var model = await _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == id).ToListAsync();
+            Permission(clsPermission.GetUser().PermissionID, 54);
+            var model = await _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_Visa", model);
         }
         #endregion

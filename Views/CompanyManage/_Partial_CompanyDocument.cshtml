@@ -1,44 +1,49 @@
 ﻿@using CRMViettour.Models
 @model IEnumerable<DocumentFileViewModel>
 
-@{
-    int i = 1;
-    string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
-}
-
-<table class="table table-striped table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>STT</th>
-            <th>Tags</th>
-            <th>Tên tài liệu</th>
-            <th>Diễn giải</th>
-            <th>Kích thước</th>
-            <th>Nhân viên nhập</th>
-            <th>Ngày cập nhật</th>
-            <th>#</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="odd gradeX">
-                <td>@i</td>
-                <td>@item.TagsId</td>
-                <td>
-                    <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
-                </td>
-                <td>@Html.Raw(item.Note)</td>
-                <td>@item.FileSize</td>
-                <td></td>
-                <td>@item.CreatedDate</td>
-                <td>
-                    <a style="cursor: pointer" onclick="updateDocument(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                    <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa những mục đã chọn ?'); deleteDocument(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
-                </td>
+    @{
+        int i = 1;
+        string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+    }
+    @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+    { <button class="btn btn-primary" id="btnDocumentFile" onclick="btnDocumentFile()"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+    <br />
+    <br />
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tags</th>
+                <th>Tên tài liệu</th>
+                <th>Diễn giải</th>
+                <th>Kích thước</th>
+                <th>Nhân viên nhập</th>
+                <th>Ngày cập nhật</th>
+                <th>#</th>
             </tr>
-            i++;
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="odd gradeX">
+                    <td>@i</td>
+                    <td>@item.TagsId</td>
+                    <td>
+                        <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
+                    </td>
+                    <td>@Html.Raw(item.Note)</td>
+                    <td>@item.FileSize</td>
+                    <td></td>
+                    <td>@item.CreatedDate</td>
+                    <td>
+                        @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                        { <a style="cursor: pointer" onclick="updateDocument(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
+                        @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                        {<a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa những mục đã chọn ?'); deleteDocument(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
+                    </td>
+                </tr>
+                        i++;
+            }
+        </tbody>
+    </table>
 

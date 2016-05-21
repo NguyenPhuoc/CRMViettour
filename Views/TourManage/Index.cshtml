@@ -33,18 +33,21 @@
             <div class="col-md-12">
                 <div class="pull-left">
                     <a href="@Url.Action("Index", "TourManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                    @if (@ViewBag.IsAdd!=null)
-                    {   
-                        <button class="btn btn-primary" id="btnAdd" href="#modal-insert-tour" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm mới tour</button>
+                    @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                    {<button class="btn btn-primary" id="btnAdd" href="#modal-insert-tour" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm mới tour</button>}
+                    @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                    {<button class="btn btn-warning" id="btnEdit" href="#modal-edit-tour" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                    @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                    { <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                        <form action="@Url.Action("Delete", "TourManage")" method="post" style="position:absolute">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="listItemId" name="listItemId" />
+                        </form>
                     }
-                    <button class="btn btn-warning" id="btnEdit" href="#modal-edit-tour" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                    <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                    <form action="@Url.Action("Delete", "TourManage")" method="post" style="position:absolute">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" id="listItemId" name="listItemId" />
-                    </form>
-                    <button class="btn green" id="btnAddSchedule"><i class="fa fa-calendar-plus-o"></i>&nbsp;Tạo lịch đi tour</button>
-                    <button class="btn blue" id="btnAddTask"><i class="fa fa-clipboard"></i>&nbsp;Phân công nhiệm vụ</button>
+                    @if (ViewBag.IsAddLDT != null && ViewBag.IsAddLDT)
+                    {<button class="btn green" id="btnAddSchedule"><i class="fa fa-calendar-plus-o"></i>&nbsp;Tạo lịch đi tour</button>}
+                    @if (ViewBag.IsAddNV != null && ViewBag.IsAddNV)
+                    {<button class="btn blue" id="btnAddTask"><i class="fa fa-clipboard"></i>&nbsp;Phân công nhiệm vụ</button>}
                     <button class="btn btn-transparent" id="btnUpdateType" onclick="confirm('Chuyển từ đấu thầu sang tour!')"><i class="fa fa-refresh"></i>&nbsp;Chuyển đổi loại tour</button>
                 </div>
             </div>

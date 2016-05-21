@@ -350,7 +350,7 @@ namespace CRMViettour.Controllers.Permission
                 {
                     foreach (var item in actis)
                     {
-                        await _actionDataRepository.Delete(item.Id, false);
+                        await _actionDataRepository.Delete(item.Id, true);
                     }
                     foreach (var _id in listIdFuncs)
                     {

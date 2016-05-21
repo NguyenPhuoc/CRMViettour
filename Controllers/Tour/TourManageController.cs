@@ -121,6 +121,8 @@ namespace CRMViettour.Controllers
 
         public ActionResult Index()
         {
+            // phân quyền
+            Permission(clsPermission.GetUser().PermissionID, 24);
             return View();
         }
 
@@ -132,16 +134,22 @@ namespace CRMViettour.Controllers
             ViewBag.IsEdit = list.Contains(3);
             ViewBag.IsDelete = list.Contains(2);
 
-            var ltAccess = _db.tbl_AccessData.Where(p => p.ShowDataById == PermissionsId & p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            //nhiệm vụ phân công nhiệm vụ
+            var listNV = _db.tbl_ActionData.Where(p => p.FormId == 78 & p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAddNV = list.Contains(1);
+
+            //tạo lịch đi tour
+            var listLDT = _db.tbl_ActionData.Where(p => p.FormId == 91 & p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAddLDT = listLDT.Contains(1);
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId & p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
             if (ltAccess != 0)
                 this.SDBID = ltAccess;
         }
 
         public ActionResult _Partial_ListTours()
         {
-            // phân quyền
             Permission(clsPermission.GetUser().PermissionID, 24);
-
             //Luu khi dang nhap
 
             if (SDBID == 6)
@@ -164,7 +172,7 @@ namespace CRMViettour.Controllers
                 var model = _tourRepository.GetAllAsQueryable().Where(p => (p.CreateStaffId == maNV | maNV == 0)
                     & (p.tbl_StaffCreate.DepartmentId == maPB | maPB == 0)
                     & (p.tbl_StaffCreate.StaffGroupId == maNKD | maNKD == 0)
-                    & (p.tbl_StaffCreate.HeadquarterId == maCN | maCN == 0))
+                    & (p.tbl_StaffCreate.HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false))
                     .Select(p => new TourListViewModel
                     {
                         Id = p.Id,

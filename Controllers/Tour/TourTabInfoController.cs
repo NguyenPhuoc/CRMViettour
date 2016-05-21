@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Tour
 {
@@ -90,7 +91,14 @@ namespace CRMViettour.Controllers.Tour
             _db = new DataContext();
         }
         #endregion
-
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId & p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsImport = list.Contains(4);
+        }
         #region Chi tiết tour
         [ChildActionOnly]
         public ActionResult _ChiTietTour()
@@ -110,13 +118,17 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _DichVu()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_DichVu");
         }
 
         [HttpPost]
         public ActionResult InfoDichVu(int id)
         {
-            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+            Permission(clsPermission.GetUser().PermissionID, 77);
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id && p.IsDelete == false)
                             .Select(p => new TourServiceViewModel
                             {
                                 Id = p.Id,
@@ -139,13 +151,17 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _NhiemVu()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_NhiemVu");
         }
 
         [HttpPost]
         public ActionResult InfoNhiemVu(int id)
         {
-            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+            Permission(clsPermission.GetUser().PermissionID, 78);
+            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id && p.IsDelete == false)
                            .Select(p => new tbl_Task
                            {
                                Id = p.Id,
@@ -159,7 +175,7 @@ namespace CRMViettour.Controllers.Tour
                                FinishDate = p.FinishDate,
                                PercentFinish = p.PercentFinish,
                                tbl_Staff = _staffRepository.FindId(p.StaffId),
-                               tbl_DictionaryTaskPriority=_dictionaryRepository.FindId(p.TaskPriorityId),
+                               tbl_DictionaryTaskPriority = _dictionaryRepository.FindId(p.TaskPriorityId),
                                Note = p.Note
                            }).ToList();
             return PartialView("_NhiemVu", model);
@@ -170,14 +186,19 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _KhachHang()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsImport = false;
             return PartialView("_KhachHang");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoKhachHang(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 79);
             Session["idTour"] = id;
-            var model = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Select(c => c.tbl_Customer).ToList();
+            var model = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id && c.IsDelete == false).Select(c => c.tbl_Customer).ToList();
             return PartialView("_KhachHang", model);
         }
         #endregion
@@ -186,12 +207,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _ChuongTrinh()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_ChuongTrinh");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoChuongTrinh(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 80);
             var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.TourId == id && p.DictionaryId == 30).ToListAsync();
             return PartialView("_ChuongTrinh", model);
         }
@@ -201,12 +226,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _HopDong()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_HopDong");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoHopDong(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 81);
             var model = await _contractRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
             return PartialView("_HopDong", model);
         }
@@ -216,12 +245,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _Visa()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_Visa");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoVisa(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 82);
             Session["idTour"] = id;
             var model = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Select(c => c.tbl_CustomerVisa).ToList();
             return PartialView("_Visa", model);

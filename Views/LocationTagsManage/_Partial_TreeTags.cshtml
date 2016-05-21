@@ -11,7 +11,7 @@
                 var inner = new SeededTagsViewModel { Seed = node.Id, Tags = Model.Tags };
                 <li>
                     <input type="checkbox" value="@node.Id" class="cbItem" id="cb@(node.Id)" name="cb" onclick="CheckSelectTag()" />
-                    <label>@node.Tags</label>
+                    <label>@node.Tags</label> (Iso Code: <label id="iso" style="font-weight: bold">@node.IsoCode</label>)
                     @Html.Partial("_Partial_TreeTags", inner)
                 </li>
             }

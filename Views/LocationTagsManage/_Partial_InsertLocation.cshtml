@@ -1,4 +1,6 @@
-﻿@model CRMViettour.Models.SeededTagsViewModel
+﻿@using CRMViettour.Models
+@using CRMViettour.Utilities
+@model SeededTagsViewModel
 
 <div class="modal fade " id="modal-insert-location" role="document" aria-hidden="true">
     <div class="modal-dialog">
@@ -29,7 +31,11 @@
                                 <label class="control-label col-lg-3 col-md-3">Danh mục</label>
                                 <div class="col-lg-9 col-md-9">
                                     <select name="ddlTags" class="form-control" id="selectTags" style="width: 100%">
-                                        @Html.Partial("_Partial_DropdownlistTreeTags", Model)
+                                        <option>-- Chọn --</option>
+                                        @foreach (var item in LoadData.LoadTagsByType(1))
+                                        {
+                                            <option value="@item.Id">@item.Tag</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -37,6 +43,12 @@
                                 <label class="control-label col-lg-3 col-md-3">Tags</label>
                                 <div class="col-lg-9 col-md-9">
                                     <input type="text" name="txtTag" class="form-control" requried="requried" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-3 col-md-3">Iso Code</label>
+                                <div class="col-lg-9 col-md-9">
+                                    <input type="text" name="txtIsoCode" class="form-control" requried="requried" />
                                 </div>
                             </div>
                         </div>

@@ -97,7 +97,7 @@
                                 @if (item.IsTemp)
                                 {
                                     if (ViewBag.IsDelete != null && ViewBag.IsDelete)
-                                    {<a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục này ?'); deleteCustomer(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
+                                    {<a style="cursor: pointer" onclick="deleteCustomer(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
                                 }
                             </td>
                         </tr>

@@ -44,7 +44,7 @@
                                 @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
                                 {<a style="cursor: pointer" onclick="updateService(@item.Id, @item.ServiceId)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
                                 @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
-                                {<a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục đã chọn ?'); deleteService(@item.TourId, @item.TourOptionId)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
+                                {<a style="cursor: pointer" onclick="deleteService(@item.TourId, @item.TourOptionId)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
                             </td>
                         </tr>
                                 i++;

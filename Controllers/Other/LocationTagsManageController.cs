@@ -33,7 +33,8 @@ namespace CRMViettour.Controllers.Other
             {
                 Id = p.Id,
                 Tags = p.Tag,
-                ParentId = p.ParentId
+                ParentId = p.ParentId,
+                IsoCode = p.ISOCode
             }).ToList();
 
             var model = new SeededTagsViewModel { Seed = 0, Tags = location };
@@ -48,6 +49,7 @@ namespace CRMViettour.Controllers.Other
                 ParentId = Convert.ToInt32(form["ddlTags"].ToString()),
                 TypeTag = Convert.ToInt32(form["ddlTagsType"].ToString()),
                 Tag = form["txtTag"].ToString(),
+                ISOCode = form["txtIsoCode"].ToString()
             };
 
             _db.tbl_Tags.Add(item);
@@ -56,10 +58,11 @@ namespace CRMViettour.Controllers.Other
         }
 
         [HttpPost]
-        public ActionResult Update(int id, string name)
+        public ActionResult Update(int id, string name, string isocode)
         {
             var item = _db.tbl_Tags.Find(id);
             item.Tag = name;
+            item.ISOCode = isocode;
             _db.SaveChanges();
             return Json(JsonRequestBehavior.AllowGet);
         }
@@ -78,7 +81,15 @@ namespace CRMViettour.Controllers.Other
                     _db.SaveChanges();
                 }
             }
-            return Json("Xóa dữ liệu thành công !", JsonRequestBehavior.AllowGet);
+            return Json("Xóa dữ liệu thành công!", JsonRequestBehavior.AllowGet);
         }
+
+        #region Load TagByType
+        public JsonResult LoadTagByType(int id)
+        {
+            var model = _locationRepository.GetAllAsQueryable().Where(p => p.IsDelete == false && p.TypeTag == id).ToList();
+            return Json(new SelectList(model, "Id", "Tag"), JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

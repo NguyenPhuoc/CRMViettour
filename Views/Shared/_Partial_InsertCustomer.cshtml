@@ -1,0 +1,73 @@
+﻿@using CRMViettour.Models
+@model CustomerViewModel
+
+<div class="modal fade  bs-modal-lg" id="modal-home-customer" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        @using (Html.BeginForm("CreateCustomer", "Home"))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Khách hàng - Doanh nghiệp</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="tabbable-custom" id="tab-insert-customer">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#thongtinchunghome" data-toggle="tab">Thông tin chung</a>
+                                </li>
+                                <li>
+                                    <a href="#tab-nguoilienhehome" data-toggle="tab">Người liên hệ</a>
+                                </li>
+                                <li>
+                                    <a href="#tab-visahome" data-toggle="tab">CMND - Visa - Passport</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="thongtinchunghome">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="radio-list">
+                                                <label>
+                                                    <input type="radio" name="radioCustomerType" id="rdoCompany" value="1" onclick="radCompanyHomeClick()" checked="checked" />
+                                                    Doanh nghiệp
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="radioCustomerType" id="rdoPersonal" value="2" onclick="radPersonalHomeClick()" />
+                                                    Cá nhân
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="home-company">
+                                            @Html.Partial("_Partial_DetailCompany")
+                                        </div>
+                                        <div id="home-personal" style="display: none">
+                                            @Html.Partial("_Partial_DetailPersonal")
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab-nguoilienhehome">
+                                    <div class="row">
+                                        @Html.Partial("_Partial_DetailContact")
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab-visahome">
+                                    <div class="row">
+                                        @Html.Partial("_Partial_VisaPassport")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div align="center" style="margin-bottom: 20px">
+                    <button type="submit" class="btn blue" name="btnLuu">Lưu</button>
+                    <button type="button" class="btn default" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        }
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

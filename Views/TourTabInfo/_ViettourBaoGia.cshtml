@@ -4,7 +4,8 @@
         int i = 1;
     }
 
-    <a class="btn btn-primary" onclick="btnCreateQuotation()" id="btndocumentfile"><i class=" fa fa-plus"></i>&nbsp;Thêm</a>
+   @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+    { <a class="btn btn-primary" onclick="btnCreateQuotation()" id="btndocumentfile"><i class=" fa fa-plus"></i>&nbsp;Thêm</a>}
     <br />
     <br />
     <div class="table-scrollable table-custom-format">
@@ -43,8 +44,10 @@
                             <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
                             <td>@string.Format("{0:dd-MM-yyyy}", item.ModifiedDate)</td>
                             <td>
-                                <a style="cursor: pointer" onclick="updateQuotation(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                                <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục đã chọn ?'); deleteQuotation(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                                @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+    {<a style="cursor: pointer" onclick="updateQuotation(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
+                                @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+    {<a style="cursor: pointer" onclick="deleteQuotation(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
                             </td>
                         </tr>
                         i++;

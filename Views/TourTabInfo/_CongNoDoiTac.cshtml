@@ -3,7 +3,8 @@
     int i = 1;
 }
 
-<a onclick="btnCreateLiabilityPartner()" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Thêm công nợ</a>
+@if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+    {<a onclick="btnCreateLiabilityPartner()" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Thêm công nợ</a>}
 <br /><br />
 <div class="table-scrollable table-custom-format">
     <table class="table table-striped table-bordered table-hover" id="table-history">
@@ -35,8 +36,10 @@
                         <td>@(item.tbl_DictionaryCurrencyType1 != null ? item.tbl_DictionaryCurrencyType1.Name : "")</td>
                         <td>@Html.Raw(item.Note)</td>
                         <td>
-                            <a style="cursor: pointer" onclick="updateLiabilityPartner(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                            <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục đã chọn ?'); deleteLiabilityPartner(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+    {<a style="cursor: pointer" onclick="updateLiabilityPartner(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
+                            @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+    {<a style="cursor: pointer" onclick="deleteLiabilityPartner(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
                         </td>
                     </tr>
                     i++;

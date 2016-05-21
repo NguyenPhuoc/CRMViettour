@@ -19,38 +19,23 @@
         <div class="page-actions">
             <div class="btn-group">
                 <button type="button" class="btn red-haze btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                    <span class="hidden-sm hidden-xs">Actions&nbsp;</span>
+                    <span class="hidden-sm hidden-xs">Thao tác&nbsp;</span>
                     <i class="fa fa-angle-down"></i>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a href="javascript:;">
-                            <i class="icon-docs"></i>New Post
+                        <a href="#modal-home-customer" data-toggle="modal">
+                            <i class="fa fa-user"></i>Thêm khách hàng
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:;">
-                            <i class="icon-tag"></i>New Comment
+                        <a href="#modal-home-staff" data-toggle="modal">
+                            <i class="fa fa-user-md"></i>Thêm nhân viên
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:;">
-                            <i class="icon-share"></i>Share
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="icon-flag"></i>Comments
-
-                            <span class="badge badge-success">4</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="icon-users"></i>Feedbacks
-
-                            <span class="badge badge-danger">2</span>
+                        <a href="#modal-home-tour" data-toggle="modal">
+                            <i class="fa fa-plane"></i>Thêm mới tour
                         </a>
                     </li>
                 </ul>
@@ -75,10 +60,10 @@
             <!-- BEGIN TOP NAVIGATION MENU -->
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
-                    <li class="separator hide"></li>
+                    @*<li class="separator hide"></li>*@
                     <!-- BEGIN NOTIFICATION DROPDOWN -->
                     <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                    <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
+                    @*<li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                             <i class="icon-bell"></i>
                             <span class="badge badge-success">7 </span>
@@ -185,12 +170,12 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
                     <!-- END NOTIFICATION DROPDOWN -->
-                    <li class="separator hide"></li>
+                    @*<li class="separator hide"></li>*@
                     <!-- BEGIN INBOX DROPDOWN -->
                     <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                    <li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
+                    @*<li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                             <i class="icon-envelope-open"></i>
                             <span class="badge badge-danger">4 </span>
@@ -269,12 +254,12 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
                     <!-- END INBOX DROPDOWN -->
                     <li class="separator hide"></li>
                     <!-- BEGIN TODO DROPDOWN -->
                     <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                    <li class="dropdown dropdown-extended dropdown-tasks dropdown-dark" id="header_task_bar">
+                    @*<li class="dropdown dropdown-extended dropdown-tasks dropdown-dark" id="header_task_bar">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                             <i class="icon-calendar"></i>
                             <span class="badge badge-primary">3 </span>
@@ -384,18 +369,21 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
                     <!-- END TODO DROPDOWN -->
                     <!-- BEGIN USER LOGIN DROPDOWN -->
                     <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                     <li class="dropdown dropdown-user dropdown-dark">
+                        @if (User.Identity.IsAuthenticated)
+                        {
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            <span class="username username-hide-on-mobile">Nick </span>
+                            <span class="username username-hide-on-mobile">@User.Identity.Name </span>
                             <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
                             <img alt="" class="img-circle" src="~/Content/assets/layouts/layout4/img/avatar9.jpg" />
                         </a>
+                        }
                         <ul class="dropdown-menu dropdown-menu-default">
-                            <li>
+                            @*<li>
                                 <a href="page_user_profile_1.html">
                                     <i class="icon-user"></i>My Profile
                                 </a>
@@ -424,7 +412,7 @@
                                 <a href="page_user_lock_1.html">
                                     <i class="icon-lock"></i>Lock Screen
                                 </a>
-                            </li>
+                            </li>*@
                             <li>
                                 <a style="cursor: pointer" id="btnLogOff"><i class="icon-key"></i>Log Out </a>
                             </li>
@@ -450,3 +438,7 @@
 {
     @Html.AntiForgeryToken()
 }
+
+@Html.Partial("_Partial_InsertCustomer", new CRMViettour.Models.CustomerViewModel())
+@Html.Partial("_Partial_InsertStaff", new CRMViettour.Models.StaffViewModel())
+@Html.Partial("_Partial_InsertTour", new CRMViettour.Models.TourViewModel())

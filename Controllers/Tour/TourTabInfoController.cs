@@ -265,12 +265,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _ViettourBaoGia()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_ViettourBaoGia");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoViettourBaoGia(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 83);
             var model = await _quotationRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
             return PartialView("_ViettourBaoGia", model);
         }
@@ -280,12 +284,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _CongNoKH()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_CongNoKH");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoCongNoKH(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 84);
             var model = await _liabilityCustomerRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
             return PartialView("_CongNoKH", model);
         }
@@ -295,12 +303,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _CongNoDoiTac()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_CongNoDoiTac");
         }
 
         [HttpPost]
         public ActionResult InfoCongNoDoiTac(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 85);
             var model = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
                             .Select(p => new tbl_LiabilityPartner
                             {
@@ -323,12 +335,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _DanhGia()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_DanhGia");
         }
 
         [HttpPost]
         public ActionResult InfoDanhGia(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 86);
             var model = _reviewTourDetailRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.tbl_ReviewTour.TourId == id)
                 .Select(p => new ReviewTourModel
                 {
@@ -350,12 +366,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _LichHen()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_LichHen");
         }
 
         [HttpPost]
         public ActionResult InfoLichHen(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 87);
             var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
                 .Select(p => new tbl_AppointmentHistory
                 {
@@ -374,12 +394,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _TaiLieuMau()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_TaiLieuMau");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 88);
             var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
             return PartialView("_TaiLieuMau", model);
         }
@@ -389,12 +413,16 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _LichSuLienHe()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsEdit = false;
+            ViewBag.IsDelete = false;
             return PartialView("_LichSuLienHe");
         }
 
         [HttpPost]
         public ActionResult InfoLichSuLienHe(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 89);
             var model = _contactHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
                  .Select(p => new tbl_ContactHistory
                  {

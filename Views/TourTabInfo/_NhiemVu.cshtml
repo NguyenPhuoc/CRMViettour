@@ -47,7 +47,7 @@
                                 @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
                                 {<a style="cursor: pointer" onclick="updateTask(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
                                 @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
-                                {<a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa mục đã chọn ?'); deleteTask(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
+                                {<a style="cursor: pointer" onclick="deleteTask(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
                             </td>
                         </tr>
                                 i++;

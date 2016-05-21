@@ -233,6 +233,8 @@
     <Compile Include="Controllers\MapManageController.cs" />
     <Compile Include="Controllers\MarketingManageController.cs" />
     <Compile Include="Controllers\Other\CurrencyManageController.cs" />
+    <Compile Include="Controllers\Other\FlightManageController.cs" />
+    <Compile Include="Controllers\Other\LoginController.cs" />
     <Compile Include="Controllers\Permission\PermissionManageController .cs" />
     <Compile Include="Controllers\OpportunityManageController.cs" />
     <Compile Include="Controllers\Other\DocumentTypeManageController.cs" />
@@ -2175,6 +2177,23 @@
     <Content Include="Scripts\select2\js\select2.min.js" />
     <Content Include="Scripts\SelectCheckbox.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Utilities\Upload\file\1081360_518181408343564_312571073_n.jpg" />
+    <Content Include="Utilities\Upload\file\1081360_518181408343564_312571073_n_120404451406042016.jpg" />
+    <Content Include="Utilities\Upload\file\1081360_518181408343564_312571073_n_804613561006042016.jpg" />
+    <Content Include="Utilities\Upload\file\12366482_1500448916923067_76429958330166841_n_16052016.jpg" />
+    <Content Include="Utilities\Upload\file\12734208_948882615165902_5417744944746692885_n_18052016.jpg" />
+    <Content Include="Utilities\Upload\file\857237334_n_16052016.jpg" />
+    <Content Include="Utilities\Upload\file\done %282%29_28042016.png" />
+    <Content Include="Utilities\Upload\file\done %285%29_27042016.png" />
+    <Content Include="Utilities\Upload\file\done %285%29_28042016.png" />
+    <Content Include="Utilities\Upload\file\done %286%29_27042016.png" />
+    <Content Include="Utilities\Upload\file\map_13052016.png" />
+    <Content Include="Utilities\Upload\file\phan quyen_19042016.png" />
+    <Content Include="Utilities\Upload\file\quy trinh.png" />
+    <Content Include="Utilities\Upload\file\quy trinh_19042016.png" />
+    <Content Include="Utilities\Upload\file\Untitled_071518041529042016.png" />
+    <Content Include="Utilities\Upload\file\Untitled_826505571429042016.png" />
+    <Content Include="Utilities\Upload\file\Untitled_826936571429042016.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2544,6 +2563,39 @@
     <Content Include="Views\PermissionManage\_NguoiDung.cshtml" />
     <Content Include="Upload\Customer - Organization.xlsx" />
     <Content Include="Upload\Staffs.xlsx" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Shared\_Partial_DetailCompany.cshtml" />
+    <Content Include="Views\Shared\_Partial_DetailContact.cshtml" />
+    <Content Include="Views\Shared\_Partial_DetailPersonal.cshtml" />
+    <Content Include="Views\Shared\_Partial_VisaPassport.cshtml" />
+    <Content Include="Utilities\Upload\Customer - Organization.xlsx" />
+    <Content Include="Utilities\Upload\Customer - Personal.xlsx" />
+    <Content Include="Utilities\Upload\Customer.zip" />
+    <Content Include="Utilities\Upload\file\68-13148-VHCI2.TTF" />
+    <Content Include="Utilities\Upload\file\Customer - Personal_10052016.xlsx" />
+    <Content Include="Utilities\Upload\file\database viettour.docx" />
+    <Content Include="Utilities\Upload\file\database viettour_12042016.docx" />
+    <Content Include="Utilities\Upload\file\DS-Xin-Visa-Mau.xlsx" />
+    <Content Include="Utilities\Upload\file\fix loi layout Viettour.docx" />
+    <Content Include="Utilities\Upload\file\HD Viettour -Duy.docx" />
+    <Content Include="Utilities\Upload\file\linkchrome.docx" />
+    <Content Include="Utilities\Upload\file\note viettour.docx" />
+    <Content Include="Utilities\Upload\file\note viettour_460943161510052016.docx" />
+    <Content Include="Utilities\Upload\file\schedule viettours.docx" />
+    <Content Include="Utilities\Upload\file\schedule viettours_19042016.docx" />
+    <Content Include="Utilities\Upload\file\Tom tat yeu cau PM.pdf" />
+    <Content Include="Utilities\Upload\file\TONG HOP FORM THIET KE_2.PDF" />
+    <Content Include="Utilities\Upload\file\TỔNG HỢP YÊU CẦU - BÔ_ SUNG 27_01.xlsx" />
+    <Content Include="Utilities\Upload\file\VIETTOURS SOFTWARE 27_01.pdf" />
+    <Content Include="Utilities\Upload\file\VIETTOURS.docx" />
+    <Content Include="Utilities\Upload\file\vt%283.2%29_06052016.docx" />
+    <Content Include="Utilities\Upload\file\vt%283.2%29_12042016.docx" />
+    <Content Include="Utilities\Upload\file\[DIP.Viettours] File thong ke chuc nang da thuc hien.docx" />
+    <Content Include="Utilities\Upload\file\Đề xuất tối ưu trang Sài Gòn MIA.docx" />
+    <Content Include="Utilities\Upload\Staffs.xlsx" />
+    <Content Include="Views\Shared\_Partial_InsertStaff.cshtml" />
+    <Content Include="Views\Shared\_Partial_InsertTour.cshtml" />
+    <Content Include="Views\Shared\_Partial_InsertCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

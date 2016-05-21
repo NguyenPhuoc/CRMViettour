@@ -150,7 +150,7 @@ namespace CRMViettour.Utilities
         /// <returns></returns>
         public static List<tbl_Partner> PartnerList(int id)
         {
-            var model = CacheLayer.Get<List<tbl_Partner>>("partnerList");
+            var model = CacheLayer.Get<List<tbl_Partner>>("partnerList" + id);
             if (model == null)
             {
                 model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == id).Select(p => new tbl_Partner
@@ -158,7 +158,7 @@ namespace CRMViettour.Utilities
                     Id = p.Id,
                     Name = p.Name
                 }).ToList();
-                CacheLayer.Add<List<tbl_Partner>>(model, "partnerList", 10080);
+                CacheLayer.Add<List<tbl_Partner>>(model, "partnerList" + id, 10080);
             }
 
             return model;
@@ -863,7 +863,22 @@ namespace CRMViettour.Utilities
         }
 
         /// <summary>
-        /// danh sách các đối function
+        /// danh sách các tag theo type
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Tags> LoadTagsByType(int id)
+        {
+            var model = CacheLayer.Get<List<tbl_Tags>>("loadTagsByType" + id);
+            if (model == null)
+            {
+                model = _db.tbl_Tags.AsEnumerable().Where(c => c.IsDelete == false && c.TypeTag == id).Select(p => new tbl_Tags { Id = p.Id, Tag = p.Tag }).ToList();
+                CacheLayer.Add<List<tbl_Tags>>(model, "loadTagsByType" + id, 10080);
+            }
+            return model;
+        }
+
+        /// <summary>
+        /// danh sách các function
         /// </summary>
         /// <returns></returns>
         public static List<tbl_Function> FunctionList()

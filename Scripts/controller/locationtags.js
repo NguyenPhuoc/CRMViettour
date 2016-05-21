@@ -6,8 +6,12 @@ function updateRow2Colum() {
         if (this.checked) {
             var tr = $(this).next("label");
             var text = tr.text();
+            var tr1 = $(this).next("iso");
+            var text1 = tr1.text();
             tr.text("");
+            tr1.text("");
             tr.append("<input type='text' id='txtName' value='" + text + "' class='form-control' />");
+            tr.append("<input type='text' id='txtIsoCode' value='" + text1 + "' class='form-control' />");
         }
     });
     $("#btnAdd").attr("disabled", "disabled");
@@ -43,7 +47,8 @@ $("#btnSave").click(function () {
     else {
         var dataPost = {
             id: $("input[type='checkbox']:checked").val(),
-            name: $("#txtName").val()
+            name: $("#txtName").val(),
+            isocode: $("#txtIsoCode").val()
         };
 
         $.ajax({
@@ -79,3 +84,13 @@ $("#btnRemove").click(function () {
         }
     })
 })
+
+$('#selectTagsType').change(function () {
+    $.getJSON('/LocationTagsManage/LoadTagByType/' + $('#selectTagsType').val(), function (data) {
+        var items = '<option>-- Chọn --</option>"';
+        $.each(data, function (i, ward) {
+            items += "<option value='" + ward.Value + "'>" + ward.Text + "</option>";
+        });
+        $('#selectTags').html(items);
+    });
+});

@@ -17,7 +17,7 @@
         <!-- BEGIN PAGE ACTIONS -->
         <!-- DOC: Remove "hide" class to enable the page header actions -->
         <div class="page-actions">
-            <div class="btn-group">
+            @*<div class="btn-group">
                 <button type="button" class="btn red-haze btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                     <span class="hidden-sm hidden-xs">Thao tác&nbsp;</span>
                     <i class="fa fa-angle-down"></i>
@@ -39,7 +39,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div>*@
         </div>
         <!-- END PAGE ACTIONS -->
         <!-- BEGIN PAGE TOP -->
@@ -439,6 +439,6 @@
     @Html.AntiForgeryToken()
 }
 
-@Html.Partial("_Partial_InsertCustomer", new CRMViettour.Models.CustomerViewModel())
+@*@Html.Partial("_Partial_InsertCustomer", new CRMViettour.Models.CustomerViewModel())
 @Html.Partial("_Partial_InsertStaff", new CRMViettour.Models.StaffViewModel())
-@Html.Partial("_Partial_InsertTour", new CRMViettour.Models.TourViewModel())
+@Html.Partial("_Partial_InsertTour", new CRMViettour.Models.TourViewModel())*@

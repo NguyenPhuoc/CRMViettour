@@ -55,37 +55,40 @@
             </tbody>
         </table>
     </div>
-    <script>
-        $(".TableVisa").on("change", ".cbVisa", function () {
-            var ItemID = $(this).val();
-            var currentlistItemID = $("#listVisaId").val();
-            var stringBranchID = "";
-            if ($(this).prop('checked')) {
-                currentlistItemID += ItemID + ",";
-                $("#listVisaId").val(currentlistItemID);
-            } else {
-                $("#listVisaId").val(currentlistItemID.replace(ItemID + ",", ""));
-            }
+    @section scripts{
+<script>
+    $(".TableVisa").on("change", ".cbVisa", function () {
+        var ItemID = $(this).val();
+        var currentlistItemID = $("#listVisaId").val();
+        var stringBranchID = "";
+        if ($(this).prop('checked')) {
+            currentlistItemID += ItemID + ",";
+            $("#listVisaId").val(currentlistItemID);
+        } else {
+            $("#listVisaId").val(currentlistItemID.replace(ItemID + ",", ""));
+        }
 
-        });
+    });
 
-        $(".TableVisa").on("change", "#allcheckvisa", function () {
-            var $this = $(this);
-            $("#listVisaId").val('');
-            var currentlistItemID = $("#listVisaId").val();
-            var ItemID = "";
-            if ($this.prop("checked")) {
-                $(".cbVisa").each(function () {
-                    ItemID = $(this).val();
-                    if ($(this).parent().hasClass('text-danger') == false) {
-                        $(this).prop("checked", true);
-                        currentlistItemID += ItemID + ",";
-                        $("#listVisaId").val(currentlistItemID);
-                    }
-                });
-            } else {
-                $(".cbVisa").prop("checked", false);
-                $("#listVisaId").val("");
-            }
-        });
-    </script>
+    $(".TableVisa").on("change", "#allcheckvisa", function () {
+        var $this = $(this);
+        $("#listVisaId").val('');
+        var currentlistItemID = $("#listVisaId").val();
+        var ItemID = "";
+        if ($this.prop("checked")) {
+            $(".cbVisa").each(function () {
+                ItemID = $(this).val();
+                if ($(this).parent().hasClass('text-danger') == false) {
+                    $(this).prop("checked", true);
+                    currentlistItemID += ItemID + ",";
+                    $("#listVisaId").val(currentlistItemID);
+                }
+            });
+        } else {
+            $(".cbVisa").prop("checked", false);
+            $("#listVisaId").val("");
+        }
+    });
+</script>
+
+    }

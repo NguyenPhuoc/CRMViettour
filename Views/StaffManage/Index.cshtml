@@ -34,22 +34,32 @@
                 <div class="col-md-12">
                     <div class="">
                         <a href="@Url.Action("Index", "StaffManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                        <button class="btn btn-primary" href="#modal-insert-staff" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                        <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                        <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                        <form action="@Url.Action("Delete", "StaffManage")" method="post" style="position:absolute">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" id="listItemId" name="listItemId" />
-                        </form>
+                        @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                        {<button class="btn btn-primary" href="#modal-insert-staff" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                        @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                        {<button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                        @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                        {<button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                            <form action="@Url.Action("Delete", "StaffManage")" method="post" style="position:absolute">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" id="listItemId" name="listItemId" />
+                            </form>
+                        }
                         <button class="btn yellow" id="btnPassword" onclick="confirm('Bạn có muốn khởi tạo lại mật khẩu không?');"><i class="fa fa-key"></i>&nbsp;Mật khẩu</button>
-                        <button class="btn red" id="btnLock" onclick="confirm('Bạn có chắc chắn khóa tài khoản này không?');"><i class="fa fa-lock"></i>&nbsp;Khóa</button>
-                        <button class="btn grey" id="btnUnLock" onclick="confirm('Bạn có chắc chắn mở khóa tài khoản này không?');"><i class="fa fa-unlock"></i>&nbsp;Mở khóa</button>
-                        <button class="btn blue" id="btnAddTask"><i class="fa fa-clipboard"></i>&nbsp;Phân công nhiệm vụ</button>
-                        <a class="btn green" data-toggle="modal" href="#modal-import-staff"><i class="icon-action-redo"></i>&nbsp;Import</a>
-                        <label class="btn btn-info fileContainer">
+                        @if (ViewBag.IsLock != null && ViewBag.IsLock)
+                        {<button class="btn red" id="btnLock" onclick="confirm('Bạn có chắc chắn khóa tài khoản này không?');"><i class="fa fa-lock"></i>&nbsp;Khóa</button>}
+                        @if (ViewBag.IsUnLock != null && ViewBag.IsUnLock)
+                        {<button class="btn grey" id="btnUnLock" onclick="confirm('Bạn có chắc chắn mở khóa tài khoản này không?');"><i class="fa fa-unlock"></i>&nbsp;Mở khóa</button>}
+                        @if (ViewBag.IsAddNV != null && ViewBag.IsAddNV)
+                        {<button class="btn blue" id="btnAddTask"><i class="fa fa-clipboard"></i>&nbsp;Phân công nhiệm vụ</button>}
+                        @if (ViewBag.IsImport != null && ViewBag.IsImport)
+                        {<a class="btn green" data-toggle="modal" href="#modal-import-staff"><i class="icon-action-redo"></i>&nbsp;Import</a>}
+                        @if (ViewBag.IsExport != null && ViewBag.IsExport)
+                        {<label class="btn btn-info fileContainer">
                             <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" id="btnExport" class="form-control" />&nbsp;Export</a>
                         </label>
-                        @using (Html.BeginForm("ExportFile", "StaffManage", FormMethod.Post, new { enctype = "multipart/form-data", id = "exportForm" })) { }
+                            using (Html.BeginForm("ExportFile", "StaffManage", FormMethod.Post, new { enctype = "multipart/form-data", id = "exportForm" })) { }
+                        }
                     </div>
                 </div>
             </div>

@@ -89,6 +89,8 @@ namespace CRMViettour.Controllers
             ViewBag.IsEdit = list.Contains(3);
             ViewBag.IsImport = list.Contains(4);
             ViewBag.IsExport = list.Contains(5);
+            ViewBag.IsLock = list.Contains(6);
+            ViewBag.IsUnLock = list.Contains(7);
 
             var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
             if (ltAccess != 0)

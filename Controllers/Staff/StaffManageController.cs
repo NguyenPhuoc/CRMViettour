@@ -55,8 +55,44 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region Index
+
+        int SDBID = 6;
+        int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+
+            var listNV = _db.tbl_ActionData.Where(p => p.FormId == 57 && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAddNV = list.Contains(1);
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+
+            switch (SDBID)
+            {
+                case 2: maPB = clsPermission.GetUser().DepartmentID;
+                    maCN = clsPermission.GetUser().BranchID;
+                    break;
+                case 3: maNKD = clsPermission.GetUser().GroupID;
+                    maCN = clsPermission.GetUser().BranchID; break;
+                case 4: maNV = clsPermission.GetUser().StaffID; break;
+                case 5: maCN = clsPermission.GetUser().BranchID; break;
+            }
+        }
+
         public ActionResult Index()
         {
+            Permission(clsPermission.GetUser().PermissionID, 6);
+
+            if (SDBID == 6)
+                return View(new List<StaffListViewModel>());
+
             var model = _staffRepository.GetAllAsQueryable().AsEnumerable().Select(p => new StaffListViewModel
             {
                 Birthday = p.Birthday != null ? p.Birthday.Value.ToString("dd-MM-yyyy") : "",

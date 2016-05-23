@@ -42,7 +42,6 @@ namespace CRMViettour.App_Start
             container.RegisterType<IGenericRepository<tbl_DictionaryCategory>, GenericRepository<tbl_DictionaryCategory>>();
             container.RegisterType<IGenericRepository<tbl_Dictionary>, GenericRepository<tbl_Dictionary>>();
             container.RegisterType<IGenericRepository<tbl_Tags>, GenericRepository<tbl_Tags>>();
-            container.RegisterType<IGenericRepository<tbl_Company>, GenericRepository<tbl_Company>>();
             container.RegisterType<IGenericRepository<tbl_DocumentFile>, GenericRepository<tbl_DocumentFile>>();
             container.RegisterType<IGenericRepository<tbl_Customer>, GenericRepository<tbl_Customer>>();
             container.RegisterType<IGenericRepository<tbl_CustomerVisa>, GenericRepository<tbl_CustomerVisa>>();

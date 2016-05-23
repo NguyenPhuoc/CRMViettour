@@ -387,22 +387,6 @@ namespace CRMViettour.Utilities
         }
 
         /// <summary>
-        /// công ty
-        /// </summary>
-        /// <returns></returns>
-        public static List<tbl_Company> CompanyList()
-        {
-            var company = CacheLayer.Get<List<tbl_Company>>("companyList");
-            if (company == null)
-            {
-                company = _db.tbl_Company.ToList();
-                CacheLayer.Add<List<tbl_Company>>(company, "companyList", 10080);
-            }
-
-            return company;
-        }
-
-        /// <summary>
         /// danh sách khách hàng
         /// </summary>
         /// <returns></returns>

@@ -44,7 +44,7 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_Staff> _staffRepository;
         private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
         private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
-        private IGenericRepository<tbl_Company> _companyRepository;
+        
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_CustomerContactVisa> _customerContactVisaRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -72,7 +72,7 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_Staff> staffRepository,
             IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
             IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
-            IGenericRepository<tbl_Company> companyRepository,
+            
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_CustomerContactVisa> customerContactVisaRepository,
             IGenericRepository<tbl_UpdateHistory> updateHistoryRepository,
@@ -101,7 +101,7 @@ namespace CRMViettour.Controllers
             this._staffRepository = staffRepository;
             this._liabilityCustomerRepository = liabilityCustomerRepository;
             this._liabilityPartnerRepository = liabilityPartnerRepository;
-            this._companyRepository = companyRepository;
+            
             this._customerContactRepository = customerContactRepository;
             this._customerContactVisaRepository = customerContactVisaRepository;
             this._updateHistoryRepository = updateHistoryRepository;
@@ -235,7 +235,6 @@ namespace CRMViettour.Controllers
             {
                 model.SingleTour.CreatedDate = DateTime.Now;
                 model.SingleTour.ModifiedDate = DateTime.Now;
-                model.SingleTour.IsBidding = false;
                 model.SingleTour.Permission = form["SingleTour.Permission"] != null ? form["SingleTour.Permission"].ToString() : null;
                 if (model.StartDateTour != null && model.StartDateTour.Value.Year >= 1980)
                 {
@@ -396,7 +395,7 @@ namespace CRMViettour.Controllers
         {
             if (id == 9999)
             {
-                var model = _tourRepository.GetAllAsQueryable().Where(p => p.IsBidding == true)
+                var model = _tourRepository.GetAllAsQueryable()
                 .Select(p => new TourListViewModel
                 {
                     Id = p.Id,
@@ -510,7 +509,6 @@ namespace CRMViettour.Controllers
             {
                 int tourId = Convert.ToInt32(Session["idTour"].ToString());
                 var item = _tourRepository.FindId(tourId);
-                item.IsBidding = false;
                 _db.SaveChanges();
             }
             catch { }
@@ -950,7 +948,6 @@ namespace CRMViettour.Controllers
                     model.SingleCompany.PassportCard = model.PassportCard;
                     model.SingleCompany.PassportTagId = model.PassportTagId;
                     model.SingleCompany.NameTypeId = 47;
-                    model.SingleCompany.FullName = _db.tbl_Company.Find(model.SingleCompany.CompanyId).Name;
                     if (model.CreatedDateIdentity != null && model.CreatedDateIdentity.Year >= 1980)
                     {
                         model.SingleCompany.CreatedDateIdentity = model.CreatedDateIdentity;

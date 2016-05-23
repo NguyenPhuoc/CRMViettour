@@ -24,7 +24,7 @@ namespace CRMViettour.Controllers.Staff
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_StaffVisa> _staffVisaRepository;
         private IGenericRepository<tbl_Task> _taskRepository;
-        private IGenericRepository<tbl_Company> _companyRepository;
+        
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -43,7 +43,7 @@ namespace CRMViettour.Controllers.Staff
             IGenericRepository<tbl_Tags> tagsRepository,
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_StaffVisa> customerVisaRepository,
-            IGenericRepository<tbl_Company> companyRepository,
+            
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_Task> taskRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
@@ -64,7 +64,7 @@ namespace CRMViettour.Controllers.Staff
             this._tagsRepository = tagsRepository;
             this._staffVisaRepository = customerVisaRepository;
             this._taskRepository = taskRepository;
-            this._companyRepository = companyRepository;
+            
             this._dictionaryRepository = dictionaryRepository;
             this._documentFileRepository = documentFileRepository;
             this._contactHistoryRepository = contactHistoryRepository;
@@ -250,7 +250,7 @@ namespace CRMViettour.Controllers.Staff
                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
                     Career = p.CareerId != null ? p.tbl_DictionaryCareer.Name : "",
                     Code = p.Code == null ? "" : p.Code,
-                    Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
+                   // Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
                     Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,
                     StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("dd-MM-yyyy"),
                     EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("dd-MM-yyyy"),

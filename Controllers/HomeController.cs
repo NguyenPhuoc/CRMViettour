@@ -78,7 +78,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
-                if (model.SingleCompany.Code != null && model.SingleCompany.CompanyId != 0)
+                if (model.SingleCompany.Code != null)
                 {
                     model.SingleCompany.CustomerType = CustomerType.Personal;
                     model.SingleCompany.TagsId = form["SingleCompany.TagsId"];
@@ -90,7 +90,6 @@ namespace CRMViettour.Controllers
                     model.SingleCompany.PassportCard = model.PassportCard;
                     model.SingleCompany.PassportTagId = model.PassportTagId;
                     model.SingleCompany.NameTypeId = 47;
-                    model.SingleCompany.FullName = _db.tbl_Company.Find(model.SingleCompany.CompanyId).Name;
                     if (model.CreatedDateIdentity != null && model.CreatedDateIdentity.Year >= 1980)
                     {
                         model.SingleCompany.CreatedDateIdentity = model.CreatedDateIdentity;
@@ -366,7 +365,6 @@ namespace CRMViettour.Controllers
             {
                 model.SingleTour.CreatedDate = DateTime.Now;
                 model.SingleTour.ModifiedDate = DateTime.Now;
-                model.SingleTour.IsBidding = false;
                 model.SingleTour.Permission = form["SingleTour.Permission"] != null ? form["SingleTour.Permission"].ToString() : null;
                 if (model.StartDateTour != null && model.StartDateTour.Value.Year >= 1980)
                 {

@@ -34,7 +34,7 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_CustomerVisa> _customerVisaRepository;
         private IGenericRepository<tbl_CustomerContactVisa> _customerContactVisaRepository;
-        private IGenericRepository<tbl_Company> _companyRepository;
+        
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -49,7 +49,7 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_Tags> tagsRepository,
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_CustomerVisa> customerVisaRepository,
-            IGenericRepository<tbl_Company> companyRepository,
+            
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_CustomerContactVisa> customerContactVisaRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
@@ -66,7 +66,7 @@ namespace CRMViettour.Controllers
             this._tagsRepository = tagsRepository;
             this._customerVisaRepository = customerVisaRepository;
             this._customerContactVisaRepository = customerContactVisaRepository;
-            this._companyRepository = companyRepository;
+            
             this._dictionaryRepository = dictionaryRepository;
             this._documentFileRepository = documentFileRepository;
             this._contactHistoryRepository = contactHistoryRepository;
@@ -132,7 +132,6 @@ namespace CRMViettour.Controllers
                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
                     Career = p.CareerId != null ? p.tbl_DictionaryCareer.Name : "",
                     Code = p.Code == null ? "" : p.Code,
-                    Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
                     Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,
                     StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("dd-MM-yyyy"),
                     EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("dd-MM-yyyy"),
@@ -157,7 +156,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
-                if (model.SingleCompany.Code != null && model.SingleCompany.CompanyId != 0)
+                if (model.SingleCompany.Code != null)
                 {
                     model.SingleCompany.CustomerType = CustomerType.Personal;
                     model.SingleCompany.TagsId = form["SingleCompany.TagsId"];
@@ -169,7 +168,6 @@ namespace CRMViettour.Controllers
                     model.SingleCompany.PassportCard = model.PassportCard;
                     model.SingleCompany.PassportTagId = model.PassportTagId;
                     model.SingleCompany.NameTypeId = 47;
-                    model.SingleCompany.FullName = _db.tbl_Company.Find(model.SingleCompany.CompanyId).Name;
                     if (model.CreatedDateIdentity != null && model.CreatedDateIdentity.Year >= 1980)
                     {
                         model.SingleCompany.CreatedDateIdentity = model.CreatedDateIdentity;
@@ -797,7 +795,7 @@ namespace CRMViettour.Controllers
                     model.SingleCompany.PassportCard = model.PassportCard;
                     model.SingleCompany.PassportTagId = model.PassportTagId;
                     model.SingleCompany.NameTypeId = 47;
-                    model.SingleCompany.FullName = _db.tbl_Company.Find(model.SingleCompany.CompanyId).Name;
+                    //model.SingleCompany.FullName = _db.tbl_Company.Find(model.SingleCompany.CompanyId).Name;
                     if (model.CreatedDateIdentity != null && model.CreatedDateIdentity.Year >= 1980)
                     {
                         model.SingleCompany.CreatedDateIdentity = model.CreatedDateIdentity;
@@ -1075,7 +1073,7 @@ namespace CRMViettour.Controllers
                                 if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                                 {
                                     string congty = worksheet.Cells[cel + row].Text;
-                                    cus.CompanyId = _companyRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == congty).Select(c => c.Id).SingleOrDefault();
+                                    //cus.CompanyId = _companyRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == congty).Select(c => c.Id).SingleOrDefault();
                                 }
                             }
                             catch { }
@@ -1085,7 +1083,7 @@ namespace CRMViettour.Controllers
                                 if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                                 {
                                     string congty = worksheet.Cells[cel + row].Text;
-                                    cus.CompanyId = _companyRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == congty).Select(c => c.Id).SingleOrDefault();
+                                   // cus.CompanyId = _companyRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == congty).Select(c => c.Id).SingleOrDefault();
                                 }
                             }
                             catch { }
@@ -1389,7 +1387,7 @@ namespace CRMViettour.Controllers
                      OtherPhone = p.MobilePhone == null ? "" : p.MobilePhone,
                      Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,
                      Career = p.CareerId != null ? p.tbl_DictionaryCareer.Name : "",
-                     Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
+                    // Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
                      Address = p.Address == null ? "" : p.Address,
                      TagsId = p.TagsId == null ? "" : LoadData.LocationTags(p.TagsId),
                      IdentityCard = p.IdentityCard == null ? "" : p.IdentityCard,

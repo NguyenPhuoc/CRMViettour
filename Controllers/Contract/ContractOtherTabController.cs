@@ -26,7 +26,7 @@ namespace CRMViettour.Controllers.Customer
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_CustomerVisa> _customerVisaRepository;
         private IGenericRepository<tbl_CustomerContactVisa> _customerContactVisaRepository;
-        private IGenericRepository<tbl_Company> _companyRepository;
+        
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -41,7 +41,7 @@ namespace CRMViettour.Controllers.Customer
             IGenericRepository<tbl_Tags> tagsRepository,
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_CustomerVisa> customerVisaRepository,
-            IGenericRepository<tbl_Company> companyRepository,
+            
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_CustomerContactVisa> customerContactVisaRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
@@ -57,7 +57,7 @@ namespace CRMViettour.Controllers.Customer
             this._tagsRepository = tagsRepository;
             this._customerVisaRepository = customerVisaRepository;
             this._customerContactVisaRepository = customerContactVisaRepository;
-            this._companyRepository = companyRepository;
+            
             this._dictionaryRepository = dictionaryRepository;
             this._documentFileRepository = documentFileRepository;
             this._contactHistoryRepository = contactHistoryRepository;

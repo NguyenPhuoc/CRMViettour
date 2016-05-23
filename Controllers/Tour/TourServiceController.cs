@@ -17,7 +17,7 @@ namespace CRMViettour.Controllers.Tour
         #region Init
 
         private IGenericRepository<tbl_DeadlineOption> _deadlineOptionRepository;
-        private IGenericRepository<tbl_Company> _companyRepository;
+        
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_ServicesPartner> _servicesPartnerRepository;
         private IGenericRepository<tbl_Tour> _tourRepository;
@@ -42,7 +42,7 @@ namespace CRMViettour.Controllers.Tour
 
         public TourServiceController(IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_DeadlineOption> deadlineOptionRepository,
-            IGenericRepository<tbl_Company> companyRepository,
+            
             IGenericRepository<tbl_ServicesPartner> servicesPartnerRepository,
             IGenericRepository<tbl_Tour> tourRepository,
             IGenericRepository<tbl_ReviewTour> reviewTourRepository,
@@ -67,7 +67,7 @@ namespace CRMViettour.Controllers.Tour
         {
             this._deadlineOptionRepository = deadlineOptionRepository;
             this._dictionaryRepository = dictionaryRepository;
-            this._companyRepository = companyRepository;
+            
             this._servicesPartnerRepository = servicesPartnerRepository;
             this._tourRepository = tourRepository;
             this._reviewTourRepository = reviewTourRepository;

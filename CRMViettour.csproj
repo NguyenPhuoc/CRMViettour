@@ -218,7 +218,6 @@
     <Compile Include="Controllers\Contract\ContractOtherTabController.cs" />
     <Compile Include="Controllers\Contract\ContractStatusManageController.cs" />
     <Compile Include="Controllers\Contract\ContractTabInfoController.cs" />
-    <Compile Include="Controllers\Customer\CompanyManageController.cs" />
     <Compile Include="Controllers\Contract\ContractsManageController.cs" />
     <Compile Include="Controllers\Customer\CustomerOtherTabController.cs" />
     <Compile Include="Controllers\Customer\CustomersManageController.cs" />
@@ -2230,10 +2229,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\CompanyManage\Index.cshtml" />
-    <Content Include="Views\CompanyManage\_Partial_EditCompany.cshtml" />
-    <Content Include="Views\CompanyManage\_Partial_InsertCompany.cshtml" />
-    <Content Include="Views\CompanyManage\_Partial_InsertDocument.cshtml" />
     <Content Include="Views\ContractsManage\Index.cshtml" />
     <Content Include="Views\TourOtherTab\_Partial_EditContract.cshtml" />
     <Content Include="Views\TourOtherTab\_Partial_InsertContract.cshtml" />
@@ -2364,8 +2359,6 @@
     <Content Include="Views\LocationTagsManage\_Partial_InsertLocation.cshtml" />
     <Content Include="Views\LocationTagsManage\_Partial_DropdownlistTreeTags.cshtml" />
     <Content Include="Views\DocumentTypeManage\Index.cshtml" />
-    <Content Include="Views\CompanyManage\_Partial_CompanyDocument.cshtml" />
-    <Content Include="Views\CompanyManage\_Partial_EditDocument.cshtml" />
     <Content Include="Views\DepartmentManage\Index.cshtml" />
     <Content Include="Views\PositionManage\Index.cshtml" />
     <Content Include="Views\CustomersManage\_Partial_VisaPassport.cshtml" />

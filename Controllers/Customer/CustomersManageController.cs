@@ -1057,6 +1057,16 @@ namespace CRMViettour.Controllers
                                 CreatedDate = DateTime.Now,
                                 ModifiedDate = DateTime.Now,
                             };
+                            // staff
+                            if (Request.IsAuthenticated)
+                            {
+                                string user = User.Identity.Name;
+                                if (Request.Cookies["CookieUser" + user] != null)
+                                {
+                                    cus.StaffId = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
+                                    cus.StaffManager = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
+                                }
+                            }
                             string cel = "";
                             try//ngay cap ma so thue
                             {

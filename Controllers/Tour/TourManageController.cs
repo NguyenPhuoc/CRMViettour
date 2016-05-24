@@ -190,8 +190,8 @@ namespace CRMViettour.Controllers
 
                 foreach (var item in model)
                 {
-                    item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
-                    item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
+                    item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalRemaining) ?? 0;
+                    item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalRemaining) ?? 0;
                 }
                 return PartialView("_Partial_ListTours", model);
             }
@@ -526,6 +526,8 @@ namespace CRMViettour.Controllers
             {
                 using (var excelPackage = new ExcelPackage(FileName.InputStream))
                 {
+                    int idtour = Int32.Parse(Session["idTour"].ToString());
+                    int daidien = _tourRepository.FindId(idtour).CustomerId ?? 0;
                     List<tbl_Customer> list = new List<tbl_Customer>();
                     List<tbl_CustomerVisa> listVisa = new List<tbl_CustomerVisa>();
                     int i = 0;
@@ -552,7 +554,19 @@ namespace CRMViettour.Controllers
                                 CreatedDate = DateTime.Now,
                                 ModifiedDate = DateTime.Now,
                                 IsTemp = true,
+                                ParentId = daidien,
+                                StaffManager = _tourRepository.FindId(idtour).StaffId
                             };
+                            // staff
+                            if (Request.IsAuthenticated)
+                            {
+                                string user = User.Identity.Name;
+                                if (Request.Cookies["CookieUser" + user] != null)
+                                {
+                                    cus.StaffId = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
+                                }
+                            }
+
                             string cel = "";
                             try//ngay sinh
                             {
@@ -866,6 +880,7 @@ namespace CRMViettour.Controllers
                 return RedirectToAction("Index");
             }
         }
+
         #region Update
         /// <summary>
         /// partial view edit thông tin khách hàng
@@ -1176,12 +1191,13 @@ namespace CRMViettour.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
         [HttpPost]
         public async Task<ActionResult> CapNhatKH(int id)
         {
             try
             {
-                var tour = _tourRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Id == id).Single();
+                var tour = _tourRepository.FindId(id);
                 var custour = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Select(c => c.tbl_Customer).ToList();
                 foreach (var item in custour)
                 {
@@ -1214,7 +1230,7 @@ namespace CRMViettour.Controllers
                     {
                         try
                         {
-                            var abs = _db.tbl_Customer.Where(c => c.Id == item.Id).Single();
+                            var abs = _db.tbl_Customer.Find(item.Id);
                             abs.Code = LoadData.NewCodeCustomerPersonal();
                             abs.IsTemp = false;
                             _db.SaveChanges();
@@ -1242,6 +1258,9 @@ namespace CRMViettour.Controllers
                         cus.CreatedDatePassport = item.CreatedDatePassport;
                         cus.ExpiredDatePassport = item.ExpiredDatePassport;
                         cus.PassportTagId = item.PassportTagId;
+                        cus.ParentId = item.ParentId;
+                        cus.StaffId = item.StaffId;
+                        cus.StaffManager = item.StaffManager;
                         cus.Note = item.Note;
                         var ctu = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id && c.CustomerId == item.Id).SingleOrDefault();
                         ctu.CustomerId = cus.Id;

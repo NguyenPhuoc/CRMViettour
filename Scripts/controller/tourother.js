@@ -1,4 +1,5 @@
 ﻿CKEDITOR.replace("insert-request-tour");
+CKEDITOR.replace("insert-noteflight-tour");
 CKEDITOR.replace("insert-note-lichhen");
 CKEDITOR.replace("insert-note-lienhe");
 CKEDITOR.replace("insert-document-note");
@@ -602,6 +603,7 @@ function btnCreateContract() {
                 $("#insert-status-contracttour").select2();
                 $("#insert-permission-contracttour").select2();
                 $("#insert-currency-contracttour").select2();
+                $("#insert-tag-contract").select2();
                 $("#modal-insert-contract").modal("show");
             }
         });
@@ -621,6 +623,7 @@ function updateContract(id) {
             $("#info-data-contract").html(data);
             $("#edit-status-contracttour").select2();
             $("#edit-currency-contracttour").select2();
+            $("#edit-tag-contract").select2();
             $("#edit-permission-contracttour").select2();
             CKEDITOR.replace("edit-note-contracttour");
             $("#modal-edit-contract").modal("show");
@@ -990,6 +993,43 @@ $('#insert-file-quotation').change(function () {
     var ajaxRequest = $.ajax({
         type: "POST",
         url: 'TourOtherTab/UploadFileQuotation',
+        contentType: false,
+        processData: false,
+        data: data
+    });
+
+    ajaxRequest.done(function (xhr, textStatus) {
+        // Onsuccess
+    });
+});
+
+/**** upload file contract ****/
+
+$('#insert-file-contract').change(function () {
+    var data = new FormData();
+    data.append('FileNameContract', $('#insert-file-contract')[0].files[0]);
+
+    var ajaxRequest = $.ajax({
+        type: "POST",
+        url: 'TourOtherTab/UploadContract',
+        contentType: false,
+        processData: false,
+        data: data
+    });
+
+    ajaxRequest.done(function (xhr, textStatus) {
+        // Onsuccess
+    });
+});
+
+
+$('#edit-file-contract').change(function () {
+    var data = new FormData();
+    data.append('FileNameContract', $('#edit-file-contract')[0].files[0]);
+
+    var ajaxRequest = $.ajax({
+        type: "POST",
+        url: 'TourOtherTab/UploadContract',
         contentType: false,
         processData: false,
         data: data

@@ -790,15 +790,36 @@ namespace CRMViettour.Controllers.Tour
 
         #region Hợp đồng
 
+        [HttpPost]
+        public ActionResult UploadContract(HttpPostedFileBase FileNameContract)
+        {
+            if (FileNameContract != null && FileNameContract.ContentLength > 0)
+            {
+                Session["ContractTourFile"] = FileNameContract;
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> EditContract(int id)
         {
             var model = await _contractRepository.GetById(id);
+            List<SelectListItem> lstTag = new List<SelectListItem>();
+            foreach (var t in _db.tbl_Tags.ToList())
+            {
+                lstTag.Add(new SelectListItem()
+                {
+                    Text = t.Tag,
+                    Value = t.Id.ToString(),
+                    Selected = model.TagsId.Split(',').Contains(t.Id.ToString()) ? true : false
+                });
+            }
+            ViewBag.TagsId = lstTag;
             return PartialView("_Partial_EditContract", model);
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public async Task<ActionResult> CreateContract(tbl_Contract model)
+        public async Task<ActionResult> CreateContract(tbl_Contract model, FormCollection form)
         {
             try
             {
@@ -810,22 +831,56 @@ namespace CRMViettour.Controllers.Tour
                 if (await _contractRepository.Create(model))
                 {
                     UpdateHistory.SaveContract(model.Id, 9, "Thêm mới hợp đồng, code: " + model.Code);
-                    var list = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
-                        .Select(p => new tbl_Contract
+
+                    // upload file
+                    HttpPostedFileBase FileName = Session["ContractTourFile"] as HttpPostedFileBase;
+                    string FileSize = Common.ConvertFileSize(FileName.ContentLength);
+                    String newName = FileName.FileName.Insert(FileName.FileName.LastIndexOf('.'), String.Format("{0:_ddMMyyyy}", DateTime.Now));
+                    String path = Server.MapPath("~/Upload/file/" + newName);
+                    FileName.SaveAs(path);
+                    if (newName != null && FileSize != null)
+                    {
+                        Random rd =new Random();
+                        var file = new tbl_DocumentFile
                         {
-                            Id = p.Id,
-                            Permission = p.Permission,
-                            Code = p.Code,
-                            ContractDate = p.ContractDate,
-                            StartDate = p.StartDate,
-                            EndDate = p.EndDate,
-                            tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusContractId),
-                            NumberDay = p.NumberDay,
-                            tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId),
-                            TotalPrice = p.TotalPrice,
-                            tbl_Staff = _staffRepository.FindId(p.StaffId),
-                            CreatedDate = p.CreatedDate
-                        }).ToList();
+                            Code = rd.Next(11111, 99999).ToString(),
+                            ContractId = model.Id,
+                            CreatedDate = DateTime.Now,
+                            CustomerId = _tourRepository.FindId(model.TourId).CustomerId,
+                            DictionaryId = 28,
+                            FileName = newName,
+                            FileSize = FileSize,
+                            IsCustomer = false,
+                            IsDelete = false,
+                            IsRead = false,
+                            ModifiedDate = DateTime.Now,
+                            PermissionStaff = model.StaffId.ToString(),
+                            StaffId = model.StaffId,
+                            TagsId = form["TagsId"].ToString(),
+                            TourId = model.TourId
+                        };
+                        await _documentFileRepository.Create(file);
+                    }
+                    //
+
+                    var list = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                       .Select(p => new tbl_Contract
+                       {
+                           Id = p.Id,
+                           Permission = p.Permission,
+                           Code = p.Code,
+                           ContractDate = p.ContractDate,
+                           StartDate = p.StartDate,
+                           EndDate = p.EndDate,
+                           tbl_DictionaryStatus = _dictionaryRepository.FindId(p.StatusContractId),
+                           NumberDay = p.NumberDay,
+                           tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId),
+                           TotalPrice = p.TotalPrice,
+                           tbl_Staff = _staffRepository.FindId(p.StaffId),
+                           CreatedDate = p.CreatedDate,
+                           tbl_DictionaryCurrency = _dictionaryRepository.FindId(p.CurrencyId)
+                       }).ToList();
+
                     return PartialView("~/Views/TourTabInfo/_HopDong.cshtml", list);
                 }
                 else
@@ -862,8 +917,14 @@ namespace CRMViettour.Controllers.Tour
                             NumberDay = p.NumberDay,
                             tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId),
                             TotalPrice = p.TotalPrice,
-                            tbl_Staff = _staffRepository.FindId(p.StaffId)
+                            tbl_Staff = _staffRepository.FindId(p.StaffId),
+                            tbl_DictionaryCurrency = _dictionaryRepository.FindId(p.CurrencyId)
                         }).ToList();
+
+                    // upload file
+
+                    //
+
                     return PartialView("~/Views/TourTabInfo/_HopDong.cshtml", list);
                 }
                 else
@@ -904,7 +965,8 @@ namespace CRMViettour.Controllers.Tour
                             NumberDay = p.NumberDay,
                             tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId),
                             TotalPrice = p.TotalPrice,
-                            tbl_Staff = _staffRepository.FindId(p.StaffId)
+                            tbl_Staff = _staffRepository.FindId(p.StaffId),
+                            tbl_DictionaryCurrency = _dictionaryRepository.FindId(p.CurrencyId)
                         }).ToList();
                     return PartialView("~/Views/TourTabInfo/_HopDong.cshtml", list);
                 }
@@ -1209,7 +1271,7 @@ namespace CRMViettour.Controllers.Tour
         public JsonResult CNKH()
         {
             int id = Int32.Parse(Session["idTour"].ToString());
-            decimal CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == id).Sum(c => c.TotalContract) ?? 0;
+            decimal CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == id).Sum(c => c.TotalRemaining) ?? 0;
 
             var obj = new
             {
@@ -1221,7 +1283,7 @@ namespace CRMViettour.Controllers.Tour
         public JsonResult CNDT()
         {
             int id = Int32.Parse(Session["idTour"].ToString());
-            decimal CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == id).Sum(c => c.ServicePrice) ?? 0;
+            decimal CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == id).Sum(c => c.TotalRemaining) ?? 0;
 
             var obj = new
             {

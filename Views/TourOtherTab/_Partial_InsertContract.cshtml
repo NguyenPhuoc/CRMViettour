@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Số ngày</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number" })
+                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number", min = "0" })
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Tổng giá trị</label>
                                     <div class="col-lg-2 col-md-2">
@@ -72,6 +72,21 @@
                                             @foreach (var item in LoadData.CurrencyList())
                                             {
                                                 <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">File</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <input type="file" class="form-control" name="FileNameContract" id="insert-file-contract" />
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Tags</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <select id="insert-tag-contract" required="required" name="TagsId" class="form-control" multiple="multiple" style="width: 100%">
+                                            @foreach (var item in LoadData.DropdownlistLocation())
+                                            {
+                                                <option value="@item.Id">@item.Tags</option>
                                             }
                                         </select>
                                     </div>

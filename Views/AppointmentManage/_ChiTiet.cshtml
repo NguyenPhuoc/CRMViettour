@@ -1,0 +1,19 @@
+﻿@using CRM.Core
+@model tbl_AppointmentHistory
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <p><b>Email:</b> @(Model.tbl_Customer != null ? Model.tbl_Customer.PersonalEmail : "")</p>
+            <p><b>Điện thoại:</b> @(Model.tbl_Customer != null ? Model.tbl_Customer.Phone : "")</p>
+            <p><b>Dịch vụ:</b> @(Model.tbl_DictionaryService != null ? Model.tbl_DictionaryService.Name : "")</p>
+            <p><b>Chiến dịch:</b> @(Model.tbl_Program != null ? Model.tbl_Program.Name : "")</p>
+            <p><b>Nhiệm vụ:</b> @(Model.tbl_Task != null ? Model.tbl_Task.Name : "")</p>
+            <p><b>Diễn giải:</b> @Html.Raw(Model.Note)</p>
+        </div>
+    </div>
+}
+else
+{
+}

@@ -54,7 +54,11 @@ namespace CRMViettour.Utilities
         /// <returns></returns>
         public static string StaffTask(string staffId)
         {
-            return _db.tbl_Staff.Find(Convert.ToInt32(staffId)).FullName;
+            var item = _db.tbl_Staff.Find(Convert.ToInt32(staffId));
+            if (item != null)
+            { return item.FullName; }
+            else
+            { return ""; }
         }
 
         /// <summary>
@@ -395,7 +399,7 @@ namespace CRMViettour.Utilities
             var customer = CacheLayer.Get<List<tbl_Customer>>("customerList");
             if (customer == null)
             {
-                customer = _db.tbl_Customer.AsEnumerable()
+                customer = _db.tbl_Customer.AsEnumerable().Where(p => p.ParentId == 0)
                     .Select(p => new tbl_Customer
                     {
                         Id = p.Id,

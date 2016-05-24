@@ -13,6 +13,7 @@
             <p><b>Trạng thái:</b> @Model.tbl_DictionaryStatus.Name</p>
             <p><b>Ngày Bắt đầu:</b> @Model.StartDate.ToString("dd-MM-yyyy")</p>
             <p><b>Thời gian:</b> @Model.NumberDay</p>
+            <p><b>Ghi chú:</b> @Html.Raw(Model.Note)</p>
         </div>
 
         <div class="col-md-6">

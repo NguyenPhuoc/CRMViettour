@@ -64,7 +64,6 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <th class="table-checkbox">
@@ -75,7 +74,6 @@
                                     <th>Số ngày</th>
                                     <th>Code tour</th>
                                     <th>Tổng giá trị</th>
-                                    <th>Ghi chú</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,7 +88,6 @@
                                         <td>@item.NumberDay</td>
                                         <td>@(item.TourId != null ? item.tbl_Tour.Code : "")</td>
                                         <td>@string.Format("{0:0,0}", item.TotalPrice).Replace(",", ".")</td>
-                                        <td>@Html.Raw(item.Note)</td>
                                     </tr>
                                 }
                             </tbody>

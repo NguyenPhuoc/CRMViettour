@@ -2362,7 +2362,6 @@
     <Content Include="Views\DepartmentManage\Index.cshtml" />
     <Content Include="Views\PositionManage\Index.cshtml" />
     <Content Include="Views\CustomersManage\_Partial_VisaPassport.cshtml" />
-    <Content Include="Upload\file\Tom tat yeu cau PM.pdf" />
     <Content Include="Views\ServiceTypeManage\Index.cshtml" />
     <Content Include="Views\CustomersManage\_Partial_EditDocument.cshtml" />
     <Content Include="Views\DocumentaryVisaManage\Index.cshtml" />
@@ -2537,8 +2536,6 @@
     <Content Include="Views\TourManage\_Partial_ImportCustomer.cshtml" />
     <Content Include="Views\TourManage\_Partial_ImportDataList.cshtml" />
     <Content Include="Views\TourManage\_Partial_EditCustomer.cshtml" />
-    <Content Include="Upload\Customer - Personal.xlsx" />
-    <Content Include="Upload\Customer.zip" />
     <Content Include="Views\StaffOtherTab\_Partial_EditTaskStaff.cshtml" />
     <Content Include="Views\StaffManage\_Partial_InsertTaskStaff.cshtml" />
     <Content Include="Views\FlightManage\Index.cshtml" />
@@ -2554,8 +2551,6 @@
     <Content Include="Views\ModuleManage\_Partial_EditForm.cshtml" />
     <Content Include="Views\ModuleManage\_Partial_InsertFunction.cshtml" />
     <Content Include="Views\PermissionManage\_NguoiDung.cshtml" />
-    <Content Include="Upload\Customer - Organization.xlsx" />
-    <Content Include="Upload\Staffs.xlsx" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Shared\_Partial_DetailCompany.cshtml" />
     <Content Include="Views\Shared\_Partial_DetailContact.cshtml" />
@@ -2589,10 +2584,13 @@
     <Content Include="Views\Shared\_Partial_InsertStaff.cshtml" />
     <Content Include="Views\Shared\_Partial_InsertTour.cshtml" />
     <Content Include="Views\Shared\_Partial_InsertCustomer.cshtml" />
+    <Content Include="Views\AppointmentManage\_ChiTiet.cshtml" />
+    <Content Include="Views\TourService\_ChiTietTour.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="FakesAssemblies\" />
+    <Folder Include="Upload\file\" />
     <Folder Include="Views\VisaStatistic\" />
   </ItemGroup>
   <ItemGroup>

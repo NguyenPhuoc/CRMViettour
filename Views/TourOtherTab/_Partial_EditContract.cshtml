@@ -64,7 +64,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Số ngày</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number" })
+                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number", min = "0" })
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Tổng giá trị</label>
                                     <div class="col-lg-2 col-md-2">
@@ -77,6 +77,16 @@
                                                 <option value="@item.Id" @(Model != null && Model.DictionaryId == item.Id ? "selected" : "")>@item.Name</option>
                                             }
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-2">File</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        <input type="file" class="form-control" name="FileNameContract" id="edit-file-contract" />
+                                    </div>
+                                    <label class="control-label col-lg-2 col-md-2">Tags</label>
+                                    <div class="col-lg-4 col-md-4">
+                                        @Html.DropDownList("TagsId", null, new { @class = "form-control", @multiple = "multiple", id = "edit-tag-contract", required = "required", style = "width: 100%" })
                                     </div>
                                 </div>
                                 <div class="form-group">

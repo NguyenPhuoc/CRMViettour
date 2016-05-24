@@ -64,7 +64,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Số ngày</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number" })
+                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number", min = "0" })
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Tổng giá trị</label>
                                     <div class="col-lg-4 col-md-4">

@@ -14,6 +14,7 @@
             <p><b>Loại nhiệm vụ:</b>@(Model.tbl_DictionaryTaskType.Name)</p>
             <p><b>Trạng thái:</b>&nbsp;@(Model.tbl_DictionaryTaskStatus.Name)</p>
             <p><b>Mã Tour:</b>&nbsp;@Model.CodeTour</p>
+            <p><b>Ghi chú:</b> @Html.Raw(Model.Note)</p>
         </div>
         <div class="col-md-6">
             <p><b>Email:</b>&nbsp;@(Model.Email != null ? Model.Email : "")</p>

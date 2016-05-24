@@ -870,6 +870,15 @@ namespace CRMViettour.Controllers
                             CreatedDate = DateTime.Now,
                             ModifiedDate = DateTime.Now,
                         };
+                        // staff
+                        if (Request.IsAuthenticated)
+                        {
+                            string user = User.Identity.Name;
+                            if (Request.Cookies["CookieUser" + user] != null)
+                            {
+                                stf.StaffId = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
+                            }
+                        }
                         String cel = "f";
                         try//ngay sinh
                         {

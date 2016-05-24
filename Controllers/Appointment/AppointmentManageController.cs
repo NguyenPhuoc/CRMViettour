@@ -265,5 +265,27 @@ namespace CRMViettour.Controllers.Appointment
             return Json(rows, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        #region AppointmentDetail
+        [ChildActionOnly]
+        public ActionResult _ChiTiet()
+        {
+            return PartialView("_ChiTiet", new tbl_AppointmentHistory());
+        }
+
+        public ActionResult AppointmentDetail(int id)
+        {
+            var item = _appointmentHistoryRepository.FindId(id);
+            var model = new tbl_AppointmentHistory()
+            {
+                tbl_Customer = item.CustomerId != null ? _customerRepository.FindId(item.CustomerId) : null,
+                tbl_DictionaryService = item.ServiceId != null ? _dictionaryRepository.FindId(item.ServiceId) : null,
+                tbl_Program = item.ProgramId != null ? _programRepository.FindId(item.ProgramId) : null,
+                tbl_Task = item.TaskId != null ? _taskRepository.FindId(item.TaskId) : null,
+                Note = item.Note
+            };
+            return PartialView("_ChiTiet", model);
+        }
+        #endregion
     }
 }

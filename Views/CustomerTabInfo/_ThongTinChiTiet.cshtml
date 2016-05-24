@@ -15,6 +15,7 @@
             <p><b>Giám đốc:</b> @Model.Director</p>
             <p><b>Di động:</b> @Model.MobilePhone</p>
             <p><b>Ngày cập nhật:</b> @string.Format("{0:dd-MM-yyy}", Model.ModifiedDate)</p>
+            <p><b>Diễn giải:</b> @Html.Raw(Model.Note)</p>
         </div>
         <div class="col-md-6">
             <p><b>CMND:</b> @Model.IdentityCard</p>

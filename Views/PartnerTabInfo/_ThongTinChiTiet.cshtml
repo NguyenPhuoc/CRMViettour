@@ -10,6 +10,7 @@
             <p><b>Đối tác:</b> @Model.Name</p>
             <p><b>Địa chỉ:</b> @Model.Address, @(Model.TagsLocationId != null ? CRMViettour.Utilities.LoadData.LocationTags(Model.TagsLocationId) : "")</p>
             <p><b>Phong cách:</b> @(Model.StyleId != null ? Model.tbl_TagsStyle.Tag : "")</p>
+            <p><b>Diễn giải:</b> @Html.Raw(Model.Note)</p>
         </div>
         <div class="col-md-6">
             <p><b>Giám đốc:</b> @Model.Director</p>

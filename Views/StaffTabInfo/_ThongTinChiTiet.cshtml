@@ -12,8 +12,9 @@
             <p><b>Địa chỉ:</b>&nbsp;@Model.Address</p>
             <p><b>CMND:</b>&nbsp;@Model.IdentityCard</p>
             <p><b>Ngày cấp:</b>&nbsp;@(Model.CreatedDateIdentity != null ? Model.CreatedDateIdentity.Value.ToString("dd-MM-yyyy") : "")</p>
-            <p><b>Nơi cấp:</b>@(Model.IdentityTagId != null ? Model.tbl_TagsIdentity.Tag : "")</p>
-            <p><b>Số TKNH:</b>@Model.AccountNumber</p>
+            <p><b>Nơi cấp:</b> @(Model.IdentityTagId != null ? Model.tbl_TagsIdentity.Tag : "")</p>
+            <p><b>Số TKNH:</b> @Model.AccountNumber</p>
+            <p><b>Diễn giải:</b> @Html.Raw(Model.Note)</p>
         </div>
         <div class="col-md-6">
             <p><b>Mã số:</b>&nbsp;@Model.Code</p>

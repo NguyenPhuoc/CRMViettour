@@ -18,7 +18,6 @@
                 @Html.HiddenFor(model => model.SingleTour.CreatedDate)
                 @Html.HiddenFor(model => model.SingleTour.CreateStaffId)
                 @Html.HiddenFor(model => model.SingleTour.StatusId)
-                @Html.HiddenFor(model => model.SingleTour.IsBidding)
                 @Html.HiddenFor(model => model.SingleTourGuide.Id)
                 @Html.HiddenFor(model => model.SingleTourGuide.StartDate)
                 @Html.HiddenFor(model => model.SingleTourGuide.TourId)
@@ -55,22 +54,23 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày khởi hành</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.StartDateTour, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.StartDateTour, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày về</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.EndDateTour, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.EndDateTour, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-4 col-md-4">Quản lý tour</label>
+                                                <label class="control-label col-lg-4 col-md-4">Khách hàng</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <select name="SingleTour.StaffId" id="edit-manager-tour" class="form-control" style="width: 100%">
-                                                        @foreach (var item in LoadData.StaffList())
+                                                    <select class="form-control" id="edit-customer-tour" style="width: 100%" name="SingleTour.CustomerId">
+                                                        <option>-- Chọn khách hàng --</option>
+                                                        @foreach (var item in LoadData.CustomerList())
                                                         {
-                                                            <option value="@item.Id" @(Model.SingleTour != null && Model.SingleTour.StaffId == item.Id ? "selected" : "")>@item.FullName</option>
+                                                            <option value="@item.Id" @( Model.SingleTour != null && Model.SingleTour.CustomerId == item.Id ? "selected" : "")>@item.FullName</option>
                                                         }
                                                     </select>
                                                 </div>
@@ -80,7 +80,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Số ngày</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    @Html.TextBoxFor(model => model.SingleTour.NumberDay, new { @class = "form-control", type = "number" })
+                                                    @Html.TextBoxFor(model => model.SingleTour.NumberDay, new { @class = "form-control", type = "number", min = "0" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -119,14 +119,31 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Quản lý tour</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select name="SingleTour.StaffId" id="edit-manager-tour" class="form-control" style="width: 100%">
+                                                        @foreach (var item in LoadData.StaffList())
+                                                        {
+                                                            <option value="@item.Id" @(Model.SingleTour != null && Model.SingleTour.StaffId == item.Id ? "selected" : "")>@item.FullName</option>
+                                                        }
+                                                    </select>
+                                                </div>
                                                 <label class="control-label col-lg-2 col-md-2">Phân quyền</label>
-                                                <div class="col-lg-10 col-md-10">
+                                                <div class="col-lg-4 col-md-4">
                                                     <select class="form-control" multiple="multiple" id="edit-permission-tour" style="width: 100%" name="SingleTour.Permission">
                                                         @foreach (var item in LoadData.StaffList())
                                                         {
                                                             <option value="@item.Id" @(Model.SingleTour != null && Model.SingleTour.Permission != null && Model.SingleTour.Permission.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.FullName</option>
                                                         }
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Chi tiết chuyến bay</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    @Html.TextAreaFor(model => model.SingleTour.NoteFlight, new { @class = "form-control", id = "edit-noteflight-tour" })
                                                 </div>
                                             </div>
                                         </div>
@@ -157,13 +174,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày đi</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.StartDateTourGuide, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.StartDateTourGuide, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày về</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.EndDateTourGuide, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.EndDateTourGuide, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="form-group">

@@ -56,10 +56,11 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-lg-4 col-md-4">Quản lý tour</label>
+                                                <label class="control-label col-lg-4 col-md-4">Khách hàng</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <select name="SingleTour.StaffId" id="insert-manager-tour" class="form-control" style="width: 100%">
-                                                        @foreach (var item in LoadData.StaffList())
+                                                    <select class="form-control" id="insert-customer-tour" style="width: 100%" name="SingleTour.CustomerId">
+                                                        <option>-- Chọn khách hàng --</option>
+                                                        @foreach (var item in LoadData.CustomerList())
                                                         {
                                                             <option value="@item.Id">@item.FullName</option>
                                                         }
@@ -71,7 +72,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Số ngày</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    @Html.TextBoxFor(model => model.SingleTour.NumberDay, new { @class = "form-control", type = "number" })
+                                                    @Html.TextBoxFor(model => model.SingleTour.NumberDay, new { @class = "form-control", type = "number", min = "0" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -110,14 +111,31 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Quản lý tour</label>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <select name="SingleTour.StaffId" id="insert-manager-tour" class="form-control" style="width: 100%">
+                                                        @foreach (var item in LoadData.StaffList())
+                                                        {
+                                                            <option value="@item.Id">@item.FullName</option>
+                                                        }
+                                                    </select>
+                                                </div>
                                                 <label class="control-label col-lg-2 col-md-2">Phân quyền</label>
-                                                <div class="col-lg-10 col-md-10">
+                                                <div class="col-lg-4 col-md-4">
                                                     <select class="form-control" multiple="multiple" id="insert-permission-tour" style="width: 100%" name="SingleTour.Permission">
                                                         @foreach (var item in LoadData.StaffList())
                                                         {
                                                             <option value="@item.Id">@item.FullName</option>
                                                         }
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2 col-md-2">Chi tiết chuyến bay</label>
+                                                <div class="col-lg-10 col-md-10">
+                                                    @Html.TextAreaFor(model => model.SingleTour.NoteFlight, new { @class = "form-control", id = "insert-noteflight-tour" })
                                                 </div>
                                             </div>
                                         </div>

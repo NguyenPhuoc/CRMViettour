@@ -71,7 +71,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Số ngày</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    @Html.TextBoxFor(model => model.SingleTour.NumberDay, new { @class = "form-control", type = "number" })
+                                                    @Html.TextBoxFor(model => model.SingleTour.NumberDay, new { @class = "form-control", type = "number", min = "0" })
                                                 </div>
                                             </div>
                                             <div class="form-group">

@@ -91,6 +91,7 @@ namespace CRMViettour.Controllers.Tour
             _db = new DataContext();
         }
         #endregion
+
         void Permission(int PermissionsId, int formId)
         {
             var list = _db.tbl_ActionData.Where(p => p.FormId == formId & p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
@@ -99,6 +100,7 @@ namespace CRMViettour.Controllers.Tour
             ViewBag.IsDelete = list.Contains(2);
             ViewBag.IsImport = list.Contains(4);
         }
+
         #region Chi tiết tour
         [ChildActionOnly]
         public ActionResult _ChiTietTour()
@@ -436,7 +438,6 @@ namespace CRMViettour.Controllers.Tour
             return PartialView("_LichSuLienHe", model);
         }
         #endregion
-
 
     }
 }

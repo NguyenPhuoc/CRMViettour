@@ -5,7 +5,7 @@ $("#insert-type-tour").select2();
 $("#insert-guide-tour").select2();
 $("#insert-startplace-tourguide").select2();
 $("#insert-permission-tour").select2();
-
+$("#insert-customer-tour").select2();
 $("#insert-task-type").select2();
 $("#insert-department-tasktour").select2();
 $("#insert-staff-tasktour").select2();
@@ -52,6 +52,7 @@ $("#btnEdit").click(function () {
         success: function (data) {
             $("#info-data-tour").html(data);
             $("#edit-manager-tour").select2();
+            $("#edit-customer-tour").select2();
             $("#edit-start-place").select2();
             $("#edit-destination-place").select2();
             $("#edit-type-tour").select2();
@@ -59,6 +60,7 @@ $("#btnEdit").click(function () {
             $("#edit-startplace-tourguide").select2();
             $("#edit-permission-tour").select2();
             CKEDITOR.replace("edit-note-tour");
+            CKEDITOR.replace("edit-noteflight-tour");
             $("#modal-edit-tour").modal("show");
         }
     })

@@ -11,7 +11,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Thêm mới tài liệu</h4>
             </div>
-            @using (Ajax.BeginForm("CreateDocument", "ProgramsManage", null, new AjaxOptions { OnFailure = "OnSuccessAppointment", OnSuccess = "OnFailureAppointment", UpdateTargetId = "tailieumau" }, new { id = "frmInsertFile", enctype = "multipart/form-data" }))
+            @using (Ajax.BeginForm("CreateDocument", "ProgramsManage", null, new AjaxOptions { OnFailure = "OnFailureAppointment", OnSuccess = "OnSuccessAppointment", UpdateTargetId = "tailieumau" }, new { id = "frmInsertFile", enctype = "multipart/form-data" }))
             {
                 <div class="modal-body">
                     <div class="form-horizontal">

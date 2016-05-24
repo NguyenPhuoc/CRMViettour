@@ -32,13 +32,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Phí dịch vụ</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.BasicService, new { @class = "form-control" })
+                                        @Html.TextBoxFor(model => model.BasicService, new { @class = "form-control", min = "0" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-lg-4 col-md-4">Thời gian cấp trung bình</label>
                                     <div class="col-lg-8 col-md-8">
-                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number" })
+                                        @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number", min = "0" })
                                     </div>
                                 </div>
                                 <div class="form-group">

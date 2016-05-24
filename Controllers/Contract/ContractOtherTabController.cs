@@ -69,6 +69,14 @@ namespace CRMViettour.Controllers.Customer
 
         #endregion
 
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+        }
+
         #region Lịch hẹn
         [HttpPost]
         [ValidateInput(false)]
@@ -76,6 +84,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 71);
                 model.ContractId = Convert.ToInt32(Session["idContract"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
@@ -129,6 +138,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 71);
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
@@ -162,6 +172,7 @@ namespace CRMViettour.Controllers.Customer
             int conId = _appointmentHistoryRepository.FindId(id).ContractId ?? 0;
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 71);
                 if (await _appointmentHistoryRepository.Delete(id, false))
                 {
                     var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ContractId == conId)
@@ -196,6 +207,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 70);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.StaffId = 9;
@@ -240,6 +252,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 70);
                 model.ModifiedDate = DateTime.Now;
                 if (await _contactHistoryRepository.Update(model))
                 {
@@ -271,6 +284,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 70);
                 int conId = _contactHistoryRepository.FindId(id).ContractId ?? 0;
                 if (await _contactHistoryRepository.Delete(id, false))
                 {

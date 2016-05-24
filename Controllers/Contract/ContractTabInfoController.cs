@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Contract
 {
@@ -74,7 +75,13 @@ namespace CRMViettour.Controllers.Contract
             _db = new DataContext();
         }
         #endregion
-
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+        }
         #region ThongTinChiTiet
         [ChildActionOnly]
         public ActionResult _ThongTinChiTiet()
@@ -94,22 +101,17 @@ namespace CRMViettour.Controllers.Contract
         [ChildActionOnly]
         public ActionResult _LichHen()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichHen");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichHen(int id)
         {
-            //var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).Select(p => new tbl_AppointmentHistory
-            //    {
-            //        Id = p.Id,
-            //        Time = p.Time,
-            //        Note = p.Note,
-            //        tbl_Dictionary = _dictionaryRepository.FindId(p.DictionaryId),
-            //        tbl_Staff = _staffRepository.FindId(p.StaffId),
-            //        OtherStaff = p.OtherStaff
-            //    }).ToListAsync();
-            var model = _db.tbl_AppointmentHistory.AsEnumerable().Where(p => p.ContractId == id).Select(p => new tbl_AppointmentHistory
+            Permission(clsPermission.GetUser().PermissionID, 71);
+            var model = _db.tbl_AppointmentHistory.AsEnumerable().Where(p => p.ContractId == id && p.IsDelete == false).Select(p => new tbl_AppointmentHistory
             {
                 Id = p.Id,
                 Time = p.Time,
@@ -127,14 +129,18 @@ namespace CRMViettour.Controllers.Contract
         [ChildActionOnly]
         public ActionResult _LichSuLienHe()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichSuLienHe");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 70);
             //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToListAsync();
-            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ContractId == id)
+            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ContractId == id && p.IsDelete == false)
                       .Select(p => new tbl_ContactHistory
                       {
                           Id = p.Id,
@@ -188,14 +194,18 @@ namespace CRMViettour.Controllers.Contract
         [ChildActionOnly]
         public ActionResult _TaiLieuMau()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_TaiLieuMau");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 69);
             // var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToListAsync();
-            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == id)
+            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == id && p.IsDelete == false)
                       .Select(p => new tbl_DocumentFile
                       {
                           Id = p.Id,

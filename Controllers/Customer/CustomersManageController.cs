@@ -413,6 +413,7 @@ namespace CRMViettour.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> CreateDocument(tbl_DocumentFile model, FormCollection form)
         {
+            Permission(clsPermission.GetUser().PermissionID, 55);
             //try
             //{
 
@@ -490,6 +491,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 55);
                 if (ModelState.IsValid)
                 {
                     model.IsRead = true;
@@ -549,6 +551,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 55);
                 int cusId = _documentFileRepository.FindId(id).CustomerId ?? 0;
                 //file
                 tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
@@ -592,6 +595,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 54);
                 string id = Session["idCustomer"].ToString();
                 if (ModelState.IsValid)
                 {
@@ -664,6 +668,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 54);
                 if (ModelState.IsValid)
                 {
                     model.CustomerId = Convert.ToInt32(model.CustomerId);
@@ -706,6 +711,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 54);
                 int visaId = _customerVisaRepository.FindId(id).CustomerId;
 
                 if (await _customerVisaRepository.Delete(id, false))

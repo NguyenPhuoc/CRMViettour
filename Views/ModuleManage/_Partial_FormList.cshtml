@@ -21,11 +21,14 @@
                             <td>@i</td>
                             <td>@item.Name</td>
                             <td>
-                                <a style="cursor: pointer" onclick="updateForm(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a> &nbsp;
-                                <a style="cursor: pointer" onclick="deleteForm(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                                @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                                {<a style="cursor: pointer" onclick="updateForm(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a> 
+                                }
+                                @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                                { <a style="cursor: pointer" onclick="deleteForm(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
                             </td>
                         </tr>
-                        i++;
+                                i++;
                     }
                 }
             </tbody>

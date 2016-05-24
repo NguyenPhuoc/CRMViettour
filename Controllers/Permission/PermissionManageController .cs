@@ -1,6 +1,7 @@
 ﻿using CRM.Core;
 using CRM.Infrastructure;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,11 @@ namespace CRMViettour.Controllers.Permission
         #region Index
         public ActionResult Index()
         {
+            int perID = clsPermission.GetUser().PermissionID;
+            var list = _db.tbl_ActionData.Where(p => p.FormId == 11 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
             var model = _permissionsRepository.GetAllAsQueryable().AsEnumerable().ToList();
             return View(model);
         }

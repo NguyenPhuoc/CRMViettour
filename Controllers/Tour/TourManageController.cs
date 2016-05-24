@@ -469,6 +469,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 78);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.TaskStatusId = 1193;

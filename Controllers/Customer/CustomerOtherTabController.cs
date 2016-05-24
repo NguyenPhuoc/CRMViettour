@@ -26,7 +26,7 @@ namespace CRMViettour.Controllers.Customer
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_CustomerVisa> _customerVisaRepository;
         private IGenericRepository<tbl_CustomerContactVisa> _customerContactVisaRepository;
-        
+
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -43,7 +43,7 @@ namespace CRMViettour.Controllers.Customer
             IGenericRepository<tbl_Tags> tagsRepository,
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_CustomerVisa> customerVisaRepository,
-            
+
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_CustomerContactVisa> customerContactVisaRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
@@ -61,7 +61,7 @@ namespace CRMViettour.Controllers.Customer
             this._tagsRepository = tagsRepository;
             this._customerVisaRepository = customerVisaRepository;
             this._customerContactVisaRepository = customerContactVisaRepository;
-            
+
             this._dictionaryRepository = dictionaryRepository;
             this._documentFileRepository = documentFileRepository;
             this._contactHistoryRepository = contactHistoryRepository;
@@ -74,6 +74,15 @@ namespace CRMViettour.Controllers.Customer
         }
 
         #endregion
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+        }
 
         #region Lịch hẹn
         [HttpPost]
@@ -82,6 +91,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 53);
                 model.CustomerId = Convert.ToInt32(Session["idCustomer"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
@@ -133,6 +143,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 53);
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
@@ -166,6 +177,7 @@ namespace CRMViettour.Controllers.Customer
             int cusId = _appointmentHistoryRepository.FindId(id).CustomerId ?? 0;
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 53);
                 if (await _appointmentHistoryRepository.Delete(id, false))
                 {
                     var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == cusId)
@@ -200,6 +212,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 56);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.StaffId = 9;
@@ -249,6 +262,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 56);
                 model.ModifiedDate = DateTime.Now;
                 if (await _contactHistoryRepository.Update(model))
                 {
@@ -280,6 +294,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 56);
                 int cusId = _contactHistoryRepository.FindId(id).CustomerId ?? 0;
                 if (await _contactHistoryRepository.Delete(id, false))
                 {
@@ -314,6 +329,7 @@ namespace CRMViettour.Controllers.Customer
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 54);
                 var idCus = _customerVisaRepository.FindId(model.CustomerId).CustomerId;
                 var cusTour = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == model.TourId && c.CustomerId == idCus).SingleOrDefault();
                 var tourVisa = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.CustomerId == model.CustomerId && c.TourId == model.TourId).SingleOrDefault();

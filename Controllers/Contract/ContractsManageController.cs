@@ -16,6 +16,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers
 {
+    [Authorize]
     public class ContractsManageController : BaseController
     {
         //
@@ -52,10 +53,43 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region List
+        int SDBID = 6;
+        int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsExport = list.Contains(5);
 
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+
+            switch (SDBID)
+            {
+                case 2: maPB = clsPermission.GetUser().DepartmentID;
+                    maCN = clsPermission.GetUser().BranchID;
+                    break;
+                case 3: maNKD = clsPermission.GetUser().GroupID;
+                    maCN = clsPermission.GetUser().BranchID; break;
+                case 4: maNV = clsPermission.GetUser().StaffID; break;
+                case 5: maCN = clsPermission.GetUser().BranchID; break;
+            }
+        }
         public ActionResult Index()
         {
-            var model = _contractRepository.GetAllAsQueryable().ToList();
+            Permission(clsPermission.GetUser().PermissionID, 20);
+
+            if (SDBID == 6)
+                return View(new List<tbl_Contract>());
+
+            var model = _contractRepository.GetAllAsQueryable().Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (p.tbl_Staff.DepartmentId == maPB | maPB == 0)
+                    & (p.tbl_Staff.StaffGroupId == maNKD | maNKD == 0)
+                    & (p.tbl_Staff.HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false)).ToList();
             return View(model);
         }
 
@@ -182,6 +216,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 69);
                 string id = Session["idContract"].ToString();
                 if (ModelState.IsValid)
                 {
@@ -266,6 +301,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 69);
                 if (ModelState.IsValid)
                 {
                     model.IsRead = true;
@@ -326,6 +362,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 69);
                 int conId = _documentFileRepository.FindId(id).ContractId ?? 0;
 
                 //file

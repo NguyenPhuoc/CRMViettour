@@ -94,6 +94,14 @@ namespace CRMViettour.Controllers.Tour
         }
 
         #endregion
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId & p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsImport = list.Contains(4);
+        }
 
         #region Lịch hẹn
         [HttpPost]
@@ -102,6 +110,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 87);
                 model.TourId = Convert.ToInt32(Session["idTour"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
@@ -159,6 +168,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 87);
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
@@ -192,6 +202,7 @@ namespace CRMViettour.Controllers.Tour
             int tourId = _appointmentHistoryRepository.FindId(id).TourId ?? 0;
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 87);
                 if (await _appointmentHistoryRepository.Delete(id, false))
                 {
                     var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
@@ -226,6 +237,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 89);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.StaffId = 9;
@@ -269,6 +281,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 89);
                 model.ModifiedDate = DateTime.Now;
                 if (await _contactHistoryRepository.Update(model))
                 {
@@ -300,6 +313,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 89);
                 int tourId = _contactHistoryRepository.FindId(id).TourId ?? 0;
                 if (await _contactHistoryRepository.Delete(id, false))
                 {
@@ -345,6 +359,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 88);
                 string id = Session["idTour"].ToString();
                 if (ModelState.IsValid)
                 {
@@ -418,6 +433,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 88);
                 if (ModelState.IsValid)
                 {
                     model.IsRead = true;
@@ -476,6 +492,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 88);
                 int tourId = _documentFileRepository.FindId(id).TourId ?? 0;
                 //file
                 tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
@@ -529,6 +546,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 78);
                 model.ModifiedDate = DateTime.Now;
                 var cus = _customerRepository.FindId(model.CustomerId);
                 //model.Email = cus.PersonalEmail != null ? cus.PersonalEmail : cus.CompanyEmail != null ? cus.CompanyEmail : null;
@@ -571,6 +589,7 @@ namespace CRMViettour.Controllers.Tour
             int tourId = _taskRepository.FindId(id).TourId ?? 0;
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 78);
                 if (await _taskRepository.Delete(id, false))
                 {
                     var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
@@ -622,6 +641,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 80);
                 string id = Session["idTour"].ToString();
                 if (ModelState.IsValid)
                 {
@@ -695,6 +715,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 80);
                 if (ModelState.IsValid)
                 {
                     model.IsRead = true;
@@ -753,6 +774,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 80);
                 int tourId = _documentFileRepository.FindId(id).TourId ?? 0;
                 //file
                 tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
@@ -802,6 +824,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 81);
                 string id = Session["idTour"].ToString();
                 model.TourId = Convert.ToInt32(id);
                 model.CreatedDate = DateTime.Now;
@@ -845,6 +868,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 81);
                 model.ModifiedDate = DateTime.Now;
                 if (await _contractRepository.Update(model))
                 {
@@ -883,6 +907,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 81);
                 int tourId = _contractRepository.FindId(id).TourId ?? 0;
                 var history = _updateHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToList();
                 foreach (var item in history)
@@ -928,6 +953,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 86);
                 string id = Session["idTour"].ToString();
                 model.TourId = Convert.ToInt32(id);
                 model.CreatedDate = DateTime.Now;
@@ -996,6 +1022,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 85);
                 string id = Session["idTour"].ToString();
                 for (int i = 1; i <= Convert.ToInt32(form["NumberOptionCongNo"]); i++)
                 {
@@ -1046,6 +1073,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 85);
                 model.ModifiedDate = DateTime.Now;
                 model.FirstPayment = form["FirstPayment"] != "" ? Convert.ToDecimal(form["FirstPayment"].ToString()) : 0;
                 model.SecondPayment = form["SecondPayment"] != "" ? Convert.ToDecimal(form["SecondPayment"].ToString()) : 0;
@@ -1086,6 +1114,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 85);
                 int tourId = _liabilityPartnerRepository.FindId(id).TourId;
                 Session["idTour"] = tourId;
                 if (await _liabilityPartnerRepository.Delete(id, false))
@@ -1130,6 +1159,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 84);
                 string id = Session["idTour"].ToString();
                 model.TourId = Convert.ToInt32(id);
                 model.CreateDate = DateTime.Now;
@@ -1157,6 +1187,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 84);
                 model.TotalContract = form["TotalContract"] != "" ? Convert.ToDecimal(form["TotalContract"].ToString()) : 0;
                 model.FirstPrice = form["FirstPrice"] != "" ? Convert.ToDecimal(form["FirstPrice"].ToString()) : 0;
                 model.SecondPrice = form["SecondPrice"] != "" ? Convert.ToDecimal(form["SecondPrice"].ToString()) : 0;
@@ -1186,6 +1217,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 84);
                 int tourId = _liabilityCustomerRepository.FindId(id).TourId;
                 Session["idTour"] = tourId;
                 if (await _liabilityCustomerRepository.Delete(id, false))
@@ -1239,6 +1271,7 @@ namespace CRMViettour.Controllers.Tour
             int tourId = Int16.Parse(Session["idTour"].ToString());
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 82);
                 int tourvisa = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.CustomerId == id & c.TourId == tourId).Select(c => c.Id).SingleOrDefault();
                 if (await _tourCustomerVisaRepository.Delete(tourvisa, false))
                 {
@@ -1262,6 +1295,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 82);
                 int idTour = Int16.Parse(Session["idTour"].ToString());
                 if (form["listVisaId"] != null && form["listVisaId"] != "")
                 {
@@ -1323,6 +1357,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 83);
                 string id = Session["idTour"].ToString();
                 model.TourId = Convert.ToInt32(id);
                 model.StartDate = DateTime.Now;
@@ -1392,6 +1427,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 83);
                 model.ModifiedDate = DateTime.Now;
                 model.TagsId = form["TagsId"].ToString();
                 model.StaffId = 9;
@@ -1450,6 +1486,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 83);
                 int tourId = _quotationRepository.FindId(id).TourId ?? 0;
                 //file
                 tbl_Quotation documentFile = _quotationRepository.FindId(id) ?? new tbl_Quotation();

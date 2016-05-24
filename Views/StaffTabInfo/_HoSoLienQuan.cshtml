@@ -2,54 +2,57 @@
 @using CRMViettour.Models
 @using CRMViettour.Utilities
 @model IEnumerable<tbl_DocumentFile>
-@{
-    int i = 1;
-    string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
-}
+    @{
+        int i = 1;
+        string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+    }
 
-<div class="table-scrollable table-custom-format">
-    <button class="btn btn-primary" id="btnDocumentFile" onclick="btnCreateFile()"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-    <br />
-    <br />
-    <div class="table-scrollable table-custom-format" id="table-document">
-        <table class="table table-striped table-bordered  table-hover">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tags</th>
-                    <th>Tên tài liệu</th>
-                    <th>Diễn giải</th>
-                    <th>Kích thước</th>
-                    <th>Nhân viên nhập</th>
-                    <th>Ngày cập nhật</th>
-                    <th>#</th>
-                </tr>
-            </thead>
-            @if (Model != null)
-            {
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr class="odd gradeX" id="fileStaff@(item.Id)">
-                            <td>@i</td>
-                            <td>@LoadData.LocationTags(item.TagsId)</td>
-                            <td>
-                                <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
-                            </td>
-                            <td>@Html.Raw(item.Note)</td>
-                            <td>@item.FileSize</td>
-                            <td>@item.tbl_Staff.FullName</td>
-                            <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
-                            <td>
-                                <a style="cursor: pointer" onclick="updateDocument(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                                <a style="cursor: pointer" onclick="deleteDocument(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
-                            </td>
-                        </tr>
-                        i++;
-                    }
-                </tbody>
-            }
-        </table>
+    <div class="table-scrollable table-custom-format">
+        @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+        {<button class="btn btn-primary" id="btnDocumentFile" onclick="btnCreateFile()"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+        <br />
+        <br />
+        <div class="table-scrollable table-custom-format" id="table-document">
+            <table class="table table-striped table-bordered  table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tags</th>
+                        <th>Tên tài liệu</th>
+                        <th>Diễn giải</th>
+                        <th>Kích thước</th>
+                        <th>Nhân viên nhập</th>
+                        <th>Ngày cập nhật</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                @if (Model != null)
+                {
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="odd gradeX" id="fileStaff@(item.Id)">
+                                <td>@i</td>
+                                <td>@LoadData.LocationTags(item.TagsId)</td>
+                                <td>
+                                    <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
+                                </td>
+                                <td>@Html.Raw(item.Note)</td>
+                                <td>@item.FileSize</td>
+                                <td>@item.tbl_Staff.FullName</td>
+                                <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
+                                <td>
+                                    @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                                    {  <a style="cursor: pointer" onclick="updateDocument(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
+                                    @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                                    { <a style="cursor: pointer" onclick="deleteDocument(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
+                                </td>
+                            </tr>
+                                    i++;
+                        }
+                    </tbody>
+                }
+            </table>
+        </div>
     </div>
-</div>
 

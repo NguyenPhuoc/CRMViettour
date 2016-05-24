@@ -39,13 +39,17 @@
                     </div>
                     <div class="tools">
                         <a class="btn btn-default" style="height:inherit" href="@Url.Action("Index", "ModuleManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                        <button class="btn btn-primary" id="btnAdd" href="#modal-insert-module" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                        <button class="btn btn-warning" id="btnEdit" @*href="#modal-edit-module"*@ data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                        <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                        @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                        {<button class="btn btn-primary" id="btnAdd" href="#modal-insert-module" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                        @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                        {<button class="btn btn-warning" id="btnEdit" @*href="#modal-edit-module"*@ data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                        @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                        {<button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
                         <form action="@Url.Action("DeleteModule", "ModuleManage")" method="post" style="position:absolute">
                             @Html.AntiForgeryToken()
                             <input type="hidden" id="listItemId" name="listItemId" />
                         </form>
+                        }
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -91,7 +95,8 @@
                         <span class="caption-subject font-red-sunglo bold uppercase">Form</span>
                     </div>
                     <div class="tools">
-                        <button class="btn btn-primary" id="btnAddForm" disabled="disabled" href="#modal-insert-form" @*onclick="btnAddForm()"*@ data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                       @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                        { <button class="btn btn-primary" id="btnAddForm" disabled="disabled" href="#modal-insert-form" @*onclick="btnAddForm()"*@ data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
                     </div>
                 </div>
                 <div class="portlet-body" id="tblForm">                   
@@ -107,7 +112,8 @@
                         <span class="caption-subject font-blue bold uppercase">Function</span>
                     </div>
                     <div class="tools">
-                        <button class="btn btn-primary" id="btnAddFunction" disabled="disabled" @*href="#modal-insert-function"*@ onclick="btnAddFunction()" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                        @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                        {<button class="btn btn-primary" id="btnAddFunction" disabled="disabled" @*href="#modal-insert-function"*@ onclick="btnAddFunction()" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
                     </div>
                 </div>
                 <div class="portlet-body" id="tblFunction">

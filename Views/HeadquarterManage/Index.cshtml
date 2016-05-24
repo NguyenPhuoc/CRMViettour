@@ -1,113 +1,115 @@
 ﻿@using CRM.Core
 @model IEnumerable<tbl_Headquater>
-@{
-    ViewBag.Title = "Quản lý Trụ sở, chi nhánh";
-}
+    @{
+        ViewBag.Title = "Quản lý Trụ sở, chi nhánh";
+    }
 
-<div class="page-content">
-    <!-- BEGIN PAGE HEAD-->
-    <div class="page-head">
-        <!-- BEGIN PAGE TITLE -->
-        <div class="page-title">
-            <h1>QUẢN LÝ TRỤ SỞ, CHI NHÁNH</h1>
+    <div class="page-content">
+        <!-- BEGIN PAGE HEAD-->
+        <div class="page-head">
+            <!-- BEGIN PAGE TITLE -->
+            <div class="page-title">
+                <h1>QUẢN LÝ TRỤ SỞ, CHI NHÁNH</h1>
+            </div>
+            <!-- END PAGE TITLE -->
+
         </div>
-        <!-- END PAGE TITLE -->
-
-    </div>
-    <!-- END PAGE HEAD-->
-    <!-- BEGIN PAGE BREADCRUMB -->
-    <ul class="page-breadcrumb breadcrumb">
-        <li>
-            <a href="index.html">Home</a>
-            <i class="fa fa-circle"></i>
-        </li>
-        <li>
-            <span class="active">Page Layouts</span>
-        </li>
-    </ul>
-    <!-- END PAGE BREADCRUMB -->
-    <!-- BEGIN PAGE BASE CONTENT -->
-    <div class="note note-info">
-        <div class="row">
-            <div class="col-md-12">
-                <a class="btn btn-default" href="@Url.Action("Index", "HeadquarterManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                <button class="btn btn-primary" style="cursor: pointer" id="btnAdd" href="#modal-insert-headquarter" data-toggle="modal">
-                    <i class="fa fa-plus"></i>&nbsp;Thêm
-                </button>
-                <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                <form action="@Url.Action("Delete", "HeadquarterManage")" method="post" style="position:absolute">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="listItemId" name="listItemId" />
-                </form>
+        <!-- END PAGE HEAD-->
+        <!-- BEGIN PAGE BREADCRUMB -->
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Page Layouts</span>
+            </li>
+        </ul>
+        <!-- END PAGE BREADCRUMB -->
+        <!-- BEGIN PAGE BASE CONTENT -->
+        <div class="note note-info">
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="btn btn-default" href="@Url.Action("Index", "HeadquarterManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                    @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                    {<button class="btn btn-primary" style="cursor: pointer" id="btnAdd" href="#modal-insert-headquarter" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                    @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                    {<button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                    @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                    {<button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                        <form action="@Url.Action("Delete", "HeadquarterManage")" method="post" style="position:absolute">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="listItemId" name="listItemId" />
+                        </form>
+                    }
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="portlet light bordered">
-                <div class="portlet-body">
-                    <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
-                        <table class="table table-striped table-bordered table-hover dataTable" id="tableDictionary">
-                            <thead>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="table-checkbox"><input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" /></th>
-                                    <th>Tên viết tắt</th>
-                                    <th>Tên trụ sở, chi nhánh</th>
-                                    <th>Mã số thuế</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Điện thoại</th>
-                                    <th>Email</th>
-                                    <th>Website</th>
-                                    <th>Số Tài khoản NH</th>
-                                    <th>Ngân hàng</th>
-                                    <th>Fax</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-body">
+                        <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
+                            <table class="table table-striped table-bordered table-hover dataTable" id="tableDictionary">
+                                <thead>
                                     <tr>
-                                        <td><input type="checkbox" id="cb@(item.Id)" class="cbItem" value="@item.Id" name="cb" onclick="CheckSelect()" /></td>
-                                        <td>@item.ShortName</td>
-                                        <td>@item.HeadquarterName</td>
-                                        <td>@item.TaxCode</td>
-                                        <td>@item.Address</td>
-                                        <td>@item.Phone</td>
-                                        <td>@item.Email</td>
-                                        <td>@item.Website</td>
-                                        <td>@item.AccountNumber</td>
-                                        <td>@item.Bank</td>
-                                        <td>@item.Fax</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <th class="table-checkbox"><input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" /></th>
+                                        <th>Tên viết tắt</th>
+                                        <th>Tên trụ sở, chi nhánh</th>
+                                        <th>Mã số thuế</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Điện thoại</th>
+                                        <th>Email</th>
+                                        <th>Website</th>
+                                        <th>Số Tài khoản NH</th>
+                                        <th>Ngân hàng</th>
+                                        <th>Fax</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td><input type="checkbox" id="cb@(item.Id)" class="cbItem" value="@item.Id" name="cb" onclick="CheckSelect()" /></td>
+                                            <td>@item.ShortName</td>
+                                            <td>@item.HeadquarterName</td>
+                                            <td>@item.TaxCode</td>
+                                            <td>@item.Address</td>
+                                            <td>@item.Phone</td>
+                                            <td>@item.Email</td>
+                                            <td>@item.Website</td>
+                                            <td>@item.AccountNumber</td>
+                                            <td>@item.Bank</td>
+                                            <td>@item.Fax</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- END PAGE BASE CONTENT -->
     </div>
-    <!-- END PAGE BASE CONTENT -->
-</div>
 
-@Html.Partial("_Partial_InsertHeadquarter", new tbl_Headquater())
-<div id="info-data">
-</div>
+    @Html.Partial("_Partial_InsertHeadquarter", new tbl_Headquater())
+    <div id="info-data">
+    </div>
 
-@section scripts{
-    <script src="~/Scripts/controller/headquater.js"></script>
-}
+    @section scripts{
+        <script src="~/Scripts/controller/headquater.js"></script>
+    }

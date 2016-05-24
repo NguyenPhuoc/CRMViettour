@@ -207,18 +207,18 @@ $("table#tableDictionary").delegate("tr", "click", function (e) {
                 }
             });
             break;
-        //case 'quyentruycap':
-        //    $.ajax({
-        //        type: "POST",
-        //        url: '/PermissionManage/InfoQuyenTruyCap',
-        //        data: JSON.stringify(dataPost),
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "html",
-        //        success: function (data) {
-        //            $("#quyentruycap").html(data);
-        //        }
-        //    });
-        //    break;
+            //case 'quyentruycap':
+            //    $.ajax({
+            //        type: "POST",
+            //        url: '/PermissionManage/InfoQuyenTruyCap',
+            //        data: JSON.stringify(dataPost),
+            //        contentType: "application/json; charset=utf-8",
+            //        dataType: "html",
+            //        success: function (data) {
+            //            $("#quyentruycap").html(data);
+            //        }
+            //    });
+            //    break;
     }
 });
 
@@ -303,16 +303,19 @@ $(".dataFunc").click(function () {
 
     $.getJSON('/PermissionManage/JsonFunction/' + $t.data('id'), function (data) {
         var items = '';
+        var lstId = '';
         $.each(data, function (i, ward) {
-            if (ward.ckeck)
+            if (ward.ckeck) {
                 items += "<input type='checkbox' checked value='" + ward.id + "' class='funcData' name='StaffSetupActionId' /> ";
+                lstId += ward.id + ","
+            }
             else
                 items += "<input type='checkbox' value='" + ward.id + "' class='funcData' name='StaffSetupActionId' /> ";
             items += ward.name;
             items += "<br />";
         });
         $('#funcData').html(items);
-        $("#listItemIdFunc").val('');
+        $("#listItemIdFunc").val(lstId);
         $(".funcData").change(function () {
             var items = '';
             $(".funcData").each(function () {
@@ -345,7 +348,7 @@ $(".dataFunc").click(function () {
             //$("#listItemIdFunc").val()
             //if ($("#listItemIdFunc").val() != '') {
             var dataPost = {
-                idDataBy: $(this).val(),
+                idDataBy: $("input[type=radio][name=StaffSetupRoleId]:checked").val(),
                 lst: $("#listItemIdFunc").val()
             };
             $.ajax({
@@ -357,7 +360,7 @@ $(".dataFunc").click(function () {
                 success: function (data) {
                 }
             });
-            //  }
+            ////   }
         })
     });
     $.getJSON('/PermissionManage/JsonShowDataBy/' + $t.data('id'), function (data) {
@@ -368,3 +371,18 @@ $(".dataFunc").click(function () {
         }
     })
 })
+//$("#btnLuuSetupRole").click(function () {
+//    var dataPost = {
+//        idDataBy: $("input[type=radio][name=StaffSetupRoleId]:checked").val(),
+//        lst: $("#listItemIdFunc").val()
+//    };
+//    $.ajax({
+//        type: "POST",
+//        url: '/PermissionManage/SaveSetupRole',
+//        data: JSON.stringify(dataPost),
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "html",
+//        success: function (data) {
+//        }
+//    });
+//})

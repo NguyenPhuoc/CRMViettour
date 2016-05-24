@@ -89,6 +89,8 @@ namespace CRMViettour.Controllers
             ViewBag.IsEdit = list.Contains(3);
             ViewBag.IsImport = list.Contains(4);
             ViewBag.IsExport = list.Contains(5);
+            ViewBag.IsLock = list.Contains(6);
+            ViewBag.IsUnLock = list.Contains(7);
 
             var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
             if (ltAccess != 0)
@@ -411,6 +413,7 @@ namespace CRMViettour.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> CreateDocument(tbl_DocumentFile model, FormCollection form)
         {
+            Permission(clsPermission.GetUser().PermissionID, 55);
             //try
             //{
 
@@ -488,6 +491,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 55);
                 if (ModelState.IsValid)
                 {
                     model.IsRead = true;
@@ -547,6 +551,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 55);
                 int cusId = _documentFileRepository.FindId(id).CustomerId ?? 0;
                 //file
                 tbl_DocumentFile documentFile = _documentFileRepository.FindId(id) ?? new tbl_DocumentFile();
@@ -590,6 +595,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 54);
                 string id = Session["idCustomer"].ToString();
                 if (ModelState.IsValid)
                 {
@@ -662,6 +668,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 54);
                 if (ModelState.IsValid)
                 {
                     model.CustomerId = Convert.ToInt32(model.CustomerId);
@@ -704,6 +711,7 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 54);
                 int visaId = _customerVisaRepository.FindId(id).CustomerId;
 
                 if (await _customerVisaRepository.Delete(id, false))

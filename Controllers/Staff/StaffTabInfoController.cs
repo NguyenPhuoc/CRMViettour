@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Staff
 {
@@ -24,7 +25,7 @@ namespace CRMViettour.Controllers.Staff
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_StaffVisa> _staffVisaRepository;
         private IGenericRepository<tbl_Task> _taskRepository;
-        
+
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -43,7 +44,7 @@ namespace CRMViettour.Controllers.Staff
             IGenericRepository<tbl_Tags> tagsRepository,
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_StaffVisa> customerVisaRepository,
-            
+
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_Task> taskRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
@@ -64,7 +65,7 @@ namespace CRMViettour.Controllers.Staff
             this._tagsRepository = tagsRepository;
             this._staffVisaRepository = customerVisaRepository;
             this._taskRepository = taskRepository;
-            
+
             this._dictionaryRepository = dictionaryRepository;
             this._documentFileRepository = documentFileRepository;
             this._contactHistoryRepository = contactHistoryRepository;
@@ -77,7 +78,13 @@ namespace CRMViettour.Controllers.Staff
             _db = new DataContext();
         }
         #endregion
-
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+        }
         #region ThongTinChiTiet
         [ChildActionOnly]
         public ActionResult _ThongTinChiTiet()
@@ -97,14 +104,18 @@ namespace CRMViettour.Controllers.Staff
         [ChildActionOnly]
         public ActionResult _LichHen()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichHen");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichHen(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 58);
             //var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.StaffId == id).ToListAsync();
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == id)
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == id && p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -123,13 +134,17 @@ namespace CRMViettour.Controllers.Staff
         [ChildActionOnly]
         public ActionResult _NhiemVu()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_NhiemVu");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoNhiemVu(int id)
         {
-            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == id)
+            Permission(clsPermission.GetUser().PermissionID, 57);
+            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == id && p.IsDelete == false)
                               .Select(p => new tbl_Task
                               {
                                   Id = p.Id,
@@ -153,14 +168,18 @@ namespace CRMViettour.Controllers.Staff
         [ChildActionOnly]
         public ActionResult _LichSuLienHe()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichSuLienHe");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 59);
             //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.StaffId == id).ToListAsync();
-            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == id)
+            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == id && p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -210,14 +229,18 @@ namespace CRMViettour.Controllers.Staff
         [ChildActionOnly]
         public ActionResult _HoSoLienQuan()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_HoSoLienQuan");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoHoSoLienQuan(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 60);
             //var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.StaffId == id).ToListAsync();
-            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == id)
+            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == id && p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,
@@ -250,7 +273,7 @@ namespace CRMViettour.Controllers.Staff
                     Birthday = p.Birthday == null ? "" : p.Birthday.Value.ToString("dd-MM-yyyy"),
                     Career = p.CareerId != null ? p.tbl_DictionaryCareer.Name : "",
                     Code = p.Code == null ? "" : p.Code,
-                   // Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
+                    // Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
                     Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,
                     StartDate = p.CreatedDatePassport == null ? "" : p.CreatedDatePassport.Value.ToString("dd-MM-yyyy"),
                     EndDate = p.ExpiredDatePassport == null ? "" : p.ExpiredDatePassport.Value.ToString("dd-MM-yyyy"),
@@ -281,6 +304,7 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoLichSuDiTour(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 92);
             var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffId == id).ToList();
             return PartialView("_LichSuDiTour", model);
         }
@@ -290,13 +314,17 @@ namespace CRMViettour.Controllers.Staff
         [ChildActionOnly]
         public ActionResult _Visa()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_Visa");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoVisa(int id)
         {
-            var model = await _staffVisaRepository.GetAllAsQueryable().Where(p => p.StaffId == id).ToListAsync();
+            Permission(clsPermission.GetUser().PermissionID, 61);
+            var model = await _staffVisaRepository.GetAllAsQueryable().Where(p => p.StaffId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_Visa", model);
         }
         #endregion

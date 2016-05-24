@@ -1,6 +1,7 @@
 ﻿using CRM.Core;
 using CRM.Infrastructure;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,11 @@ namespace CRMViettour.Controllers.Staff
         #region Index
         public ActionResult Index()
         {
+            int perID = clsPermission.GetUser().PermissionID;
+            var list = _db.tbl_ActionData.Where(p => p.FormId == 12 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
             var model = _moduleRepository.GetAllAsQueryable().AsEnumerable().ToList();
             return View(model);
         }
@@ -81,6 +87,10 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoForm(int id)
         {
+            int perID = clsPermission.GetUser().PermissionID;
+            var list = _db.tbl_ActionData.Where(p => p.FormId == 12 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
             Session["idModule"] = id;
             var model = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == id && c.IsDelete == false).ToList();
             return PartialView("_Partial_FormList", model);
@@ -97,8 +107,11 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoFunction(int id)
         {
+            int perID = clsPermission.GetUser().PermissionID;
+            var list = _db.tbl_ActionData.Where(p => p.FormId == 12 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+            ViewBag.IsDelete = list.Contains(2);
             Session["idForm"] = id;
-            var model = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == id).Select(c => new FunctionViewModel
+            var model = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == id && c.IsDelete == false).Select(c => new FunctionViewModel
             {
                 Id = c.Id,
                 Name = c.tbl_Function.Name
@@ -183,6 +196,10 @@ namespace CRMViettour.Controllers.Staff
         {
             try
             {
+                int perID = clsPermission.GetUser().PermissionID;
+                var lists = _db.tbl_ActionData.Where(p => p.FormId == 12 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+                ViewBag.IsDelete = lists.Contains(2);
+                ViewBag.IsEdit = lists.Contains(3);
                 int idModule = Int16.Parse(Session["idModule"].ToString());
                 model.ModuleId = idModule;
                 await _formRepository.Create(model);
@@ -209,6 +226,10 @@ namespace CRMViettour.Controllers.Staff
         {
             try
             {
+                int perID = clsPermission.GetUser().PermissionID;
+                var lists = _db.tbl_ActionData.Where(p => p.FormId == 12 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+                ViewBag.IsDelete = lists.Contains(2);
+                ViewBag.IsEdit = lists.Contains(3);
                 await _formRepository.Update(model);
                 var list = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == model.ModuleId && c.IsDelete == false).ToList();
                 return PartialView("_Partial_FormList", list);
@@ -224,6 +245,10 @@ namespace CRMViettour.Controllers.Staff
         {
             try
             {
+                int perID = clsPermission.GetUser().PermissionID;
+                var lists = _db.tbl_ActionData.Where(p => p.FormId == 12 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+                ViewBag.IsDelete = lists.Contains(2);
+                ViewBag.IsEdit = lists.Contains(3);
                 var form = _formRepository.FindId(id);
                 form.IsDelete = true;
                 if (await _formRepository.Update(form))
@@ -247,6 +272,9 @@ namespace CRMViettour.Controllers.Staff
         {
             try
             {
+                int perID = clsPermission.GetUser().PermissionID;
+                var lists = _db.tbl_ActionData.Where(p => p.FormId == 12 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+                ViewBag.IsDelete = lists.Contains(2);
                 int idForm = Int16.Parse(Session["idForm"].ToString());
                 model.FormId = idForm;
                 await _formFunctionRepository.Create(model);
@@ -295,6 +323,9 @@ namespace CRMViettour.Controllers.Staff
         {
             try
             {
+                int perID = clsPermission.GetUser().PermissionID;
+                var list = _db.tbl_ActionData.Where(p => p.FormId == 12 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
+                ViewBag.IsDelete = list.Contains(2);
                 int idForm = _formFunctionRepository.FindId(id).FormId;
                 if (await _formFunctionRepository.Delete(id, false))
                 {

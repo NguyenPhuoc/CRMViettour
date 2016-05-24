@@ -36,7 +36,8 @@
                             <td></td>
                             <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
                             <td>
-                                <a style="cursor: pointer" onclick="deleteTourSchedule(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                                @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                                { <a style="cursor: pointer" onclick="deleteTourSchedule(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a> }
                             </td>
                         </tr>
                         i++;

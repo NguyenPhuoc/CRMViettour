@@ -33,15 +33,21 @@
         <div class="row">
             <div class="col-md-12">
                 <a class="btn btn-default" style="height:inherit" href="@Url.Action("Index", "PermissionManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                <button class="btn btn-primary" href="#modal-insert-grouprole" data-toggle="modal" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                <button class="btn btn-warning" @*href="#modal-edit-grouprole"*@ data-toggle="modal" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                <form action="@Url.Action("Delete", "PermissionManage")" method="post" style="position:absolute">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="listItemId" name="listItemId" />
-                </form>
-                <button class="btn green" @*href="#modal-add-user"*@ data-toggle="modal" id="btnAddUser"><i class="fa fa-user-plus"></i>&nbsp;Thêm người dùng</button>
-                <button class="btn grey" @*href="#modal-setup-role"*@ data-toggle="modal" id="btnSetupRole"><i class="fa fa-cogs"></i>&nbsp;Thiết lập</button>
+                @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                {<button class="btn btn-primary" href="#modal-insert-grouprole" data-toggle="modal" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                {<button class="btn btn-warning" @*href="#modal-edit-grouprole"*@ data-toggle="modal" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                {<button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                    <form action="@Url.Action("Delete", "PermissionManage")" method="post" style="position:absolute">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="listItemId" name="listItemId" />
+                    </form>
+                }
+                @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                {<button class="btn green" @*href="#modal-add-user"*@ data-toggle="modal" id="btnAddUser"><i class="fa fa-user-plus"></i>&nbsp;Thêm người dùng</button>}
+                @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                {<button class="btn grey" @*href="#modal-setup-role"*@ data-toggle="modal" id="btnSetupRole"><i class="fa fa-cogs"></i>&nbsp;Thiết lập</button>}
             </div>
         </div>
     </div>

@@ -31,6 +31,7 @@ namespace CRMViettour.Models
         public string Note { get; set; }
         public CRM.Enum.CustomerType? CustomerType { get; set; }
         public string TaxCode { get; set; }
+        public int? ParentId { get; set; }
     }
 
     public class CustomerViewModel

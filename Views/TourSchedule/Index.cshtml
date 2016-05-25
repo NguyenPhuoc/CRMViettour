@@ -49,8 +49,25 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="portlet light bordered">
                 <div class="portlet-body">
-                    <div id="calendar">
-                        @*Calendar*@
+                    <div class="tabbable-custom ">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#dangluoi" data-toggle="tab" id="tabdangluoi">Dạng lưới</a>
+                            </li>
+                            <li>
+                                <a href="#danglich" data-toggle="tab" id="tabdanglich">Dạng lịch</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="dangluoi">
+                                @*Dạng lưới*@
+                                @Html.Action("_Partial_TourScheduleList", "TourSchedule")
+                            </div>
+                            <div class="tab-pane" id="danglich">
+                                @*Dạng lịch*@
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

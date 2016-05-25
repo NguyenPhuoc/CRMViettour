@@ -55,6 +55,25 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12 col-sm-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="tabbable-custom ">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#chitiettour" data-toggle="tab" id="tabchitiettour">Chi tiết tour</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="chitiettour" data-id="chitiettour">
+                                @*Chi tiết tour*@
+                                @Html.Action("_ChiTietTour", "TourTabInfo")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- END PAGE BASE CONTENT -->
 </div>

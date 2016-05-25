@@ -83,13 +83,22 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
+                                        string ext = Path.GetExtension(item.FileName);
+                                        ext = ext.ToLower();
                                         <tr>
                                             <td>
                                                 <input type="checkbox" value="@item.Id" id="cb@(item.Id)" class="cbItem" name="cb" onclick="CheckSelect()" />
                                             </td>
                                             <td>@item.Code</td>
                                             <td>
-                                                <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
+                                                @if (ext == ".pdf")
+                                                {
+                                                    <a target="_blank" href="/Upload/file/@item.FileName">@item.FileName</a>
+                                                }
+                                                else
+                                                {
+                                                    <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
+                                                }
                                             </td>
                                             <td>@item.tbl_Tour.Code</td>
                                             <td>@item.tbl_TagsCountry.Tag</td>

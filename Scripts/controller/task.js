@@ -7,6 +7,7 @@ $("#insert-task-priority").select2();
 CKEDITOR.replace("insert-assign-note1")
 CKEDITOR.replace("work-note")
 CKEDITOR.replace("insert-note-task")
+$("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 
 /*** datepicker ***/

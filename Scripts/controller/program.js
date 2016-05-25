@@ -23,6 +23,7 @@ $("#insert-customer").select2();
 $("#insert-address").select2();
 //$("#insert-startdate").datepicker();
 //$("#insert-enddate").datepicker();
+$("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 
 $("#btnEdit").click(function () {

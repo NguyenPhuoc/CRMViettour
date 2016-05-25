@@ -33,6 +33,8 @@
                 {
                     foreach (var item in Model)
                     {
+                        string ext = Path.GetExtension(item.FileName);
+                        ext = ext.ToLower();
                         <tr class="odd gradeX">
                             <td>@i</td>
                             <td>@item.Code</td>
@@ -40,7 +42,16 @@
                             <td>@item.tbl_StaffQuotation.FullName</td>
                             <td>@string.Format("{0:0,0}", item.PriceTour)</td>
                             <td>@item.tbl_DictionaryCurrency.Name</td>
-                            <td><a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a></td>
+                            <td>                                
+                                @if (ext == ".pdf")
+                                {
+                                    <a target="_blank" href="/Upload/file/@item.FileName">@item.FileName</a>
+                                }
+                                else
+                                {
+                                    <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
+                                }
+                            </td>
                             <td>@Html.Raw(item.Note)</td>
                             <td>@item.tbl_Staff.FullName</td>
                             <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>

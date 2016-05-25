@@ -44,7 +44,7 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_Staff> _staffRepository;
         private IGenericRepository<tbl_LiabilityCustomer> _liabilityCustomerRepository;
         private IGenericRepository<tbl_LiabilityPartner> _liabilityPartnerRepository;
-        
+
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_CustomerContactVisa> _customerContactVisaRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -72,7 +72,7 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_Staff> staffRepository,
             IGenericRepository<tbl_LiabilityCustomer> liabilityCustomerRepository,
             IGenericRepository<tbl_LiabilityPartner> liabilityPartnerRepository,
-            
+
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_CustomerContactVisa> customerContactVisaRepository,
             IGenericRepository<tbl_UpdateHistory> updateHistoryRepository,
@@ -101,7 +101,7 @@ namespace CRMViettour.Controllers
             this._staffRepository = staffRepository;
             this._liabilityCustomerRepository = liabilityCustomerRepository;
             this._liabilityPartnerRepository = liabilityPartnerRepository;
-            
+
             this._customerContactRepository = customerContactRepository;
             this._customerContactVisaRepository = customerContactVisaRepository;
             this._updateHistoryRepository = updateHistoryRepository;
@@ -263,7 +263,7 @@ namespace CRMViettour.Controllers
                     {
                         TourId = model.SingleTour.Id,
                         Time = model.SingleTourGuide.StartDate ?? DateTime.Now,
-                        StaffId = 9,
+                        StaffId = model.SingleTour.StaffId ?? 0,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
                         DictionaryId = 1213,
@@ -272,6 +272,23 @@ namespace CRMViettour.Controllers
                         Title = model.SingleTour.Name
                     };
                     await _appointmentHistoryRepository.Create(lichhen);
+                    var listIds = model.SingleTour.Permission.Split(',');
+                    foreach (var item in listIds)
+                    {
+                        var _lichhen = new tbl_AppointmentHistory()
+                        {
+                            TourId = model.SingleTour.Id,
+                            Time = model.SingleTourGuide.StartDate ?? DateTime.Now,
+                            StaffId = Int32.Parse(item),
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now,
+                            DictionaryId = 1213,
+                            StatusId = 1145,
+                            OtherStaff = model.SingleTourGuide.StaffId.ToString(),
+                            Title = model.SingleTour.Name
+                        };
+                        await _appointmentHistoryRepository.Create(_lichhen);
+                    }
                     var lichditour = new tbl_TourSchedule()
                     {
                         TourId = model.SingleTour.Id,
@@ -1190,6 +1207,24 @@ namespace CRMViettour.Controllers
 
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult CustomerNote(int id)
+        {
+            var model = _customerRepository.FindId(id);
+            return PartialView("_Partial_EditCustomerNote", model);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> UpdateCustomerNote(tbl_Customer mdl)
+        {
+            var model = _customerRepository.FindId(mdl.Id);
+            model.NoteTour = mdl.NoteTour;
+            await _customerRepository.Update(model);
+            int idtour = Int16.Parse(Session["idTour"].ToString());
+            var list = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == idtour && c.IsDelete == false).Select(c => c.tbl_Customer).ToList();
+            return PartialView("~/Views/TourTabInfo/_KhachHang.cshtml", list);
         }
         #endregion
 

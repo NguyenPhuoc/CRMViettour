@@ -34,7 +34,7 @@ namespace CRMViettour.Controllers
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_CustomerVisa> _customerVisaRepository;
         private IGenericRepository<tbl_CustomerContactVisa> _customerContactVisaRepository;
-        
+
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -49,7 +49,7 @@ namespace CRMViettour.Controllers
             IGenericRepository<tbl_Tags> tagsRepository,
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_CustomerVisa> customerVisaRepository,
-            
+
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_CustomerContactVisa> customerContactVisaRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
@@ -66,7 +66,7 @@ namespace CRMViettour.Controllers
             this._tagsRepository = tagsRepository;
             this._customerVisaRepository = customerVisaRepository;
             this._customerContactVisaRepository = customerContactVisaRepository;
-            
+
             this._dictionaryRepository = dictionaryRepository;
             this._documentFileRepository = documentFileRepository;
             this._contactHistoryRepository = contactHistoryRepository;
@@ -767,6 +767,7 @@ namespace CRMViettour.Controllers
                 model.PassportCard = customer.PassportCard;
                 model.PassportTagId = customer.PassportTagId ?? 0;
                 model.IsTemp = customer.IsTemp;
+
             }
             var contact = _customerContactRepository.GetAllAsQueryable().FirstOrDefault(p => p.CustomerId == id);
             if (contact != null)
@@ -1101,7 +1102,7 @@ namespace CRMViettour.Controllers
                                 if (worksheet.Cells[cel + row].Value != null && worksheet.Cells[cel + row].Text != "")
                                 {
                                     string congty = worksheet.Cells[cel + row].Text;
-                                   // cus.CompanyId = _companyRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == congty).Select(c => c.Id).SingleOrDefault();
+                                    // cus.CompanyId = _companyRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.Name == congty).Select(c => c.Id).SingleOrDefault();
                                 }
                             }
                             catch { }
@@ -1322,9 +1323,19 @@ namespace CRMViettour.Controllers
                     }
                     else
                     {
-                        item.Code = "DEMO" + new Random().Next(10000, 99999);
-                        await _customerRepository.Create(item);
-                        i++;
+                        _db = new DataContext();
+                        var ckCus = _db.tbl_Customer.AsEnumerable().Where(c =>
+                            c.FullName == item.FullName &&
+                            c.PassportCard == item.PassportCard &&
+                            c.Birthday == item.Birthday &&
+                            c.IdentityCard == item.IdentityCard
+                            ).FirstOrDefault();
+                        if (ckCus == null)
+                        {
+                            item.Code = "DEMO" + new Random().Next(10000, 99999);
+                            await _customerRepository.Create(item);
+                            i++;
+                        }
                     }
                 } Session["listCustomerImport"] = null;
                 if (i != 0)
@@ -1405,7 +1416,7 @@ namespace CRMViettour.Controllers
                      OtherPhone = p.MobilePhone == null ? "" : p.MobilePhone,
                      Email = p.CompanyEmail == null ? p.PersonalEmail : p.CompanyEmail,
                      Career = p.CareerId != null ? p.tbl_DictionaryCareer.Name : "",
-                    // Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
+                     // Company = p.CompanyId == null ? "" : _db.tbl_Company.Find(p.CompanyId).Name,
                      Address = p.Address == null ? "" : p.Address,
                      TagsId = p.TagsId == null ? "" : LoadData.LocationTags(p.TagsId),
                      IdentityCard = p.IdentityCard == null ? "" : p.IdentityCard,

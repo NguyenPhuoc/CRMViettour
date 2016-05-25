@@ -74,6 +74,16 @@ $(".FilterAppoi").change(function () {
             $('#calendar').fullCalendar('addEventSource', jdata);
         }
     })
+    $.ajax({
+        type: "POST",
+        url: '/TourSchedule/TourScheduleFilter',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#dangluoi").html(data);
+        }
+    })
 })
 
 
@@ -147,11 +157,7 @@ $(document).ready(function () {
                 });//end edit
             });
         },
-        events: [],
+        events: '/TourSchedule/JsonCalendarDefaul',
     });
-
-
-
-
 });
 

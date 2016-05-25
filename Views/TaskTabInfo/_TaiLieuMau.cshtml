@@ -28,11 +28,20 @@
                 {
                     foreach (var item in Model)
                     {
+                        string ext = Path.GetExtension(item.FileName);
+                        ext = ext.ToLower();
                         <tr class="odd gradeX">
                             <td>@i</td>
                             <td>@LoadData.LocationTags(item.TagsId)</td>
                             <td>
-                                <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
+                                @if (ext == ".pdf")
+                                {
+                                    <a target="_blank" href="/Upload/file/@item.FileName">@item.FileName</a>
+                                }
+                                else
+                                {
+                                    <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
+                                }
                             </td>
                             <td>@Html.Raw(item.Note)</td>
                             <td>@item.FileSize</td>
@@ -43,7 +52,7 @@
                                 <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa những mục đã chọn ?'); deleteDocument(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
                             </td>
                         </tr>
-                        i++;
+                                i++;
                     }
                 }
             </tbody>

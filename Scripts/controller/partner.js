@@ -8,6 +8,7 @@ $("#insert-servicepartner").select2();
 $("#insert-countrypartner").select2();
 $("#insert-addresspartner").select2();
 $("#insert-stylepartner").select2();
+$("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 $('.dataTable').dataTable({
     order: [],

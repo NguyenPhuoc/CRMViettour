@@ -13,6 +13,20 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2">
+            Công ty
+            <input type="checkbox" name="check-customer-company" id="check-customer-company" value="true" />
+        </label>
+        <div class="col-lg-10 col-md-10">
+             <select class="form-control" id="customer-company" disabled style="width: 100%" name="SinglePersonal.ParentId">
+                @foreach (var item in LoadData.CompanyList())
+                {
+                    <option value="@item.Id">@item.FullName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
         <label class="control-label col-lg-2 col-md-2">Họ tên</label>
         <div class="col-lg-2 col-md-2">
             <select class="form-control" id="customer-quydanh" style="width: 100%" name="SinglePersonal.NameTypeId">

@@ -91,8 +91,62 @@ namespace CRMViettour.Controllers.Tour
         [HttpPost]
         public JsonResult JsonCalendar(int id)
         {
-            Session["idTour"] = id;
-            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id)
+            if (id == -1)
+            {
+                var _model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable()
+               .Select(p => new tbl_TourSchedule
+               {
+                   Id = p.Id,
+                   Date = p.Date,
+                   Place = p.Place != null ? p.Place : "",
+                   StartTime = p.StartTime,
+                   EndTime = p.EndTime
+
+               }).ToList();
+
+                var _eventList = from e in _model
+                                 select new
+                                 {
+                                     id = e.Id,
+                                     title = e.Place,
+                                     start = e.Date.ToString("yyyy-MM-dd") + "T" + e.StartTime,
+                                     end = e.Date.ToString("yyyy-MM-dd") + "T" + e.EndTime,
+                                     constraint = e.Id,
+                                 };
+                var _rows = _eventList.ToArray();
+                return Json(_rows, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                Session["idTour"] = id;
+                var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id)
+                   .Select(p => new tbl_TourSchedule
+                   {
+                       Id = p.Id,
+                       Date = p.Date,
+                       Place = p.Place != null ? p.Place : "",
+                       StartTime = p.StartTime,
+                       EndTime = p.EndTime
+
+                   }).ToList();
+
+                var eventList = from e in model
+                                select new
+                                {
+                                    id = e.Id,
+                                    title = e.Place,
+                                    start = e.Date.ToString("yyyy-MM-dd") + "T" + e.StartTime,
+                                    end = e.Date.ToString("yyyy-MM-dd") + "T" + e.EndTime,
+                                    constraint = e.Id,
+
+                                };
+                var rows = eventList.ToArray();
+                return Json(rows, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult JsonCalendarDefaul()
+        {
+            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable()
                .Select(p => new tbl_TourSchedule
                {
                    Id = p.Id,
@@ -111,7 +165,7 @@ namespace CRMViettour.Controllers.Tour
                                 start = e.Date.ToString("yyyy-MM-dd") + "T" + e.StartTime,
                                 end = e.Date.ToString("yyyy-MM-dd") + "T" + e.EndTime,
                                 constraint = e.Id,
-                                
+
                             };
             var rows = eventList.ToArray();
             return Json(rows, JsonRequestBehavior.AllowGet);
@@ -172,7 +226,6 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
-                var iii = form["Note"];
                 await _tourScheduleRepository.Update(model);
                 var models = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == model.TourId)
                    .Select(p => new tbl_TourSchedule
@@ -204,5 +257,32 @@ namespace CRMViettour.Controllers.Tour
             }
         }
         #endregion
+
+        #region _Partial_TourScheduleList
+        [ChildActionOnly]
+        public ActionResult _Partial_TourScheduleList()
+        {
+            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().ToList();
+
+            return PartialView("_Partial_TourScheduleList", model);
+        }
+        #endregion
+
+
+        public ActionResult TourScheduleFilter(int id)
+        {
+            if (id == -1)
+            {
+                var _model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().ToList();
+
+                return PartialView("_Partial_TourScheduleList", _model);
+            }
+            else
+            {
+            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).ToList();
+
+            return PartialView("_Partial_TourScheduleList", model);
+            }
+        }
     }
 }

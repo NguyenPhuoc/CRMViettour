@@ -61,13 +61,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Tên công ty</label>
                                                     <div class="col-lg-10 col-md-10">
-                                                        <select class="form-control" style="width: 100%" id="edit-company" name="SingleCompany.CompanyId">
-                                                            <option value="0">-- Chọn công ty --</option>
-                                                            @foreach (var item in LoadData.CompanyList())
-                                                            {
-                                                                <option value="@item.Id" @(Model.SingleCompany != null && Model.SingleCompany.CompanyId == item.Id ? "selected" : "")>@item.Name</option>
-                                                            }
-                                                        </select>
+                                                        @Html.TextBoxFor(model => model.SingleCompany.FullName, new { @class = "form-control", required = "required" })
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -170,14 +164,8 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-3 col-md-3">Ngày cấp</label>
                                                         <div class="col-lg-9 col-md-9">
-                                                            <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                @Html.TextBoxFor(model => model.SingleCompany.CreatedDateTaxCode, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycapmst", @type = "date" })
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn default date-set" type="button">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
+                                                            @Html.TextBoxFor(model => model.SingleCompany.CreatedDateTaxCode, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycapmst", @type = "date" })
+
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -207,14 +195,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-3 col-md-3">Ngày TLDN</label>
                                                         <div class="col-lg-9 col-md-9">
-                                                            <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                @Html.TextBoxFor(model => model.SingleCompany.FoundingDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaytldn", @type = "date" })
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn default date-set" type="button">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
+                                                            @Html.TextBoxFor(model => model.SingleCompany.FoundingDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaytldn", @type = "date" })
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -252,7 +233,21 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            <div class="col-md-12">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-12 col-md-12">
+                                                            <select class="form-control" style="width: 100%" id="edit-quanly-company" name="SingleCompany.StaffManager">
+                                                                <option>-- Chọn nhân viên quản lý của khách hàng này  --</option>
+                                                                @foreach (var item in LoadData.StaffList())
+                                                                {
+                                                                    <option value="@item.Id" @(Model.SingleCompany != null && Model.SingleCompany.StaffManager == item.Id ? "selected" : "")>@item.FullName</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div id="detail-personal-edit" style="@(Model != null && Model.SinglePersonal != null ? "display:block" : "display:none")">
                                             <div class="col-md-12" style="border: 1px solid #ccc; margin: 15px 0; padding: 15px; padding-bottom: 0;">
@@ -260,6 +255,20 @@
                                                     <label class="control-label col-lg-2 col-md-2">Mã khách hàng</label>
                                                     <div class="col-lg-10 col-md-10">
                                                         @Html.TextBoxFor(model => model.SinglePersonal.Code, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">
+                                                        Công ty
+                                                    </label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <select class="form-control" id="customer-company-edit" style="width: 100%" name="SinglePersonal.ParentId">
+                                                            <option value="0">---- Chọn công ty ----</option>
+                                                            @foreach (var item in LoadData.CompanyList())
+                                                            {
+                                                                <option value="@item.Id" @(Model.SinglePersonal != null && Model.SinglePersonal.ParentId == item.Id ? "selected" : "")>@item.FullName</option>
+                                                            }
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -320,14 +329,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-3 col-md-3">Ngày sinh</label>
                                                         <div class="col-lg-9 col-md-9">
-                                                            <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                @Html.TextBoxFor(model => model.SinglePersonal.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaysinh", @type = "date" })
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn default date-set" type="button">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
+                                                            @Html.TextBoxFor(model => model.SinglePersonal.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaysinh", @type = "date" })
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -413,7 +415,21 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            <div class="col-md-12">
+                                                <div class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-12 col-md-12">
+                                                            <select class="form-control" style="width: 100%" id="edit-quanly-personal" name="SinglePersonal.StaffManager">
+                                                                <option>-- Chọn nhân viên quản lý của khách hàng này --</option>
+                                                                @foreach (var item in LoadData.StaffList())
+                                                                {
+                                                                    <option value="@item.Id" @(Model.SinglePersonal != null && Model.SinglePersonal.StaffManager == item.Id ? "selected" : "")>@item.FullName</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -498,14 +514,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-3 col-md-3">Ngày sinh</label>
                                                     <div class="col-lg-9 col-md-9">
-                                                        <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                            @Html.TextBoxFor(model => model.SingleContact.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaysinh-contact", @type = "date" })
-                                                            <span class="input-group-btn">
-                                                                <button class="btn default date-set" type="button">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </button>
-                                                            </span>
-                                                        </div>
+                                                        @Html.TextBoxFor(model => model.SingleContact.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaysinh-contact", @type = "date" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -575,14 +584,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                        @Html.TextBoxFor(model => model.CreatedDateIdentity, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycap", @type = "date" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default date-set" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
+                                                    @Html.TextBoxFor(model => model.CreatedDateIdentity, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycap", @type = "date" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -608,27 +610,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                        @Html.TextBoxFor(model => model.CreatedDatePassport, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycap-passport", @type = "date" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default date-set" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
+                                                    @Html.TextBoxFor(model => model.CreatedDatePassport, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycap-passport", @type = "date" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày hết hạn</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                    <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                        @Html.TextBoxFor(model => model.ExpiredDatePassport, "{0:dd/MM/yyyy}", new { @class = "form-control", id = "edit-ngayhethan-passport", @readonly = "readonly" })
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default date-set" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
+                                                    @Html.TextBoxFor(model => model.ExpiredDatePassport, "{0:dd/MM/yyyy}", new { @class = "form-control", id = "edit-ngayhethan-passport", @readonly = "readonly" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -661,14 +649,7 @@
                                                             </div>
                                                             <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
                                                             <div class="col-lg-4 col-md-4">
-                                                                <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                    <input type="date" class="form-control ngaycapvisaE" value="@visa.CreatedDateVisa" id="ngaycapvisaE@(i)" name="CreatedDateVisa@(i)">
-                                                                    <span class="input-group-btn">
-                                                                        <button class="btn default date-set" type="button">
-                                                                            <i class="fa fa-calendar"></i>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
+                                                                <input type="date" class="form-control ngaycapvisaE" value="@visa.CreatedDateVisa" id="ngaycapvisaE@(i)" name="CreatedDateVisa@(i)">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -683,24 +664,15 @@
                                                             </div>
                                                             <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
                                                             <div class="col-lg-4 col-md-4">
-                                                                <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                    <input type="date" class="form-control ngayhethanvisaE" value="@visa.ExpiredDateVisa" id="ngayhethanvisaE@(i)" name="ExpiredDateVisa@(i)">
-                                                                    <span class="input-group-btn">
-                                                                        <button class="btn default date-set" type="button">
-                                                                            <i class="fa fa-calendar"></i>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
+                                                                <input type="date" class="form-control ngayhethanvisaE" value="@visa.ExpiredDateVisa" id="ngayhethanvisaE@(i)" name="ExpiredDateVisa@(i)">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <script>
-                                                        //$("#ngaycapvisaE@(i)").datepicker();
-                                                        //$("#ngayhethanvisaE@(i)").datepicker();
                                                         $("#countryvisaE@(i)").select2();
                                                     </script>
-                                                    i++;
-                                                    
+                                                                    i++;
+
                                                 }
                                             }
                                             else
@@ -713,14 +685,7 @@
                                                         </div>
                                                         <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
                                                         <div class="col-lg-4 col-md-4">
-                                                            <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                <input type="date" class="form-control ngaycapvisaE" id="ngaycapvisaE1" name="CreatedDateVisa1">
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn default date-set" type="button">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
+                                                            <input type="date" class="form-control ngaycapvisaE" id="ngaycapvisaE1" name="CreatedDateVisa1">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -735,14 +700,7 @@
                                                         </div>
                                                         <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
                                                         <div class="col-lg-4 col-md-4">
-                                                            <div class="input-group" data-date-format="mm/dd/yyyy">
-                                                                <input type="date" class="form-control ngayhethanvisaE" id="ngayhethanvisaE1" name="ExpiredDateVisa1">
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn default date-set" type="button">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
+                                                            <input type="date" class="form-control ngayhethanvisaE" id="ngayhethanvisaE1" name="ExpiredDateVisa1">
                                                         </div>
                                                     </div>
                                                 </div>

@@ -26,6 +26,7 @@ $("#insert-timetype-task").select2();
 $("#insert-tour-task").select2();
 $("#insert-priority-task").select2();
 CKEDITOR.replace("insert-note-task");
+$("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 $('.dataTable').dataTable({
     order: [],
@@ -721,7 +722,7 @@ $("#btnExport").click(function () {
 });
 
 $("#btnAddTask").click(function () {
-    var dataPost = { id: $("table#tableDictionary").find("input[type='checkbox']").val() };
+    var dataPost = { id: $("table#tableDictionary").find("input[type='checkbox']:checked").val() };
     $.ajax({
         type: "POST",
         url: '/StaffManage/GetIdStaff',

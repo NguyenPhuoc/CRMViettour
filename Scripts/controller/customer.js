@@ -1,6 +1,7 @@
 ﻿CKEDITOR.replace("insert-note-company");
 CKEDITOR.replace("insert-note-personal");
 CKEDITOR.replace("insert-note-contact");
+$("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 /*** visa-passport ***/
 $("#country-insert-cmnd").select2();
@@ -20,6 +21,7 @@ $("#customer-nguonden-personal").select2();
 $("#customer-nhomkh-personal").select2();
 $("#customer-quydanh").select2();
 $("#customer-quanly-personal").select2();
+$("#customer-company").select2();
 
 /*** người liên hệ ***/
 $("#customer-contact").select2();
@@ -799,6 +801,8 @@ $("#btnEdit").click(function () {
 
                     $('#btnAddE').attr('disabled', false);
                 });
+
+
                 $('#btnDelE').attr('disabled', true);
             });
         }
@@ -822,3 +826,10 @@ function OnFailureCustomerFile() {
 $("#btnExport").click(function () {
     $("#exportForm").submit();
 });
+
+$("#check-customer-company").change(function () {
+    if ($(this).is(":checked"))
+        $('#customer-company').attr('disabled', false);
+    else
+        $('#customer-company').attr('disabled', true);
+})

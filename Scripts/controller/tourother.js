@@ -22,6 +22,7 @@ $("#update-country").select2();
 $("#update-status-visa").select2();
 $("#update-type-visa").select2();
 //---------
+$("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 $('#insert-service-tour').change(function () {
     $.getJSON('/TourOtherTab/LoadPartner/' + $('#insert-service-tour').val(), function (data) {

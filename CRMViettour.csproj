@@ -2586,6 +2586,8 @@
     <Content Include="Views\Shared\_Partial_InsertCustomer.cshtml" />
     <Content Include="Views\AppointmentManage\_ChiTiet.cshtml" />
     <Content Include="Views\TourService\_ChiTietTour.cshtml" />
+    <Content Include="Views\TourSchedule\_Partial_TourScheduleList.cshtml" />
+    <Content Include="Views\TourManage\_Partial_EditCustomerNote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

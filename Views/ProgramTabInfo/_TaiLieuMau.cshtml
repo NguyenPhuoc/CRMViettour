@@ -1,50 +1,59 @@
 ﻿@using CRM.Core
 @using CRMViettour.Utilities
 @model IEnumerable<tbl_DocumentFile>
-@{int i = 1;
-  string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);}
+    @{int i = 1;
+    string domain = "https://view.officeapps.live.com/op/embed.aspx?src=" + Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);}
 
-<a class="btn btn-primary" id="btnDocumentFile" onclick="btnCreateFile()"><i class="fa fa-plus"></i>&nbsp;Thêm</a>
-<br />
-<br />
-<div class="table-scrollable table-custom-format">
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Tags</th>
-                <th>Tên tài liệu</th>
-                <th>Diễn giải</th>
-                <th>Kích thước</th>
-                <th>Nhân viên nhập</th>
-                <th>Ngày cập nhật</th>
-                <th>#</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null)
-            {
-                foreach (var item in Model)
+    <a class="btn btn-primary" id="btnDocumentFile" onclick="btnCreateFile()"><i class="fa fa-plus"></i>&nbsp;Thêm</a>
+    <br />
+    <br />
+    <div class="table-scrollable table-custom-format">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tags</th>
+                    <th>Tên tài liệu</th>
+                    <th>Diễn giải</th>
+                    <th>Kích thước</th>
+                    <th>Nhân viên nhập</th>
+                    <th>Ngày cập nhật</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
                 {
-                    <tr class="odd gradeX" id="filePartner@(item.Id)">
-                        <td>@i</td>
-                        <td>@LoadData.LocationTags(item.TagsId)</td>
-                        <td>
-                            <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
-                        </td>
-                        <td>@Html.Raw(item.Note)</td>
-                        <td>@item.FileSize</td>
-                        <td>@item.tbl_Staff.FullName</td>
-                        <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
-                        <td>
-                            <a style="cursor: pointer" onclick="updateDocument(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                            <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa những mục đã chọn ?'); deleteDocument(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
-                        </td>
-                    </tr>
-                    i++;
+                    foreach (var item in Model)
+                    {
+                        string ext = Path.GetExtension(item.FileName);
+                        ext = ext.ToLower();
+                        <tr class="odd gradeX" id="filePartner@(item.Id)">
+                            <td>@i</td>
+                            <td>@LoadData.LocationTags(item.TagsId)</td>
+                            <td>
+                                @if (ext == ".pdf")
+                                {
+                                    <a target="_blank" href="/Upload/file/@item.FileName">@item.FileName</a>
+                                }
+                                else
+                                {
+                                    <a target="_blank" href="@domain/Upload/file/@item.FileName">@item.FileName</a>
+                                }
+                            </td>
+                            <td>@Html.Raw(item.Note)</td>
+                            <td>@item.FileSize</td>
+                            <td>@item.tbl_Staff.FullName</td>
+                            <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
+                            <td>
+                                <a style="cursor: pointer" onclick="updateDocument(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
+                                <a style="cursor: pointer" onclick="confirm('Bạn thực sự muốn xóa những mục đã chọn ?'); deleteDocument(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            </td>
+                        </tr>
+                                i++;
+                    }
                 }
-            }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 

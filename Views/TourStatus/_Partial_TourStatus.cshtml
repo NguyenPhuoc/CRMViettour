@@ -40,7 +40,9 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td>@i</td>
+                        <td>@i
+                            <input type="hidden" name="hidden" value="@item.Id" />
+                        </td>
                         <td>@item.Code</td>
                         <td>@item.Name</td>
                         <td>@item.CustomerName</td>
@@ -59,3 +61,21 @@
         </tbody>
     </table>
 </div>
+                      <script>
+        $("table#tableDictionary").delegate("tr", "click", function (e) {
+            $('tr').not(this).removeClass('oneselected');
+            $(this).toggleClass('oneselected');
+            var tab = $(".tab-content").find('.active').data("id");
+            var dataPost = { id: $(this).find("input[type='hidden']").val() };
+            $.ajax({
+                type: "POST",
+                url: '/TourTabInfo/InfoChiTietTour',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#chitiettour").html(data);
+                }
+            });
+        });
+        </script>

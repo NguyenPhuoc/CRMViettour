@@ -90,10 +90,11 @@
                             <td>@item.PassportCard</td>
                             <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDatePassport)</td>
                             <td>@string.Format("{0:dd-MM-yyyy}", item.ExpiredDatePassport)</td>
-                            <td>@Html.Raw(item.Note)</td>
+                            <td>@Html.Raw(item.NoteTour)</td>
                             <td>
                                 @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
-                                { <a style="cursor: pointer" onclick="updateCustomer(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
+                                { <a style="cursor: pointer" onclick="updateCustomer(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
+                                    <a style="cursor: pointer" onclick="updateNote(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Ghi chú</a><br />}
                                 @if (item.IsTemp)
                                 {
                                     if (ViewBag.IsDelete != null && ViewBag.IsDelete)

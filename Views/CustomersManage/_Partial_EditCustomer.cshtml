@@ -164,8 +164,8 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-3 col-md-3">Ngày cấp</label>
                                                         <div class="col-lg-9 col-md-9">
-                                                                @Html.TextBoxFor(model => model.SingleCompany.CreatedDateTaxCode, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycapmst", @type = "date" })
-                                                               
+                                                            @Html.TextBoxFor(model => model.SingleCompany.CreatedDateTaxCode, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycapmst", @type = "date" })
+
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -195,7 +195,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-3 col-md-3">Ngày TLDN</label>
                                                         <div class="col-lg-9 col-md-9">
-                                                                @Html.TextBoxFor(model => model.SingleCompany.FoundingDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaytldn", @type = "date" })
+                                                            @Html.TextBoxFor(model => model.SingleCompany.FoundingDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaytldn", @type = "date" })
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -258,6 +258,20 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label class="control-label col-lg-2 col-md-2">
+                                                        Công ty
+                                                    </label>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <select class="form-control" id="customer-company-edit" style="width: 100%" name="SinglePersonal.ParentId">
+                                                            <option>----Chọn công ty----</option>
+                                                            @foreach (var item in LoadData.CompanyList())
+                                                            {
+                                                                <option value="@item.Id" @(Model.SinglePersonal != null && Model.SinglePersonal.ParentId == item.Id ? "selected" : "")>@item.FullName</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label class="control-label col-lg-2 col-md-2">Họ tên</label>
                                                     <div class="col-lg-2 col-md-2">
                                                         <select class="form-control" id="edit-personal-quydanh" style="width: 100%" name="SinglePersonal.NameTypeId">
@@ -315,7 +329,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-3 col-md-3">Ngày sinh</label>
                                                         <div class="col-lg-9 col-md-9">
-                                                                @Html.TextBoxFor(model => model.SinglePersonal.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaysinh", @type = "date" })
+                                                            @Html.TextBoxFor(model => model.SinglePersonal.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaysinh", @type = "date" })
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -500,7 +514,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-3 col-md-3">Ngày sinh</label>
                                                     <div class="col-lg-9 col-md-9">
-                                                            @Html.TextBoxFor(model => model.SingleContact.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaysinh-contact", @type = "date" })
+                                                        @Html.TextBoxFor(model => model.SingleContact.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaysinh-contact", @type = "date" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -570,7 +584,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.CreatedDateIdentity, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycap", @type = "date" })
+                                                    @Html.TextBoxFor(model => model.CreatedDateIdentity, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycap", @type = "date" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -596,13 +610,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày cấp</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.CreatedDatePassport, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycap-passport", @type = "date" })
+                                                    @Html.TextBoxFor(model => model.CreatedDatePassport, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-ngaycap-passport", @type = "date" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-lg-4 col-md-4">Ngày hết hạn</label>
                                                 <div class="col-lg-8 col-md-8">
-                                                        @Html.TextBoxFor(model => model.ExpiredDatePassport, "{0:dd/MM/yyyy}", new { @class = "form-control", id = "edit-ngayhethan-passport", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(model => model.ExpiredDatePassport, "{0:dd/MM/yyyy}", new { @class = "form-control", id = "edit-ngayhethan-passport", @readonly = "readonly" })
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -635,7 +649,7 @@
                                                             </div>
                                                             <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
                                                             <div class="col-lg-4 col-md-4">
-                                                                    <input type="date" class="form-control ngaycapvisaE" value="@visa.CreatedDateVisa" id="ngaycapvisaE@(i)" name="CreatedDateVisa@(i)">
+                                                                <input type="date" class="form-control ngaycapvisaE" value="@visa.CreatedDateVisa" id="ngaycapvisaE@(i)" name="CreatedDateVisa@(i)">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -650,15 +664,15 @@
                                                             </div>
                                                             <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
                                                             <div class="col-lg-4 col-md-4">
-                                                                    <input type="date" class="form-control ngayhethanvisaE" value="@visa.ExpiredDateVisa" id="ngayhethanvisaE@(i)" name="ExpiredDateVisa@(i)">
+                                                                <input type="date" class="form-control ngayhethanvisaE" value="@visa.ExpiredDateVisa" id="ngayhethanvisaE@(i)" name="ExpiredDateVisa@(i)">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <script>
                                                         $("#countryvisaE@(i)").select2();
                                                     </script>
-                                                    i++;
-                                                    
+                                                                    i++;
+
                                                 }
                                             }
                                             else
@@ -671,7 +685,7 @@
                                                         </div>
                                                         <label class="control-label col-lg-2 col-md-2">Ngày cấp</label>
                                                         <div class="col-lg-4 col-md-4">
-                                                                <input type="date" class="form-control ngaycapvisaE" id="ngaycapvisaE1" name="CreatedDateVisa1">
+                                                            <input type="date" class="form-control ngaycapvisaE" id="ngaycapvisaE1" name="CreatedDateVisa1">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -686,7 +700,7 @@
                                                         </div>
                                                         <label class="control-label col-lg-2 col-md-2">Ngày hết hạn</label>
                                                         <div class="col-lg-4 col-md-4">
-                                                                <input type="date" class="form-control ngayhethanvisaE" id="ngayhethanvisaE1" name="ExpiredDateVisa1">
+                                                            <input type="date" class="form-control ngayhethanvisaE" id="ngayhethanvisaE1" name="ExpiredDateVisa1">
                                                         </div>
                                                     </div>
                                                 </div>

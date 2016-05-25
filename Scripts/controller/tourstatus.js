@@ -54,3 +54,20 @@ $("#filter-tour").change(function () {
         }
     });
 })
+
+$("table#tableDictionary").delegate("tr", "click", function (e) {
+    $('tr').not(this).removeClass('oneselected');
+    $(this).toggleClass('oneselected');
+    var tab = $(".tab-content").find('.active').data("id");
+    var dataPost = { id: $(this).find("input[type='hidden']").val() };
+    $.ajax({
+        type: "POST",
+        url: '/TourTabInfo/InfoChiTietTour',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#chitiettour").html(data);
+        }
+    });
+});

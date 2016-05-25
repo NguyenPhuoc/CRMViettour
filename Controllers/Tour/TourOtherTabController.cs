@@ -782,7 +782,7 @@ namespace CRMViettour.Controllers.Tour
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
                 //end file
-                if (await _documentFileRepository.Delete(id, false))
+                if (await _documentFileRepository.Delete(id, true))
                 {
                     var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId == tourId && p.DictionaryId == 30)
                      .Select(p => new tbl_DocumentFile
@@ -1357,6 +1357,7 @@ namespace CRMViettour.Controllers.Tour
         {
             try
             {
+                string note = form["NoteVisa"];
                 Permission(clsPermission.GetUser().PermissionID, 82);
                 int idTour = Int16.Parse(Session["idTour"].ToString());
                 if (form["listVisaId"] != null && form["listVisaId"] != "")
@@ -1369,15 +1370,8 @@ namespace CRMViettour.Controllers.Tour
                         {
                             int id = Int16.Parse(_id);
                             var visa = _customerVisaRepository.FindId(id);
-                            visa.TagsId = model.TagsId;
-                            if (model.Deadline != null)
-                                visa.Deadline = model.Deadline;
-                            if (model.CreatedDateVisa != null)
-                                visa.CreatedDateVisa = model.CreatedDateVisa;
-                            if (model.ExpiredDateVisa != null)
-                                visa.ExpiredDateVisa = model.ExpiredDateVisa;
-                            visa.VisaType = model.VisaType;
                             visa.DictionaryId = model.DictionaryId;
+                            visa.tbl_Customer.NoteVisa = note;
                             await _customerVisaRepository.Update(visa);
                         }
                     }

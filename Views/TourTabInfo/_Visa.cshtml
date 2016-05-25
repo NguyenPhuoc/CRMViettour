@@ -16,12 +16,12 @@
                     <th>STT</th>
                     <th>Mã KH</th>
                     <th>Tên KH</th>
-                    <th>Quốc gia</th>
-                    <th>Thời hạn (tháng)</th>
-                    <th>Ngày cấp</th>
-                    <th>Ngày hết hạn</th>
+                    <th>Địa chỉ</th>
+                    <th>Điện thoại</th>
+                    <th>CMND</th>
                     <th>Trạng thái visa</th>
                     <th>Loại visa</th>
+                    <th>Ghi chú</th>
                     <th>#</th>
                 </tr>
             </thead>
@@ -38,12 +38,12 @@
                             <td>@i</td>
                             <td>@item.tbl_Customer.Code</td>
                             <td>@item.tbl_Customer.FullName</td>
-                            <td>@(item.TagsId != null ? LoadData.LocationTags(item.TagsId.ToString()) : "")</td>
-                            <td>@(item.Deadline != null ? item.Deadline : 0)</td>
-                            <td>@(item.CreatedDateVisa != null ? string.Format("{0:dd-MM-yyyy}", @item.CreatedDateVisa) : "")</td>
-                            <td>@(item.ExpiredDateVisa != null ? string.Format("{0:dd-MM-yyyy}", @item.ExpiredDateVisa) : "")</td>
+                            <td>@item.tbl_Customer.Address</td>
+                            <td>@item.tbl_Customer.Phone</td>
+                            <td>@item.tbl_Customer.IdentityCard</td>
                             <td>@(item.tbl_Dictionary != null ? item.tbl_Dictionary.Name : "")</td>
                             <td>@item.VisaType</td>
+                            <td>@Html.Raw(item.tbl_Customer.NoteVisa)</td>
                             <td>
                                 @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
                                 { <a style="cursor: pointer" onclick="deleteVisa(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
@@ -55,40 +55,14 @@
             </tbody>
         </table>
     </div>
-    @section scripts{
-<script>
-    $(".TableVisa").on("change", ".cbVisa", function () {
-        var ItemID = $(this).val();
-        var currentlistItemID = $("#listVisaId").val();
-        var stringBranchID = "";
-        if ($(this).prop('checked')) {
-            currentlistItemID += ItemID + ",";
-            $("#listVisaId").val(currentlistItemID);
-        } else {
-            $("#listVisaId").val(currentlistItemID.replace(ItemID + ",", ""));
-        }
+    <script>
+        $("#btnUpdateVisa").click(function () {
+            var items = '';
+            $("input.cbVisa:checked").each(function () {
+              items+=  $(this).val()+',';
+            })
+            $("#listVisaId").val(items);
+            $("#modal-update-visa").modal('show')
+        })
+    </script>
 
-    });
-
-    $(".TableVisa").on("change", "#allcheckvisa", function () {
-        var $this = $(this);
-        $("#listVisaId").val('');
-        var currentlistItemID = $("#listVisaId").val();
-        var ItemID = "";
-        if ($this.prop("checked")) {
-            $(".cbVisa").each(function () {
-                ItemID = $(this).val();
-                if ($(this).parent().hasClass('text-danger') == false) {
-                    $(this).prop("checked", true);
-                    currentlistItemID += ItemID + ",";
-                    $("#listVisaId").val(currentlistItemID);
-                }
-            });
-        } else {
-            $(".cbVisa").prop("checked", false);
-            $("#listVisaId").val("");
-        }
-    });
-</script>
-
-    }

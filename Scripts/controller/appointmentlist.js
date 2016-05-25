@@ -15,7 +15,7 @@ CKEDITOR.replace("insert-note-lichhen");
 
 $("#trangthai-lichhen").select2();
 $("#loai-lichhen").select2();
-
+$("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 $(".dataTable").dataTable().columnFilter({
     sPlaceHolder: "head:after",
@@ -344,7 +344,8 @@ $(document).ready(function () {
         },
         dayRender: function (date, element, view) {
             element.bind('dblclick', function () {
-                var d = moment(date).format("YYYY-MM-DDTHH:mm");
+                var d = moment(date).format("YYYY-MM-DD");
+                d += "T08:30";
                 $("#insert-ngayhen-lichhen").val(d);
                 $("#modal-insert-appointment").modal("show");
             });

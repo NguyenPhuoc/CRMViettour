@@ -724,10 +724,12 @@ function OnSuccessScheduleTour() {
 function OnFailure() {
     alert("Cập nhật thất bại!");
     $("#modal-update-visa").modal('hide');
+    $("#modal-update-note").modal('hide');
 }
 
 function OnSuccess() {
-    alert("Cập nhật thành công!");
     $("#modal-update-visa").modal('hide');
+    $("#modal-update-note").modal('hide');
+    alert("Cập nhật thành công!");
 }
 

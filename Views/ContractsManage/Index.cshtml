@@ -57,8 +57,6 @@
                 </div>
             </div>
         </div>
-
-<<<<<<< HEAD
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="portlet light bordered">
@@ -98,7 +96,7 @@
                                         <td>@(item.TourId != null ? item.tbl_Tour.Code : "")</td>
                                         <td>@string.Format("{0:0,0}", item.TotalPrice).Replace(",", ".")</td>
                                     </tr>
-                                </thead>
+                                @*</thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
@@ -112,7 +110,7 @@
                                             <td>@(item.TourId != null ? item.tbl_Tour.Code : "")</td>
                                             <td>@string.Format("{0:0,0}", item.TotalPrice).Replace(",", ".")</td>
                                             <td>@Html.Raw(item.Note)</td>
-                                        </tr>
+                                        </tr>*@
                                     }
                                 </tbody>
                             </table>

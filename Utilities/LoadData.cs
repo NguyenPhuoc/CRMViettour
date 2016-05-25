@@ -926,5 +926,24 @@ namespace CRMViettour.Utilities
             _db = new DataContext();
             return _db.tbl_Tour.AsEnumerable().Where(c => c.Id == id).Select(c => c.IsUpdate).Single();
         }
+
+        /// <summary>
+        /// danh sách Công ty 
+        /// </summary>
+        /// <returns></returns>
+        public static List<tbl_Customer> CompanyList()
+        {
+            var model = CacheLayer.Get<List<tbl_Customer>>("companylist");
+            if (model == null)
+            {
+                model = _db.tbl_Customer.AsEnumerable().Where(c => c.CustomerType == CustomerType.Organization).Select(p => new tbl_Customer
+                {
+                    Id = p.Id,
+                    FullName = p.FullName
+                }).ToList();
+                CacheLayer.Add<List<tbl_Customer>>(model, "companylist", 10080);
+            }
+            return model;
+        }
     }
 }

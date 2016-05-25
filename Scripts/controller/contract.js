@@ -16,6 +16,7 @@ $("#insert-status").select2();
 //$("#insert-startdate").datepicker();
 //$("#insert-enddate").datepicker();
 //$("#insert-contractdate").datepicker();
+$("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 $("#btnEdit").click(function () {
     var dataPost = {

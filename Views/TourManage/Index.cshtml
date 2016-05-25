@@ -263,6 +263,7 @@
 @Html.Partial("_Partial_ImportCustomer")
 <div id="info-data-customer"></div>
 @Html.Partial("_Partial_UpdateVisa", new tbl_CustomerVisa())
+<div id="info-data-visa"></div>
 
 @* @Html.Partial("_Partial_UpdateStatus")
     @Html.Partial("_Partial_Setup_UserInGroup")*@
@@ -273,6 +274,7 @@
     <script src="~/Scripts/numeral.min.js"></script>
 
     <script>
+        CKEDITOR.replace("edit-note-visa");
         $('#btnAddCongNo').click(function () {
             var num = $('.clonedInputCongNo').length, // how many "duplicatable" input fields we currently have
                 newNum = new Number(num + 1),      // the numeric ID of the new input field being added
@@ -387,6 +389,22 @@
                 $("#import-data-customer").html(data);
             })
         });
+
+        function updateNote(id) {
+            var dataPost = { id: id };
+            $.ajax({
+                type: "POST",
+                url: '/TourManage/CustomerNote',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#info-data-visa").html(data);
+                    CKEDITOR.replace("edit-note-tour");
+                    $("#modal-update-note").modal('show');
+                }
+            });
+        }
 
         function updateCustomer(id) {
             var dataPost = { id: id };
@@ -567,6 +585,5 @@
                 }
             });
         }
-
     </script>
 }

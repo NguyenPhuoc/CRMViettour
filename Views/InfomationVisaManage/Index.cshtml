@@ -40,13 +40,17 @@
             <div class="col-md-8">
                 <div class="pull-right">
                     <a class="btn btn-default" href="@Url.Action("Index", "InfomationVisaManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                    <button class="btn btn-primary" data-toggle="modal" href="#modal-insert-infovisa"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                    <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                    <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                    <form action="@Url.Action("Delete", "InfomationVisaManage")" method="post" style="position:absolute">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" id="listItemId" name="listItemId" />
-                    </form>
+                    @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                    {<button class="btn btn-primary" data-toggle="modal" href="#modal-insert-infovisa"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                    @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                    { <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                    @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                    {<button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                        <form action="@Url.Action("Delete", "InfomationVisaManage")" method="post" style="position:absolute">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="listItemId" name="listItemId" />
+                        </form>
+                    }
                 </div>
             </div>
         </div>

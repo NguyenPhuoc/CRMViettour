@@ -575,6 +575,7 @@ namespace CRMViettour.Controllers
                                 ParentId = daidien,
                                 StaffManager = _tourRepository.FindId(idtour).StaffId
                             };
+                            cus.StaffManager = clsPermission.GetUser().StaffID;
                             // staff
                             if (Request.IsAuthenticated)
                             {

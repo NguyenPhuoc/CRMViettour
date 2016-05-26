@@ -1,6 +1,7 @@
 ﻿using CRM.Core;
 using CRM.Infrastructure;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,7 +90,7 @@ namespace CRMViettour.Controllers.Appointment
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {

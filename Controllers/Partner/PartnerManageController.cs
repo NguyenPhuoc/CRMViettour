@@ -464,7 +464,7 @@ namespace CRMViettour.Controllers
                 {
                     model.PartnerId = Convert.ToInt32(id);
                     model.CreatedDate = DateTime.Now;
-                    model.StaffId = 9;
+                    model.StaffId = clsPermission.GetUser().StaffID;
 
                     if (await _partnerNoteRepository.Create(model))
                     {

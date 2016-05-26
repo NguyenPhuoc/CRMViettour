@@ -95,7 +95,7 @@ namespace CRMViettour.Controllers.Customer
                 Permission(clsPermission.GetUser().PermissionID, 58);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
 
 
                 if (await _appointmentHistoryRepository.Create(model))
@@ -222,7 +222,7 @@ namespace CRMViettour.Controllers.Customer
                 Permission(clsPermission.GetUser().PermissionID, 59);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 if (await _contactHistoryRepository.Create(model))
                 {
                     var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == model.StaffId).Where(p => p.IsDelete == false)

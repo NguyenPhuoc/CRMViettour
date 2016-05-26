@@ -114,7 +114,7 @@ namespace CRMViettour.Controllers.Tour
                 model.TourId = Convert.ToInt32(Session["idTour"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
@@ -240,7 +240,7 @@ namespace CRMViettour.Controllers.Tour
                 Permission(clsPermission.GetUser().PermissionID, 89);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 model.TourId = Int32.Parse(Session["idTour"].ToString());
                 if (await _contactHistoryRepository.Create(model))
                 {
@@ -368,7 +368,7 @@ namespace CRMViettour.Controllers.Tour
                     model.IsRead = false;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
-                    model.StaffId = 9;
+                    model.StaffId = clsPermission.GetUser().StaffID;
                     //file
                     HttpPostedFileBase FileName = Session["TourFile"] as HttpPostedFileBase;
                     string FileSize = Common.ConvertFileSize(FileName.ContentLength);
@@ -651,7 +651,7 @@ namespace CRMViettour.Controllers.Tour
                     model.IsRead = false;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
-                    model.StaffId = 9;
+                    model.StaffId = clsPermission.GetUser().StaffID;
                     //file
                     HttpPostedFileBase FileName = Session["ProgramTourFile"] as HttpPostedFileBase;
                     string FileSize = Common.ConvertFileSize(FileName.ContentLength);
@@ -850,7 +850,7 @@ namespace CRMViettour.Controllers.Tour
                 model.TourId = Convert.ToInt32(id);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 if (await _contractRepository.Create(model))
                 {
                     UpdateHistory.SaveContract(model.Id, 9, "Thêm mới hợp đồng, code: " + model.Code);
@@ -1020,7 +1020,7 @@ namespace CRMViettour.Controllers.Tour
                 model.TourId = Convert.ToInt32(id);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 int count = Convert.ToInt32(form["countService"].ToString());
                 double mark = 0;
                 for (int i = 1; i <= count; i++)
@@ -1226,7 +1226,7 @@ namespace CRMViettour.Controllers.Tour
                 model.TourId = Convert.ToInt32(id);
                 model.CreateDate = DateTime.Now;
                 model.CustomerId = 9;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
 
                 if (await _liabilityCustomerRepository.Create(model))
                 {
@@ -1422,7 +1422,7 @@ namespace CRMViettour.Controllers.Tour
                 model.ModifiedDate = DateTime.Now;
                 model.TagsId = form["TagsId"].ToString();
                 model.DictionaryId = 29;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 if (form["QuotationDate"] != null)
                 {
                     model.QuotationDate = Convert.ToDateTime(form["QuotationDate"].ToString());
@@ -1486,7 +1486,7 @@ namespace CRMViettour.Controllers.Tour
                 Permission(clsPermission.GetUser().PermissionID, 83);
                 model.ModifiedDate = DateTime.Now;
                 model.TagsId = form["TagsId"].ToString();
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 if (Session["QuotationFile"] != null)
                 {
                     //file

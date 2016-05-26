@@ -151,7 +151,7 @@ namespace CRMViettour.Controllers.Task
                 model.TaskId = Convert.ToInt32(Session["idTask"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
@@ -278,7 +278,7 @@ namespace CRMViettour.Controllers.Task
                 model.IsRead = false;
                 model.ModifiedDate = DateTime.Now;
                 model.TagsId = form["TagsId"].ToString();
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 //file
                 HttpPostedFileBase FileName = Session["TaskDocFile"] as HttpPostedFileBase;
                 string FileSize = Common.ConvertFileSize(FileName.ContentLength);
@@ -449,7 +449,7 @@ namespace CRMViettour.Controllers.Task
                 {
                     model.TaskId = Convert.ToInt32(id);
                     model.CreatedDate = DateTime.Now;
-                    model.StaffId = 9;
+                    model.StaffId = clsPermission.GetUser().StaffID;
 
 
                     if (await _taskNoteRepository.Create(model))

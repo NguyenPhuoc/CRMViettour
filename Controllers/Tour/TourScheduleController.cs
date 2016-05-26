@@ -1,5 +1,6 @@
 ﻿using CRM.Core;
 using CRM.Infrastructure;
+using CRMViettour.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -181,7 +182,7 @@ namespace CRMViettour.Controllers.Tour
             {
                 model.CreatedDate = DateTime.Now;
                 model.TourId = Convert.ToInt32(Session["idTour"].ToString());
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 await _tourScheduleRepository.Create(model);
                 //Response.Write("<script>alert('Đã lưu');</script>");
             }

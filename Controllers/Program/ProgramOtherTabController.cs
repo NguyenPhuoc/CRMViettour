@@ -79,7 +79,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ProgramId = Convert.ToInt32(Session["idProgram"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
@@ -203,7 +203,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ProgramId = Int32.Parse(Session["idProgram"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 if (await _contactHistoryRepository.Create(model))
                 {
                     var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ProgramId == model.ProgramId).Where(p => p.IsDelete == false)

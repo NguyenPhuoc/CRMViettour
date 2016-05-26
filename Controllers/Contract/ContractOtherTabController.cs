@@ -88,7 +88,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ContractId = Convert.ToInt32(Session["idContract"].ToString());
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
@@ -210,7 +210,7 @@ namespace CRMViettour.Controllers.Customer
                 Permission(clsPermission.GetUser().PermissionID, 70);
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 model.ContractId = Int32.Parse(Session["idContract"].ToString());
                 if (await _contactHistoryRepository.Create(model))
                 {

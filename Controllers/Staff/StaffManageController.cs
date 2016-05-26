@@ -1175,7 +1175,7 @@ namespace CRMViettour.Controllers
                 model.Permission = Session["idStaff"].ToString();
                 model.CodeTour = _tourRepository.FindId(model.TourId).Code;
                 model.IsNotify = false;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 await _taskRepository.Create(model);
                 //Response.Write("<script>alert('Đã lưu');</script>");
             }

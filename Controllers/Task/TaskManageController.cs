@@ -98,7 +98,7 @@ namespace CRMViettour.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 model.Code = new Random().Next(1000, 9999).ToString();
                 model.CodeTour = _tourRepository.FindId(model.TourId).Code;
                 var cus = _customerRepository.FindId(model.CustomerId);
@@ -264,7 +264,7 @@ namespace CRMViettour.Controllers
             {
                 model.TaskId = id;
                 model.CreateDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 if (Session["WorkTaskFile"] != null)
                 {
                     //file

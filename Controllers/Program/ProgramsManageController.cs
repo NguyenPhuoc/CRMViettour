@@ -76,7 +76,7 @@ namespace CRMViettour.Controllers
                 model.ModifiedDate = DateTime.Now;
                 model.Permission = "";
                 model.DictionaryId = 30;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 model.TagsId = form["TagsId"].ToString();
 
                 if (await _programRepository.Create(model))
@@ -113,7 +113,7 @@ namespace CRMViettour.Controllers
             try
             {
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 model.TagsId = form["TagsId"].ToString();
                 if (await _programRepository.Update(model))
                 {
@@ -186,7 +186,7 @@ namespace CRMViettour.Controllers
                     model.IsRead = false;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
-                    model.StaffId = 9;
+                    model.StaffId = clsPermission.GetUser().StaffID;
                     //file
                     HttpPostedFileBase FileName = Session["ProgramFile"] as HttpPostedFileBase;
                     string CustomerFileSize = Common.ConvertFileSize(FileName.ContentLength);

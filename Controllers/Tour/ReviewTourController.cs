@@ -1,6 +1,7 @@
 ﻿using CRM.Core;
 using CRM.Infrastructure;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,7 +82,7 @@ namespace CRMViettour.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 int count = Convert.ToInt32(form["countService"].ToString());
                 double mark = 0;
                 for (int i = 1; i <= count; i++)
@@ -135,7 +136,7 @@ namespace CRMViettour.Controllers
             try
             {
                 model.ModifiedDate = DateTime.Now;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 int count = Convert.ToInt32(form["countServiceE"].ToString());
                 double mark = 0;
                 for (int i = 1; i <= count; i++)

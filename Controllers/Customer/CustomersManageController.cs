@@ -170,6 +170,7 @@ namespace CRMViettour.Controllers
                     model.SingleCompany.PassportCard = model.PassportCard;
                     model.SingleCompany.PassportTagId = model.PassportTagId;
                     model.SingleCompany.NameTypeId = 47;
+                    model.SingleCompany.StaffId = model.SingleCompany.StaffManager = clsPermission.GetUser().StaffID;
                     if (model.CreatedDateIdentity != null && model.CreatedDateIdentity.Year >= 1980)
                     {
                         model.SingleCompany.CreatedDateIdentity = model.CreatedDateIdentity;
@@ -236,6 +237,7 @@ namespace CRMViettour.Controllers
                     model.SinglePersonal.ParentId = 0;
                     model.SinglePersonal.PassportCard = model.PassportCard;
                     model.SinglePersonal.PassportTagId = model.PassportTagId;
+                    model.SinglePersonal.StaffId = model.SinglePersonal.StaffManager = clsPermission.GetUser().StaffID;
                     if (model.CreatedDateIdentity != null && model.CreatedDateIdentity.Year >= 1980)
                     {
                         model.SinglePersonal.CreatedDateIdentity = model.CreatedDateIdentity;
@@ -425,7 +427,7 @@ namespace CRMViettour.Controllers
                 model.IsRead = false;
                 model.ModifiedDate = DateTime.Now;
                 model.TagsId = form["TagsId"].ToString();
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 //file
                 HttpPostedFileBase FileName = Session["CustomerFile"] as HttpPostedFileBase;
                 string FileSize = Common.ConvertFileSize(FileName.ContentLength);

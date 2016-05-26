@@ -1,6 +1,7 @@
 ﻿using CRM.Core;
 using CRM.Infrastructure;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace CRMViettour.Controllers.Quotation
                     model.CreatedDate = DateTime.Now;
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
-                    model.StaffId = 9;
+                    model.StaffId = clsPermission.GetUser().StaffID;
                     if (form["QuotationDate"] != null)
                     {
                         model.QuotationDate = Convert.ToDateTime(form["QuotationDate"].ToString());

@@ -462,7 +462,7 @@ namespace CRMViettour.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.TourId = Convert.ToInt32(Session["idTour"].ToString());
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 await _tourScheduleRepository.Create(model);
                 //Response.Write("<script>alert('Đã lưu');</script>");
             }
@@ -493,7 +493,7 @@ namespace CRMViettour.Controllers
                 model.TourId = Convert.ToInt32(Session["idTour"].ToString());
                 model.CodeTour = _tourRepository.FindId(model.TourId).Code;
                 model.IsNotify = false;
-                model.StaffId = 9;
+                model.StaffId = clsPermission.GetUser().StaffID;
                 await _taskRepository.Create(model);
                 Response.Write("<script>alert('Đã lưu');</script>");
             }

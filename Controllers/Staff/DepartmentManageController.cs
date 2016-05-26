@@ -31,7 +31,7 @@ namespace CRMViettour.Controllers.Staff
         public ActionResult Index()
         {
             int perID = clsPermission.GetUser().PermissionID;
-            var list = _db.tbl_ActionData.Where(p => p.FormId == 9 && p.PermissionsId == perID).Where(p => p.IsDelete == false).Select(p => p.FunctionId).ToList();
+            var list = _db.tbl_ActionData.Where(p => p.FormId == 9 && p.PermissionsId == perID).Select(p => p.FunctionId).ToList();
             ViewBag.IsAdd = list.Contains(1);
             ViewBag.IsDelete = list.Contains(2);
             ViewBag.IsEdit = list.Contains(3);

@@ -337,7 +337,7 @@ namespace CRMViettour.Controllers.Permission
                     };
                     await _accessDataRepository.Create(_accs);
                 }
-                var actis = _actionDataRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.PermissionsId == idPermission && c.FormId == idForm).ToList();
+                var actis = _actionDataRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.PermissionsId == idPermission && c.FormId == idForm).ToList();
                 if (actis.Count == 0)
                 {
                     foreach (var _id in listIdFuncs)

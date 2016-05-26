@@ -170,7 +170,9 @@ namespace CRMViettour.Controllers
                     model.SingleCompany.PassportCard = model.PassportCard;
                     model.SingleCompany.PassportTagId = model.PassportTagId;
                     model.SingleCompany.NameTypeId = 47;
-                    model.SingleCompany.StaffId = model.SingleCompany.StaffManager = clsPermission.GetUser().StaffID;
+                    model.SingleCompany.StaffId = clsPermission.GetUser().StaffID;
+                    if (model.SingleCompany.StaffManager == null)
+                        model.SingleCompany.StaffManager = clsPermission.GetUser().StaffID;
                     if (model.CreatedDateIdentity != null && model.CreatedDateIdentity.Year >= 1980)
                     {
                         model.SingleCompany.CreatedDateIdentity = model.CreatedDateIdentity;
@@ -237,7 +239,9 @@ namespace CRMViettour.Controllers
                     model.SinglePersonal.ParentId = 0;
                     model.SinglePersonal.PassportCard = model.PassportCard;
                     model.SinglePersonal.PassportTagId = model.PassportTagId;
-                    model.SinglePersonal.StaffId = model.SinglePersonal.StaffManager = clsPermission.GetUser().StaffID;
+                    model.SinglePersonal.StaffId = clsPermission.GetUser().StaffID;
+                    if (model.SinglePersonal.StaffManager == null)
+                        model.SinglePersonal.StaffManager = clsPermission.GetUser().StaffID;
                     if (model.CreatedDateIdentity != null && model.CreatedDateIdentity.Year >= 1980)
                     {
                         model.SinglePersonal.CreatedDateIdentity = model.CreatedDateIdentity;
@@ -1069,15 +1073,17 @@ namespace CRMViettour.Controllers
                                 ModifiedDate = DateTime.Now,
                             };
                             // staff
-                            if (Request.IsAuthenticated)
-                            {
-                                string user = User.Identity.Name;
-                                if (Request.Cookies["CookieUser" + user] != null)
-                                {
-                                    cus.StaffId = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
-                                    cus.StaffManager = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
-                                }
-                            }
+
+                            cus.StaffId = cus.StaffManager = clsPermission.GetUser().StaffID;
+                            //if (Request.IsAuthenticated)
+                            //{
+                            //    string user = User.Identity.Name;
+                            //    if (Request.Cookies["CookieUser" + user] != null)
+                            //    {
+                            //        cus.StaffId = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
+                            //        cus.StaffManager = Convert.ToInt32(Request.Cookies["CookieUser" + user]["MaNV"]);
+                            //    }
+                            //}
                             string cel = "";
                             try//ngay cap ma so thue
                             {
@@ -1184,6 +1190,7 @@ namespace CRMViettour.Controllers
                                 CreatedDate = DateTime.Now,
                                 ModifiedDate = DateTime.Now,
                             };
+                            cus.StaffId = cus.StaffManager = clsPermission.GetUser().StaffID;
                             string cel = "";
                             try//ngay sinh
                             {

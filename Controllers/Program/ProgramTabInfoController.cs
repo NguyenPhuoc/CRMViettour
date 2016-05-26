@@ -101,7 +101,7 @@ namespace CRMViettour.Controllers.Program
         public async Task<ActionResult> InfoLichHen(int id)
         {
             // var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ProgramId == id)
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ProgramId == id).Where(p => p.IsDelete == false)
                            .Select(p => new tbl_AppointmentHistory
                            {
                                Id = p.Id,
@@ -127,7 +127,7 @@ namespace CRMViettour.Controllers.Program
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
             //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
-            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ProgramId == id)
+            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ProgramId == id).Where(p => p.IsDelete == false)
                       .Select(p => new tbl_ContactHistory
                       {
                           Id = p.Id,
@@ -185,7 +185,7 @@ namespace CRMViettour.Controllers.Program
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
             //var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
-            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == id)
+            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == id).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -243,7 +243,7 @@ namespace CRMViettour.Controllers.Program
             var tour = _programRepository.FindId(id).tbl_Tour;
             if (tour != null)
             {
-                var model = _db.tbl_TourOption.AsEnumerable().Where(c => c.TourId == tour.Id && c.DeadlineId != null)
+                var model = _db.tbl_TourOption.AsEnumerable().Where(c => c.TourId == tour.Id && c.DeadlineId != null).Where(p => p.IsDelete == false)
                                  .Select(c => new InvoiceListViewModel
                                  {
                                      Id = c.DeadlineId ?? 0,

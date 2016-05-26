@@ -57,7 +57,7 @@ namespace CRMViettour.Controllers
         int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
         void Permission(int PermissionsId, int formId)
         {
-            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).Where(p => p.IsDelete == false).ToList();
             ViewBag.IsAdd = list.Contains(1);
             ViewBag.IsDelete = list.Contains(2);
             ViewBag.IsEdit = list.Contains(3);
@@ -243,7 +243,7 @@ namespace CRMViettour.Controllers
                     {
                         Session["ContractFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId.ToString() == id)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId.ToString() == id).Where(p => p.IsDelete == false)
                       .Select(p => new tbl_DocumentFile
                       {
                           Id = p.Id,
@@ -331,7 +331,7 @@ namespace CRMViettour.Controllers
                     {
                         Session["ContractFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == model.ContractId).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == model.ContractId)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == model.ContractId).Where(p => p.IsDelete == false)
                       .Select(p => new tbl_DocumentFile
                       {
                           Id = p.Id,
@@ -375,7 +375,7 @@ namespace CRMViettour.Controllers
                 if (await _documentFileRepository.Delete(id, false))
                 {
                     // var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId).ToList();
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == conId)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ContractId == conId).Where(p => p.IsDelete == false)
                       .Select(p => new tbl_DocumentFile
                       {
                           Id = p.Id,
@@ -409,7 +409,7 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult ExportFile()
         {
-            var contracts = _contractRepository.GetAllAsQueryable().AsEnumerable()
+            var contracts = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
                 .Select(c => new tbl_Contract
             {
                 Code = c.Code,

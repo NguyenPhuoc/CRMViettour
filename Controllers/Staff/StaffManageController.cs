@@ -219,7 +219,7 @@ namespace CRMViettour.Controllers
         {
             var model = new StaffViewModel();
             var staff = _staffRepository.GetAllAsQueryable().FirstOrDefault(p => p.Id == id);
-            var staffVisa = _staffVisaRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == id).ToList();
+            var staffVisa = _staffVisaRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.StaffId == id).ToList();
             model.SingleStaff = staff;
             model.CreatedDateIdentity = staff.CreatedDateIdentity ?? DateTime.Now;
             model.CreatedDatePassport = staff.CreatedDatePassport ?? DateTime.Now;
@@ -268,7 +268,7 @@ namespace CRMViettour.Controllers
                 if (await _staffRepository.Update(model.SingleStaff))
                 {
                     // xóa tất cả visa của staff
-                    var visaList = _staffVisaRepository.GetAllAsQueryable().Where(p => p.StaffId == model.SingleStaff.Id).ToList();
+                    var visaList = _staffVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.StaffId == model.SingleStaff.Id).ToList();
                     if (visaList.Count() > 0)
                     {
                         foreach (var v in visaList)
@@ -409,7 +409,7 @@ namespace CRMViettour.Controllers
                     if (await _staffVisaRepository.Create(model))
                     {
                         UpdateHistory.SaveStaff(9, "Thêm mới visa cho nhân viên");
-                        var list = _db.tbl_StaffVisa.AsEnumerable().Where(p => p.StaffId.ToString() == id).ToList();
+                        var list = _db.tbl_StaffVisa.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.StaffId.ToString() == id).ToList();
                         return PartialView("~/Views/StaffTabInfo/_Visa.cshtml", list);
                     }
                     else
@@ -480,7 +480,7 @@ namespace CRMViettour.Controllers
                     if (await _staffVisaRepository.Update(model))
                     {
                         UpdateHistory.SaveStaff(9, "Cập nhật visa cho nhân viên");
-                        var list = _db.tbl_StaffVisa.AsEnumerable().Where(p => p.StaffId == model.StaffId).ToList();
+                        var list = _db.tbl_StaffVisa.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.StaffId == model.StaffId).ToList();
                         return PartialView("~/Views/StaffTabInfo/_Visa.cshtml", list);
                     }
                     else
@@ -503,7 +503,7 @@ namespace CRMViettour.Controllers
                 if (await _staffVisaRepository.Delete(id, false))
                 {
                     UpdateHistory.SaveStaff(9, "Xóa danh sách visa của nhân viên");
-                    var list = _db.tbl_StaffVisa.AsEnumerable().Where(p => p.StaffId == sId).ToList();
+                    var list = _db.tbl_StaffVisa.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.StaffId == sId).ToList();
                     return PartialView("~/Views/StaffTabInfo/_Visa.cshtml", list);
                 }
                 else
@@ -562,7 +562,7 @@ namespace CRMViettour.Controllers
                         Session["StaffFile"] = null;
                         UpdateHistory.SaveStaff(9, "Thêm mới tài liêu, code: " + model.Code);
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId.ToString() == id).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId.ToString() == id)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId.ToString() == id).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,
@@ -653,7 +653,7 @@ namespace CRMViettour.Controllers
                         Session["StaffFile"] = null;
                         UpdateHistory.SaveStaff(9, "Cập nhật tài liệu, code: " + model.Code);
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == model.StaffId).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == model.StaffId)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == model.StaffId).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,
@@ -696,7 +696,7 @@ namespace CRMViettour.Controllers
                 {
                     UpdateHistory.SaveStaff(9, "Xóa danh sách tài liệu của nhân viên");
                     //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == sId).ToList();
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == id)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.StaffId == id).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,
@@ -730,7 +730,7 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult ExportFile()
         {
-            var staffs = _staffRepository.GetAllAsQueryable().AsEnumerable()
+            var staffs = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
                  .Select(p => new StaffListViewModel
                  {
                      Code = p.Code == null ? "" : p.Code,

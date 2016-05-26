@@ -92,7 +92,7 @@ namespace CRMViettour.Controllers.Task
 
                 if (await _taskHandlingRepository.Delete(id, false))
                 {
-                    var list = _taskHandlingRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId).Select(p => new tbl_TaskHandling
+                    var list = _taskHandlingRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId).Where(p => p.IsDelete == false).Select(p => new tbl_TaskHandling
                     {
                         Id = p.Id,
                         CreateDate = p.CreateDate,
@@ -126,7 +126,7 @@ namespace CRMViettour.Controllers.Task
 
                 if (await _taskStaffRepository.Delete(id, false))
                 {
-                    var list = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == tasId).ToList();
+                    var list = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == tasId).Where(p => p.IsDelete == false).ToList();
                     return PartialView("~/Views/TaskTabInfo/_DSNhanVienDangLamNhiemVu.cshtml", list);
                 }
                 else
@@ -155,7 +155,7 @@ namespace CRMViettour.Controllers.Task
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == model.TaskId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == model.TaskId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -195,7 +195,7 @@ namespace CRMViettour.Controllers.Task
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == model.TaskId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == model.TaskId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -227,7 +227,7 @@ namespace CRMViettour.Controllers.Task
             {
                 if (await _appointmentHistoryRepository.Delete(id, false))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -295,7 +295,7 @@ namespace CRMViettour.Controllers.Task
                 if (await _documentFileRepository.Create(model))
                 {
                     Session["TaskDocFile"] = null;
-                    var list = _documentFileRepository.GetAllAsQueryable().Where(p => p.TaskId.ToString() == id).ToList();
+                    var list = _documentFileRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.TaskId.ToString() == id).ToList();
                     //   var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId.ToString() == id)
                     //.Select(p => new tbl_DocumentFile
                     //{
@@ -372,7 +372,7 @@ namespace CRMViettour.Controllers.Task
                     {
                         Session["TaskDocFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId == model.TaskId)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId == model.TaskId).Where(p => p.IsDelete == false)
                              .Select(p => new tbl_DocumentFile
                              {
                                  Id = p.Id,
@@ -412,7 +412,7 @@ namespace CRMViettour.Controllers.Task
                 //end file
                 if (await _documentFileRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId == tasId)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TaskId == tasId).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -454,7 +454,7 @@ namespace CRMViettour.Controllers.Task
 
                     if (await _taskNoteRepository.Create(model))
                     {
-                        var list = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId.ToString() == id).Select(p => new tbl_TaskNote
+                        var list = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId.ToString() == id).Where(p => p.IsDelete == false).Select(p => new tbl_TaskNote
                         {
                             Id = p.Id,
                             Note = p.Note,
@@ -480,7 +480,7 @@ namespace CRMViettour.Controllers.Task
             {
                 if (await _taskNoteRepository.Delete(id, false))
                 {
-                    var list = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId).Select(p => new tbl_TaskNote
+                    var list = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == tasId).Where(p => p.IsDelete == false).Select(p => new tbl_TaskNote
                     {
                         Id = p.Id,
                         Note = p.Note,
@@ -512,7 +512,7 @@ namespace CRMViettour.Controllers.Task
         {
             if (await _taskNoteRepository.Update(model))
             {
-                var list = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == model.TaskId).Select(p => new tbl_TaskNote
+                var list = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == model.TaskId).Where(p => p.IsDelete == false).Select(p => new tbl_TaskNote
                 {
                     Id = p.Id,
                     Note = p.Note,

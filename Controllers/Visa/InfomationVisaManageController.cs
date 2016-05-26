@@ -152,14 +152,14 @@ namespace CRMViettour.Controllers.Visa
         [ChildActionOnly]
         public ActionResult _Partial_ListInfomation()
         {
-            var model = _visaInfomationRepository.GetAllAsQueryable().ToList();
+            var model = _visaInfomationRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).ToList();
             return PartialView("_Partial_ListInfomation", model);
         }
 
         [HttpPost]
         public ActionResult SearchCountryVisa(int id)
         {
-            var model = _visaInfomationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TagId == id).ToList();
+            var model = _visaInfomationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TagId == id).Where(p => p.IsDelete == false).ToList();
             return PartialView("_Partial_ListInfomation", model);
 
         }

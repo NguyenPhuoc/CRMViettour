@@ -118,7 +118,7 @@ namespace CRMViettour.Controllers.Tour
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -172,7 +172,7 @@ namespace CRMViettour.Controllers.Tour
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -205,7 +205,7 @@ namespace CRMViettour.Controllers.Tour
                 Permission(clsPermission.GetUser().PermissionID, 87);
                 if (await _appointmentHistoryRepository.Delete(id, false))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -244,7 +244,7 @@ namespace CRMViettour.Controllers.Tour
                 model.TourId = Int32.Parse(Session["idTour"].ToString());
                 if (await _contactHistoryRepository.Create(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -285,7 +285,7 @@ namespace CRMViettour.Controllers.Tour
                 model.ModifiedDate = DateTime.Now;
                 if (await _contactHistoryRepository.Update(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_ContactHistory
                         {
                             Id = p.Id,
@@ -317,7 +317,7 @@ namespace CRMViettour.Controllers.Tour
                 int tourId = _contactHistoryRepository.FindId(id).TourId ?? 0;
                 if (await _contactHistoryRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.TourId == tourId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_ContactHistory
                         {
                             ContactDate = p.ContactDate,
@@ -385,7 +385,7 @@ namespace CRMViettour.Controllers.Tour
                     if (await _documentFileRepository.Create(model))
                     {
                         Session["TourFile"] = null;
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId.ToString() == id)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId.ToString() == id).Where(p => p.IsDelete == false)
                                      .Select(p => new tbl_DocumentFile
                                      {
                                          Id = p.Id,
@@ -461,7 +461,7 @@ namespace CRMViettour.Controllers.Tour
                     if (await _documentFileRepository.Update(model))
                     {
                         Session["TourFile"] = null;
-                        var list = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                        var list = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                              .Select(p => new tbl_DocumentFile
                              {
                                  Id = p.Id,
@@ -502,7 +502,7 @@ namespace CRMViettour.Controllers.Tour
                 //end file
                 if (await _documentFileRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId == tourId)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -554,7 +554,7 @@ namespace CRMViettour.Controllers.Tour
                 model.Time = Int32.Parse((model.EndDate - model.StartDate).TotalDays.ToString());
                 if (await _taskRepository.Update(model))
                 {
-                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_Task
                             {
                                 Id = p.Id,
@@ -592,7 +592,7 @@ namespace CRMViettour.Controllers.Tour
                 Permission(clsPermission.GetUser().PermissionID, 78);
                 if (await _taskRepository.Delete(id, false))
                 {
-                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_Task
                             {
                                 Id = p.Id,
@@ -668,7 +668,7 @@ namespace CRMViettour.Controllers.Tour
                     if (await _documentFileRepository.Create(model))
                     {
                         Session["ProgramTourFile"] = null;
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId.ToString() == id && p.DictionaryId == 30)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId.ToString() == id && p.DictionaryId == 30).Where(p => p.IsDelete == false)
                                      .Select(p => new tbl_DocumentFile
                                      {
                                          Id = p.Id,
@@ -743,7 +743,7 @@ namespace CRMViettour.Controllers.Tour
                     if (await _documentFileRepository.Update(model))
                     {
                         Session["ProgramTourFile"] = null;
-                        var list = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId && p.DictionaryId == 30)
+                        var list = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId && p.DictionaryId == 30).Where(p => p.IsDelete == false)
                              .Select(p => new tbl_DocumentFile
                              {
                                  Id = p.Id,
@@ -784,7 +784,7 @@ namespace CRMViettour.Controllers.Tour
                 //end file
                 if (await _documentFileRepository.Delete(id, true))
                 {
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId == tourId && p.DictionaryId == 30)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.TourId == tourId && p.DictionaryId == 30).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -886,7 +886,7 @@ namespace CRMViettour.Controllers.Tour
                     }
                     //
 
-                    var list = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_Contract
                        {
                            Id = p.Id,
@@ -928,7 +928,7 @@ namespace CRMViettour.Controllers.Tour
                 if (await _contractRepository.Update(model))
                 {
                     UpdateHistory.SaveContract(model.Id, 9, "Cập nhật hợp đồng, code: " + model.Code);
-                    var list = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_Contract
                         {
                             Id = p.Id,
@@ -970,14 +970,14 @@ namespace CRMViettour.Controllers.Tour
             {
                 Permission(clsPermission.GetUser().PermissionID, 81);
                 int tourId = _contractRepository.FindId(id).TourId ?? 0;
-                var history = _updateHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).ToList();
+                var history = _updateHistoryRepository.GetAllAsQueryable().Where(p => p.ContractId == id).Where(p => p.IsDelete == false).ToList();
                 foreach (var item in history)
                 {
                     await _updateHistoryRepository.Delete(item.Id, false);
                 }
                 if (await _contractRepository.Delete(id, false))
                 {
-                    var list = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                    var list = _contractRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_Contract
                         {
                             Id = p.Id,
@@ -1044,7 +1044,7 @@ namespace CRMViettour.Controllers.Tour
                         await _reviewTourDetailRepository.Create(detail);
                     }
 
-                    var list = _db.tbl_ReviewTourDetail.AsEnumerable().Where(p => p.tbl_ReviewTour.TourId.ToString() == id)
+                    var list = _db.tbl_ReviewTourDetail.AsEnumerable().Where(p => p.tbl_ReviewTour.TourId.ToString() == id).Where(p => p.IsDelete == false)
                         .Select(p => new ReviewTourModel
                         {
                             Id = p.Id,
@@ -1106,7 +1106,7 @@ namespace CRMViettour.Controllers.Tour
                     };
                     await _liabilityPartnerRepository.Create(model);
                 }
-                var list = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId.ToString() == id)
+                var list = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId.ToString() == id).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_LiabilityPartner
                             {
                                 Id = p.Id,
@@ -1143,7 +1143,7 @@ namespace CRMViettour.Controllers.Tour
                 model.TotalRemaining = form["TotalRemaining"] != "" ? Convert.ToDecimal(form["TotalRemaining"].ToString()) : 0;
                 if (await _liabilityPartnerRepository.Update(model))
                 {
-                    var list = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_LiabilityPartner
                        {
                            Id = p.Id,
@@ -1181,7 +1181,7 @@ namespace CRMViettour.Controllers.Tour
                 Session["idTour"] = tourId;
                 if (await _liabilityPartnerRepository.Delete(id, false))
                 {
-                    var list = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                    var list = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_LiabilityPartner
                        {
                            Id = p.Id,
@@ -1230,7 +1230,7 @@ namespace CRMViettour.Controllers.Tour
 
                 if (await _liabilityCustomerRepository.Create(model))
                 {
-                    var list = _liabilityCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).ToList();
+                    var list = _liabilityCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false).ToList();
                     return PartialView("~/Views/TourTabInfo/_CongNoKH.cshtml", list);
                 }
                 else
@@ -1259,7 +1259,7 @@ namespace CRMViettour.Controllers.Tour
 
                 if (await _liabilityCustomerRepository.Update(model))
                 {
-                    var list = _liabilityCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).ToList();
+                    var list = _liabilityCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false).ToList();
                     return PartialView("~/Views/TourTabInfo/_CongNoKH.cshtml", list);
                 }
                 else
@@ -1284,7 +1284,7 @@ namespace CRMViettour.Controllers.Tour
                 Session["idTour"] = tourId;
                 if (await _liabilityCustomerRepository.Delete(id, false))
                 {
-                    var list = _liabilityCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).ToList();
+                    var list = _liabilityCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false).ToList();
                     return PartialView("~/Views/TourTabInfo/_CongNoKH.cshtml", list);
                 }
                 else
@@ -1337,7 +1337,7 @@ namespace CRMViettour.Controllers.Tour
                 int tourvisa = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.CustomerId == id & c.TourId == tourId).Select(c => c.Id).SingleOrDefault();
                 if (await _tourCustomerVisaRepository.Delete(tourvisa, false))
                 {
-                    var list = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == tourId).Select(c => c.tbl_CustomerVisa).ToList();
+                    var list = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == tourId).Where(p => p.IsDelete == false).Select(c => c.tbl_CustomerVisa).ToList();
                     return PartialView("~/Views/TourTabInfo/_Visa.cshtml", list);
                 }
                 else
@@ -1376,7 +1376,7 @@ namespace CRMViettour.Controllers.Tour
                         }
                     }
                 }
-                var list = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == idTour).Select(c => c.tbl_CustomerVisa).ToList();
+                var list = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == idTour).Where(p => p.IsDelete == false).Select(c => c.tbl_CustomerVisa).ToList();
 
                 return PartialView("~/Views/TourTabInfo/_Visa.cshtml", list);
             }
@@ -1449,7 +1449,7 @@ namespace CRMViettour.Controllers.Tour
                 if (await _quotationRepository.Create(model))
                 {
                     Session["QuotationFile"] = null;
-                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_Quotation
                         {
                             Id = p.Id,
@@ -1509,7 +1509,7 @@ namespace CRMViettour.Controllers.Tour
                 if (await _quotationRepository.Update(model))
                 {
                     Session["QuotationFile"] = null;
-                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_Quotation
                         {
                             Id = p.Id,
@@ -1552,7 +1552,7 @@ namespace CRMViettour.Controllers.Tour
                 //end file
                 if (await _quotationRepository.Delete(id, false))
                 {
-                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+                    var list = _quotationRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_Quotation
                         {
                             Id = p.Id,

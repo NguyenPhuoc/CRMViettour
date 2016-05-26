@@ -40,7 +40,7 @@ namespace CRMViettour.Controllers
 
         public ActionResult Index()
         {
-            var model = _documentFileRepository.GetAllAsQueryable().ToList();
+            var model = _documentFileRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).ToList();
             return View(model);
         }
 

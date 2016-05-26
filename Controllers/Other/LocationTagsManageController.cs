@@ -29,7 +29,7 @@ namespace CRMViettour.Controllers.Other
 
         public ActionResult Index()
         {
-            var location = _locationRepository.GetAllAsQueryable().Where(p=>p.TypeTag <= 5).Select(p => new TagsViewModel
+            var location = _locationRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.TypeTag <= 5).Select(p => new TagsViewModel
             {
                 Id = p.Id,
                 Tags = p.Tag,
@@ -74,7 +74,7 @@ namespace CRMViettour.Controllers.Other
             for (int i = 0; i < check.Count(); i++)
             {
                 var item = _db.tbl_Tags.Find(Convert.ToInt32(check[i]));
-                var listChild = _db.tbl_Tags.Where(p => p.ParentId == item.Id).ToList();
+                var listChild = _db.tbl_Tags.Where(p => p.ParentId == item.Id).Where(p => p.IsDelete == false).ToList();
                 if (listChild.Count() == 0)
                 {
                     _db.tbl_Tags.Remove(item);

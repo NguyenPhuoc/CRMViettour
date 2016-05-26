@@ -115,7 +115,7 @@ namespace CRMViettour.Controllers.Task
         [HttpPost]
         public async Task<ActionResult> InfoNhatKyXuLy(int id)
         {
-            var model = _taskHandlingRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id).Select(p => new tbl_TaskHandling
+            var model = _taskHandlingRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id).Where(p => p.IsDelete == false).Select(p => new tbl_TaskHandling
             {
                 Id = p.Id,
                 CreateDate = p.CreateDate,
@@ -138,7 +138,7 @@ namespace CRMViettour.Controllers.Task
         [HttpPost]
         public async Task<ActionResult> InfoLichHen(int id)
         {
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id)
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.TaskId == id)
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Id = p.Id,
@@ -162,7 +162,7 @@ namespace CRMViettour.Controllers.Task
         [HttpPost]
         public async Task<ActionResult> InfoDSNhanVienDangLamNhiemVu(int id)
         {
-            var model = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == id).ToList();
+            var model = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == id).Where(p => p.IsDelete == false).ToList();
             return PartialView("_DSNhanVienDangLamNhiemVu", model);
         }
         #endregion
@@ -176,7 +176,7 @@ namespace CRMViettour.Controllers.Task
         [HttpPost]
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
-            var model = _documentFileRepository.GetAllAsQueryable().Where(p => p.TaskId == id).ToList();
+            var model = _documentFileRepository.GetAllAsQueryable().Where(p => p.TaskId == id).Where(p => p.IsDelete == false).ToList();
             return PartialView("_TaiLieuMau", model);
         }
         #endregion
@@ -190,7 +190,7 @@ namespace CRMViettour.Controllers.Task
         [HttpPost]
         public async Task<ActionResult> InfoGhiChu(int id)
         {
-            var model = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id).Select(p => new tbl_TaskNote
+            var model = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id).Where(p => p.IsDelete == false).Select(p => new tbl_TaskNote
             {
                 Id = p.Id,
                 Note = p.Note,

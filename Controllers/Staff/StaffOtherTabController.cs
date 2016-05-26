@@ -100,7 +100,7 @@ namespace CRMViettour.Controllers.Customer
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == model.StaffId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == model.StaffId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -154,7 +154,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == model.StaffId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == model.StaffId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -187,7 +187,7 @@ namespace CRMViettour.Controllers.Customer
                 Permission(clsPermission.GetUser().PermissionID, 58);
                 if (await _appointmentHistoryRepository.Delete(id, false))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -225,7 +225,7 @@ namespace CRMViettour.Controllers.Customer
                 model.StaffId = 9;
                 if (await _contactHistoryRepository.Create(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == model.StaffId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == model.StaffId).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -271,7 +271,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ModifiedDate = DateTime.Now;
                 if (await _contactHistoryRepository.Update(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == model.StaffId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == model.StaffId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_ContactHistory
                         {
                             Id = p.Id,
@@ -303,7 +303,7 @@ namespace CRMViettour.Controllers.Customer
                 int staffId = _contactHistoryRepository.FindId(id).StaffId;
                 if (await _contactHistoryRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == staffId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.StaffId == staffId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_ContactHistory
                         {
                             Id = p.Id,
@@ -338,7 +338,7 @@ namespace CRMViettour.Controllers.Customer
                 int staffId = _tourScheduleRepository.FindId(id).StaffId ?? 0;
                 if (await _tourScheduleRepository.Delete(id, false))
                 {
-                    var list = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffId == staffId).ToList();
+                    var list = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.StaffId == staffId).ToList();
                     return PartialView("~/Views/StaffTabInfo/_LichSuDiTour.cshtml", list);
                 }
                 else
@@ -380,7 +380,7 @@ namespace CRMViettour.Controllers.Customer
                 model.Time = Int32.Parse((model.EndDate - model.StartDate).TotalDays.ToString());
                 if (await _taskRepository.Update(model))
                 {
-                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == model.StaffId)
+                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == model.StaffId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_Task
                             {
                                 Id = p.Id,
@@ -418,7 +418,7 @@ namespace CRMViettour.Controllers.Customer
                 Permission(clsPermission.GetUser().PermissionID, 57);
                 if (await _taskRepository.Delete(id, false))
                 {
-                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId)
+                    var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.StaffId == staffId).Where(p => p.IsDelete == false)
                               .Select(p => new tbl_Task
                               {
                                   Id = p.Id,

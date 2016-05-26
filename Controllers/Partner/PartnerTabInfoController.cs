@@ -96,7 +96,7 @@ namespace CRMViettour.Controllers.Partner
         public async Task<ActionResult> InfoLichHen(int id)
         {
             //var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == id)
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -122,7 +122,7 @@ namespace CRMViettour.Controllers.Partner
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
             //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
-            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == id)
+            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -146,7 +146,7 @@ namespace CRMViettour.Controllers.Partner
         [HttpPost]
         public async Task<ActionResult> InfoTourTuyen(int id)
         {
-            var model = _tourOptionRepository.GetAllAsQueryable().Where(c => c.PartnerId == id)
+            var model = _tourOptionRepository.GetAllAsQueryable().Where(c => c.PartnerId == id).Where(p => p.IsDelete == false)
                 .Select(p => new TourListViewModel
                 {
                     Id = p.tbl_Tour.Id,
@@ -243,7 +243,7 @@ namespace CRMViettour.Controllers.Partner
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
             // var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
-            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == id)
+            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,

@@ -165,7 +165,7 @@ namespace CRMViettour.Controllers.Permission
         public async Task<ActionResult> AddUser(int id)
         {
             Session["idPermission"] = id;
-            var model = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.PermissionId == null).Select(c => new StaffListViewModel
+            var model = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.PermissionId == null).Select(c => new StaffListViewModel
             {
                 Id = c.Id,
                 Code = c.Code,
@@ -222,7 +222,7 @@ namespace CRMViettour.Controllers.Permission
         [HttpPost]
         public async Task<ActionResult> InfoNguoiDung(int id)
         {
-            var model = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.PermissionId == id).Select(c => new StaffListViewModel
+            var model = _staffRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.PermissionId == id).Select(c => new StaffListViewModel
             {
                 Id = c.Id,
                 Code = c.Code,
@@ -243,7 +243,7 @@ namespace CRMViettour.Controllers.Permission
             staff.PermissionId = null;
             await _staffRepository.Update(staff);
             _db = new DataContext();
-            var model = _db.tbl_Staff.AsEnumerable().Where(c => c.PermissionId == idP).Select(c => new StaffListViewModel
+            var model = _db.tbl_Staff.AsEnumerable().Where(c => c.PermissionId == idP).Where(p => p.IsDelete == false).Select(c => new StaffListViewModel
             {
                 Id = c.Id,
                 Code = c.Code,
@@ -265,7 +265,7 @@ namespace CRMViettour.Controllers.Permission
             Session["idForm"] = id;
             int idPermission = Int16.Parse(Session["idPermission"].ToString());
             var actions = _actionDataRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == id && c.PermissionsId == idPermission).Select(c => c.FunctionId).ToList();
-            var model = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == id)
+            var model = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == id).Where(p => p.IsDelete == false)
                .Select(p => new tbl_Function
                {
                    Id = p.tbl_Function.Id,
@@ -337,7 +337,7 @@ namespace CRMViettour.Controllers.Permission
                     };
                     await _accessDataRepository.Create(_accs);
                 }
-                var actis = _actionDataRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.PermissionsId == idPermission && c.FormId == idForm).ToList();
+                var actis = _actionDataRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.PermissionsId == idPermission && c.FormId == idForm).ToList();
                 if (actis.Count == 0)
                 {
                     foreach (var _id in listIdFuncs)

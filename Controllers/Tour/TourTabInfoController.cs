@@ -258,7 +258,7 @@ namespace CRMViettour.Controllers.Tour
         {
             Permission(clsPermission.GetUser().PermissionID, 82);
             Session["idTour"] = id;
-            var model = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Select(c => c.tbl_CustomerVisa).ToList();
+            var model = _tourCustomerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Where(p => p.IsDelete == false).Select(c => c.tbl_CustomerVisa).ToList();
             return PartialView("_Visa", model);
         }
         #endregion
@@ -315,7 +315,7 @@ namespace CRMViettour.Controllers.Tour
         public ActionResult InfoCongNoDoiTac(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 85);
-            var model = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+            var model = _liabilityPartnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_LiabilityPartner
                             {
                                 Id = p.Id,
@@ -347,7 +347,7 @@ namespace CRMViettour.Controllers.Tour
         public ActionResult InfoDanhGia(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 86);
-            var model = _reviewTourDetailRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.tbl_ReviewTour.TourId == id)
+            var model = _reviewTourDetailRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.tbl_ReviewTour.TourId == id).Where(p => p.IsDelete == false)
                 .Select(p => new ReviewTourModel
                 {
                     Id = p.Id,
@@ -378,7 +378,7 @@ namespace CRMViettour.Controllers.Tour
         public ActionResult InfoLichHen(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 87);
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id).Where(p => p.IsDelete == false)
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Id = p.Id,
@@ -425,7 +425,7 @@ namespace CRMViettour.Controllers.Tour
         public ActionResult InfoLichSuLienHe(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 89);
-            var model = _contactHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id)
+            var model = _contactHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == id).Where(p => p.IsDelete == false)
                  .Select(p => new tbl_ContactHistory
                  {
                      Id = p.Id,

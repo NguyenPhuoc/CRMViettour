@@ -203,7 +203,7 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoThauTour(int id)
         {
-            var model = _tourRepository.GetAllAsQueryable().Where(c => c.StaffId == id)
+            var model = _tourRepository.GetAllAsQueryable().Where(c => c.StaffId == id).Where(p => p.IsDelete == false)
                 .Select(p => new TourListViewModel
                 {
                     Id = p.Id,
@@ -265,7 +265,7 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoKhachHang(int id)
         {
-            var model = _customerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffManager == id)
+            var model = _customerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffManager == id).Where(p => p.IsDelete == false)
                 .Select(p => new CustomerListViewModel
                 {
                     Id = p.Id,
@@ -305,7 +305,7 @@ namespace CRMViettour.Controllers.Staff
         public async Task<ActionResult> InfoLichSuDiTour(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 92);
-            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.StaffId == id).ToList();
+            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.StaffId == id).ToList();
             return PartialView("_LichSuDiTour", model);
         }
         #endregion

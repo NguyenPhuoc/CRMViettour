@@ -83,7 +83,7 @@ namespace CRMViettour.Controllers.Customer
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == model.PartnerId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == model.PartnerId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -136,7 +136,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == model.PartnerId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == model.PartnerId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -168,7 +168,7 @@ namespace CRMViettour.Controllers.Customer
             {
                 if (await _appointmentHistoryRepository.Delete(id, false))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == parId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == parId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -206,7 +206,7 @@ namespace CRMViettour.Controllers.Customer
                 model.StaffId = 9;
                 if (await _contactHistoryRepository.Create(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == model.PartnerId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -251,7 +251,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ModifiedDate = DateTime.Now;
                 if (await _contactHistoryRepository.Update(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == model.PartnerId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_ContactHistory
                         {
                             Id = p.Id,
@@ -282,7 +282,7 @@ namespace CRMViettour.Controllers.Customer
                 int parId = _contactHistoryRepository.FindId(id).PartnerId ?? 0;
                 if (await _contactHistoryRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == parId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == parId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_ContactHistory
                         {
                             Id = p.Id,

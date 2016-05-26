@@ -163,7 +163,7 @@ namespace CRMViettour.Controllers
         public ActionResult PartnerInfomation(int id)
         {
             var model = _db.tbl_Partner.Find(id);
-            ViewBag.Services = _servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToList();
+            ViewBag.Services = _servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false).ToList();
             return PartialView("_Partial_EditPartner", model);
         }
 
@@ -178,7 +178,7 @@ namespace CRMViettour.Controllers
                 if (await _partnerRepository.Update(model))
                 {
                     // delete all service
-                    var service = _servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == model.Id).ToList();
+                    var service = _servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == model.Id).Where(p => p.IsDelete == false).ToList();
                     if (service.Count() > 0)
                     {
                         foreach (var item in service)
@@ -298,7 +298,7 @@ namespace CRMViettour.Controllers
                         UpdateHistory.SavePartner(model.PartnerId ?? 0, 9, "Thêm mới tài liệu đối tác, code: " + model.Code);
                         Session["PartnerFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId.ToString() == id).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId.ToString() == id)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId.ToString() == id).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,
@@ -385,7 +385,7 @@ namespace CRMViettour.Controllers
                         UpdateHistory.SavePartner(model.PartnerId ?? 0, 9, "Cập nhật tài liệu đối tác, code: " + model.Code);
                         Session["PartnerFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == model.PartnerId)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,
@@ -426,7 +426,7 @@ namespace CRMViettour.Controllers
                 if (await _documentFileRepository.Delete(id, false))
                 {
                     //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == partnerId).ToList();
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == partnerId)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == partnerId).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,
@@ -468,7 +468,7 @@ namespace CRMViettour.Controllers
 
                     if (await _partnerNoteRepository.Create(model))
                     {
-                        var list = _db.tbl_PartnerNote.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).ToList();
+                        var list = _db.tbl_PartnerNote.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).Where(p => p.IsDelete == false).ToList();
                         return PartialView("~/Views/PartnerTabInfo/_GhiChu.cshtml", list);
                     }
                     else
@@ -506,7 +506,7 @@ namespace CRMViettour.Controllers
 
                     if (await _partnerNoteRepository.Update(model))
                     {
-                        var list = _db.tbl_PartnerNote.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).ToList();
+                        var list = _db.tbl_PartnerNote.AsEnumerable().Where(p => p.PartnerId == model.PartnerId).Where(p => p.IsDelete == false).ToList();
                         return PartialView("~/Views/PartnerTabInfo/_GhiChu.cshtml", list);
                     }
                     else
@@ -527,7 +527,7 @@ namespace CRMViettour.Controllers
                 int partnerId = _partnerNoteRepository.FindId(id).PartnerId;
                 if (await _partnerNoteRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_PartnerNote.AsEnumerable().Where(p => p.PartnerId == partnerId).ToList();
+                    var list = _db.tbl_PartnerNote.AsEnumerable().Where(p => p.PartnerId == partnerId).Where(p => p.IsDelete == false).ToList();
                     return PartialView("~/Views/PartnerTabInfo/_GhiChu.cshtml", list);
                 }
                 else

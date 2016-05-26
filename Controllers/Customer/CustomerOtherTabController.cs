@@ -99,7 +99,7 @@ namespace CRMViettour.Controllers.Customer
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == model.CustomerId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -147,7 +147,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == model.CustomerId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -180,7 +180,7 @@ namespace CRMViettour.Controllers.Customer
                 Permission(clsPermission.GetUser().PermissionID, 53);
                 if (await _appointmentHistoryRepository.Delete(id, false))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == cusId)
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == cusId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -219,7 +219,7 @@ namespace CRMViettour.Controllers.Customer
                 model.CustomerId = Int32.Parse(Session["idCustomer"].ToString());
                 if (await _contactHistoryRepository.Create(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -266,7 +266,7 @@ namespace CRMViettour.Controllers.Customer
                 model.ModifiedDate = DateTime.Now;
                 if (await _contactHistoryRepository.Update(model))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_ContactHistory
                         {
                             Id = p.Id,
@@ -298,7 +298,7 @@ namespace CRMViettour.Controllers.Customer
                 int cusId = _contactHistoryRepository.FindId(id).CustomerId ?? 0;
                 if (await _contactHistoryRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == cusId)
+                    var list = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.CustomerId == cusId).Where(p => p.IsDelete == false)
                         .Select(p => new tbl_ContactHistory
                         {
                             ContactDate = p.ContactDate,
@@ -336,7 +336,7 @@ namespace CRMViettour.Controllers.Customer
                 if (cusTour != null && tourVisa == null)
                     await _tourCustomerVisaRepository.Create(model);
 
-                var list = _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == idCus).ToList();
+                var list = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == idCus).ToList();
                 return PartialView("~/Views/CustomerTabInfo/_Visa.cshtml", list);
             }
             catch

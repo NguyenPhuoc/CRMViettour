@@ -204,7 +204,7 @@ namespace CRMViettour.Controllers.Staff
                 model.ModuleId = idModule;
                 await _formRepository.Create(model);
 
-                var list = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == idModule).ToList();
+                var list = _formRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.ModuleId == idModule).Where(p => p.IsDelete == false).ToList();
                 return PartialView("_Partial_FormList", list);
             }
             catch
@@ -279,7 +279,7 @@ namespace CRMViettour.Controllers.Staff
                 model.FormId = idForm;
                 await _formFunctionRepository.Create(model);
                 _db = new DataContext();
-                var list = _db.tbl_FormFunction.AsEnumerable().Where(c => c.FormId == idForm).Select(c => new FunctionViewModel
+                var list = _db.tbl_FormFunction.AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.FormId == idForm).Select(c => new FunctionViewModel
                 {
                     Id = c.Id,
                     Name = c.tbl_Function.Name
@@ -296,7 +296,7 @@ namespace CRMViettour.Controllers.Staff
         {
             int idForm = Int16.Parse(Session["idForm"].ToString());
             var lst = _functionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.IsDelete == false).Select(p => new tbl_Function { Id = p.Id, Name = p.Name }).ToList();
-            var formfunc = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == idForm).Select(c => c.FunctionId).ToList();
+            var formfunc = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == idForm).Where(p => p.IsDelete == false).Select(c => c.FunctionId).ToList();
             foreach (var i in formfunc)
             {
                 foreach (var item in lst)
@@ -329,7 +329,7 @@ namespace CRMViettour.Controllers.Staff
                 int idForm = _formFunctionRepository.FindId(id).FormId;
                 if (await _formFunctionRepository.Delete(id, false))
                 {
-                    var model = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == idForm).Select(c => new FunctionViewModel
+                    var model = _formFunctionRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.FormId == idForm).Where(p => p.IsDelete == false).Select(c => new FunctionViewModel
                     {
                         Id = c.Id,
                         Name = c.tbl_Function.Name

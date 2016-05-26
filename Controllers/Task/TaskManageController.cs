@@ -72,7 +72,7 @@ namespace CRMViettour.Controllers
         [ChildActionOnly]
         public ActionResult _Partial_TaskList()
         {
-            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Select(p => new tbl_Task
+            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Select(p => new tbl_Task
             {
                 Id = p.Id,
                 CodeTour = p.CodeTour != null ? p.CodeTour : "",
@@ -300,7 +300,7 @@ namespace CRMViettour.Controllers
                         && (end != null ? p.CreatedDate <= end : p.Id != 0)
                         && (statusId != 0 ? p.TaskStatusId == statusId : p.Id != 0)
                         && (typeId != 0 ? p.TaskTypeId == typeId : p.Id != 0)
-                        && (priorId != 0 ? p.TaskPriorityId == priorId : p.Id != 0))
+                        && (priorId != 0 ? p.TaskPriorityId == priorId : p.Id != 0)).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_Task
                 {
                     Id = p.Id,

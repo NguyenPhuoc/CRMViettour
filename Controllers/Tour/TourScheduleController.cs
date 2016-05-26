@@ -93,7 +93,7 @@ namespace CRMViettour.Controllers.Tour
         {
             if (id == -1)
             {
-                var _model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable()
+                var _model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
                .Select(p => new tbl_TourSchedule
                {
                    Id = p.Id,
@@ -119,7 +119,7 @@ namespace CRMViettour.Controllers.Tour
             else
             {
                 Session["idTour"] = id;
-                var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id)
+                var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Where(p => p.IsDelete == false)
                    .Select(p => new tbl_TourSchedule
                    {
                        Id = p.Id,
@@ -146,7 +146,7 @@ namespace CRMViettour.Controllers.Tour
         }
         public JsonResult JsonCalendarDefaul()
         {
-            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable()
+            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
                .Select(p => new tbl_TourSchedule
                {
                    Id = p.Id,
@@ -187,7 +187,7 @@ namespace CRMViettour.Controllers.Tour
             }
             catch { }
             ////------------------------------
-            var models = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == model.TourId)
+            var models = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == model.TourId).Where(p => p.IsDelete == false)
                .Select(p => new tbl_TourSchedule
                {
                    Id = p.Id,
@@ -227,7 +227,7 @@ namespace CRMViettour.Controllers.Tour
             try
             {
                 await _tourScheduleRepository.Update(model);
-                var models = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == model.TourId)
+                var models = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == model.TourId).Where(p => p.IsDelete == false)
                    .Select(p => new tbl_TourSchedule
                    {
                        Id = p.Id,
@@ -262,7 +262,7 @@ namespace CRMViettour.Controllers.Tour
         [ChildActionOnly]
         public ActionResult _Partial_TourScheduleList()
         {
-            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().ToList();
+            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).ToList();
 
             return PartialView("_Partial_TourScheduleList", model);
         }
@@ -273,13 +273,13 @@ namespace CRMViettour.Controllers.Tour
         {
             if (id == -1)
             {
-                var _model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().ToList();
+                var _model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).ToList();
 
                 return PartialView("_Partial_TourScheduleList", _model);
             }
             else
             {
-            var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).ToList();
+                var model = _tourScheduleRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Where(p => p.IsDelete == false).ToList();
 
             return PartialView("_Partial_TourScheduleList", model);
             }

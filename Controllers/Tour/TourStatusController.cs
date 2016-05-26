@@ -92,7 +92,7 @@ namespace CRMViettour.Controllers.Tour
 
         public ActionResult _Partial_TourStatus()
         {
-            var model = _tourRepository.GetAllAsQueryable()
+            var model = _tourRepository.GetAllAsQueryable().Where(p => p.IsDelete == false)
                 .Select(p => new TourListViewModel
                 {
                     Id = p.Id,
@@ -128,7 +128,7 @@ namespace CRMViettour.Controllers.Tour
                     model = model.AsEnumerable();
                     break;
             }
-            var items = model.AsEnumerable().Select(p => new TourListViewModel
+            var items = model.AsEnumerable().Where(p => p.IsDelete == false).Select(p => new TourListViewModel
                 {
                     Id = p.Id,
                     Code = p.Code,

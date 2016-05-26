@@ -33,7 +33,7 @@ namespace CRMViettour.Controllers.Quotation
 
         public ActionResult Index()
         {
-            var model = _quotationFormRepository.GetAllAsQueryable().ToList();
+            var model = _quotationFormRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).ToList();
             return View(model);
         }
 

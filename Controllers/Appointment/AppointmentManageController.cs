@@ -59,7 +59,7 @@ namespace CRMViettour.Controllers.Appointment
         [ChildActionOnly]
         public ActionResult _Partial_AppointmentList()
         {
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable()
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p=>p.IsDelete==false)
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Id = p.Id,
@@ -93,7 +93,7 @@ namespace CRMViettour.Controllers.Appointment
 
                 if (await _appointmentHistoryRepository.Create(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable()
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Id = p.Id,
@@ -142,7 +142,7 @@ namespace CRMViettour.Controllers.Appointment
                 model.ModifiedDate = DateTime.Now;
                 if (await _appointmentHistoryRepository.Update(model))
                 {
-                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable()
+                    var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Id = p.Id,
@@ -212,7 +212,7 @@ namespace CRMViettour.Controllers.Appointment
         {
             try
             {
-                var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => (start != null ? p.Time >= start : p.Id != 0) && (end != null ? p.Time <= end : p.Id != 0) && (statusId != -1 ? p.StatusId == statusId : p.Id != 0) && (typeId != -1 ? p.DictionaryId == typeId : p.Id != 0))
+                var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(p => (start != null ? p.Time >= start : p.Id != 0) && (end != null ? p.Time <= end : p.Id != 0) && (statusId != -1 ? p.StatusId == statusId : p.Id != 0) && (typeId != -1 ? p.DictionaryId == typeId : p.Id != 0))
                                .Select(p => new tbl_AppointmentHistory
                                {
                                    Id = p.Id,
@@ -241,7 +241,7 @@ namespace CRMViettour.Controllers.Appointment
         #region JsonCalendar
         public JsonResult JsonCalendar()
         {
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable()
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
                .Select(p => new tbl_AppointmentHistory
                {
                    Id = p.Id,

@@ -83,7 +83,7 @@ namespace CRMViettour.Controllers
         int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
         void Permission(int PermissionsId, int formId)
         {
-            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Where(p => p.IsDelete == false).Select(p => p.FunctionId).ToList();
             ViewBag.IsAdd = list.Contains(1);
             ViewBag.IsDelete = list.Contains(2);
             ViewBag.IsEdit = list.Contains(3);
@@ -443,7 +443,7 @@ namespace CRMViettour.Controllers
                 {
                     Session["CustomerFile"] = null;
                     //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id).ToList();
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId.ToString() == id).Where(p => p.IsDelete == false)
                  .Select(p => new tbl_DocumentFile
                  {
                      Id = p.Id,
@@ -520,7 +520,7 @@ namespace CRMViettour.Controllers
                     {
                         Session["CustomerFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).Where(p => p.IsDelete == false)
                              .Select(p => new tbl_DocumentFile
                              {
                                  Id = p.Id,
@@ -561,7 +561,7 @@ namespace CRMViettour.Controllers
                 //end file
                 if (await _documentFileRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.CustomerId == cusId).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -620,7 +620,7 @@ namespace CRMViettour.Controllers
 
                     if (await _customerVisaRepository.Create(model))
                     {
-                        var list = _db.tbl_CustomerVisa.AsEnumerable().Where(p => p.CustomerId.ToString() == id).ToList();
+                        var list = _db.tbl_CustomerVisa.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.CustomerId.ToString() == id).ToList();
                         return PartialView("~/Views/CustomerTabInfo/_Visa.cshtml", list);
                     }
                     else
@@ -690,7 +690,7 @@ namespace CRMViettour.Controllers
 
                     if (await _customerVisaRepository.Update(model))
                     {
-                        var list = _db.tbl_CustomerVisa.AsEnumerable().Where(p => p.CustomerId == model.CustomerId).ToList();
+                        var list = _db.tbl_CustomerVisa.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == model.CustomerId).ToList();
                         return PartialView("~/Views/CustomerTabInfo/_Visa.cshtml", list);
                     }
                     else
@@ -716,7 +716,7 @@ namespace CRMViettour.Controllers
 
                 if (await _customerVisaRepository.Delete(id, false))
                 {
-                    var list = _db.tbl_CustomerVisa.AsEnumerable().Where(p => p.CustomerId == visaId).ToList();
+                    var list = _db.tbl_CustomerVisa.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == visaId).ToList();
                     return PartialView("~/Views/CustomerTabInfo/_Visa.cshtml", list);
                 }
                 else
@@ -744,7 +744,7 @@ namespace CRMViettour.Controllers
         {
             var model = new CustomerViewModel();
             var customer = _customerRepository.GetAllAsQueryable().FirstOrDefault(p => p.Id == id);
-            var customerVisa = _customerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == id).ToList();
+            var customerVisa = _customerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == id).ToList();
             if (customer.CustomerType == 0) // doanh nghiep
             {
                 model.SingleCompany = customer;
@@ -823,7 +823,7 @@ namespace CRMViettour.Controllers
                         UpdateHistory.SaveCustomer(model.SingleCompany.Id, 9, "Cập nhật khách hàng doanh nghiệp, code: " + model.SingleCompany.Code);
 
                         // xóa tất cả visa của customer
-                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == model.SingleCompany.Id).ToList();
+                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == model.SingleCompany.Id).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)
@@ -899,7 +899,7 @@ namespace CRMViettour.Controllers
                         UpdateHistory.SaveCustomer(model.SinglePersonal.Id, 9, "Cập nhật khách hàng cá nhân, code: " + model.SinglePersonal.Code);
 
                         // xóa tất cả visa của customer
-                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == model.SinglePersonal.Id).ToList();
+                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == model.SinglePersonal.Id).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)
@@ -975,7 +975,7 @@ namespace CRMViettour.Controllers
                     {
                         UpdateHistory.SaveCustomer(model.SingleContact.Id, 9, "Cập nhật người liên hệ, code: " + model.SingleContact.Code);
                         // xóa tất cả visa của customer
-                        var visaList = _customerContactVisaRepository.GetAllAsQueryable().Where(p => p.CustomerContactId == model.SingleContact.Id).ToList();
+                        var visaList = _customerContactVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.CustomerContactId == model.SingleContact.Id).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)
@@ -1404,7 +1404,7 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult ExportFile()
         {
-            var customers = _customerRepository.GetAllAsQueryable().AsEnumerable()
+            var customers = _customerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
                  .Select(p => new CustomerListViewModel
                  {
                      Fullname = p.FullName == null ? "" : p.FullName,

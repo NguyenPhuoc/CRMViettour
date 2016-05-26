@@ -247,7 +247,7 @@ namespace CRMViettour.Controllers.Contract
             var tour = _contractRepository.FindId(id).tbl_Tour;
             if (tour != null)
             {
-                var model = _db.tbl_TourOption.AsEnumerable().Where(c => c.TourId == tour.Id && c.DeadlineId != null)
+                var model = _db.tbl_TourOption.AsEnumerable().Where(c => c.TourId == tour.Id && c.DeadlineId != null).Where(p => p.IsDelete == false)
                                  .Select(c => new InvoiceListViewModel
                                  {
                                      Id = c.DeadlineId ?? 0,

@@ -97,7 +97,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<TagsViewModel>>("tagLocationList");
             if (model == null)
             {
-                model = _db.tbl_Tags.Select(p => new TagsViewModel
+                model = _db.tbl_Tags.Where(p => p.IsDelete == false).Select(p => new TagsViewModel
                 {
                     Id = p.Id,
                     Tags = p.Tag
@@ -117,7 +117,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<TagsViewModel>>("tagCountryList");
             if (model == null)
             {
-                model = _db.tbl_Tags.Where(p => p.TypeTag == 3).Select(p => new TagsViewModel
+                model = _db.tbl_Tags.Where(p => p.TypeTag == 3).Where(p => p.IsDelete == false).Select(p => new TagsViewModel
                 {
                     Id = p.Id,
                     Tags = p.Tag
@@ -137,7 +137,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Partner>>("partnerAllList");
             if (model == null)
             {
-                model = _db.tbl_Partner.AsEnumerable().Select(p => new tbl_Partner
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.IsDelete == false).Select(p => new tbl_Partner
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -157,7 +157,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Partner>>("partnerList" + id);
             if (model == null)
             {
-                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == id).Select(p => new tbl_Partner
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.DictionaryId == id).Select(p => new tbl_Partner
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -177,7 +177,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("documentTypeList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 1).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 1).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -197,7 +197,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("flightList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 25).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 25).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -217,7 +217,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("tourTypeList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 19).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 19).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -237,7 +237,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("taskTypeList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 21).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 21).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -257,7 +257,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("taskStatusList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 22).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 22).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -277,7 +277,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("taskPriorityList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 23).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 23).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -297,7 +297,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("appointmentTypeList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 20).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 20).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -317,7 +317,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("visaStatusList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 14).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 14).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -337,7 +337,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<DictionaryViewModel>>("visaTypeList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.AsEnumerable().Where(p => p.DictionaryCategoryId == 15).Select(p => new DictionaryViewModel
+                model = _db.tbl_Dictionary.AsEnumerable().Where(p => p.DictionaryCategoryId == 15).Where(p => p.IsDelete == false).Select(p => new DictionaryViewModel
                 {
                     Id = Convert.ToInt32(p.Note),
                     Name = p.Name
@@ -357,7 +357,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Task>>("taskList");
             if (model == null)
             {
-                model = _db.tbl_Task.AsEnumerable().Select(p => new tbl_Task
+                model = _db.tbl_Task.AsEnumerable().Where(p => p.IsDelete == false).Select(p => new tbl_Task
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -378,7 +378,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Program>>("programList");
             if (model == null)
             {
-                model = _db.tbl_Program.AsEnumerable().Select(p => new tbl_Program
+                model = _db.tbl_Program.AsEnumerable().Where(p => p.IsDelete == false).Select(p => new tbl_Program
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -399,7 +399,7 @@ namespace CRMViettour.Utilities
             var customer = CacheLayer.Get<List<tbl_Customer>>("customerList");
             if (customer == null)
             {
-                customer = _db.tbl_Customer.AsEnumerable().Where(p => p.ParentId == 0)
+                customer = _db.tbl_Customer.AsEnumerable().Where(p => p.ParentId == 0).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_Customer
                     {
                         Id = p.Id,
@@ -421,7 +421,7 @@ namespace CRMViettour.Utilities
             var contract = CacheLayer.Get<List<tbl_Contract>>("contractlist");
             if (contract == null)
             {
-                contract = _db.tbl_Contract.AsEnumerable()
+                contract = _db.tbl_Contract.AsEnumerable().Where(p => p.IsDelete == false)
                     .Select(p => new tbl_Contract
                     {
                         Id = p.Id,
@@ -443,7 +443,7 @@ namespace CRMViettour.Utilities
             var staff = CacheLayer.Get<List<tbl_Staff>>("staffList");
             if (staff == null)
             {
-                staff = _db.tbl_Staff.AsEnumerable()
+                staff = _db.tbl_Staff.AsEnumerable().Where(p => p.IsDelete == false)
                     .Select(p => new tbl_Staff
                     {
                         Id = p.Id,
@@ -470,7 +470,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("originList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 4).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 4).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "originList", 10080);
             }
 
@@ -486,7 +486,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("careerList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 2).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 2).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "careerList", 10080);
             }
 
@@ -502,7 +502,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("customerGroupList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 3).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 3).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "customerGroupList", 10080);
             }
 
@@ -518,7 +518,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("statusProcessList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 17).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 17).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "statusProcessList", 10080);
             }
 
@@ -534,7 +534,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("positionList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 5).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 5).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "positionList", 10080);
             }
 
@@ -550,7 +550,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("departmentList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 6).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 6).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "departmentList", 10080);
             }
 
@@ -566,7 +566,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("nameTypeList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 7).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 7).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "nameTypeList", 10080);
             }
 
@@ -582,7 +582,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("statusContractList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 18).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 18).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "statusContractList", 10080);
             }
 
@@ -598,7 +598,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("certificateList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 12).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 12).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "certificateList", 10080);
             }
 
@@ -614,7 +614,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("nationList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 10).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 10).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "nationList", 10080);
             }
 
@@ -630,7 +630,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("religionList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 11).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 11).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "religionList", 10080);
             }
 
@@ -646,7 +646,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("staffGroupList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 16).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 16).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "staffGroupList", 10080);
             }
 
@@ -662,7 +662,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("currencyList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 24).ToList();
+                model = _db.tbl_Dictionary.Where(p => p.DictionaryCategoryId == 24).Where(p => p.IsDelete == false).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "currencyList", 10080);
             }
 
@@ -678,7 +678,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Headquater>>("headquarterList");
             if (model == null)
             {
-                model = _db.tbl_Headquater.AsEnumerable().Select(p => new tbl_Headquater { Id = p.Id, ShortName = p.ShortName }).ToList();
+                model = _db.tbl_Headquater.AsEnumerable().Where(p => p.IsDelete == false).Select(p => new tbl_Headquater { Id = p.Id, ShortName = p.ShortName }).ToList();
                 CacheLayer.Add<List<tbl_Headquater>>(model, "headquarterList", 10080);
             }
 
@@ -694,7 +694,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Dictionary>>("serviceList");
             if (model == null)
             {
-                model = _db.tbl_Dictionary.AsEnumerable().Where(p => p.DictionaryCategoryId == 13).Select(p => new tbl_Dictionary { Id = p.Id, Name = p.Name }).ToList();
+                model = _db.tbl_Dictionary.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.DictionaryCategoryId == 13).Select(p => new tbl_Dictionary { Id = p.Id, Name = p.Name }).ToList();
                 CacheLayer.Add<List<tbl_Dictionary>>(model, "serviceList", 10080);
             }
 
@@ -710,7 +710,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Tour>>("tourList");
             if (model == null)
             {
-                model = _db.tbl_Tour.AsEnumerable().Select(p => new tbl_Tour { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                model = _db.tbl_Tour.AsEnumerable().Where(p => p.IsDelete == false).Select(p => new tbl_Tour { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
                 CacheLayer.Add<List<tbl_Tour>>(model, "tourList", 10080);
             }
 
@@ -763,7 +763,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Partner>>("hotelList");
             if (model == null)
             {
-                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1048).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.DictionaryId == 1048).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
                 CacheLayer.Add<List<tbl_Partner>>(model, "hotelList", 10080);
             }
 
@@ -779,7 +779,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Partner>>("restaurantList");
             if (model == null)
             {
-                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1047).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.DictionaryId == 1047).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
                 CacheLayer.Add<List<tbl_Partner>>(model, "restaurantList", 10080);
             }
 
@@ -795,7 +795,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Partner>>("planeList");
             if (model == null)
             {
-                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1049).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.DictionaryId == 1049).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
                 CacheLayer.Add<List<tbl_Partner>>(model, "planeList", 10080);
             }
 
@@ -811,7 +811,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Partner>>("transportList");
             if (model == null)
             {
-                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1050).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.DictionaryId == 1050).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
                 CacheLayer.Add<List<tbl_Partner>>(model, "transportList", 10080);
             }
 
@@ -827,7 +827,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Partner>>("eventList");
             if (model == null)
             {
-                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1051).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.DictionaryId == 1051).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
                 CacheLayer.Add<List<tbl_Partner>>(model, "eventList", 10080);
             }
 
@@ -843,7 +843,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Partner>>("otherList");
             if (model == null)
             {
-                model = _db.tbl_Partner.AsEnumerable().Where(p => p.DictionaryId == 1052).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
+                model = _db.tbl_Partner.AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.DictionaryId == 1052).Select(p => new tbl_Partner { Id = p.Id, Name = p.Name, Code = p.Code }).ToList();
                 CacheLayer.Add<List<tbl_Partner>>(model, "otherList", 10080);
             }
 
@@ -896,7 +896,7 @@ namespace CRMViettour.Utilities
                 }).ToList();
                 foreach (var item in model)
                 {
-                    item.tbl_Form = _db.tbl_Form.AsEnumerable().Where(c => c.ModuleId == item.Id).Select(c => new tbl_Form
+                    item.tbl_Form = _db.tbl_Form.AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.ModuleId == item.Id).Select(c => new tbl_Form
                     {
                         Id = c.Id,
                         Name = c.Name
@@ -936,7 +936,7 @@ namespace CRMViettour.Utilities
             var model = CacheLayer.Get<List<tbl_Customer>>("companylist");
             if (model == null)
             {
-                model = _db.tbl_Customer.AsEnumerable().Where(c => c.CustomerType == CustomerType.Organization).Select(p => new tbl_Customer
+                model = _db.tbl_Customer.AsEnumerable().Where(p => p.IsDelete == false).Where(c => c.CustomerType == CustomerType.Organization).Select(p => new tbl_Customer
                 {
                     Id = p.Id,
                     FullName = p.FullName

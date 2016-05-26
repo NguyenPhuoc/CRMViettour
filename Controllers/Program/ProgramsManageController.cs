@@ -60,7 +60,7 @@ namespace CRMViettour.Controllers
         #region List
         public ActionResult Index()
         {
-            var model = _programRepository.GetAllAsQueryable().ToList();
+            var model = _programRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).ToList();
             return View(model);
         }
         #endregion
@@ -204,7 +204,7 @@ namespace CRMViettour.Controllers
                     {
                         Session["ProgramFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId.ToString() == id).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId.ToString() == id)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId.ToString() == id).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -290,7 +290,7 @@ namespace CRMViettour.Controllers
                     {
                         Session["ProgramFile"] = null;
                         //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == model.ProgramId).ToList();
-                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == model.ProgramId)
+                        var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == model.ProgramId).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -332,7 +332,7 @@ namespace CRMViettour.Controllers
                 if (await _documentFileRepository.Delete(id, false))
                 {
                     //var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId).ToList();
-                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId)
+                    var list = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == proId).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {
                          Id = p.Id,
@@ -367,7 +367,7 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult ExportFile()
         {
-            var programs = _programRepository.GetAllAsQueryable().ToList();
+            var programs = _programRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).ToList();
 
             try
             {

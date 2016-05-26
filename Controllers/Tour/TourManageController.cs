@@ -412,7 +412,7 @@ namespace CRMViettour.Controllers
         {
             if (id == 9999)
             {
-                var model = _tourRepository.GetAllAsQueryable()
+                var model = _tourRepository.GetAllAsQueryable().Where(p => p.IsDelete == false)
                 .Select(p => new TourListViewModel
                 {
                     Id = p.Id,
@@ -432,7 +432,7 @@ namespace CRMViettour.Controllers
             }
             else
             {
-                var model = _tourRepository.GetAllAsQueryable().Where(p => p.TypeTourId == id)
+                var model = _tourRepository.GetAllAsQueryable().Where(p => p.TypeTourId == id).Where(p => p.IsDelete == false)
                 .Select(p => new TourListViewModel
                 {
                     Id = p.Id,
@@ -499,7 +499,7 @@ namespace CRMViettour.Controllers
             }
             catch { }
 
-            var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId)
+            var list = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == model.TourId).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_Task
                             {
                                 Id = p.Id,
@@ -877,7 +877,7 @@ namespace CRMViettour.Controllers
             {
                 int idtour = Int16.Parse(Session["idTour"].ToString());
                 var ctu = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == idtour && c.CustomerId == id).Single();
-                var history = _db.tbl_UpdateHistory.AsEnumerable().Where(c => c.CustomerId == id).ToList();
+                var history = _db.tbl_UpdateHistory.AsEnumerable().Where(c => c.CustomerId == id).Where(p => p.IsDelete == false).ToList();
                 foreach (var item in history)
                 {
                     await _updateHistoryRepository.Delete(item.Id, false);
@@ -923,7 +923,7 @@ namespace CRMViettour.Controllers
         {
             var model = new CustomerViewModel();
             var customer = _customerRepository.GetAllAsQueryable().FirstOrDefault(p => p.Id == id);
-            var customerVisa = _customerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == id).ToList();
+            var customerVisa = _customerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.CustomerId == id).Where(p => p.IsDelete == false).ToList();
             if (customer.CustomerType == 0) // doanh nghiep
             {
                 model.SingleCompany = customer;
@@ -1000,7 +1000,7 @@ namespace CRMViettour.Controllers
                         UpdateHistory.SaveCustomer(model.SingleCompany.Id, 9, "Cập nhật khách hàng doanh nghiệp, code: " + model.SingleCompany.Code);
 
                         // xóa tất cả visa của customer
-                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == model.SingleCompany.Id).ToList();
+                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == model.SingleCompany.Id).Where(p => p.IsDelete == false).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)
@@ -1077,7 +1077,7 @@ namespace CRMViettour.Controllers
                         UpdateHistory.SaveCustomer(model.SinglePersonal.Id, 9, "Cập nhật khách hàng cá nhân, code: " + model.SinglePersonal.Code);
 
                         // xóa tất cả visa của customer
-                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == model.SinglePersonal.Id).ToList();
+                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.CustomerId == model.SinglePersonal.Id).Where(p => p.IsDelete == false).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)
@@ -1153,7 +1153,7 @@ namespace CRMViettour.Controllers
                     {
                         UpdateHistory.SaveCustomer(model.SingleContact.Id, 9, "Cập nhật người liên hệ, code: " + model.SingleContact.Code);
                         // xóa tất cả visa của customer
-                        var visaList = _customerContactVisaRepository.GetAllAsQueryable().Where(p => p.CustomerContactId == model.SingleContact.Id).ToList();
+                        var visaList = _customerContactVisaRepository.GetAllAsQueryable().Where(p => p.CustomerContactId == model.SingleContact.Id).Where(p => p.IsDelete == false).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)
@@ -1235,7 +1235,7 @@ namespace CRMViettour.Controllers
             try
             {
                 var tour = _tourRepository.FindId(id);
-                var custour = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Select(c => c.tbl_Customer).ToList();
+                var custour = _tourCustomerRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.TourId == id).Where(p => p.IsDelete == false).Select(c => c.tbl_Customer).ToList();
                 foreach (var item in custour)
                 {
                     _db = new DataContext();
@@ -1303,13 +1303,13 @@ namespace CRMViettour.Controllers
                         ctu.CustomerId = cus.Id;
                         await _tourCustomerRepository.Update(ctu);
                         _db.SaveChanges();
-                        var visas = _customerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.CustomerId == item.Id).ToList();
+                        var visas = _customerVisaRepository.GetAllAsQueryable().AsEnumerable().Where(c => c.CustomerId == item.Id).Where(p => p.IsDelete == false).ToList();
                         foreach (var vs in visas)
                         {
                             vs.CustomerId = cus.Id;
                             await _customerVisaRepository.Update(vs);
                         }
-                        var history = _db.tbl_UpdateHistory.AsEnumerable().Where(c => c.CustomerId == item.Id).ToList();
+                        var history = _db.tbl_UpdateHistory.AsEnumerable().Where(c => c.CustomerId == item.Id).Where(p => p.IsDelete == false).ToList();
                         foreach (var it in history)
                         {
                             await _updateHistoryRepository.Delete(it.Id, false);

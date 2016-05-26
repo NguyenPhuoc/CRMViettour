@@ -201,7 +201,7 @@ namespace CRMViettour.Controllers.Tour
             catch
             {
             }
-            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                             .Select(p => new TourServiceViewModel
                             {
                                 Id = p.Id,
@@ -379,7 +379,7 @@ namespace CRMViettour.Controllers.Tour
             {
             }
 
-            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                             .Select(p => new TourServiceViewModel
                             {
                                 Id = p.Id,
@@ -512,7 +512,7 @@ namespace CRMViettour.Controllers.Tour
             }
             catch { }
 
-            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                             .Select(p => new TourServiceViewModel
                             {
                                 Id = p.Id,
@@ -685,7 +685,7 @@ namespace CRMViettour.Controllers.Tour
             {
             }
 
-            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                             .Select(p => new TourServiceViewModel
                             {
                                 Id = p.Id,
@@ -860,7 +860,7 @@ namespace CRMViettour.Controllers.Tour
             {
             }
 
-            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId)
+            var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourId).Where(p => p.IsDelete == false)
                              .Select(p => new TourServiceViewModel
                              {
                                  Id = p.Id,
@@ -890,7 +890,7 @@ namespace CRMViettour.Controllers.Tour
             try
             {
                 await _tourOptionRepository.Delete(optionid, false);
-                var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourid).
+                var list = _tourOptionRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TourId == tourid).Where(p => p.IsDelete == false).
                             Select(p => new TourServiceViewModel
                             {
                                 Id = p.Id,

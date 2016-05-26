@@ -67,7 +67,7 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult ListReviewDetail(int id)
         {
-            var model = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == id).ToList();
+            var model = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == id).Where(p => p.IsDelete == false).ToList();
             return PartialView("_Partial_ListReviewDetail", model);
         }
         #endregion
@@ -124,7 +124,7 @@ namespace CRMViettour.Controllers
         public ActionResult ReviewTourInfomation(int id)
         {
             var model = _reviewTourRepository.GetAllAsQueryable().FirstOrDefault();
-            ViewBag.Detail = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == id).ToList();
+            ViewBag.Detail = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == id).Where(p => p.IsDelete == false).ToList();
             return PartialView("_Partial_EditMark", model);
         }
 

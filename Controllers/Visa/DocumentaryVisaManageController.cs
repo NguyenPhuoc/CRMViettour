@@ -168,7 +168,7 @@ namespace CRMViettour.Controllers.Visa
         [ChildActionOnly]
         public ActionResult _Partial_ListDocument()
         {
-            var model = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.DictionaryId == 27)
+            var model = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.DictionaryId == 27).Where(p => p.IsDelete == false)
                  .Select(p => new DocumentFileViewModel
                  {
                      Id = p.Id,
@@ -188,7 +188,7 @@ namespace CRMViettour.Controllers.Visa
         [HttpPost]
         public ActionResult SearchCountryVisa(string id)
         {
-            var model = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TagsId.Split(',').Contains(id) && p.DictionaryId == 27)
+            var model = _documentFileRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TagsId.Split(',').Contains(id) && p.DictionaryId == 27).Where(p => p.IsDelete == false)
                 .Select(p => new DocumentFileViewModel
                 {
                     Id = p.Id,

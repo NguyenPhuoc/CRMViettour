@@ -46,7 +46,7 @@ namespace CRMViettour.Controllers.Quotation
 
         public ActionResult Index()
         {
-            var model = _quotationRepository.GetAllAsQueryable().ToList();
+            var model = _quotationRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).ToList();
             return View(model);
         }
 

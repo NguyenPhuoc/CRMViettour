@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Program
 {
@@ -69,7 +70,15 @@ namespace CRMViettour.Controllers.Program
             _db = new DataContext();
         }
         #endregion
-
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+        }
         #region ThongTinChiTiet
         [ChildActionOnly]
         public ActionResult _ThongTinChiTiet()
@@ -94,13 +103,16 @@ namespace CRMViettour.Controllers.Program
         [ChildActionOnly]
         public ActionResult _LichHen()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichHen");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichHen(int id)
         {
-            // var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
+            Permission(clsPermission.GetUser().PermissionID, 68);
             var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.ProgramId == id).Where(p => p.IsDelete == false)
                            .Select(p => new tbl_AppointmentHistory
                            {
@@ -120,13 +132,16 @@ namespace CRMViettour.Controllers.Program
         [ChildActionOnly]
         public ActionResult _LichSuLienHe()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichSuLienHe");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
-            //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
+            Permission(clsPermission.GetUser().PermissionID, 67);
             var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.ProgramId == id).Where(p => p.IsDelete == false)
                       .Select(p => new tbl_ContactHistory
                       {
@@ -178,13 +193,16 @@ namespace CRMViettour.Controllers.Program
         [ChildActionOnly]
         public ActionResult _TaiLieuMau()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_TaiLieuMau");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
-            //var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.ProgramId == id).ToListAsync();
+            Permission(clsPermission.GetUser().PermissionID, 66);
             var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.ProgramId == id).Where(p => p.IsDelete == false)
                      .Select(p => new tbl_DocumentFile
                      {

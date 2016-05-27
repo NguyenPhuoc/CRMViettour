@@ -52,15 +52,51 @@ namespace CRMViettour.Controllers.Appointment
         #endregion
 
         #region Index
+        int SDBID = 6;
+        int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+            ViewBag.IsLock = list.Contains(6);
+            ViewBag.IsUnLock = list.Contains(7);
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+
+            switch (SDBID)
+            {
+                case 2: maPB = clsPermission.GetUser().DepartmentID;
+                    maCN = clsPermission.GetUser().BranchID;
+                    break;
+                case 3: maNKD = clsPermission.GetUser().GroupID;
+                    maCN = clsPermission.GetUser().BranchID; break;
+                case 4: maNV = clsPermission.GetUser().StaffID; break;
+                case 5: maCN = clsPermission.GetUser().BranchID; break;
+            }
+        }
         public ActionResult Index()
         {
+            Permission(clsPermission.GetUser().PermissionID, 26);
             return View();
         }
 
         [ChildActionOnly]
         public ActionResult _Partial_AppointmentList()
         {
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p=>p.IsDelete==false)
+            Permission(clsPermission.GetUser().PermissionID, 26);
+
+            if (SDBID == 6)
+                return PartialView("_Partial_AppointmentList", new List<tbl_AppointmentHistory>());
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (_staffRepository.FindId(p.StaffId).DepartmentId == maPB | maPB == 0)
+                    & (_staffRepository.FindId(p.StaffId).StaffGroupId == maNKD | maNKD == 0)
+                    & (_staffRepository.FindId(p.StaffId).HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false))
                 .Select(p => new tbl_AppointmentHistory
                 {
                     Id = p.Id,
@@ -130,8 +166,13 @@ namespace CRMViettour.Controllers.Appointment
         [ValidateInput(false)]
         public async Task<ActionResult> EditAppointment(int id)
         {
-            var model = await _appointmentHistoryRepository.GetById(id);
-            return PartialView("_Partial_EditAppointmentHistory", model);
+            Permission(clsPermission.GetUser().PermissionID, 26);
+            if (ViewBag.IsEdit)
+            {
+                var model = await _appointmentHistoryRepository.GetById(id);
+                return PartialView("_Partial_EditAppointmentHistory", model);
+            }
+            return null;
         }
 
         [HttpPost]
@@ -213,7 +254,16 @@ namespace CRMViettour.Controllers.Appointment
         {
             try
             {
-                var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(p => (start != null ? p.Time >= start : p.Id != 0) && (end != null ? p.Time <= end : p.Id != 0) && (statusId != -1 ? p.StatusId == statusId : p.Id != 0) && (typeId != -1 ? p.DictionaryId == typeId : p.Id != 0))
+                Permission(clsPermission.GetUser().PermissionID, 26);
+
+                if (SDBID == 6)
+                    return PartialView("_Partial_AppointmentList", new List<tbl_AppointmentHistory>());
+                var list = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => (start != null ? p.Time >= start : p.Id != 0) && (end != null ? p.Time <= end : p.Id != 0) && (statusId != -1 ? p.StatusId == statusId : p.Id != 0) && (typeId != -1 ? p.DictionaryId == typeId : p.Id != 0))
+                    .Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (_staffRepository.FindId(p.StaffId).DepartmentId == maPB | maPB == 0)
+                    & (_staffRepository.FindId(p.StaffId).StaffGroupId == maNKD | maNKD == 0)
+                    & (_staffRepository.FindId(p.StaffId).HeadquarterId == maCN | maCN == 0)
+                    & (p.IsDelete == false))
                                .Select(p => new tbl_AppointmentHistory
                                {
                                    Id = p.Id,
@@ -242,7 +292,14 @@ namespace CRMViettour.Controllers.Appointment
         #region JsonCalendar
         public JsonResult JsonCalendar()
         {
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false)
+            Permission(clsPermission.GetUser().PermissionID, 26);
+
+            if (SDBID == 6)
+                return Json(JsonRequestBehavior.AllowGet);
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (_staffRepository.FindId(p.StaffId).DepartmentId == maPB | maPB == 0)
+                    & (_staffRepository.FindId(p.StaffId).StaffGroupId == maNKD | maNKD == 0)
+                    & (_staffRepository.FindId(p.StaffId).HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false))
                .Select(p => new tbl_AppointmentHistory
                {
                    Id = p.Id,

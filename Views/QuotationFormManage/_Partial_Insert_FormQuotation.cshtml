@@ -35,7 +35,7 @@
                                         <select id="insert-company" class="form-control" name="CompanyId" style="width: 100%">
                                             @foreach (var item in LoadData.CompanyList())
                                         {
-                                        <option value="@item.Id">@item.Name</option>
+                                        <option value="@item.Id">@item.FullName</option>
                                         }
                                         </select>
                                     </div>

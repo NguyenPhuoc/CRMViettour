@@ -33,7 +33,7 @@
                         <td>@string.Format("{0:dd-MM-yyyy}", item.Date)</td>
                         <td>@item.Name</td>
                         <td>@item.Status</td>
-                        <td>@item.Note</td>
+                        <td>@Html.Raw(item.Note)</td>
                         <td>@item.CodeTour</td>
                         <td>@item.NameTour</td>
                         <td>@item.NameStaff</td>

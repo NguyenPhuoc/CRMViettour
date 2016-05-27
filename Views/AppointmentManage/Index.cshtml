@@ -63,13 +63,16 @@
             </div>
             <div class="col-md-12 margintop10">
                 <a class="btn btn-default" href="@Url.Action("Index", "AppointmentManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                <button class="btn btn-primary" id="btnAdd" @*onclick="btnCreateLichHen()"*@ href="#modal-insert-appointment" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                <button class="btn btn-warning" id="btnEdit" href="#modal-edit-appointment" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                <form action="@Url.Action("Delete", "AppointmentManage")" method="post" style="position:absolute">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="listItemId" name="listItemId" />
-                </form>
+                @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                {<button class="btn btn-primary" id="btnAdd" @*onclick="btnCreateLichHen()"*@ href="#modal-insert-appointment" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                {<button class="btn btn-warning" id="btnEdit" href="#modal-edit-appointment" data-toggle="modal"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                {<button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                    <form action="@Url.Action("Delete", "AppointmentManage")" method="post" style="position:absolute">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="listItemId" name="listItemId" />
+                    </form>}
             </div>
         </div>
     </div>
@@ -135,7 +138,14 @@
     <!-- END PAGE BASE CONTENT -->
 </div>
 <!----- lịch hẹn ----->
-@Html.Partial("_Partial_InsertAppointmentHistory", new CRM.Core.tbl_AppointmentHistory())
+@if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+{
+    @Html.Partial("_Partial_InsertAppointmentHistory", new CRM.Core.tbl_AppointmentHistory())
+}
+else
+{
+        <textarea id="insert-note-lichhen" style="display:none"></textarea>
+}
 <div id="info-data-appoinment">
 </div>
 
@@ -145,6 +155,6 @@
     <script src="~/Scripts/controller/appointmentlist.js"></script>
     <script src="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
     <script src="~/Content/assets/global/plugins/fullcalendar/lang-all.js"></script>
-    
+
 
 }

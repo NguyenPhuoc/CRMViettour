@@ -150,8 +150,6 @@ namespace CRMViettour.Controllers
         public ActionResult _Partial_ListTours()
         {
             Permission(clsPermission.GetUser().PermissionID, 24);
-            //Luu khi dang nhap
-
             if (SDBID == 6)
                 return PartialView("_Partial_ListTours", new List<TourListViewModel>());
 
@@ -432,7 +430,26 @@ namespace CRMViettour.Controllers
             }
             else
             {
-                var model = _tourRepository.GetAllAsQueryable().Where(p => p.TypeTourId == id).Where(p => p.IsDelete == false)
+                Permission(clsPermission.GetUser().PermissionID, 24);
+                if (SDBID == 6)
+                    return PartialView("_Partial_ListTours", new List<TourListViewModel>());
+
+
+                int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+                switch (SDBID)
+                {
+                    case 2: maPB = clsPermission.GetUser().DepartmentID;
+                        maCN = clsPermission.GetUser().BranchID;
+                        break;
+                    case 3: maNKD = clsPermission.GetUser().GroupID;
+                        maCN = clsPermission.GetUser().BranchID; break;
+                    case 4: maNV = clsPermission.GetUser().StaffID; break;
+                    case 5: maCN = clsPermission.GetUser().BranchID; break;
+                }
+                var model = _tourRepository.GetAllAsQueryable().Where(p => p.TypeTourId == id).Where(p => (p.CreateStaffId == maNV | maNV == 0)
+                    & (p.tbl_StaffCreate.DepartmentId == maPB | maPB == 0)
+                    & (p.tbl_StaffCreate.StaffGroupId == maNKD | maNKD == 0)
+                    & (p.tbl_StaffCreate.HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false))
                 .Select(p => new TourListViewModel
                 {
                     Id = p.Id,
@@ -449,6 +466,7 @@ namespace CRMViettour.Controllers
                 }).ToList();
 
                 return PartialView("_Partial_ListTours", model);
+
             }
         }
         #endregion

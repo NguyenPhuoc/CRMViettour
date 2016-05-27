@@ -32,9 +32,17 @@ namespace CRMViettour.Controllers.Visa
         }
 
         #endregion
-
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId & p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsImport = list.Contains(4);
+        }
         public ActionResult Index()
         {
+            Permission(clsPermission.GetUser().PermissionID, 14);
             return View();
         }
 

@@ -34,16 +34,21 @@
                 <div class="col-md-8">
                     <div class="pull-left">
                         <a class="btn btn-default" href="@Url.Action("Index", "TaskManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                        <button class="btn btn-primary" href="#modal-insert-task" data-toggle="modal" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                        <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                        <button class="btn btn-danger" id="btnRemove" onclick="confirm('Bạn có chắc chắn muốn xóa?');"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                        <form action="@Url.Action("Delete", "TaskManage")" method="post" style="position:absolute">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" id="listItemId" name="listItemId" />
-                        </form>
-                        <button class="btn green" href="#modal-assign-task" data-toggle="modal" id="btnAssign"><i class="fa fa-retweet"></i>&nbsp;Giao việc</button>
-                        <button class="btn red" href="#modal-work-task" data-toggle="modal" id="btnWork"><i class="fa fa-cogs"></i>&nbsp;Xử lý</button>
-                        <button class="btn btn-info" id="btnFinish" onclick="confirm('Bạn có chắc chắn xác nhận hoàn thành nhiệm vụ này không?');"><i class="fa fa-check-square-o"></i>&nbsp;Hoàn thành</button>
+                        @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                        {<button class="btn btn-primary" href="#modal-insert-task" data-toggle="modal" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                        @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                        { <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                        @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                        {<button class="btn btn-danger" id="btnRemove" onclick="confirm('Bạn có chắc chắn muốn xóa?');"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                            <form action="@Url.Action("Delete", "TaskManage")" method="post" style="position:absolute">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" id="listItemId" name="listItemId" />
+                            </form>}
+                        @if (ViewBag.IsAddGV != null && ViewBag.IsAddGV)
+                        {<button class="btn green" href="#modal-assign-task" data-toggle="modal" id="btnAssign"><i class="fa fa-retweet"></i>&nbsp;Giao việc</button>}
+                        @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                        {<button class="btn red" href="#modal-work-task" data-toggle="modal" id="btnWork"><i class="fa fa-cogs"></i>&nbsp;Xử lý</button>
+                            <button class="btn btn-info" id="btnFinish" onclick="confirm('Bạn có chắc chắn xác nhận hoàn thành nhiệm vụ này không?');"><i class="fa fa-check-square-o"></i>&nbsp;Hoàn thành</button>}
                     </div>
                 </div>
             </div>
@@ -94,9 +99,9 @@
                 <div class="portlet light bordered">
                     <div class="portlet-body">
                         <div class="table-scrollable table-custom-format" id="list-Task">
-                            
-                                @Html.Action("_Partial_TaskList", "TaskManage")
-                            
+
+                            @Html.Action("_Partial_TaskList", "TaskManage")
+
                         </div>
                     </div>
                 </div>

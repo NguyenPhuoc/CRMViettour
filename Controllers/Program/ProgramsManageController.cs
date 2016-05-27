@@ -16,6 +16,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers
 {
+    [Authorize]
     public class ProgramsManageController : BaseController
     {
         //
@@ -47,7 +48,34 @@ namespace CRMViettour.Controllers
         }
 
         #endregion
+        int SDBID = 6;
+        int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+            ViewBag.IsLock = list.Contains(6);
+            ViewBag.IsUnLock = list.Contains(7);
 
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+
+            switch (SDBID)
+            {
+                case 2: maPB = clsPermission.GetUser().DepartmentID;
+                    maCN = clsPermission.GetUser().BranchID;
+                    break;
+                case 3: maNKD = clsPermission.GetUser().GroupID;
+                    maCN = clsPermission.GetUser().BranchID; break;
+                case 4: maNV = clsPermission.GetUser().StaffID; break;
+                case 5: maCN = clsPermission.GetUser().BranchID; break;
+            }
+        }
         #region GetIdProgram
         [HttpPost]
         public ActionResult GetIdProgram(int id)
@@ -60,7 +88,16 @@ namespace CRMViettour.Controllers
         #region List
         public ActionResult Index()
         {
-            var model = _programRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).ToList();
+            Permission(clsPermission.GetUser().PermissionID, 18);
+
+            if (SDBID == 6)
+                return View(new List<tbl_Program>());
+
+            var model = _programRepository.GetAllAsQueryable().Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (p.tbl_Staff.DepartmentId == maPB | maPB == 0)
+                    & (p.tbl_Staff.StaffGroupId == maNKD | maNKD == 0)
+                    & (p.tbl_Staff.HeadquarterId == maCN | maCN == 0)
+                    & (p.IsDelete == false)).ToList();
             return View(model);
         }
         #endregion
@@ -491,7 +528,7 @@ namespace CRMViettour.Controllers
                 worksheet.Column(8).Width = 15;
                 worksheet.Column(9).Width = 25;
                 worksheet.Column(10).Width = 30;
-               
+
 
                 xlPackage.Save();
             }

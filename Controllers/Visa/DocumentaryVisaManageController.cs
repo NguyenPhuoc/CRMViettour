@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Visa
 {
+    [Authorize]
     public class DocumentaryVisaManageController : BaseController
     {
         // GET: DocumentaryVisa

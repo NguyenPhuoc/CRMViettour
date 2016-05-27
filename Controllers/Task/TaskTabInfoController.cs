@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Task
 {
@@ -23,7 +24,7 @@ namespace CRMViettour.Controllers.Task
         private IGenericRepository<tbl_CustomerContact> _customerContactRepository;
         private IGenericRepository<tbl_StaffVisa> _staffVisaRepository;
         private IGenericRepository<tbl_Task> _taskRepository;
-        
+
         private IGenericRepository<tbl_Dictionary> _dictionaryRepository;
         private IGenericRepository<tbl_DocumentFile> _documentFileRepository;
         private IGenericRepository<tbl_UpdateHistory> _updateHistoryRepository;
@@ -41,7 +42,7 @@ namespace CRMViettour.Controllers.Task
             IGenericRepository<tbl_Tags> tagsRepository,
             IGenericRepository<tbl_CustomerContact> customerContactRepository,
             IGenericRepository<tbl_StaffVisa> customerVisaRepository,
-            
+
             IGenericRepository<tbl_Dictionary> dictionaryRepository,
             IGenericRepository<tbl_Task> taskRepository,
             IGenericRepository<tbl_DocumentFile> documentFileRepository,
@@ -61,7 +62,7 @@ namespace CRMViettour.Controllers.Task
             this._tagsRepository = tagsRepository;
             this._staffVisaRepository = customerVisaRepository;
             this._taskRepository = taskRepository;
-            
+
             this._dictionaryRepository = dictionaryRepository;
             this._documentFileRepository = documentFileRepository;
             this._contactHistoryRepository = contactHistoryRepository;
@@ -73,7 +74,15 @@ namespace CRMViettour.Controllers.Task
             _db = new DataContext();
         }
         #endregion
-
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+        }
         #region ThongTinChiTiet
         [ChildActionOnly]
         public ActionResult _ThongTinChiTiet()
@@ -133,11 +142,15 @@ namespace CRMViettour.Controllers.Task
         [ChildActionOnly]
         public ActionResult _LichHen()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichHen");
         }
         [HttpPost]
         public async Task<ActionResult> InfoLichHen(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 73);
             var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Where(p => p.TaskId == id)
                 .Select(p => new tbl_AppointmentHistory
                 {
@@ -171,11 +184,15 @@ namespace CRMViettour.Controllers.Task
         [ChildActionOnly]
         public ActionResult _TaiLieuMau()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_TaiLieuMau");
         }
         [HttpPost]
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 74);
             var model = _documentFileRepository.GetAllAsQueryable().Where(p => p.TaskId == id).Where(p => p.IsDelete == false).ToList();
             return PartialView("_TaiLieuMau", model);
         }
@@ -185,11 +202,15 @@ namespace CRMViettour.Controllers.Task
         [ChildActionOnly]
         public ActionResult _GhiChu()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_GhiChu");
         }
         [HttpPost]
         public async Task<ActionResult> InfoGhiChu(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 75);
             var model = _taskNoteRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TaskId == id).Where(p => p.IsDelete == false).Select(p => new tbl_TaskNote
             {
                 Id = p.Id,

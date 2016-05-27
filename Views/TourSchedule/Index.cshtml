@@ -78,7 +78,14 @@
 </div>
 
 <!----- lịch đi tour ----->
-@Html.Partial("_Partial_InsertScheduleTour")
+@if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+{
+    @Html.Partial("_Partial_InsertScheduleTour")
+}
+else
+{
+    <textarea id="insert-schedule-tour" style="display:none"></textarea>
+}
 <div id="info-data-tourschedule"></div>
 
 @Styles.Render("~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.css")
@@ -87,5 +94,5 @@
     <script src="~/Scripts/controller/tourschedule.js"></script>
     <script src="~/Content/assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
     <script src="~/Content/assets/global/plugins/fullcalendar/lang-all.js"></script>
-    
+
 }

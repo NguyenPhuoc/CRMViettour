@@ -300,7 +300,7 @@ $(".dataFunc").click(function () {
     //css .selectForm bên _Partial_SetupRole
     $('.dataFunc').not(this).removeClass('selectForm');
     $t.toggleClass('selectForm');
-
+    $('#funcData').html('');
     $.getJSON('/PermissionManage/JsonFunction/' + $t.data('id'), function (data) {
         var items = '';
         var lstId = '';

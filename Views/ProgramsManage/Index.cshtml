@@ -33,20 +33,28 @@
             <div class="row">
                 <div class="col-md-12">
                     <a class="btn btn-default" href="@Url.Action("Index", "ProgramsManage")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                    <button class="btn btn-primary" id="btnAdd" href="#modal-insert-program" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                    <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                    <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
-                    <form action="@Url.Action("Delete", "ProgramsManage")" method="post" style="position:absolute">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" id="listItemId" name="listItemId" />
-                    </form>
-                    <button class="btn red" id="btnWork" href="#modal-work-program" data-toggle="modal"><i class="fa fa-cogs"></i>&nbsp;Xử lý</button>
-                    <button class="btn green" id="btnUserSupport" href="#modal-support-program" data-toggle="modal"><i class="fa fa-user-plus"></i>&nbsp;Nhân viên hỗ trợ</button>
-                    <label class="btn btn-info fileContainer">
+                    @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                    {<button class="btn btn-primary" id="btnAdd" href="#modal-insert-program" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                    @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                    {<button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                    @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                    {<button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                        <form action="@Url.Action("Delete", "ProgramsManage")" method="post" style="position:absolute">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="listItemId" name="listItemId" />
+                        </form>
+                    }
+                    @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                    {<button class="btn red" id="btnWork" href="#modal-work-program" data-toggle="modal"><i class="fa fa-cogs"></i>&nbsp;Xử lý</button>
+                        <button class="btn green" id="btnUserSupport" href="#modal-support-program" data-toggle="modal"><i class="fa fa-user-plus"></i>&nbsp;Nhân viên hỗ trợ</button>
+                    }
+                    @if (ViewBag.IsExport != null && ViewBag.IsExport)
+                    {<label class="btn btn-info fileContainer">
                         <a><i class="icon-action-undo"></i>&nbsp;<input type="file" name="Export" id="btnExport" class="form-control" />&nbsp;Export</a>
                     </label>
-                    @using (Html.BeginForm("ExportFile", "ProgramsManage", FormMethod.Post, new { enctype = "multipart/form-data", id = "exportForm" })) 
-                    { }
+                        using (Html.BeginForm("ExportFile", "ProgramsManage", FormMethod.Post, new { enctype = "multipart/form-data", id = "exportForm" }))
+                        { }
+                    }
                 </div>
             </div>
         </div>

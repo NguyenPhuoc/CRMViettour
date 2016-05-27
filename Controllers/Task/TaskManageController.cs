@@ -65,14 +65,56 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region List
+        int SDBID = 6;
+        int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+            ViewBag.IsLock = list.Contains(6);
+            ViewBag.IsUnLock = list.Contains(7);
+
+            var listGV = _db.tbl_ActionData.Where(p => p.FormId == 93 && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAddGV = listGV.Contains(1);
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+
+            switch (SDBID)
+            {
+                case 2: maPB = clsPermission.GetUser().DepartmentID;
+                    maCN = clsPermission.GetUser().BranchID;
+                    break;
+                case 3: maNKD = clsPermission.GetUser().GroupID;
+                    maCN = clsPermission.GetUser().BranchID; break;
+                case 4: maNV = clsPermission.GetUser().StaffID; break;
+                case 5: maCN = clsPermission.GetUser().BranchID; break;
+            }
+        }
         public ActionResult Index()
         {
+            Permission(clsPermission.GetUser().PermissionID, 28);
+
             return View();
         }
         [ChildActionOnly]
         public ActionResult _Partial_TaskList()
         {
-            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.IsDelete == false).Select(p => new tbl_Task
+            Permission(clsPermission.GetUser().PermissionID, 28);
+
+            if (SDBID == 6)
+                return PartialView("_Partial_TaskList", new List<tbl_Task>());
+
+            var model = _taskRepository.GetAllAsQueryable().AsEnumerable().Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (_staffRepository.FindId(p.StaffId).DepartmentId == maPB | maPB == 0)
+                    & (_staffRepository.FindId(p.StaffId).StaffGroupId == maNKD | maNKD == 0)
+                    & (_staffRepository.FindId(p.StaffId).HeadquarterId == maCN | maCN == 0)
+                    & (p.IsDelete == false)).Select(p => new tbl_Task
             {
                 Id = p.Id,
                 CodeTour = p.CodeTour != null ? p.CodeTour : "",
@@ -295,12 +337,21 @@ namespace CRMViettour.Controllers
         {
             try
             {
+                Permission(clsPermission.GetUser().PermissionID, 28);
+
+                if (SDBID == 6)
+                    return PartialView("_Partial_TaskList", new List<tbl_Task>());
                 var list = _taskRepository.GetAllAsQueryable().AsEnumerable()
                     .Where(p => (start != null ? p.CreatedDate >= start : p.Id != 0)
                         && (end != null ? p.CreatedDate <= end : p.Id != 0)
                         && (statusId != 0 ? p.TaskStatusId == statusId : p.Id != 0)
                         && (typeId != 0 ? p.TaskTypeId == typeId : p.Id != 0)
-                        && (priorId != 0 ? p.TaskPriorityId == priorId : p.Id != 0)).Where(p => p.IsDelete == false)
+                        && (priorId != 0 ? p.TaskPriorityId == priorId : p.Id != 0))
+                    .Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (_staffRepository.FindId(p.StaffId).DepartmentId == maPB | maPB == 0)
+                    & (_staffRepository.FindId(p.StaffId).StaffGroupId == maNKD | maNKD == 0)
+                    & (_staffRepository.FindId(p.StaffId).HeadquarterId == maCN | maCN == 0)
+                    & (p.IsDelete == false))
                     .Select(p => new tbl_Task
                 {
                     Id = p.Id,

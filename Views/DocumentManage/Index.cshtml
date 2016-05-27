@@ -32,15 +32,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <a href="@Url.Action("Index", "DocumentManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                    <button class="btn btn-primary" id="btnAdd" href="#modal-insert-document" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                    <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                    <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                    @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                {<button class="btn btn-primary" id="btnAdd" href="#modal-insert-document" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                   @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                { <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                  @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                {   <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
                     <form action="@Url.Action("Delete", "DocumentManage")" method="post" style="position:absolute">
                         @Html.AntiForgeryToken()
                         <input type="hidden" id="listItemId" name="listItemId" />
-                    </form>
-                    <button class="btn green" href="#modal-addstaff-document" data-toggle="modal" id="btnAddCustomer"><i class="fa fa-user-plus"></i>&nbsp;Nhân viên</button>
-                    <button class="btn yellow" id="btnSendDocument"><i class="fa fa-envelope"></i>&nbsp;Gửi tài liệu</button>
+                    </form>}
+                      @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                {  <button class="btn green" href="#modal-addstaff-document" data-toggle="modal" id="btnAddCustomer"><i class="fa fa-user-plus"></i>&nbsp;Nhân viên</button>
+                    <button class="btn yellow" id="btnSendDocument"><i class="fa fa-envelope"></i>&nbsp;Gửi tài liệu</button>}
                 </div>
             </div>
         </div>

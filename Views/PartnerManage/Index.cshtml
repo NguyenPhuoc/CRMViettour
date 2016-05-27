@@ -18,7 +18,7 @@
     <!-- BEGIN PAGE BREADCRUMB -->
     <ul class="page-breadcrumb breadcrumb">
         <li>
-            <a href="index.html">Home</a>
+            <a href="/">Trang chủ</a>
             <i class="fa fa-circle"></i>
         </li>
         <li>
@@ -37,7 +37,7 @@
                     }
                 </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="input-group">
                     <select class="form-control" multiple id="partner-tags">
                         @foreach (var item in LoadData.DropdownlistLocation())
@@ -50,7 +50,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="pull-right">
                     <a href="@Url.Action("Partners", "PartnerManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
                     <button class="btn btn-primary" href="#modal-insert-partner" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
@@ -60,6 +60,7 @@
                         @Html.AntiForgeryToken()
                         <input type="hidden" id="listItemId" name="listItemId" />
                     </form>
+                    <a class="btn green" id="btnCreateMap" ><i class="fa fa-map-marker"></i>&nbsp;Tạo địa điểm</a>
                 </div>
             </div>
         </div>
@@ -152,37 +153,36 @@
 </div>
 
 @Html.Partial("_Partial_InsertPartner")
-<div id="edit-partner">
-</div>
+<div id="edit-partner"></div>
 
 <!----- tab document ----->
 @Html.Partial("_Partial_InsertDocument", new CRM.Core.tbl_DocumentFile())
-<div id="info-data-doc">
-</div>
+<div id="info-data-doc"></div>
 
 <!----- tab note ----->
 @Html.Partial("_Partial_InsertNote", new CRM.Core.tbl_PartnerNote())
-<div id="info-data-note">
-</div>
+<div id="info-data-note"></div>
 
 <!----- view file ----->
 <div id="viewfile"></div>
 
 <!----- lịch sử liên hệ ----->
 @Html.Partial("~/Views/PartnerOtherTab/_Partial_InsertContactHistory.cshtml", new CRM.Core.tbl_ContactHistory())
-<div id="info-data-contacthistory">
-</div>
+<div id="info-data-contacthistory"></div>
 
 <!----- lịch hẹn ----->
 @Html.Partial("~/Views/PartnerOtherTab/_Partial_InsertAppointmentHistory.cshtml", new CRM.Core.tbl_AppointmentHistory())
-<div id="info-data-appoinment">
-</div>
+<div id="info-data-appoinment"></div>
 
-
+<!----- create map ----->
+<div id="data-map"></div>
 
 @Html.Partial("_Partial_InsertNote")
 @Html.Partial("_Partial_EditSchedule")
 @Html.Partial("_Partial_InsertSchedule")
+
+
+
 @section scripts{
     <script src="~/Scripts/controller/partner.js"></script>
     <script>
@@ -429,4 +429,7 @@
             }
         }
     </script>
+
+    <script src="~/Scripts/load_marker.js"></script>
+
 }

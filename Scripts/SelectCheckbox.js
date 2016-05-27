@@ -14,6 +14,7 @@ function SelectAllCb() {
         $("input:checkbox[name='cb']").prop("checked", true);
 
         $("#btnEdit").removeAttr("disabled", "disabled");
+        $("#btnCreateMap").removeAttr("disabled", "disabled");
         $("#btnAddUser").removeAttr("disabled", "disabled");
         $("#btnSetupRole").removeAttr("disabled", "disabled");
         $("#btnForm").removeAttr("disabled", "disabled");
@@ -35,6 +36,7 @@ function SelectAllCb() {
         $("input:checkbox[name='cb']").prop("checked", false);
 
         $("#btnEdit").removeAttr("disabled", "disabled");
+        $("#btnCreateMap").removeAttr("disabled", "disabled");
         $("#btnAddUser").removeAttr("disabled", "disabled");
         $("#btnSetupRole").removeAttr("disabled", "disabled");
         $("#btnForm").removeAttr("disabled", "disabled");
@@ -62,6 +64,7 @@ function CheckSelect() {
     });
     if (cb == 0) {
         $("#btnEdit").attr("disabled", "disabled");
+        $("#btnCreateMap").attr("disabled", "disabled");
         $("#btnAdd").removeAttr("disabled", "disabled");
         $("#btnAddUser").attr("disabled", "disabled");
         $("#btnSetupRole").attr("disabled", "disabled");
@@ -84,6 +87,7 @@ function CheckSelect() {
     } else if (cb == 1) {
         $("#btnAdd").attr("disabled", "disabled");
         $("#btnEdit").removeAttr("disabled", "disabled");
+        $("#btnCreateMap").removeAttr("disabled", "disabled");
         $("#btnAddUser").removeAttr("disabled", "disabled");
         $("#btnSetupRole").removeAttr("disabled", "disabled");
         $("#btnRemove").removeAttr("disabled", "disabled");
@@ -106,6 +110,7 @@ function CheckSelect() {
     }
     else {
         $("#btnEdit").attr("disabled", "disabled");
+        $("#btnCreateMap").attr("disabled", "disabled");
         $("#btnAddUser").attr("disabled", "disabled");
         $("#btnSetupRole").attr("disabled", "disabled");
         $("#btnForm").attr("disabled", "disabled");

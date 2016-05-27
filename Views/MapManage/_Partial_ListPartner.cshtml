@@ -1,0 +1,15 @@
+﻿@using CRMViettour.Models;
+@using CRMViettour.Utilities;
+@model IEnumerable<PartnerViewModel>
+
+<div style="cursor: pointer; display: block; border: 1px solid #ccc; padding: 5px; background-color: #eee; border-bottom: none">
+    <b><i class="fa fa-map-marker"></i>&nbsp;Có @Model.Count() đối tác</b>
+</div>
+@foreach (var item in Model)
+{
+    <a style="cursor: pointer; display: block; border: 1px solid #ccc; padding: 5px; background-color: #eee; border-bottom: none" id="button-@item.Id" onclick="animateMarker(@item.Id)">
+        @item.Name
+    </a>
+
+}
+

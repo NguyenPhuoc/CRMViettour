@@ -540,5 +540,26 @@ namespace CRMViettour.Controllers
             return PartialView("~/Views/PartnerTabInfo/_GhiChu.cshtml");
         }
         #endregion
+
+        #region Create Map
+
+        [HttpPost]
+        public ActionResult EditLocation(int id)
+        {
+            var model =_partnerRepository.FindId(id);
+            return PartialView("_Partial_CreateMap", model);
+        }
+
+        public ActionResult CreateMap(tbl_Partner model)
+        {
+            var item = _db.tbl_Partner.Find(model.Id);
+            item.xMap = model.xMap;
+            item.yMap = model.yMap;
+            item.AddressMap = model.AddressMap;
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        #endregion
     }
 }

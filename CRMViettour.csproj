@@ -2106,6 +2106,7 @@
     <Content Include="Scripts\fullcalendar.js" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\gmap3.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
@@ -2118,6 +2119,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\load_marker.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\numeral.min.js" />
@@ -2588,6 +2590,8 @@
     <Content Include="Views\TourService\_ChiTietTour.cshtml" />
     <Content Include="Views\TourSchedule\_Partial_TourScheduleList.cshtml" />
     <Content Include="Views\TourManage\_Partial_EditCustomerNote.cshtml" />
+    <Content Include="Views\PartnerManage\_Partial_CreateMap.cshtml" />
+    <Content Include="Views\MapManage\_Partial_ListPartner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

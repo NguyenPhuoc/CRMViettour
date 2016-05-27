@@ -111,9 +111,7 @@ $(function () {
 
 ///****** Sửa thông tin ******/
 $("#btnEdit").click(function () {
-
     $('#btnAddE').attr('disabled', false);
-
     var dataPost = {
         id: $("input[type='checkbox']:checked").val()
     };
@@ -979,3 +977,43 @@ function updateNote(id) {
         }
     });
 }
+
+///****** Sửa thông tin ******/
+$("#btnCreateMap").click(function () {
+    var dataPost = {
+        id: $("input[type='checkbox']:checked").val()
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '/PartnerManage/EditLocation',
+        data: JSON.stringify(dataPost),
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function (data) {
+            $("#data-map").html(data);
+
+            $('#modal-insert-map').on('show.bs.modal', function () {
+                //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
+                resizeMap();
+            })
+
+            function resizeMap() {
+                if (typeof map == "undefined") return;
+                setTimeout(function () { resizingMap(); }, 400);
+            }
+
+            function resizingMap() {
+                if (typeof map == "undefined") return;
+                var center = map.getCenter();
+                google.maps.event.trigger(map, "resize");
+                map.setCenter(center);
+            }
+
+            initialize();
+
+            $("#modal-insert-map").modal("show");
+                        
+        }
+    })
+});

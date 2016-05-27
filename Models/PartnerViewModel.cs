@@ -17,6 +17,9 @@ namespace CRMViettour.Models
         public string Tags { get; set; }
         public string Email { get; set; }
         public string Note { get; set; }
+        public string xMap { get; set; }
+        public string yMap { get; set; }
+        public string AddressMap { get; set; }
     }
 
     public class PartnerListViewModel

@@ -1,5 +1,146 @@
-﻿@{
+﻿@using CRMViettour.Utilities
+
+@{
     ViewBag.Title = "Bản đồ";
 }
 
-<h2>BẢN ĐỒ</h2>
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>QUẢN LÝ BẢN ĐỒ</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="/">Trang chủ</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Bản đồ</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-3">
+                <select class="form-control" id="partner-services" onchange="clickChangeService()">
+                    @foreach (var item in LoadData.ServiceList())
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div id="data-partner">
+                                @Html.Action("_Partial_ListPartner", "MapManage")
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div id="panTo"></div>
+                            <div id="map">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE BASE CONTENT -->
+</div>
+
+@section scripts{
+    <script>
+        $("#partner-services").select2();
+        function clickChangeService() {
+            var dataPost = { id: $("#partner-services").val() }
+            $.ajax({
+                type: "POST",
+                url: '/MapManage/ListPartner',
+                data: JSON.stringify(dataPost),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#data-partner").html(data);
+                }
+            })
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#map').gmap3({
+                map: {
+                    options: {
+                        center: [46.578498, 2.457275],
+                        zoom: 5
+                    }
+                },
+                marker: {
+                    values: [
+                      { latLng: [48.8620722, 2.352047], data: "Paris !" },
+                      { address: "86000 Poitiers, France", data: "Poitiers : great city !" },
+                      { address: "66000 Perpignan, France", data: "Perpignan ! <br> GO USAP !", options: { icon: "http://maps.google.com/mapfiles/marker_green.png" } }
+                    ],
+                    options: {
+                        draggable: false
+                    },
+                    tag:[],
+                    events: {
+                        mouseover: function (marker, event, context) {
+                            var map = $(this).gmap3("get"),
+                              infowindow = $(this).gmap3({ get: { name: "infowindow" } });
+                            if (infowindow) {
+                                infowindow.open(map, marker);
+                                infowindow.setContent(context.data);
+                            } else {
+                                $(this).gmap3({
+                                    infowindow: {
+                                        anchor: marker,
+                                        options: { content: context.data }
+                                    }
+                                });
+                            }
+                        },
+                        mouseout: function () {
+                            var infowindow = $(this).gmap3({ get: { name: "infowindow" } });
+                            if (infowindow) {
+                                infowindow.close();
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        function animateMarker(xMap, yMap) {
+            var x = xMap,
+             y = yMap,
+             markers = $("#map").gmap3({
+                 get: {
+                     name: "marker",
+                     all: true
+                 }
+             });
+            stop();
+            $.each(markers, function (i, marker) {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+            });
+        }
+    </script>
+}

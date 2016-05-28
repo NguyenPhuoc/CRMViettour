@@ -116,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <div class="portlet light bordered">
+            <div class="portlet light bordered" id="tabThongTinChiTiet">
                 <div class="portlet-body">
                     <div class="tabbable-custom ">
                         <ul class="nav nav-tabs ">
@@ -143,8 +143,9 @@
     @Html.Partial("_Partial_InsertAppointmentHistory", new CRM.Core.tbl_AppointmentHistory())
 }
 else
-{
+{<div class="modal fade  bs-modal-lg" id="modal-insert-appointment123" role="document" aria-hidden="true">
         <textarea id="insert-note-lichhen" style="display:none"></textarea>
+    </div>
 }
 <div id="info-data-appoinment">
 </div>

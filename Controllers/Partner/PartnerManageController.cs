@@ -50,15 +50,52 @@ namespace CRMViettour.Controllers
         #endregion
 
         #region List
+        int SDBID = 6;
+        int maPB = 0, maNKD = 0, maNV = 0, maCN = 0;
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+            ViewBag.IsImport = list.Contains(4);
+            ViewBag.IsExport = list.Contains(5);
+            ViewBag.IsLock = list.Contains(6);
+            ViewBag.IsUnLock = list.Contains(7);
+
+            var ltAccess = _db.tbl_AccessData.Where(p => p.PermissionId == PermissionsId && p.FormId == formId).Select(p => p.ShowDataById).FirstOrDefault();
+            if (ltAccess != 0)
+                this.SDBID = ltAccess;
+
+            switch (SDBID)
+            {
+                case 2: maPB = clsPermission.GetUser().DepartmentID;
+                    maCN = clsPermission.GetUser().BranchID;
+                    break;
+                case 3: maNKD = clsPermission.GetUser().GroupID;
+                    maCN = clsPermission.GetUser().BranchID; break;
+                case 4: maNV = clsPermission.GetUser().StaffID; break;
+                case 5: maCN = clsPermission.GetUser().BranchID; break;
+            }
+        }
+
         public ActionResult Index()
         {
+            Permission(clsPermission.GetUser().PermissionID, 16);
             return View();
         }
 
         [ChildActionOnly]
         public ActionResult _Partial_ListPartner()
         {
-            var model = _partnerRepository.GetAllAsQueryable().AsEnumerable()
+            Permission(clsPermission.GetUser().PermissionID, 16);
+
+            if (SDBID == 6)
+                return PartialView("_Partial_ListPartner", new List<PartnerViewModel>());
+            var model = _partnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (p.tbl_Staff.DepartmentId == maPB | maPB == 0)
+                    & (p.tbl_Staff.StaffGroupId == maNKD | maNKD == 0)
+                    & (p.tbl_Staff.HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false))
                 .Select(p => new PartnerViewModel
                 {
                     Code = p.Code,
@@ -78,8 +115,16 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult FilterService(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 16);
+
+            if (SDBID == 6)
+                return PartialView("_Partial_ListPartner", new List<PartnerViewModel>());
             var model = _partnerRepository.GetAllAsQueryable().AsEnumerable()
-                 .Where(p => p.DictionaryId == id).Select(p => new PartnerViewModel
+                 .Where(p => p.DictionaryId == id).Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (p.tbl_Staff.DepartmentId == maPB | maPB == 0)
+                    & (p.tbl_Staff.StaffGroupId == maNKD | maNKD == 0)
+                    & (p.tbl_Staff.HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false))
+                    .Select(p => new PartnerViewModel
                  {
                      Code = p.Code,
                      Contact = p.StaffContact,
@@ -95,11 +140,19 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult FilterTags(string tags)
         {
+            Permission(clsPermission.GetUser().PermissionID, 16);
+
+            if (SDBID == 6) 
+                return PartialView("_Partial_ListPartner", new List<PartnerViewModel>());
             var model = new List<PartnerViewModel>();
             foreach (var item in tags.ToString().Split(','))
             {
                 model.AddRange(_partnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.TagsLocationId.Split(',')
-                    .Contains(item)).Select(p => new PartnerViewModel
+                    .Contains(item)).Where(p => (p.StaffId == maNV | maNV == 0)
+                    & (p.tbl_Staff.DepartmentId == maPB | maPB == 0)
+                    & (p.tbl_Staff.StaffGroupId == maNKD | maNKD == 0)
+                    & (p.tbl_Staff.HeadquarterId == maCN | maCN == 0) & (p.IsDelete == false))
+                .Select(p => new PartnerViewModel
                     {
                         Code = p.Code,
                         Contact = p.StaffContact,

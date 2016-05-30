@@ -193,3 +193,11 @@ $(document).ready(function () {
     });
 });
 
+
+$("#tabdanglich").click(function () {
+    $("#tabThongTinChiTiet").hide();
+})
+
+$("#tabdangluoi").click(function () {
+    $("#tabThongTinChiTiet").show();
+})

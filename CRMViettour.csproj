@@ -225,6 +225,7 @@
     <Compile Include="Controllers\Customer\CustomerGroupManageController.cs" />
     <Compile Include="Controllers\Customer\CustomerTabInfoController.cs" />
     <Compile Include="Controllers\Customer\OriginManageController.cs" />
+    <Compile Include="Controllers\ExchangeRatesController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\DocumentManageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -297,6 +298,7 @@
     <Compile Include="Models\TagsViewModel.cs" />
     <Compile Include="Models\TourServiceViewModel.cs" />
     <Compile Include="Models\TourViewModel.cs" />
+    <Compile Include="Models\TyGiaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\clsPermission.cs" />
@@ -2053,6 +2055,7 @@
     <Content Include="Scripts\ammap\themes\patterns.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\controller\exchangerates.js" />
     <Content Include="Scripts\controller\permission.js" />
     <Content Include="Scripts\controller\module.js" />
     <Content Include="Scripts\controller\appointmentlist.js" />
@@ -2568,6 +2571,11 @@
     <Content Include="Views\VisaManage\_Partial_Edit_ProfileVisa.cshtml" />
     <Content Include="Views\VisaManage\_Partial_Import_ProfileVisa.cshtml" />
     <Content Include="Views\VisaManage\_Partial_Insert_ProfileVisa.cshtml" />
+    <Content Include="Views\TourSchedule\_LichDiTour.cshtml" />
+    <Content Include="Views\ExchangeRates\Index.cshtml" />
+    <Content Include="Views\ExchangeRates\_TyGia.cshtml" />
+    <Content Include="Views\ExchangeRates\_Partial_Import.cshtml" />
+    <Content Include="Utilities\Upload\Tỷ giá VCB.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

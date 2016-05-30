@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Staff
 {
+    [Authorize]
     public class PositionManageController : BaseController
     {
         // GET: PositionManage
@@ -35,7 +36,7 @@ namespace CRMViettour.Controllers.Staff
             ViewBag.IsAdd = list.Contains(1);
             ViewBag.IsDelete = list.Contains(2);
             ViewBag.IsEdit = list.Contains(3);
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 5)
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 5 && p.IsDelete == false)
                 .Select(p => new DictionaryViewModel
                 {
                     Id = p.Id,
@@ -87,7 +88,7 @@ namespace CRMViettour.Controllers.Staff
                 {
                     if (await _dictionaryRepository.DeleteMany(listIds, false))
                     {
-                        return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "PostionManage") }, JsonRequestBehavior.AllowGet);
+                        return Json(new ActionModel() { Succeed = true, Code = "200", View = "", Message = "Xóa dữ liệu thành công !", IsPartialView = false, RedirectTo = Url.Action("Index", "PositionManage") }, JsonRequestBehavior.AllowGet);
                     }
                     else
                     {

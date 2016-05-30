@@ -18,7 +18,7 @@ namespace CRMViettour
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "AppointmentManage", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "TourManage", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

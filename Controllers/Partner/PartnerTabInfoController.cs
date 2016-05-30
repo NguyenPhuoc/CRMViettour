@@ -12,6 +12,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Partner
 {
+    [Authorize]
     public class PartnerTabInfoController : BaseController
     {
         // GET: PartnerTabInfo
@@ -107,7 +108,7 @@ namespace CRMViettour.Controllers.Partner
         {
             Permission(clsPermission.GetUser().PermissionID, 63);
             //var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
-            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
+            var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == id && p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
                             {
                                 Id = p.Id,
@@ -137,7 +138,7 @@ namespace CRMViettour.Controllers.Partner
         {
             Permission(clsPermission.GetUser().PermissionID, 64);
             //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
-            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
+            var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == id && p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
                        {
                            Id = p.Id,
@@ -161,7 +162,7 @@ namespace CRMViettour.Controllers.Partner
         [HttpPost]
         public async Task<ActionResult> InfoTourTuyen(int id)
         {
-            var model = _tourOptionRepository.GetAllAsQueryable().Where(c => c.PartnerId == id).Where(p => p.IsDelete == false)
+            var model = _tourOptionRepository.GetAllAsQueryable().Where(c => c.PartnerId == id && c.IsDelete == false)
                 .Select(p => new TourListViewModel
                 {
                     Id = p.tbl_Tour.Id,
@@ -176,8 +177,8 @@ namespace CRMViettour.Controllers.Partner
                 }).ToList();
             foreach (var item in model)
             {
-                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
-                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
+                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id && c.IsDelete == false).Sum(c => c.ServicePrice) ?? 0;
+                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id && c.IsDelete == false).Sum(c => c.TotalContract) ?? 0;
             }
             return PartialView("_TourTuyen", model);
         }
@@ -207,7 +208,7 @@ namespace CRMViettour.Controllers.Partner
         [HttpPost]
         public async Task<ActionResult> InfoDichVuCungCap(int id)
         {
-            var model = await _servicesPartnerHistoryRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
+            var model = await _servicesPartnerHistoryRepository.GetAllAsQueryable().Where(p => p.PartnerId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_DichVuCungCap", model);
         }
         #endregion
@@ -260,7 +261,7 @@ namespace CRMViettour.Controllers.Partner
         {
             Permission(clsPermission.GetUser().PermissionID, 62);
             // var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
-            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
+            var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == id && p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile
                     {
                         Id = p.Id,

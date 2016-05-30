@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Appointment
 {
+    [Authorize]
     public class AppointmentTypeController : BaseController
     {
         // GET: AppointmentType
@@ -35,7 +36,7 @@ namespace CRMViettour.Controllers.Appointment
             ViewBag.IsAdd = list.Contains(1);
             ViewBag.IsDelete = list.Contains(2);
             ViewBag.IsEdit = list.Contains(3);
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 20).Select(p => new DictionaryViewModel
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 20 && p.IsDelete == false).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,
                 Name = p.Name

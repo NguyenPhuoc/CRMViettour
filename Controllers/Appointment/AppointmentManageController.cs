@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Appointment
 {
+    [Authorize]
     public class AppointmentManageController : BaseController
     {
         // GET: AppointmentManage

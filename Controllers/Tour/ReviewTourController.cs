@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers
 {
+    [Authorize]
     public class ReviewTourController : BaseController
     {
         //
@@ -89,7 +90,7 @@ namespace CRMViettour.Controllers
             var item = _reviewTourRepository.GetAllAsQueryable().FirstOrDefault();
             if (item != null)
             {
-                var model = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == item.Id).ToList() ?? null;
+                var model = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == item.Id && p.IsDelete == false).ToList() ?? null;
                 return PartialView("_Partial_ListReviewDetail", model);
             }
             else
@@ -101,7 +102,7 @@ namespace CRMViettour.Controllers
         [HttpPost]
         public ActionResult ListReviewDetail(int id)
         {
-            var model = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == id).Where(p => p.IsDelete == false).ToList();
+            var model = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == id && p.IsDelete == false).ToList();
             return PartialView("_Partial_ListReviewDetail", model);
         }
         #endregion
@@ -158,7 +159,7 @@ namespace CRMViettour.Controllers
         public ActionResult ReviewTourInfomation(int id)
         {
             var model = _reviewTourRepository.GetAllAsQueryable().FirstOrDefault();
-            ViewBag.Detail = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == id).Where(p => p.IsDelete == false).ToList();
+            ViewBag.Detail = _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == id && p.IsDelete == false).ToList();
             return PartialView("_Partial_EditMark", model);
         }
 
@@ -181,7 +182,7 @@ namespace CRMViettour.Controllers
                 if (await _reviewTourRepository.Update(model))
                 {
                     // delete
-                    foreach (var item in _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == model.Id))
+                    foreach (var item in _reviewTourDetailRepository.GetAllAsQueryable().Where(p => p.ReviewTourId == model.Id && p.IsDelete == false))
                     {
                         await _reviewTourDetailRepository.Delete(item.Id, false);
                     }

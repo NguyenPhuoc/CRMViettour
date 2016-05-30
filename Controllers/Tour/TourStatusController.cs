@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Tour
 {
+    [Authorize]
     public class TourStatusController : BaseController
     {
         // GET: TourStatus

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Other
 {
+    [Authorize]
     public class ReligionManageController : BaseController
     {
         // GET: Religion
@@ -29,7 +30,7 @@ namespace CRMViettour.Controllers.Other
 
         public ActionResult Index()
         {
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 11).Select(p => new DictionaryViewModel
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 11 && p.IsDelete == false).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,
                 Name = p.Name

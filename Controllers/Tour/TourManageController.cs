@@ -188,8 +188,8 @@ namespace CRMViettour.Controllers
 
                 foreach (var item in model)
                 {
-                    item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalRemaining) ?? 0;
-                    item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalRemaining) ?? 0;
+                    item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id && c.IsDelete == false).Sum(c => c.TotalRemaining) ?? 0;
+                    item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id && c.IsDelete == false).Sum(c => c.TotalRemaining) ?? 0;
                 }
                 return PartialView("_Partial_ListTours", model);
             }
@@ -495,7 +495,7 @@ namespace CRMViettour.Controllers
 
         public JsonResult LoadPermission(int id)
         {
-            var model = new SelectList(_staffRepository.GetAllAsQueryable().Where(p => p.DepartmentId == id).ToList(), "Id", "FullName");
+            var model = new SelectList(_staffRepository.GetAllAsQueryable().Where(p => p.DepartmentId == id && p.IsDelete == false).ToList(), "Id", "FullName");
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 

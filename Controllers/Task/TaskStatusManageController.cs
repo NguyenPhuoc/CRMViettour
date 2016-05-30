@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Task
 {
+    [Authorize]
     public class TaskStatusManageController : BaseController
     {
         // GET: TaskStatusManage
@@ -35,7 +36,7 @@ namespace CRMViettour.Controllers.Task
             ViewBag.IsAdd = list.Contains(1);
             ViewBag.IsDelete = list.Contains(2);
             ViewBag.IsEdit = list.Contains(3);
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 22).Select(p => new DictionaryViewModel
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 22 && p.IsDelete == false).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,
                 Name = p.Name

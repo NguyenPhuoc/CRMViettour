@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Tour
 {
+    [Authorize]
     public class TourOtherTabController : BaseController
     {
         // GET: TourOtherTab
@@ -144,13 +145,13 @@ namespace CRMViettour.Controllers.Tour
 
         public JsonResult LoadPartner(int id)
         {
-            var model = new SelectList(_partnerRepository.GetAllAsQueryable().Where(p => p.DictionaryId == id).ToList(), "Id", "Name");
+            var model = new SelectList(_partnerRepository.GetAllAsQueryable().Where(p => p.DictionaryId == id && p.IsDelete == false).ToList(), "Id", "Name");
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult LoadServicePartner(int id)
         {
-            var model = new SelectList(_servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToList(), "Id", "Name");
+            var model = new SelectList(_servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == id && p.IsDelete == false).ToList(), "Id", "Name");
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
@@ -423,7 +424,7 @@ namespace CRMViettour.Controllers.Tour
                 });
             }
             ViewBag.TagsId = lstTag;
-            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1), "Id", "Name", model.DictionaryId);
+            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1 && p.IsDelete == false), "Id", "Name", model.DictionaryId);
             return PartialView("_Partial_EditDocument", model);
         }
 
@@ -1303,7 +1304,7 @@ namespace CRMViettour.Controllers.Tour
         public JsonResult CNKH()
         {
             int id = Int32.Parse(Session["idTour"].ToString());
-            decimal CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == id).Sum(c => c.TotalRemaining) ?? 0;
+            decimal CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == id && c.IsDelete == false).Sum(c => c.TotalRemaining) ?? 0;
 
             var obj = new
             {
@@ -1315,7 +1316,7 @@ namespace CRMViettour.Controllers.Tour
         public JsonResult CNDT()
         {
             int id = Int32.Parse(Session["idTour"].ToString());
-            decimal CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == id).Sum(c => c.TotalRemaining) ?? 0;
+            decimal CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == id && c.IsDelete == false).Sum(c => c.TotalRemaining) ?? 0;
 
             var obj = new
             {

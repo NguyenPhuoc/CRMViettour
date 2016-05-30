@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Permission
 {
+    [Authorize]
     public class PermissionManageController : BaseController
     {
         // GET: PermissionManage

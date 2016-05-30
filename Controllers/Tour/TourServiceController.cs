@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Tour
 {
+    [Authorize]
     public class TourServiceController : BaseController
     {
         // GET: TourService

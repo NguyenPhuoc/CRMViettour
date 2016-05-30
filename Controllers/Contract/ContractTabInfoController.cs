@@ -12,6 +12,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Contract
 {
+    [Authorize]
     public class ContractTabInfoController : BaseController
     {
         // GET: ContractTabInfo
@@ -179,8 +180,8 @@ namespace CRMViettour.Controllers.Contract
                     EndDate = tour.EndDate,
                     TourType = tour.tbl_DictionaryTypeTour.Name,
                     Status = tour.tbl_DictionaryStatus.Name,
-                    CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == tour.Id).Sum(c => c.TotalContract) ?? 0,
-                    CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == tour.Id).Sum(c => c.ServicePrice) ?? 0,
+                    CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == tour.Id && c.IsDelete == false).Sum(c => c.TotalContract) ?? 0,
+                    CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == tour.Id && c.IsDelete == false).Sum(c => c.ServicePrice) ?? 0,
 
 
                 };

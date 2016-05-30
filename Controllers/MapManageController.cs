@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers
 {
+    [Authorize]
     public class MapManageController : BaseController
     {
         //

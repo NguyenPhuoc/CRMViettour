@@ -235,7 +235,6 @@
     <Compile Include="Controllers\Other\FlightManageController.cs" />
     <Compile Include="Controllers\Other\LoginController.cs" />
     <Compile Include="Controllers\Permission\PermissionManageController .cs" />
-    <Compile Include="Controllers\OpportunityManageController.cs" />
     <Compile Include="Controllers\Other\DocumentTypeManageController.cs" />
     <Compile Include="Controllers\Other\LocationTagsManageController.cs" />
     <Compile Include="Controllers\Other\NationManageController.cs" />
@@ -244,7 +243,6 @@
     <Compile Include="Controllers\Partner\PartnerOtherTabController.cs" />
     <Compile Include="Controllers\Partner\PartnerTabInfoController.cs" />
     <Compile Include="Controllers\Partner\ServiceTypeManageController.cs" />
-    <Compile Include="Controllers\PriceTagManageController.cs" />
     <Compile Include="Controllers\Program\ProgramOtherTabController.cs" />
     <Compile Include="Controllers\Program\ProgramsManageController.cs" />
     <Compile Include="Controllers\Program\ProcessStatusManageController.cs" />
@@ -262,14 +260,12 @@
     <Compile Include="Controllers\Task\TaskTabInfoController.cs" />
     <Compile Include="Controllers\Task\TaskTypeManageController.cs" />
     <Compile Include="Controllers\Tour\ReviewTourController.cs" />
-    <Compile Include="Controllers\ScheduleManageController.cs" />
     <Compile Include="Controllers\Staff\StaffManageController.cs" />
     <Compile Include="Controllers\Staff\DepartmentManageController.cs" />
     <Compile Include="Controllers\Staff\HeadquarterManageController.cs" />
     <Compile Include="Controllers\Staff\ModuleManageController.cs" />
     <Compile Include="Controllers\Staff\PositionManageController.cs" />
     <Compile Include="Controllers\Staff\StaffGroupManageController.cs" />
-    <Compile Include="Controllers\SystemManageController.cs" />
     <Compile Include="Controllers\Tour\TourManageController.cs" />
     <Compile Include="Controllers\Tour\TourOtherTabController.cs" />
     <Compile Include="Controllers\Tour\TourScheduleController.cs" />
@@ -2262,11 +2258,6 @@
     <Content Include="Views\TaskManage\_Partial_EditTask.cshtml" />
     <Content Include="Views\TaskManage\_Partial_InsertTask.cshtml" />
     <Content Include="Views\TaskManage\_Partial_WorkTask.cshtml" />
-    <Content Include="Views\OpportunityManage\Index.cshtml" />
-    <Content Include="Views\OpportunityManage\_Partial_EditOpportunity.cshtml" />
-    <Content Include="Views\OpportunityManage\_Partial_InsertOpportunity.cshtml" />
-    <Content Include="Views\OpportunityManage\_Partial_InsertServiceOpportunity.cshtml" />
-    <Content Include="Views\OpportunityManage\_Partial_InsertTaskOpportunity.cshtml" />
     <Content Include="Views\PartnerManage\Index.cshtml" />
     <Content Include="Views\PartnerManage\_Partial_EditPartner.cshtml" />
     <Content Include="Views\PartnerManage\_Partial_InsertNote.cshtml" />
@@ -2275,13 +2266,6 @@
     <Content Include="Views\QuotationManage\_Partial_Edit_Quotation.cshtml" />
     <Content Include="Views\QuotationFormManage\_Partial_Insert_FormQuotation.cshtml" />
     <Content Include="Views\QuotationManage\_Partial_Insert_Quotation.cshtml" />
-    <Content Include="Views\thau\Index.cshtml" />
-    <Content Include="Views\thau\_Partial_AddCustomerProgram.cshtml" />
-    <Content Include="Views\thau\_Partial_AddSchedule.cshtml" />
-    <Content Include="Views\thau\_Partial_EditProgram.cshtml" />
-    <Content Include="Views\thau\_Partial_InsertProgram.cshtml" />
-    <Content Include="Views\thau\_Partial_InsertTaskTour.cshtml" />
-    <Content Include="Views\thau\_Partial_WorkTask.cshtml" />
     <Content Include="Views\PromotionManage\Index.cshtml" />
     <Content Include="Views\PromotionManage\_Partial_EditPromotion.cshtml" />
     <Content Include="Views\PromotionManage\_Partial_InsertPromotion.cshtml" />
@@ -2291,12 +2275,6 @@
     <Content Include="Views\ReviewTour\_Partial_EditReview.cshtml" />
     <Content Include="Views\ReviewTour\_Partial_InsertMark.cshtml" />
     <Content Include="Views\ReviewTour\_Partial_InsertReview.cshtml" />
-    <Content Include="Views\ScheduleManage\Index.cshtml" />
-    <Content Include="Views\ScheduleManage\ScheduleTime.cshtml" />
-    <Content Include="Views\ScheduleManage\ScheduleType.cshtml" />
-    <Content Include="Views\ScheduleManage\_Partial_EditSchedule.cshtml" />
-    <Content Include="Views\ScheduleManage\_Partial_InsertSchedule.cshtml" />
-    <Content Include="Views\ScheduleManage\_Partial_WorkSchedule.cshtml" />
     <Content Include="Views\Shared\_Partial_AddServices.cshtml" />
     <Content Include="Views\Shared\_Partial_ChangePassword.cshtml" />
     <Content Include="Views\Shared\_Partial_EditSchedule.cshtml" />
@@ -2325,8 +2303,6 @@
     <Content Include="Views\PermissionManage\_Partial_InsertRoleGroup.cshtml" />
     <Content Include="Views\StaffManage\_Partial_InsertStaff.cshtml" />
     <Content Include="Views\PermissionManage\_Partial_SetupRole.cshtml" />
-    <Content Include="Views\SystemManage\AccountInfo.cshtml" />
-    <Content Include="Views\SystemManage\ChangePassword.cshtml" />
     <Content Include="Views\TourManage\Index.cshtml" />
     <Content Include="Views\TourManage\_Partial_EditTour.cshtml" />
     <Content Include="Views\TourManage\_Partial_InsertDocument.cshtml" />
@@ -2339,18 +2315,10 @@
     <Content Include="Views\TourManage\_Partial_UpdateStatus.cshtml" />
     <Content Include="Views\TourManage\_Partial_UpdateVisa.cshtml" />
     <Content Include="Views\TourManage\_Partial_Update_TourType.cshtml" />
-    <Content Include="Views\VisaManage\DocumentaryVisa.cshtml" />
-    <Content Include="Views\VisaManage\ListProperties.cshtml" />
-    <Content Include="Views\VisaManage\ProfileVISA.cshtml" />
-    <Content Include="Views\VisaManage\SetupCountry.cshtml" />
-    <Content Include="Views\VisaManage\VisaInformation.cshtml" />
     <Content Include="Views\DocumentaryVisaManage\_Partial_EditDocumentVisa.cshtml" />
     <Content Include="Views\InfomationVisaManage\_Partial_EditInfomationVisa.cshtml" />
-    <Content Include="Views\VisaManage\_Partial_Edit_ProfileVisa.cshtml" />
-    <Content Include="Views\VisaManage\_Partial_Import_ProfileVisa.cshtml" />
     <Content Include="Views\DocumentaryVisaManage\_Partial_InsertDocumentVisa.cshtml" />
     <Content Include="Views\InfomationVisaManage\_Partial_InsertInfomationVisa.cshtml" />
-    <Content Include="Views\VisaManage\_Partial_Insert_ProfileVisa.cshtml" />
     <Content Include="Views\CareerManage\Index.cshtml" />
     <Content Include="Views\CareerManage\_Partial_UpdateListCustomer.cshtml" />
     <Content Include="Views\OriginManage\Index.cshtml" />
@@ -2592,6 +2560,14 @@
     <Content Include="Views\TourManage\_Partial_EditCustomerNote.cshtml" />
     <Content Include="Views\PartnerManage\_Partial_CreateMap.cshtml" />
     <Content Include="Views\MapManage\_Partial_ListPartner.cshtml" />
+    <Content Include="Views\VisaManage\DocumentaryVisa.cshtml" />
+    <Content Include="Views\VisaManage\ListProperties.cshtml" />
+    <Content Include="Views\VisaManage\ProfileVISA.cshtml" />
+    <Content Include="Views\VisaManage\SetupCountry.cshtml" />
+    <Content Include="Views\VisaManage\VisaInformation.cshtml" />
+    <Content Include="Views\VisaManage\_Partial_Edit_ProfileVisa.cshtml" />
+    <Content Include="Views\VisaManage\_Partial_Import_ProfileVisa.cshtml" />
+    <Content Include="Views\VisaManage\_Partial_Insert_ProfileVisa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

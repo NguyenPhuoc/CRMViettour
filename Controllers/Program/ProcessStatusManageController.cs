@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Program
 {
+    [Authorize]
     public class ProcessStatusManageController : BaseController
     {
         // GET: ProcessStatusManage
@@ -39,7 +40,7 @@ namespace CRMViettour.Controllers.Program
         public ActionResult Index()
         {
             Permission(clsPermission.GetUser().PermissionID, 19);
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 17).Select(p => new DictionaryViewModel
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 17 && p.IsDelete == false).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,
                 Name = p.Name

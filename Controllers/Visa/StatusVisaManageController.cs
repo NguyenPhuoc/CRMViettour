@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Visa
 {
+    [Authorize]
     public class StatusVisaManageController : BaseController
     {
         // GET: StatusVisaManage
@@ -38,7 +39,7 @@ namespace CRMViettour.Controllers.Visa
         public ActionResult Index()
         {
             Permission(clsPermission.GetUser().PermissionID, 15);
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 14).Select(p => new DictionaryViewModel
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 14 && p.IsDelete == false).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,
                 Name = p.Name

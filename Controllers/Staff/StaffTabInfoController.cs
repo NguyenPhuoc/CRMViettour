@@ -12,6 +12,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Staff
 {
+    [Authorize]
     public class StaffTabInfoController : BaseController
     {
         // GET: StaffTabInfo
@@ -218,8 +219,8 @@ namespace CRMViettour.Controllers.Staff
                 }).ToList();
             foreach (var item in model)
             {
-                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
-                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
+                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id && c.IsDelete == false).Sum(c => c.ServicePrice) ?? 0;
+                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id && c.IsDelete == false).Sum(c => c.TotalContract) ?? 0;
             }
             return PartialView("_ThauTour", model);
         }
@@ -339,7 +340,7 @@ namespace CRMViettour.Controllers.Staff
         [HttpPost]
         public async Task<ActionResult> InfoCapNhatThayDoi(int id)
         {
-            var model = await _updateHistoryRepository.GetAllAsQueryable().Where(p => p.StaffId == id).ToListAsync();
+            var model = await _updateHistoryRepository.GetAllAsQueryable().Where(p => p.StaffId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_CapNhatThayDoi", model);
         }
         #endregion

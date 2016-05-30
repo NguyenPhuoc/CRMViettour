@@ -487,7 +487,7 @@ namespace CRMViettour.Controllers
                 });
             }
             ViewBag.TagsId = lstTag;
-            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1), "Id", "Name", model.DictionaryId);
+            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1 && p.IsDelete == false), "Id", "Name", model.DictionaryId);
             return PartialView("_Partial_EditDocument", model);
         }
 
@@ -664,7 +664,7 @@ namespace CRMViettour.Controllers
                 });
             }
             ViewBag.TagsId = lstTag;
-            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 14), "Id", "Name", model.DictionaryId);
+            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 14 && p.IsDelete == false), "Id", "Name", model.DictionaryId);
             return PartialView("_Partial_EditVisa", model);
         }
 
@@ -829,7 +829,7 @@ namespace CRMViettour.Controllers
                         UpdateHistory.SaveCustomer(model.SingleCompany.Id, 9, "Cập nhật khách hàng doanh nghiệp, code: " + model.SingleCompany.Code);
 
                         // xóa tất cả visa của customer
-                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == model.SingleCompany.Id).ToList();
+                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false && p.CustomerId == model.SingleCompany.Id).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)
@@ -905,7 +905,7 @@ namespace CRMViettour.Controllers
                         UpdateHistory.SaveCustomer(model.SinglePersonal.Id, 9, "Cập nhật khách hàng cá nhân, code: " + model.SinglePersonal.Code);
 
                         // xóa tất cả visa của customer
-                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == model.SinglePersonal.Id).ToList();
+                        var visaList = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false && p.CustomerId == model.SinglePersonal.Id).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)
@@ -981,7 +981,7 @@ namespace CRMViettour.Controllers
                     {
                         UpdateHistory.SaveCustomer(model.SingleContact.Id, 9, "Cập nhật người liên hệ, code: " + model.SingleContact.Code);
                         // xóa tất cả visa của customer
-                        var visaList = _customerContactVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.CustomerContactId == model.SingleContact.Id).ToList();
+                        var visaList = _customerContactVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false && p.CustomerContactId == model.SingleContact.Id).ToList();
                         if (visaList.Count() > 0)
                         {
                             foreach (var v in visaList)

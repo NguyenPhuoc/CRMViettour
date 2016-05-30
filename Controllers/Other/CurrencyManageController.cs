@@ -13,6 +13,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Other
 {
+    [Authorize]
     public class CurrencyManageController : BaseController
     {
         // GET: CurrencyManage
@@ -32,7 +33,7 @@ namespace CRMViettour.Controllers.Other
 
         public ActionResult Index()
         {
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 24).Select(p => new DictionaryViewModel
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 24 && p.IsDelete == false).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,
                 Name = p.Name

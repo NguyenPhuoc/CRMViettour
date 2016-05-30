@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Tour
 {
+    [Authorize]
     public class TourScheduleController : BaseController
     {
         // GET: TourSchedule

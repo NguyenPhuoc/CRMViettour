@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Other
 {
+    [Authorize]
     public class LocationTagsManageController : BaseController
     {
         // GET: TagsManage

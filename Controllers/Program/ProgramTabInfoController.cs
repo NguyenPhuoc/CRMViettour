@@ -12,6 +12,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Program
 {
+    [Authorize]
     public class ProgramTabInfoController : BaseController
     {
         // GET: ProgramTabInfo
@@ -166,7 +167,7 @@ namespace CRMViettour.Controllers.Program
         [HttpPost]
         public ActionResult InfoChiTietTour(int id)
         {
-            var model = _programRepository.GetAllAsQueryable().Where(c => c.Id == id)
+            var model = _programRepository.GetAllAsQueryable().Where(c => c.Id == id && c.IsDelete == false)
                   .Select(p => new TourListViewModel
                   {
                       Id = p.tbl_Tour.Id,
@@ -181,8 +182,8 @@ namespace CRMViettour.Controllers.Program
                   }).SingleOrDefault();
             if (model != null)
             {
-                model.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == model.Id).Sum(c => c.ServicePrice) ?? 0;
-                model.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == model.Id).Sum(c => c.TotalContract) ?? 0;
+                model.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == model.Id && c.IsDelete == false).Sum(c => c.ServicePrice) ?? 0;
+                model.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == model.Id && c.IsDelete == false).Sum(c => c.TotalContract) ?? 0;
             }
 
             return PartialView("_ChiTietTour", model);

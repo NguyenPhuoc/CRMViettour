@@ -12,6 +12,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Customer
 {
+    [Authorize]
     public class CareerManageController : BaseController
     {
         // GET: Career
@@ -41,7 +42,7 @@ namespace CRMViettour.Controllers.Customer
         public ActionResult Index()
         {
             Permission(clsPermission.GetUser().PermissionID, 4);
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 2).Select(p => new DictionaryViewModel
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 2 && p.IsDelete == false).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,
                 Name = p.Name

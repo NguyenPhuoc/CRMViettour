@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Other
 {
+    [Authorize]
     public class FlightManageController : BaseController
     {
         // GET: FlightMange
@@ -29,7 +30,7 @@ namespace CRMViettour.Controllers.Other
 
         public ActionResult Index()
         {
-            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 25).Select(p => new DictionaryViewModel
+            var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 25 && p.IsDelete == false).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,
                 Name = p.Name

@@ -11,6 +11,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Visa
 {
+    [Authorize]
     public class InfomationVisaManageController : BaseController
     {
         // GET: InfomationVisaManage

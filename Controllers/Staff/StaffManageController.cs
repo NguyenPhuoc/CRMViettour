@@ -447,7 +447,7 @@ namespace CRMViettour.Controllers
                 });
             }
             ViewBag.TagsId = lstTag;
-            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 14), "Id", "Name", model.DictionaryId);
+            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 14 && p.IsDelete == false), "Id", "Name", model.DictionaryId);
             return PartialView("_Partial_EditVisa", model);
         }
 
@@ -610,7 +610,7 @@ namespace CRMViettour.Controllers
                 });
             }
             ViewBag.TagsId = lstTag;
-            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1), "Id", "Name", model.DictionaryId);
+            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1 && p.IsDelete == false), "Id", "Name", model.DictionaryId);
             return PartialView("_Partial_EditDocument", model);
         }
 

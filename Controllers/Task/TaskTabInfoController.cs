@@ -11,6 +11,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Task
 {
+    [Authorize]
     public class TaskTabInfoController : BaseController
     {
         //
@@ -175,7 +176,7 @@ namespace CRMViettour.Controllers.Task
         [HttpPost]
         public async Task<ActionResult> InfoDSNhanVienDangLamNhiemVu(int id)
         {
-            var model = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == id).Where(p => p.IsDelete == false).ToList();
+            var model = _taskStaffRepository.GetAllAsQueryable().Where(p => p.TaskId == id && p.IsDelete == false).ToList();
             return PartialView("_DSNhanVienDangLamNhiemVu", model);
         }
         #endregion
@@ -193,7 +194,7 @@ namespace CRMViettour.Controllers.Task
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 74);
-            var model = _documentFileRepository.GetAllAsQueryable().Where(p => p.TaskId == id).Where(p => p.IsDelete == false).ToList();
+            var model = _documentFileRepository.GetAllAsQueryable().Where(p => p.TaskId == id && p.IsDelete == false).ToList();
             return PartialView("_TaiLieuMau", model);
         }
         #endregion

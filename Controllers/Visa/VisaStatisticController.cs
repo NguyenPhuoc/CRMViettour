@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Visa
 {
+    [Authorize]
     public class VisaStatisticController : BaseController
     {
         // GET: VisaStatistic

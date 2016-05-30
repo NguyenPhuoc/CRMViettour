@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Customer
 {
+    [Authorize]
     public class CustomerGroupManageController : BaseController
     {
         // GET: CustomerGroupManage

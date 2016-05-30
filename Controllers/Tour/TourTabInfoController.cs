@@ -12,6 +12,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Tour
 {
+    [Authorize]
     public class TourTabInfoController : BaseController
     {
         // GET: TourTabInfo
@@ -219,7 +220,7 @@ namespace CRMViettour.Controllers.Tour
         public async Task<ActionResult> InfoChuongTrinh(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 80);
-            var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.TourId == id && p.DictionaryId == 30).ToListAsync();
+            var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.TourId == id && p.DictionaryId == 30 && p.IsDelete == false).ToListAsync();
             return PartialView("_ChuongTrinh", model);
         }
         #endregion
@@ -238,7 +239,7 @@ namespace CRMViettour.Controllers.Tour
         public async Task<ActionResult> InfoHopDong(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 81);
-            var model = await _contractRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = await _contractRepository.GetAllAsQueryable().Where(p => p.TourId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_HopDong", model);
         }
         #endregion
@@ -277,7 +278,7 @@ namespace CRMViettour.Controllers.Tour
         public async Task<ActionResult> InfoViettourBaoGia(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 83);
-            var model = await _quotationRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = await _quotationRepository.GetAllAsQueryable().Where(p => p.TourId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_ViettourBaoGia", model);
         }
         #endregion
@@ -296,7 +297,7 @@ namespace CRMViettour.Controllers.Tour
         public async Task<ActionResult> InfoCongNoKH(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 84);
-            var model = await _liabilityCustomerRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = await _liabilityCustomerRepository.GetAllAsQueryable().Where(p => p.TourId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_CongNoKH", model);
         }
         #endregion
@@ -406,7 +407,7 @@ namespace CRMViettour.Controllers.Tour
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
             Permission(clsPermission.GetUser().PermissionID, 88);
-            var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.TourId == id).ToListAsync();
+            var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.TourId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_TaiLieuMau", model);
         }
         #endregion

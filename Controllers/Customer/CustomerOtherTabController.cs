@@ -13,6 +13,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Customer
 {
+    [Authorize]
     public class CustomerOtherTabController : BaseController
     {
         // GET: CustomerOtherTab
@@ -125,7 +126,7 @@ namespace CRMViettour.Controllers.Customer
 
         public JsonResult LoadPartner(int id)
         {
-            var model = new SelectList(_partnerRepository.GetAllAsQueryable().Where(p => p.DictionaryId == id).ToList(), "Id", "Name");
+            var model = new SelectList(_partnerRepository.GetAllAsQueryable().Where(p => p.DictionaryId == id && p.IsDelete == false).ToList(), "Id", "Name");
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
@@ -336,7 +337,7 @@ namespace CRMViettour.Controllers.Customer
                 if (cusTour != null && tourVisa == null)
                     await _tourCustomerVisaRepository.Create(model);
 
-                var list = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false).Where(p => p.CustomerId == idCus).ToList();
+                var list = _customerVisaRepository.GetAllAsQueryable().Where(p => p.IsDelete == false && p.CustomerId == idCus).ToList();
                 return PartialView("~/Views/CustomerTabInfo/_Visa.cshtml", list);
             }
             catch

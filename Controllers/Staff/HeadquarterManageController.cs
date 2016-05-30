@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Staff
 {
+    [Authorize]
     public class HeadquarterManageController : BaseController
     {
         // GET: HeadquarterManage

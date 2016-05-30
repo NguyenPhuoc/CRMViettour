@@ -12,6 +12,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Customer
 {
+    [Authorize]
     public class CustomerTabInfoController : BaseController
     {
         // GET: CustomerTabInfo
@@ -96,7 +97,7 @@ namespace CRMViettour.Controllers.Customer
         [HttpPost]
         public async Task<ActionResult> InfoPhanHoiKhachHang(int id)
         {
-            var model = await _reviewTourRepository.GetAllAsQueryable().Where(p => p.CustomerId == id).ToListAsync();
+            var model = await _reviewTourRepository.GetAllAsQueryable().Where(p => p.CustomerId == id && p.IsDelete == false).ToListAsync();
             return PartialView("_PhanHoiKhachHang", model);
         }
         #endregion
@@ -284,8 +285,8 @@ namespace CRMViettour.Controllers.Customer
                 }).ToList();
             foreach (var item in model)
             {
-                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.ServicePrice) ?? 0;
-                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id).Sum(c => c.TotalContract) ?? 0;
+                item.CongNoDoiTac = _liabilityPartnerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id && c.IsDelete == false).Sum(c => c.ServicePrice) ?? 0;
+                item.CongNoKhachHang = _liabilityCustomerRepository.GetAllAsQueryable().Where(c => c.TourId == item.Id && c.IsDelete == false).Sum(c => c.TotalContract) ?? 0;
             }
 
             return PartialView("_TourTuyen", model);

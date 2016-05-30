@@ -13,6 +13,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Customer
 {
+    [Authorize]
     public class ProgramOtherTabController : BaseController
     {
         // GET: ProgramOtherTab
@@ -109,7 +110,7 @@ namespace CRMViettour.Controllers.Customer
 
         public JsonResult LoadPartner(int id)
         {
-            var model = new SelectList(_partnerRepository.GetAllAsQueryable().Where(p => p.DictionaryId == id).ToList(), "Id", "Name");
+            var model = new SelectList(_partnerRepository.GetAllAsQueryable().Where(p => p.DictionaryId == id && p.IsDelete == false).ToList(), "Id", "Name");
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 

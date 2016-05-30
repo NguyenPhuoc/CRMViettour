@@ -1,4 +1,22 @@
-﻿function OnSuccessScheduleTour() {
+﻿
+$('.dataTable').dataTable({
+    order: [],
+    columnDefs: [{ orderable: false, targets: [0] }]
+});
+
+
+$(".dataTable").dataTable().columnFilter({
+    sPlaceHolder: "head:after",
+    aoColumns: [null,
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" }]
+});
+
+function OnSuccessScheduleTour() {
     $("#modal-insert-tourschedule").modal("hide");
     $("#modal-edit-tourschedule").modal("hide");
 
@@ -54,8 +72,6 @@ $('#insert-partner-tour').change(function () {
 });
 
 
-
-
 $(".FilterAppoi").change(function () {
     var tour = $("#list-tour").val();
 
@@ -82,10 +98,26 @@ $(".FilterAppoi").change(function () {
         dataType: "html",
         success: function (data) {
             $("#dangluoi").html(data);
+
+            $('.dataTable').dataTable({
+                order: [],
+                columnDefs: [{ orderable: false, targets: [0] }]
+            });
+
+
+            $(".dataTable").dataTable().columnFilter({
+                sPlaceHolder: "head:after",
+                aoColumns: [null,
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" },
+                            { type: "text" }]
+            });
         }
     })
 })
-
 
 $(document).ready(function () {
     $('#calendar').fullCalendar({

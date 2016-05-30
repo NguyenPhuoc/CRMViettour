@@ -11,6 +11,7 @@ using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers
 {
+    [Authorize]
     public class PartnerManageController : BaseController
     {
         //
@@ -216,7 +217,7 @@ namespace CRMViettour.Controllers
         public ActionResult PartnerInfomation(int id)
         {
             var model = _db.tbl_Partner.Find(id);
-            ViewBag.Services = _servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false).ToList();
+            ViewBag.Services = _servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == id && p.IsDelete == false).ToList();
             return PartialView("_Partial_EditPartner", model);
         }
 
@@ -231,7 +232,7 @@ namespace CRMViettour.Controllers
                 if (await _partnerRepository.Update(model))
                 {
                     // delete all service
-                    var service = _servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == model.Id).Where(p => p.IsDelete == false).ToList();
+                    var service = _servicesPartnerRepository.GetAllAsQueryable().Where(p => p.PartnerId == model.Id && p.IsDelete == false).ToList();
                     if (service.Count() > 0)
                     {
                         foreach (var item in service)
@@ -399,7 +400,7 @@ namespace CRMViettour.Controllers
                 });
             }
             ViewBag.TagsId = lstTag;
-            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1), "Id", "Name", model.DictionaryId);
+            ViewBag.DictionaryId = new SelectList(_dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 1 && p.IsDelete == false), "Id", "Name", model.DictionaryId);
             return PartialView("_Partial_EditDocument", model);
         }
 

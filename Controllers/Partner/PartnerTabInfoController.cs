@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 
 namespace CRMViettour.Controllers.Partner
 {
@@ -69,7 +70,13 @@ namespace CRMViettour.Controllers.Partner
             _db = new DataContext();
         }
         #endregion
-
+        void Permission(int PermissionsId, int formId)
+        {
+            var list = _db.tbl_ActionData.Where(p => p.FormId == formId && p.PermissionsId == PermissionsId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+        }
         #region ThongTinChiTiet
         [ChildActionOnly]
         public ActionResult _ThongTinChiTiet()
@@ -89,12 +96,16 @@ namespace CRMViettour.Controllers.Partner
         [ChildActionOnly]
         public ActionResult _LichHen()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichHen");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichHen(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 63);
             //var model = await _appointmentHistoryRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
             var model = _appointmentHistoryRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
                             .Select(p => new tbl_AppointmentHistory
@@ -115,12 +126,16 @@ namespace CRMViettour.Controllers.Partner
         [ChildActionOnly]
         public ActionResult _LichSuLienHe()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_LichSuLienHe");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoLichSuLienHe(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 64);
             //var model = await _contactHistoryRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
             var model = _db.tbl_ContactHistory.AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
                        .Select(p => new tbl_ContactHistory
@@ -201,19 +216,17 @@ namespace CRMViettour.Controllers.Partner
         [ChildActionOnly]
         public ActionResult _GhiChu()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_GhiChu");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoGhiChu(int id)
         {
-            var model = await _partnerNoteRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).Select(p => new tbl_PartnerNote
-            {
-                Id = p.Id,
-                Note = p.Note,
-                tbl_Staff = _staffRepository.FindId(p.StaffId),
-                CreatedDate = p.CreatedDate
-            }).ToListAsync();
+            Permission(clsPermission.GetUser().PermissionID, 65);
+            var model = _db.tbl_PartnerNote.AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false).ToList();
             return PartialView("_GhiChu", model);
         }
         #endregion
@@ -236,12 +249,16 @@ namespace CRMViettour.Controllers.Partner
         [ChildActionOnly]
         public ActionResult _TaiLieuMau()
         {
+            ViewBag.IsAdd = false;
+            ViewBag.IsDelete = false;
+            ViewBag.IsEdit = false;
             return PartialView("_TaiLieuMau");
         }
 
         [HttpPost]
         public async Task<ActionResult> InfoTaiLieuMau(int id)
         {
+            Permission(clsPermission.GetUser().PermissionID, 62);
             // var model = await _documentFileRepository.GetAllAsQueryable().Where(p => p.PartnerId == id).ToListAsync();
             var model = _db.tbl_DocumentFile.AsEnumerable().Where(p => p.PartnerId == id).Where(p => p.IsDelete == false)
                     .Select(p => new tbl_DocumentFile

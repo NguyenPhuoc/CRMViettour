@@ -1,6 +1,7 @@
 ﻿using CRM.Core;
 using CRM.Infrastructure;
 using CRMViettour.Models;
+using CRMViettour.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,12 @@ namespace CRMViettour.Controllers.Partner
 
         public ActionResult Index()
         {
+            int perId = clsPermission.GetUser().PermissionID;
+            var list = _db.tbl_ActionData.Where(p => p.FormId == 17 && p.PermissionsId == perId).Select(p => p.FunctionId).ToList();
+            ViewBag.IsAdd = list.Contains(1);
+            ViewBag.IsDelete = list.Contains(2);
+            ViewBag.IsEdit = list.Contains(3);
+
             var dictionary = _dictionaryRepository.GetAllAsQueryable().Where(p => p.DictionaryCategoryId == 13).Select(p => new DictionaryViewModel
             {
                 Id = p.Id,

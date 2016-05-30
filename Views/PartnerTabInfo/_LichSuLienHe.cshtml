@@ -5,7 +5,8 @@
     int i = 1;
 }
 
-<a class="btn btn-primary" onclick="btnAddLichSuLienHe()" id="btnAddLichSuLienHe"><i class="fa fa-plus"></i>&nbsp;Thêm</a>
+@if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                {<a class="btn btn-primary" onclick="btnAddLichSuLienHe()" id="btnAddLichSuLienHe"><i class="fa fa-plus"></i>&nbsp;Thêm</a>}
 <br /><br />
 <div class="table-scrollable table-custom-format">
     <table class="table table-striped table-bordered table-hover" id="table-history">
@@ -33,8 +34,10 @@
                         <td>@Html.Raw(item.Note)</td>
                         <td>@item.tbl_Staff.FullName</td>
                         <td>
-                            <a style="cursor: pointer" onclick="updateContactHistory(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />
-                            <a style="cursor: pointer" onclick="deleteContactHistory(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>
+                            @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                {<a style="cursor: pointer" onclick="updateContactHistory(@item.Id)"><i class="fa fa-pencil"></i>&nbsp;Sửa</a><br />}
+                            @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                {<a style="cursor: pointer" onclick="deleteContactHistory(@item.Id)"><i class="fa fa-trash"></i>&nbsp;Xóa</a>}
                         </td>
                     </tr>
                     i++;

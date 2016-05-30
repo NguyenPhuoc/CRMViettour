@@ -52,14 +52,17 @@
             </div>
             <div class="col-md-6">
                 <div class="pull-right">
-                    <a href="@Url.Action("Partners", "PartnerManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
-                    <button class="btn btn-primary" href="#modal-insert-partner" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                    <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                    <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                    <a href="@Url.Action("Index", "PartnerManage")" class="btn btn-default"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                   @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                { <button class="btn btn-primary" href="#modal-insert-partner" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Thêm</button>}
+                    @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                {<button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>}
+                    @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                {<button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
                     <form action="@Url.Action("Delete", "PartnerManage")" method="post" style="position:absolute">
                         @Html.AntiForgeryToken()
                         <input type="hidden" id="listItemId" name="listItemId" />
-                    </form>
+                    </form>}
                     <a class="btn green" id="btnCreateMap" ><i class="fa fa-map-marker"></i>&nbsp;Tạo địa điểm</a>
                 </div>
             </div>

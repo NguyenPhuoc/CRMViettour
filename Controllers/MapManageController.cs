@@ -57,7 +57,7 @@ namespace CRMViettour.Controllers
         [ChildActionOnly]
         public ActionResult _Partial_ListPartner()
         {
-            var model = _partnerRepository.GetAllAsQueryable().AsEnumerable().Where(p=>p.DictionaryId == 1047)
+            var model = _partnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.DictionaryId == 1047)
                 .Select(p => new PartnerViewModel
                 {
                     Id = p.Id,
@@ -70,28 +70,52 @@ namespace CRMViettour.Controllers
             return PartialView("_Partial_ListPartner", model);
         }
 
+        public JsonResult ListPartner(int id)
+        {
+            var model = _partnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.DictionaryId == id);
+            return Json(new
+            {
+                data = model.Select(p => new
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    xMap = p.xMap,
+                    yMap = p.yMap,
+                    AddressMap = p.AddressMap
+                }).ToList()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
-        public ActionResult ListPartner(int id)
+        public ActionResult ListPartnerInPartial(int id)
         {
             var model = _partnerRepository.GetAllAsQueryable().AsEnumerable().Where(p => p.DictionaryId == id)
-               .Select(p => new PartnerViewModel
-               {
-                   Id = p.Id,
-                   Name = p.Name,
-                   Code = p.Code,
-                   xMap = p.xMap,
-                   yMap = p.yMap,
-                   AddressMap = p.AddressMap
-               });
+                .Select(p => new PartnerViewModel
+                {
+                    Id = p.Id,
+                    xMap = p.xMap,
+                    yMap = p.yMap,
+                    AddressMap = p.AddressMap
+                }).ToList();
             return PartialView("_Partial_ListPartner", model);
         }
 
-        [HttpPost]
         public JsonResult LoadMarker()
         {
-            return Json(new SelectList(_partnerRepository.GetAllAsQueryable(), "Id", "Name"), JsonRequestBehavior.AllowGet);
+            var model = _partnerRepository.GetAllAsQueryable().Where(p => p.IsDelete == false);
+            return Json(new
+            {
+                data = model.Select(p => new
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    xMap = p.xMap,
+                    yMap = p.yMap,
+                    AddressMap = p.AddressMap
+                }).ToList()
+            }, JsonRequestBehavior.AllowGet);
         }
 
-        
+
     }
 }

@@ -231,6 +231,7 @@
     <Compile Include="Controllers\LivechatManageController.cs" />
     <Compile Include="Controllers\MapManageController.cs" />
     <Compile Include="Controllers\MarketingManageController.cs" />
+    <Compile Include="Controllers\Other\CalculatorManageController.cs" />
     <Compile Include="Controllers\Other\CurrencyManageController.cs" />
     <Compile Include="Controllers\Other\FlightManageController.cs" />
     <Compile Include="Controllers\Other\LoginController.cs" />
@@ -2053,6 +2054,8 @@
     <Content Include="Scripts\ammap\themes\patterns.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\calc\CalcSS3.css" />
+    <Content Include="Scripts\calc\CalcSS3.js" />
     <Content Include="Scripts\controller\permission.js" />
     <Content Include="Scripts\controller\module.js" />
     <Content Include="Scripts\controller\appointmentlist.js" />
@@ -2101,6 +2104,7 @@
     <Content Include="Scripts\controller\tourstatus.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Fakes Include="Fakes\EntityFramework.fakes" />
+    <Content Include="Content\ckeditor.rar" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\gmap3.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
@@ -2116,6 +2120,10 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\load_marker.js" />
+    <Content Include="Scripts\map\app.js" />
+    <Content Include="Scripts\map\libs.min.js" />
+    <Content Include="Scripts\map\maplace.js" />
+    <Content Include="Scripts\map\styles.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\numeral.min.js" />
@@ -2173,6 +2181,7 @@
     <Content Include="Scripts\select2\js\select2.js" />
     <Content Include="Scripts\select2\js\select2.min.js" />
     <Content Include="Scripts\SelectCheckbox.js" />
+    <Content Include="Scripts\map\ajax.php" />
     <None Include="Scripts\_references.js" />
     <Content Include="Utilities\Upload\file\1081360_518181408343564_312571073_n.jpg" />
     <Content Include="Utilities\Upload\file\1081360_518181408343564_312571073_n_120404451406042016.jpg" />
@@ -2568,6 +2577,7 @@
     <Content Include="Views\VisaManage\_Partial_Edit_ProfileVisa.cshtml" />
     <Content Include="Views\VisaManage\_Partial_Import_ProfileVisa.cshtml" />
     <Content Include="Views\VisaManage\_Partial_Insert_ProfileVisa.cshtml" />
+    <Content Include="Views\CalculatorManage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

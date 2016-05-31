@@ -64,8 +64,6 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th class="table-checkbox">
@@ -77,8 +75,6 @@
                                         <th>Diễn giải</th>
                                         <th>Ngày tạo</th>
                                         <th>Người tạo</th>
-                                        <th>Ngày sửa</th>
-                                        <th>Người sửa</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
@@ -96,9 +92,7 @@
                                             <td>@item.FileSize</td>
                                             <td>@Html.Raw(item.Note)</td>
                                             <td>@string.Format("{0:dd-MM-yyyy}", item.CreatedDate)</td>
-                                            <td></td>
-                                            <td>@string.Format("{0:dd-MM-yyyy}", item.ModifiedDate)</td>
-                                            <td></td>
+                                            <td>@item.tbl_Staff.FullName</td>
                                             <td>
                                                 @if (ext == ".pdf")
                                                 {

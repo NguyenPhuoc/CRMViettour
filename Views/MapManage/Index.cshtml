@@ -31,6 +31,7 @@
         <div class="row">
             <div class="col-md-3">
                 <select class="form-control" id="partner-services" onchange="clickChangeService()">
+                    <option>-- Tất cả dịch vụ --</option>
                     @foreach (var item in LoadData.ServiceList())
                     {
                         <option value="@item.Id">@item.Name</option>
@@ -44,14 +45,14 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="portlet light bordered">
                 <div class="portlet-body">
-                    <div class="row">
+                    <div class="row" id="menuMap">
                         <div class="col-md-4">
-                            <div id="data-partner">
-                                @Html.Action("_Partial_ListPartner", "MapManage")
-                            </div>
+                            @*<div id="data-partner">
+                                    @Html.Action("_Partial_ListPartner", "MapManage")
+                                </div>*@
+                            <div id="controls"></div>
                         </div>
                         <div class="col-md-8">
-                            <div id="panTo"></div>
                             <div id="map">
 
                             </div>
@@ -65,82 +66,37 @@
 </div>
 
 @section scripts{
+
+    <script src="~/Scripts/map/libs.min.js"></script>
+    <script src="~/Scripts/map/maplace.js"></script>
+    <script src="~/Scripts/map/styles.js"></script>
+   <script>
+        $(function () {
+            $.getJSON('/MapManage/LoadMarker', function (data) {
+                var addressList = "new Maplace({map_div: '#map',controls_type: 'list',controls_cssclass: 'side-nav',controls_on_map: false,locations: [";
+                $.each(data.data, function (i, ward) {
+                    addressList += "{lat: " + ward.xMap + ", lon: " + ward.yMap + ", title:'" + ward.Name + "', html: ['<h5>" + ward.Name + "</h5>','<h5>" + ward.AddressMap + "</h5>'].join(''), zoom: 16},";
+                });
+                addressList += "]}).Load();";
+                $("#address").html(addressList);
+            });
+        })
+    </script>
+    <script id="address"></script>
     <script>
         $("#partner-services").select2();
+
         function clickChangeService() {
-            var dataPost = { id: $("#partner-services").val() }
-            $.ajax({
-                type: "POST",
-                url: '/MapManage/ListPartner',
-                data: JSON.stringify(dataPost),
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                success: function (data) {
-                    $("#data-partner").html(data);
-                }
-            })
-        }
-    </script>
-
-    <script type="text/javascript">
-        $(function () {
-            $('#map').gmap3({
-                map: {
-                    options: {
-                        center: [46.578498, 2.457275],
-                        zoom: 5
-                    }
-                },
-                marker: {
-                    values: [
-                      { latLng: [48.8620722, 2.352047], data: "Paris !" },
-                      { address: "86000 Poitiers, France", data: "Poitiers : great city !" },
-                      { address: "66000 Perpignan, France", data: "Perpignan ! <br> GO USAP !", options: { icon: "http://maps.google.com/mapfiles/marker_green.png" } }
-                    ],
-                    options: {
-                        draggable: false
-                    },
-                    tag:[],
-                    events: {
-                        mouseover: function (marker, event, context) {
-                            var map = $(this).gmap3("get"),
-                              infowindow = $(this).gmap3({ get: { name: "infowindow" } });
-                            if (infowindow) {
-                                infowindow.open(map, marker);
-                                infowindow.setContent(context.data);
-                            } else {
-                                $(this).gmap3({
-                                    infowindow: {
-                                        anchor: marker,
-                                        options: { content: context.data }
-                                    }
-                                });
-                            }
-                        },
-                        mouseout: function () {
-                            var infowindow = $(this).gmap3({ get: { name: "infowindow" } });
-                            if (infowindow) {
-                                infowindow.close();
-                            }
-                        }
-                    }
-                }
-            });
-        });
-
-        function animateMarker(xMap, yMap) {
-            var x = xMap,
-             y = yMap,
-             markers = $("#map").gmap3({
-                 get: {
-                     name: "marker",
-                     all: true
-                 }
-             });
-            stop();
-            $.each(markers, function (i, marker) {
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-            });
+            $("#address").val('');
+            
+            $.getJSON('/MapManage/ListPartner/' + $("#partner-services").val(), function (data) {
+                var addressList = "new Maplace({map_div: '#map',controls_type: 'list',controls_cssclass: 'side-nav',controls_on_map: false,locations: [";
+                $.each(data.data, function (i, ward) {
+                    addressList += "{lat: " + ward.xMap + ", lon: " + ward.yMap + ", title:'" + ward.Name + "', html: ['<h5>" + ward.Name + "</h5>','<h5>" + ward.AddressMap + "</h5>'].join(''), zoom: 16},";
+                });
+                addressList += "]}).Load();";
+                $("#address").html(addressList);
+            });         
         }
     </script>
 }

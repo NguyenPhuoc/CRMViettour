@@ -225,7 +225,7 @@ namespace CRMViettour.Controllers
         {
             var model = new List<tbl_Staff>();
             var item = _documentFileRepository.GetAllAsQueryable().FirstOrDefault(p => p.Id == id);
-            if (item != null)
+            if (item != null && item.PermissionStaff != null)
             {
                 foreach (var i in item.PermissionStaff.Split(','))
                 {

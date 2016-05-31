@@ -7,7 +7,7 @@
     }
 
     <div class="table-scrollable table-custom-format">
-        <table class="table table-striped table-bordered table-hover dataTable" id="table-booking">
+        <table class="table  table-bordered table-hover dataTable" id="table-booking">
             <thead>
                 <tr>
                     <td></td>
@@ -34,6 +34,7 @@
                     foreach (var item in Model)
                     {
                         <tr class="odd gradeX">
+                            <input type="hidden" name="ID" value="@item.Id" />
                             <td>@i</td>
                             <td>@item.tbl_Tour.Name</td>
                             <td>@(item.tbl_Dictionary != null ? item.tbl_Dictionary.Name : "")</td>
@@ -49,3 +50,21 @@
         </table>
 
     </div>
+<script>
+    $("table#table-booking").delegate("tr", "click", function () {
+        $('tr').not(this).removeClass('oneselected');
+        $(this).toggleClass('oneselected');
+
+        var dataPost = { id: $(this).find("input[type='hidden']").val() };
+        $.ajax({
+            type: "POST",
+            url: '/TourSchedule/InfoLichDiTour',
+            data: JSON.stringify(dataPost),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                $("#table-document").html(data);
+            }
+        });
+    });
+</script>

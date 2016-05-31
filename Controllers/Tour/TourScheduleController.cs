@@ -339,5 +339,19 @@ namespace CRMViettour.Controllers.Tour
                 return PartialView("_Partial_TourScheduleList", model);
             }
         }
+        #region Chi tiết lịch đi tour
+        [ChildActionOnly]
+        public ActionResult _LichDiTour()
+        {
+            return PartialView("_LichDiTour");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> InfoLichDiTour(int id)
+        {
+            var model = await _tourScheduleRepository.GetById(id);
+            return PartialView("_LichDiTour", model);
+        }
+        #endregion
     }
 }

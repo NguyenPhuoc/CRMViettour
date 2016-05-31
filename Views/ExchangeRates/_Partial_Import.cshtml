@@ -1,0 +1,31 @@
+﻿<div class="modal fade bs-modal-lg" id="modal-import" role="document" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Import Tỷ giá</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <input type="file" name="Import" id="fileImport" class="form-control" style="width:250px; float:left; padding:2.5px 1px" />
+
+                            <button class="btn btn-danger" id="btnRemove" onclick="DeleteImport()"><i class="fa fa-times"></i>&nbsp;Xóa</button>
+                            <button class="btn yellow" id="btnLuuImport" onclick="SaveImport()"><i class="fa fa-floppy-o"></i>&nbsp;Lưu</button>
+                            <button class="btn grey" data-dismiss="modal"><i class="fa fa-ban"></i>&nbsp;Đóng</button>
+                            <a class="btn green" data-toggle="modal" href="/Utilities/Upload/Tỷ giá VCB.xlsx"><i class="fa fa-file-text"></i>&nbsp;File Mẫu</a>
+                        </div>
+                        <div class="col-md-12 margintop10" id="import-data">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+

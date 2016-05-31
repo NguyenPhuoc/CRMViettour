@@ -1,0 +1,155 @@
+﻿@using CRMViettour.Models
+@using CRM.Core
+@model IEnumerable<tbl_Dictionary>
+
+@{
+    ViewBag.Title = "Quản lý tỷ giá";
+    int i = 1;
+}
+
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD-->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>QUẢN LÝ PHÒNG BAN</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+    </div>
+    <!-- END PAGE HEAD-->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="/">Trang chủ</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span class="active">Page Layouts</span>
+        </li>
+    </ul>
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE BASE CONTENT -->
+    <div class="note note-info">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-default" href="@Url.Action("Index", "ExchangeRates")"><i class="fa fa-refresh"></i>&nbsp;Nạp</a>
+                 @if (ViewBag.IsAdd != null && ViewBag.IsAdd)
+                {
+                    <button class="btn btn-primary" data-toggle="modal" href="#modal-import"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                }
+                @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
+                {
+                    <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
+                }
+                @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
+                {
+                    <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
+                    <form action="@Url.Action("Delete", "ExchangeRates")" method="post" style="position:absolute">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="listItemId" name="listItemId" />
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
+                        <table class="table table-bordered table-hover table-addrow dataTable" id="tableDictionary">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th class="table-checkbox">
+                                        <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />
+                                    </th>
+                                    <th>STT</th>
+                                    <th>Ngày</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><input type="checkbox" value="@item.Id" class="cbItem" id="cb@(item.Id)" name="cb" onclick="CheckSelect()" /></td>
+                                        <td>@i</td>
+                                        <td>@item.Name</td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet light bordered" id="tabThongTinChiTiet">
+                <div class="portlet-body">
+                    <div class="tabbable-custom ">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab1" data-toggle="tab">Tỷ giá ngoại tệ</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="table-document">
+                                @Html.Action("_TyGia", "ExchangeRates")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE BASE CONTENT -->
+</div>
+<!----- tab visa ----->
+@Html.Partial("_Partial_Import")
+<div id="info-data">
+</div>
+@section scripts{
+    <script src="~/Scripts/controller/exchangerates.js"></script>
+    <script>
+        //fileImport ty giá
+        $('#fileImport').change(function () {
+            var data = new FormData();
+            data.append('FileName', $('#fileImport')[0].files[0]);
+
+            var ajaxRequest = $.ajax({
+                type: "POST",
+                url: '/ExchangeRates/ImportFile',
+                contentType: false,
+                processData: false,
+                data: data
+            });
+
+            ajaxRequest.done(function (xhr, textStatus) {
+                // Onsuccess
+            });
+            ajaxRequest.success(function (data) {
+                $("#import-data").html(data);
+            })
+        });
+
+        // save import
+        function SaveImport() {
+            $.ajax({
+                type: "POST",
+                url: '/ExchangeRates/SaveImport',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (data) {
+                    $("#modal-import").modal('hide');
+                    window.location.href = "/ExchangeRates";
+                   
+                }
+            });
+        }
+    </script>
+}

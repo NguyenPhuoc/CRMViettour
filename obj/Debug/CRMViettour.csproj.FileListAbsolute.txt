@@ -77,3 +77,9 @@ C:\DIP\CRMVT\CRMViettour\obj\Debug\Fakes\ef\f.csproj
 C:\DIP\CRMVT\CRMViettour\obj\Debug\Fakes\ef\o\EntityFramework.Fakes.dll
 C:\DIP\CRMVT\CRMViettour\obj\Debug\Fakes\ef\o\EntityFramework.Fakes.pdb
 C:\DIP\CRMVT\CRMViettour\bin\CRMViettour.dll
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRM.Core.dll
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRM.Enum.dll
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRM.Infrastructure.dll
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRM.Core.pdb
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRM.Enum.pdb
+C:\Users\PANDA CAPRICORN\Desktop\CRMViettour\bin\CRM.Infrastructure.pdb

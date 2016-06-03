@@ -33,15 +33,15 @@
                 {
                     <tr class="odd gradeX">
                         <td>@i</td>
-                        <td>@string.Format("{0:0,0}", item.FirstPrice)</td>
+                        <td>@string.Format("{0:0,0}", item.FirstPrice).Replace(",", ".")</td>
                         <td>@string.Format("{0:dd-MM-yyyy}", item.FirstDate)</td>
-                        <td>@string.Format("{0:0,0}", item.SecondPrice)</td>
+                        <td>@string.Format("{0:0,0}", item.SecondPrice).Replace(",", ".")</td>
                         <td>@string.Format("{0:dd-MM-yyyy}", item.SecondDate)</td>
-                        <td>@string.Format("{0:0,0}", item.ThirdPrice)</td>
+                        <td>@string.Format("{0:0,0}", item.ThirdPrice).Replace(",", ".")</td>
                         <td>@string.Format("{0:dd-MM-yyyy}", item.ThirdDate)</td>
-                        <td>@string.Format("{0:0,0}", item.TotalContract)</td>
-                        <td>@string.Format("{0:0,0}", item.TotalLiquidation)</td>
-                        <td>@string.Format("{0:0,0}", item.TotalRemaining)</td>
+                        <td>@string.Format("{0:0,0}", item.TotalContract).Replace(",", ".")</td>
+                        <td>@string.Format("{0:0,0}", item.TotalLiquidation).Replace(",", ".")</td>
+                        <td>@string.Format("{0:0,0}", item.TotalRemaining).Replace(",", ".")</td>
                         <td>
                             <input type="checkbox" @(item.IsPayment == true ? "checked" : "") disabled="disabled" />
                         </td>

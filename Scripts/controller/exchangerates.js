@@ -2,12 +2,7 @@
     $("#fileImport").val('');
     $("#import-data").html('');
 }
-$(".dataTable").dataTable().columnFilter({
-    sPlaceHolder: "head:after",
-    aoColumns: [null,
-                null,
-                { type: "text" }]
-});
+$(".dataTable").dataTable();
 
 $("table#tableDictionary").delegate("tr", "click", function () {
     $('tr').not(this).removeClass('oneselected');

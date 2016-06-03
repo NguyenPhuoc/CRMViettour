@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers.Other
 {
+    [Authorize]
     public class CalculatorManageController : Controller
     {
         // GET: CalculatorManage

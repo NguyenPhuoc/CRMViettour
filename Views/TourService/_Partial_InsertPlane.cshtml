@@ -122,8 +122,16 @@
                                                                                 <input name="name-deadline-plane11" required id="name-deadline-plane11" type="text" class="form-control name-deadline-plane" />
                                                                             </div>
                                                                             <label class="control-label col-lg-2 col-md-2">Số tiền</label>
-                                                                            <div class="col-lg-4 col-md-4">
+                                                                            <div class="col-lg-2 col-md-2">
                                                                                 <input name="sotien-deadline-plane11" id="sotien-deadline-plane11" type="number" min="0" class="form-control sotien-deadline-plane" />
+                                                                            </div>
+                                                                            <div class="col-lg-2 col-md-2">
+                                                                                <select id="deadline-currency-plane11" name="deadline-currency-plane11" style="width: 100%" class="form-control deadline-currency-plane">
+                                                                                    @foreach (var item in LoadData.CurrencyList())
+                                                                                    {
+                                                                                    <option value="@item.Id">@item.Name</option>
+                                                                                    }
+                                                                                </select>
                                                                             </div>
                                                                         </div>
                                                                     </div>

@@ -90,7 +90,7 @@ namespace CRMViettour.Controllers.Quotation
 
         [HttpPost]
         [ValidateInput(false)]
-        public async Task<ActionResult> Create(tbl_Quotation model, FormCollection form)
+        public async Task<ActionResult> Create(tbl_Quotation model, FormCollection form, HttpPostedFileBase FileName)
         {
             try
             {
@@ -100,18 +100,19 @@ namespace CRMViettour.Controllers.Quotation
                     model.ModifiedDate = DateTime.Now;
                     model.TagsId = form["TagsId"].ToString();
                     model.StaffId = clsPermission.GetUser().StaffID;
+                    model.StartDate = DateTime.Now;
+                    model.EndDate = DateTime.Now;
                     if (form["QuotationDate"] != null)
                     {
                         model.QuotationDate = Convert.ToDateTime(form["QuotationDate"].ToString());
                     }
                     model.DictionaryId = 29;
 
-                    HttpPostedFileBase file = Request.Files["FileName"];
-                    if (file != null && file.ContentLength > 0)
+                    if (FileName != null && FileName.ContentLength > 0)
                     {
-                        String path = Server.MapPath("~/Upload/file/" + file.FileName);
-                        file.SaveAs(path);
-                        model.FileName = file.FileName;
+                        String path = Server.MapPath("~/Upload/file/" + FileName.FileName);
+                        FileName.SaveAs(path);
+                        model.FileName = FileName.FileName;
                     }
 
                     if (await _quotationRepository.Create(model))

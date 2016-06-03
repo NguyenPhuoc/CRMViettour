@@ -11,8 +11,8 @@
 
 $("#customer-select2").select2();
 $("#country-insert-profilevisa").select2();
-//$("#insert-tgiancap").datepicker();
-//$("#edit-tgiancap").datepicker();
+$("#insert-currency").select2();
+$("#insert-currency-service").select2();
 $("#btnEdit").click(function () {
     var dataPost = {
         id: $("input[type='checkbox']:checked").val()
@@ -27,6 +27,8 @@ $("#btnEdit").click(function () {
         success: function (data) {
             $("#info-data").html(data);
             $("#country-edit-profilevisa").select2();
+            $("#edit-currency").select2();
+            $("#edit-currency-service").select2();
             $("#modal-edit-infovisa").modal("show");
         }
     });

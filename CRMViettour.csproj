@@ -45,26 +45,21 @@
   <ItemGroup>
     <Reference Include="CRM.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CRM.Core.dll</HintPath>
+      <HintPath>E:\WORK\DIP VIETNAM\CRM VIETTOURS\web_CRMViettours\Viettour\CRM.Core\bin\Debug\CRM.Core.dll</HintPath>
     </Reference>
     <Reference Include="CRM.Enum, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CRM.Enum.dll</HintPath>
+      <HintPath>E:\WORK\DIP VIETNAM\CRM VIETTOURS\web_CRMViettours\Viettour\CRM.Infrastructure\bin\Debug\CRM.Enum.dll</HintPath>
     </Reference>
     <Reference Include="CRM.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\CRM.Infrastructure.dll</HintPath>
+      <HintPath>E:\WORK\DIP VIETNAM\CRM VIETTOURS\web_CRMViettours\Viettour\CRM.Infrastructure\bin\Debug\CRM.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus, Version=4.0.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>packages\EPPlus.4.0.5\lib\net20\EPPlus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
-      <HintPath>packages\ExcelPackage.1.0.0\lib\Microsoft.Office.Interop.Excel.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -227,6 +222,7 @@
     <Compile Include="Controllers\Customer\OriginManageController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\DocumentManageController.cs" />
+    <Compile Include="Controllers\ExchangeRatesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LivechatManageController.cs" />
     <Compile Include="Controllers\MapManageController.cs" />
@@ -298,6 +294,7 @@
     <Compile Include="Models\TagsViewModel.cs" />
     <Compile Include="Models\TourServiceViewModel.cs" />
     <Compile Include="Models\TourViewModel.cs" />
+    <Compile Include="Models\TyGiaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\clsPermission.cs" />
@@ -2056,6 +2053,7 @@
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\calc\CalcSS3.css" />
     <Content Include="Scripts\calc\CalcSS3.js" />
+    <Content Include="Scripts\controller\exchangerates.js" />
     <Content Include="Scripts\controller\permission.js" />
     <Content Include="Scripts\controller\module.js" />
     <Content Include="Scripts\controller\appointmentlist.js" />
@@ -2578,6 +2576,10 @@
     <Content Include="Views\VisaManage\_Partial_Import_ProfileVisa.cshtml" />
     <Content Include="Views\VisaManage\_Partial_Insert_ProfileVisa.cshtml" />
     <Content Include="Views\CalculatorManage\Index.cshtml" />
+    <Content Include="Views\ExchangeRates\Index.cshtml" />
+    <Content Include="Views\ExchangeRates\_Partial_Import.cshtml" />
+    <Content Include="Views\ExchangeRates\_TyGia.cshtml" />
+    <Content Include="Views\TourSchedule\_LichDiTour.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

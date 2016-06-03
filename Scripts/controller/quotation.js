@@ -19,7 +19,7 @@ $("#insert-code-customer").select2();
 $("#insert-code-country").select2();
 $("#insert-staff-quotation").select2();
 $("#insert-tags").select2();
-//$("#insert-ngaybaogia").datepicker();
+$("#insert-currency").select2();
 
 $("#btnEdit").click(function () {
     var dataPost = {
@@ -40,7 +40,7 @@ $("#btnEdit").click(function () {
             $("#edit-code-country").select2();
             $("#edit-tags").select2();
             $("#edit-staff-quotation").select2();
-            //$("#edit-ngaybaogia").datepicker();
+            $("#edit-currency").select2();
             $("#modal-edit-quotation").modal("show");
         }
     });

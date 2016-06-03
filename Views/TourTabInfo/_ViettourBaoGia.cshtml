@@ -40,7 +40,7 @@
                             <td>@item.Code</td>
                             <td>@string.Format("{0:dd-MM-yyyy}", item.QuotationDate)</td>
                             <td>@item.tbl_StaffQuotation.FullName</td>
-                            <td>@string.Format("{0:0,0}", item.PriceTour)</td>
+                            <td>@string.Format("{0:0,0}", item.PriceTour).Replace(',','.') @item.tbl_DictionaryCurrency.Name</td>
                             <td>@item.tbl_DictionaryCurrency.Name</td>
                             <td>                                
                                 @if (ext == ".pdf")

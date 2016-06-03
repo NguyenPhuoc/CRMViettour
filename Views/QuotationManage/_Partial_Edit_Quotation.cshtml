@@ -14,9 +14,11 @@
                 {
                     @Html.HiddenFor(model => model.Id)
                     @Html.HiddenFor(model => model.CreatedDate)
-                    @Html.HiddenFor(model => model.ModifiedDate)
+                    @Html.HiddenFor(model => model.StartDate)
+                    @Html.HiddenFor(model => model.EndDate)
                     @Html.HiddenFor(model => model.StaffId)
                     @Html.HiddenFor(model => model.FileName)
+                    
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="col-md-12">
@@ -49,7 +51,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">Quốc gia</label>
                                     <div class="col-md-4">
-                                        <select id="edit-code-country" class="form-control" name="CountryId" style="width: 100%">
+                                        <select id="edit-code-country" class="form-control" name="CountryId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.DropdownlistCountry())
                                             {
                                                 <option value="@item.Id" @(Model != null && Model.CountryId == item.Id ? "selected" : "")>@item.Tags</option>
@@ -58,7 +60,7 @@
                                     </div>
                                     <label class="control-label col-md-2">Tags</label>
                                     <div class="col-md-4">
-                                        <select id="edit-tags" class="form-control" multiple="multiple" name="TagsId" style="width: 100%">
+                                        <select id="edit-tags" class="form-control" multiple="multiple" name="TagsId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.DropdownlistLocation())
                                             {
                                                 <option value="@item.Id" @(Model.TagsId != null && Model.TagsId != null && Model.TagsId.Split(',').Contains(item.Id.ToString()) ? "selected" : "")>@item.Tags</option>
@@ -72,8 +74,16 @@
                                         @Html.TextBoxFor(model => model.FileName, new { @class = "form-control", type = "file" })
                                     </div>
                                     <label class="control-label col-md-2">Tổng giá trị</label>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2 col-lg-2">
                                         @Html.TextBoxFor(model => model.PriceTour, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <select id="edit-currency" name="CurrencyId" style="width: 100%" class="form-control">
+                                            @foreach (var item in LoadData.CurrencyList())
+                                            {
+                                                <option value="@item.Id" @(Model.CurrencyId != null && Model.CurrencyId == item.Id ? "selected" : "")>@item.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">

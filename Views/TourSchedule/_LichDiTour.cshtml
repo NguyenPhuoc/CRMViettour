@@ -5,12 +5,7 @@
 {
     <div class="row">
         <div class="col-md-12">
-            <p><b>Tour:</b> @(Model.tbl_Tour != null ? Model.tbl_Tour.Name : "")</p>
-            <p><b>Loại dịch vụ:</b> @(Model.tbl_Dictionary != null ? Model.tbl_Dictionary.Name : "")</p>
-            <p><b>Đối tác:</b> @(Model.tbl_Partner != null ? Model.tbl_Partner.Name : "")</p>
-            <p><b>Nội dung:</b> @Html.Raw(Model.Note)</p>
-            <p><b>Thời gian:</b> @string.Format("{0} {1:dd-MM-yyyy}", Model.StartTime, Model.Date)</p>
-            <p><b>Ngày nhập:</b> @string.Format("{0:dd-MM-yyyy}", Model.CreatedDate)</p>
+            <p>@Html.Raw(Model.Note)</p>
         </div>
     </div>
 }

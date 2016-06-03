@@ -107,7 +107,7 @@
                                             <td>@item.tbl_Tour.Code</td>
                                             <td>@item.tbl_TagsCountry.Tag</td>
                                             <td>@string.Format("{0:dd-MM-yyyy}", item.QuotationDate)</td>
-                                            <td>@string.Format("{0:0,0}", item.PriceTour).Replace(",", ".")</td>
+                                            <td>@string.Format("{0:0,0}", item.PriceTour).Replace(",", ".") @item.tbl_DictionaryCurrency.Name</td>
                                             <td>@(item.tbl_Customer != null ? item.tbl_Customer.Code : "")</td>
                                             <td>@item.tbl_StaffQuotation.FullName</td>
                                             <td>@item.tbl_Staff.FullName</td>

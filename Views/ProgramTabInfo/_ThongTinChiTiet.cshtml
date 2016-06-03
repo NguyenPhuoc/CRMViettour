@@ -10,7 +10,7 @@
         <br />
         <label><b>Khách hàng/doanh nghiệp:</b> @Model.tbl_Customer.FullName</label>
         <br />
-        <label><b>Tổng giá trị:</b> @string.Format("{0:0,0}", Model.TotalPrice)</label>
+        <label><b>Tổng giá trị:</b> @string.Format("{0:0,0}", Model.TotalPrice).Replace(',','.') @Model.tbl_DictionaryCurrency.Name</label>
         <br />
         <label><b>Ghi chú:</b> @Html.Raw(Model.Note)</label>
     </p>

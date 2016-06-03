@@ -111,10 +111,10 @@ namespace CRMViettour.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.Permission = "";
+                model.Permission = clsPermission.GetUser().StaffID.ToString();
                 model.DictionaryId = 28;
                 model.StaffId = clsPermission.GetUser().StaffID;
-                model.TagsId = "";
+                model.TagsId = form["TagsId"].ToString();
 
                 if (await _contractRepository.Create(model))
                 {
@@ -176,7 +176,10 @@ namespace CRMViettour.Controllers
                         foreach (string id in listIds)
                         {
                             var update = _db.tbl_UpdateHistory.AsEnumerable().FirstOrDefault(p => p.ContractId.ToString() == id);
-                            _db.tbl_UpdateHistory.Remove(update);
+                            if (update != null)
+                            {
+                                _db.tbl_UpdateHistory.Remove(update);
+                            }
                         }
                         if (await _contractRepository.DeleteMany(listIds, false))
                         {

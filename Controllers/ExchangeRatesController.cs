@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace CRMViettour.Controllers
 {
+    [Authorize]
     public class ExchangeRatesController : BaseController
     {
         //
@@ -51,6 +52,7 @@ namespace CRMViettour.Controllers
         {
             return View();
         }
+
         #region Tỷ giá
         [ChildActionOnly]
         public ActionResult _TyGia()

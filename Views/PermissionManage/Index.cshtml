@@ -102,61 +102,10 @@
                             <li class="active">
                                 <a href="#nguoidung" id="tabnguoidung" data-toggle="tab">Người dùng</a>
                             </li>
-                            <li>
-                                <a href="#quyentruycap" id="tabquyentruycap" data-toggle="tab">Quyền truy cập</a>
-                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="nguoidung" data-id="nguoidung">
                                 @Html.Action("_NguoiDung", "PermissionManage")
-                            </div>
-                            <div class="tab-pane" id="quyentruycap" data-id="quyentruycap">
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <div class="dd-handle">
-                                            <a data-toggle="collapse" href="#collapse1">
-                                                <i class="fa fa-minus"></i>&nbsp;<b>Nhân viên</b>
-                                            </a>
-                                        </div>
-                                        <div id="collapse1" class="panel-collapse collapse in">
-                                            <div class="dd-handle marginleft"><a href="#">Phòng ban</a></div>
-                                            <div class="dd-handle marginleft"><a href="#">Chức vụ</a></div>
-                                            <div class="dd-handle marginleft"><a href="#">Phân quyền</a></div>
-                                        </div>
-                                        <div class="dd-handle">
-                                            <a data-toggle="collapse" href="#collapse2">
-                                                <i class="fa fa-minus"></i>&nbsp;<b>Khách hàng</b>
-                                            </a>
-                                        </div>
-                                        <div id="collapse2" class="panel-collapse collapse in">
-                                            <div class="dd-handle marginleft"><a href="#">Nhóm khách hàng</a></div>
-                                            <div class="dd-handle marginleft"><a href="#">Ngành nghề</a></div>
-                                            <div class="dd-handle marginleft"><a href="#">Quy mô</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5" style="border-left: 2px solid #ccc; height: 355px; padding-left: 0;">
-                                        <div class="list-permission" style="border: 0px">
-                                            <input type="checkbox" name="chkAction" />
-                                            Thêm
-                                            <br />
-                                            <input type="checkbox" name="chkAction" />
-                                            Xóa
-                                            <br />
-                                            <input type="checkbox" name="chkAction" />
-                                            Sửa
-                                            <br />
-                                            <input type="checkbox" name="chkAction" />
-                                            Import
-                                            <br />
-                                            <input type="checkbox" name="chkAction" />
-                                            Export
-                                            <br />
-                                            <input type="checkbox" name="chkAction" />
-                                            In
-                                            <br />
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

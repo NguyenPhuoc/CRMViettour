@@ -1,19 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMViettour", "CRMViettour.csproj", "{F2CCE648-D320-437F-8A3C-FA0557548C0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Core", "E:\WORK\DIP VIETNAM\CRM VIETTOURS\web_CRMViettours\Viettour\CRM.Core\CRM.Core.csproj", "{C606F959-92CA-4B8F-9400-CC22476F1AD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Enum", "E:\WORK\DIP VIETNAM\CRM VIETTOURS\web_CRMViettours\Viettour\CRM.Enum\CRM.Enum.csproj", "{45324C00-AB1F-427C-B108-0BECB8CB7295}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Infrastructure", "E:\WORK\DIP VIETNAM\CRM VIETTOURS\web_CRMViettours\Viettour\CRM.Infrastructure\CRM.Infrastructure.csproj", "{0B4FD608-2691-45CB-AA40-E84437299C6E}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://14.161.27.251:8080/tfs/website2014
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = CRMViettour.csproj
-		SccLocalPath1 = .
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -23,6 +21,18 @@ Global
 		{F2CCE648-D320-437F-8A3C-FA0557548C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2CCE648-D320-437F-8A3C-FA0557548C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2CCE648-D320-437F-8A3C-FA0557548C0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C606F959-92CA-4B8F-9400-CC22476F1AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C606F959-92CA-4B8F-9400-CC22476F1AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C606F959-92CA-4B8F-9400-CC22476F1AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C606F959-92CA-4B8F-9400-CC22476F1AD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45324C00-AB1F-427C-B108-0BECB8CB7295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45324C00-AB1F-427C-B108-0BECB8CB7295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45324C00-AB1F-427C-B108-0BECB8CB7295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45324C00-AB1F-427C-B108-0BECB8CB7295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B4FD608-2691-45CB-AA40-E84437299C6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4FD608-2691-45CB-AA40-E84437299C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B4FD608-2691-45CB-AA40-E84437299C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B4FD608-2691-45CB-AA40-E84437299C6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

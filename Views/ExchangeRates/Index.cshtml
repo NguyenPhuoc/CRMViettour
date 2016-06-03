@@ -37,10 +37,6 @@
                 {
                     <button class="btn btn-primary" data-toggle="modal" href="#modal-import"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
                 }
-                @if (ViewBag.IsEdit != null && ViewBag.IsEdit)
-                {
-                    <button class="btn btn-warning" id="btnEdit"><i class="fa fa-pencil"></i>&nbsp;Sửa</button>
-                }
                 @if (ViewBag.IsDelete != null && ViewBag.IsDelete)
                 {
                     <button class="btn btn-danger" id="btnRemove"><i class="fa fa-remove"></i>&nbsp;Xóa</button>
@@ -60,11 +56,6 @@
                     <div class="table-responsive table-custom-format" id="tableDictionary-Wrapper">
                         <table class="table table-bordered table-hover table-addrow dataTable" id="tableDictionary">
                             <thead>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
                                 <tr>
                                     <th class="table-checkbox">
                                         <input type="checkbox" id="allcb" name="allcb" onclick="SelectAllCb()" />

@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using CRM.Core;
+using CRMViettour.Models;
 using CRM.Infrastructure;
 using System.Net.Mail;
 using System.Net;

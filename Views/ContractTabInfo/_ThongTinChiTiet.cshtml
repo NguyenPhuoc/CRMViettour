@@ -19,7 +19,7 @@
         <div class="col-md-6">
             <p><b>Ngày kết thúc:</b> @Model.EndDate.ToString("dd-MM-yyyy")</p>
             <p><b>Ngày ký hợp đồng:</b> @Model.ContractDate.ToString("dd-MM-yyyy")</p>
-            <p><b>Tổng giá tri hợp đồng:</b> @Model.TotalPrice</p>
+            <p><b>Tổng giá trị hợp đồng:</b> @string.Format("{0:0,0}", Model.TotalPrice).Replace(",", ".") @Model.tbl_DictionaryCurrency.Name</p>
             <p><b>Khách hàng:</b> @(Model.tbl_Customer != null ? Model.tbl_Customer.FullName : "")</p>
             <p><b>Người tạo:</b> @Model.tbl_Staff.FullName</p>
         </div>

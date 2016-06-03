@@ -260,6 +260,7 @@ function deleteService(tourid, optionid) {
 $("#insert-currency-event1").select2();
 $("#insert-company-event1").select2();
 $("#deadline-status-event11").select2();
+$("#deadline-currency-event11").select2();
 CKEDITOR.replace("insert-note-event1");
 CKEDITOR.replace("deadline-note-event11");
 /******** duplicate *******/
@@ -294,9 +295,10 @@ function addNewOptionEvent() {
 
     newElem.find('.deadline-name-event').attr('id', 'deadline-name-event' + newNum + 1).attr('name', 'deadline-name-event' + newNum + 1);
     newElem.find('.deadline-total-event').attr('id', 'deadline-total-event' + newNum + 1).attr('name', 'deadline-total-event' + newNum + 1);
-    newElem.find('.deadline-thoigian-event').attr('id', 'deadline-thoigian-event' + newNum + 1).attr('name', 'deadline-thoigian-event' + newNum + 1)
+    newElem.find('.deadline-thoigian-event').attr('id', 'deadline-thoigian-event' + newNum + 1).attr('name', 'deadline-thoigian-event' + newNum + 1);
     newElem.find('.deadline-status-event').attr('id', 'deadline-status-event' + newNum + 1).attr('name', 'deadline-status-event' + newNum + 1);
-    newElem.find('.deadline-note-event').attr('id', 'deadline-note-event' + newNum + 1).attr('name', 'deadline-note-event' + newNum + 1)
+    newElem.find('.deadline-note-event').attr('id', 'deadline-note-event' + newNum + 1).attr('name', 'deadline-note-event' + newNum + 1);
+    newElem.find('.deadline-currency-event').attr('id', 'deadline-currency-event' + newNum + 1).attr('name', 'deadline-currency-event' + newNum + 1)
 
     var arr = newElem.find('.DeadlineEvent').toArray();
     newElem.find('.DeadlineEvent').each(function (index) {
@@ -336,6 +338,7 @@ function addNewOptionEvent() {
     newElem.find("#select2-insert-company-event" + num + "-container").parent().parent().parent().remove();
     newElem.find("#select2-insert-currency-event" + num + "-container").parent().parent().parent().remove();
     newElem.find("#select2-deadline-status-event" + num + arr.length + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-deadline-currency-event" + num + arr.length + "-container").parent().parent().parent().remove();
     newElem.find("#cke_insert-note-event" + num).remove();
     newElem.find("#cke_deadline-note-event" + num + arr.length).remove();
 
@@ -343,6 +346,7 @@ function addNewOptionEvent() {
     $("#insert-currency-event" + newNum).select2();
     CKEDITOR.replace("insert-note-event" + newNum);
     $('#deadline-status-event' + newNum + 1).select2();
+    $('#deadline-currency-event' + newNum + 1).select2();
     CKEDITOR.replace("deadline-note-event" + newNum + 1);
 }
 function addNewDeadlineEvent(i) {
@@ -359,6 +363,7 @@ function addNewDeadlineEvent(i) {
     newElem.find('.deadline-total-event').attr('name', 'deadline-total-event' + i + newNum).attr('id', 'deadline-total-event' + i + newNum).val('');
     newElem.find('.deadline-thoigian-event').attr('id', 'deadline-thoigian-event' + i + newNum).attr('name', 'deadline-thoigian-event' + i + newNum).val('');
     newElem.find('.deadline-status-event').attr('id', 'deadline-status-event' + i + newNum).attr('name', 'deadline-status-event' + i + newNum);
+    newElem.find('.deadline-currency-event').attr('id', 'deadline-currency-event' + i + newNum).attr('name', 'deadline-currency-event' + i + newNum);
     newElem.find('.deadline-note-event').attr('id', 'deadline-note-event' + i + newNum).attr('name', 'deadline-note-event' + i + newNum);
 
     newElem.find('.deadline-event-a').attr('data-target', '#deadline-event' + i + newNum);
@@ -371,9 +376,11 @@ function addNewDeadlineEvent(i) {
     $("#countDeadlineEvent" + i).val(newNum);
 
     newElem.find("#select2-deadline-status-event" + i + num + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-deadline-currency-event" + i + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_deadline-note-event" + i + num).remove();
 
     $('#deadline-status-event' + i + newNum).select2();
+    $('#deadline-currency-event' + i + newNum).select2();
     CKEDITOR.replace("deadline-note-event" + i + newNum);
 }
 function removeOptionEvent() {
@@ -405,6 +412,7 @@ function removeDeadlineEvent(x, y) {
 $("#RestaurantName1").select2();
 $('#DeadlineStatus11').select2();
 $('#RestaurantCurrency1').select2();
+$("#deadline-currency-restaurant11").select2();
 CKEDITOR.replace("RestaurantNote1");
 CKEDITOR.replace("DeadlineNote11");
 /******** duplicate *******/
@@ -441,6 +449,7 @@ function addNewOption() {
     newElem.find('.DeadlineRestauranA').attr('data-target', '#deadline-restauran' + newNum + 1);
     newElem.find('.DeadlineRestauranBody').attr('id', 'deadline-restauran' + newNum + 1);
     newElem.find('.DeadlineTitle').html('Deadline 1');
+    newElem.find('.deadline-currency-restaurant').attr('id', 'deadline-currency-restaurant' + newNum + 1).attr('name', 'deadline-currency-restaurant' + newNum + 1);
 
     newElem.find('.countDeadline').attr('id', 'countDeadlineRestaurant' + newNum).attr('name', 'NumberDeadlineRestaurant' + newNum).val(1)
 
@@ -469,7 +478,6 @@ function addNewOption() {
             // Onsuccess
         });
     });
-
     $('#RestaurantName' + newNum).change(function () {
         $.getJSON('/TourService/LoadPartner/' + $('#RestaurantName' + newNum).val(), function (data) {
             $('#RestaurantAddress' + newNum).val(data.Address);
@@ -484,10 +492,12 @@ function addNewOption() {
     newElem.find("#cke_RestaurantNote" + num).remove();
     newElem.find("#cke_DeadlineNote" + num + arr.length).remove();
     newElem.find("#select2-DeadlineStatus" + num + arr.length + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-deadline-currency-restaurant" + num + arr.length + "-container").parent().parent().parent().remove();
     //}
     $("#RestaurantCurrency" + newNum).select2();
     $("#RestaurantName" + newNum).select2();
     $("#DeadlineStatus" + newNum + 1).select2();
+    $("#deadline-currency-restaurant" + newNum + 1).select2();
     CKEDITOR.replace("DeadlineNote" + newNum + 1);
     newElem.find('.btnRemoveOption').attr('disabled', false);
     $('#OptionRestaurant' + num).find('.actionsOption').remove();
@@ -500,6 +510,7 @@ function addNewDeadline(i) {
 
     $('#DeadlineRestauran' + i + num).find('.actions').remove();
 
+    newElem.find('.deadline-currency-restaurant').attr('name', 'deadline-currency-restaurant' + i + newNum).attr('id', 'deadline-currency-restaurant' + i + newNum);
     newElem.find('.DeadlineStatus').attr('name', 'DeadlineStatus' + i + newNum).attr('id', 'DeadlineStatus' + i + newNum);
     newElem.find('.DeadlineNote').attr('name', 'DeadlineNote' + i + newNum).attr('id', 'DeadlineNote' + i + newNum);
     newElem.find('.DeadlineTen').attr('id', 'DeadlineTen' + i + newNum).attr('name', 'DeadlineTen' + i + newNum).val('')
@@ -519,8 +530,10 @@ function addNewDeadline(i) {
 
     CKEDITOR.replace("DeadlineNote" + i + newNum);
     newElem.find("#select2-DeadlineStatus" + i + num + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-deadline-currency-restaurant" + i + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_DeadlineNote" + i + num).remove();
     $("#DeadlineStatus" + i + newNum).select2();
+    $("#deadline-currency-restaurant" + i + newNum).select2();
 }
 function removeDeadline(x, y) {
     var actions = $('#DeadlineRestauran' + x + y).find('.actions').clone();
@@ -551,6 +564,7 @@ $("#hotel-tour1").select2();
 $("#currency-hotel-tour1").select2();
 $('#star-hotel1').select2();
 $('#deadline-status-hotel11').select2();
+$('#deadline-currency-hotel11').select2();
 CKEDITOR.replace("note-hotel1");
 CKEDITOR.replace("deadline-note-hotel11");
 /******** duplicate *******/
@@ -589,6 +603,7 @@ function addNewOptionHotel() {
     newElem.find('.deadline-total-hotel').attr('id', 'deadline-total-hotel' + newNum + 1).attr('name', 'deadline-total-hotel' + newNum + 1).val('');
     newElem.find('.deadline-thoigian-hotel').attr('id', 'deadline-thoigian-hotel' + newNum + 1).attr('name', 'deadline-thoigian-hotel' + newNum + 1).val('');
     newElem.find('.deadline-status-hotel').attr('id', 'deadline-status-hotel' + newNum + 1).attr('name', 'deadline-status-hotel' + newNum + 1);
+    newElem.find('.deadline-currency-hotel').attr('id', 'deadline-currency-hotel' + newNum + 1).attr('name', 'deadline-currency-hotel' + newNum + 1);
     newElem.find('.deadline-note-hotel').attr('id', 'deadline-note-hotel' + newNum + 1).attr('name', 'deadline-note-hotel' + newNum + 1)
 
     newElem.find('.countDeadline').attr('id', 'countDeadlineHotel' + newNum).attr('name', 'NumberDeadlineHotel' + newNum).val(1)
@@ -607,6 +622,7 @@ function addNewOptionHotel() {
     newElem.find("#select2-currency-hotel-tour" + num + "-container").parent().parent().parent().remove();
     newElem.find("#select2-star-hotel" + num + "-container").parent().parent().parent().remove();
     newElem.find("#select2-deadline-status-hotel" + num + arr.length + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-deadline-currency-hotel" + num + arr.length + "-container").parent().parent().parent().remove();
     newElem.find("#cke_note-hotel" + num).remove();
     newElem.find("#cke_deadline-note-hotel" + num + arr.length).remove();
 
@@ -621,6 +637,7 @@ function addNewOptionHotel() {
     $('#star-hotel' + newNum).select2();
     CKEDITOR.replace("note-hotel" + newNum);
     $('#deadline-status-hotel' + newNum + 1).select2();
+    $('#deadline-currency-hotel' + newNum + 1).select2();
     CKEDITOR.replace("deadline-note-hotel" + newNum + 1);
 }
 function addNewDeadlineHotel(i) {
@@ -637,6 +654,7 @@ function addNewDeadlineHotel(i) {
     newElem.find('.deadline-total-hotel').attr('name', 'deadline-total-hotel' + i + newNum).attr('id', 'deadline-total-hotel' + i + newNum).val('');
     newElem.find('.deadline-thoigian-hotel').attr('id', 'deadline-thoigian-hotel' + i + newNum).attr('name', 'deadline-thoigian-hotel' + i + newNum).val('');
     newElem.find('.deadline-status-hotel').attr('id', 'deadline-status-hotel' + i + newNum).attr('name', 'deadline-status-hotel' + i + newNum);
+    newElem.find('.deadline-currency-hotel').attr('id', 'deadline-currency-hotel' + i + newNum).attr('name', 'deadline-currency-hotel' + i + newNum);
     newElem.find('.deadline-note-hotel').attr('id', 'deadline-note-hotel' + i + newNum).attr('name', 'deadline-note-hotel' + i + newNum);
 
     newElem.find('.deadline-hotel-a').attr('data-target', '#deadline-hotel' + i + newNum);
@@ -649,9 +667,11 @@ function addNewDeadlineHotel(i) {
     $("#countDeadlineHotel" + i).val(newNum);
 
     newElem.find("#select2-deadline-status-hotel" + i + num + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-deadline-currency-hotel" + i + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_deadline-note-hotel" + i + num).remove();
 
     $('#deadline-status-hotel' + i + newNum).select2();
+    $('#deadline-currency-hotel' + i + newNum).select2();
     CKEDITOR.replace("deadline-note-hotel" + i + newNum);
 }
 function removeOptionHotel() {
@@ -805,6 +825,7 @@ $("#loaitien-plane1").select2();
 $("#flight-plane1").select2();
 CKEDITOR.replace("note-plane1");
 $("#tinhtrang-deadline-plane11").select2();
+$("#deadline-currency-plane11").select2();
 CKEDITOR.replace("PlaneNoteDeadline11");
 /******** duplicate *******/
 function addNewOptionPlane() {
@@ -843,6 +864,7 @@ function addNewOptionPlane() {
     newElem.find('.sotien-deadline-plane').attr('id', 'sotien-deadline-plane' + newNum + 1).attr('name', 'sotien-deadline-plane' + newNum + 1).val('');
     newElem.find('.thoigian-deadline-plane').attr('id', 'thoigian-deadline-plane' + newNum + 1).attr('name', 'thoigian-deadline-plane' + newNum + 1).val('');
     newElem.find('.tinhtrang-deadline-plane').attr('id', 'tinhtrang-deadline-plane' + newNum + 1).attr('name', 'tinhtrang-deadline-plane' + newNum + 1);
+    newElem.find('.deadline-currency-plane').attr('id', 'deadline-currency-plane' + newNum + 1).attr('name', 'deadline-currency-plane' + newNum + 1);
     newElem.find('.file-deadline-plane').attr('id', 'file-deadline-plane' + newNum + 1).val('');
     newElem.find('.PlaneNoteDeadline').attr('id', 'PlaneNoteDeadline' + newNum + 1).attr('name', 'PlaneNoteDeadline' + newNum + 1);
 
@@ -861,6 +883,7 @@ function addNewOptionPlane() {
     newElem.find("#select2-flight-plane" + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_note-plane" + num).remove();
     newElem.find("#select2-tinhtrang-deadline-plane" + num + arr.length + "-container").parent().parent().parent().remove();
+    newElem.find("#select2-deadline-currency-plane" + num + arr.length + "-container").parent().parent().parent().remove();
     newElem.find("#cke_PlaneNoteDeadline" + num + arr.length).remove();
 
     $('#hang-plane' + newNum).select2();
@@ -868,6 +891,7 @@ function addNewOptionPlane() {
     $('#flight-plane' + newNum).select2();
     CKEDITOR.replace("note-plane" + newNum);
     $('#tinhtrang-deadline-plane' + newNum + 1).select2();
+    $('#deadline-currency-plane' + newNum + 1).select2();
     CKEDITOR.replace("PlaneNoteDeadline" + newNum + 1);
 
     $('#hang-plane' + newNum).change(function () {
@@ -887,12 +911,12 @@ function addNewDeadlinePlane(i) {
     newElem.find('.sotien-deadline-plane').attr('name', 'sotien-deadline-plane' + i + newNum).attr('id', 'sotien-deadline-plane' + i + newNum);
     newElem.find('.thoigian-deadline-plane').attr('id', 'thoigian-deadline-plane' + i + newNum).attr('name', 'thoigian-deadline-plane' + i + newNum);
     newElem.find('.tinhtrang-deadline-plane').attr('id', 'tinhtrang-deadline-plane' + i + newNum).attr('name', 'tinhtrang-deadline-plane' + i + newNum);
+    newElem.find('.deadline-currency-plane').attr('id', 'deadline-currency-plane' + i + newNum).attr('name', 'deadline-currency-plane' + i + newNum);
     newElem.find('.file-deadline-plane').attr('id', 'file-deadline-plane' + i + newNum).attr('name', 'file-deadline-plane' + i + newNum);
     newElem.find('.PlaneNoteDeadline').attr('id', 'PlaneNoteDeadline' + i + newNum).attr('name', 'PlaneNoteDeadline' + i + newNum);
 
     newElem.find('.DeadlinePlaneA').attr('data-target', '#deadline-plane' + i + newNum);
     newElem.find('.DeadlinePlaneBody').attr('id', 'deadline-plane' + i + newNum);
-
     newElem.find('.DeadlineTitle').html('Deadline ' + newNum);
     $("#countDeadlinePlane" + i).val(newNum);
 
@@ -920,10 +944,12 @@ function addNewDeadlinePlane(i) {
         });
     });
 
+    newElem.find("#select2-deadline-currency-plane" + i + num + "-container").parent().parent().parent().remove();
     newElem.find("#select2-tinhtrang-deadline-plane" + i + num + "-container").parent().parent().parent().remove();
     newElem.find("#cke_PlaneNoteDeadline" + i + num).remove();
     CKEDITOR.replace("PlaneNoteDeadline" + i + newNum);
     $("#tinhtrang-deadline-plane" + i + newNum).select2();
+    $("#deadline-currency-plane" + i + newNum).select2();
 }
 function removeOptionPlane() {
     var num = $('.OptionPlane').length,

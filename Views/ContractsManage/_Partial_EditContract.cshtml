@@ -48,17 +48,17 @@
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Ngày ký hợp đồng</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.ContractDate, new { @class = "form-control", id = "edit-contractdate", style = "width: 100%", @type = "date", required = "required" })
+                                        @Html.TextBoxFor(model => model.ContractDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-contractdate", style = "width: 100%", @type = "date", required = "required" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-lg-2 col-md-2">Ngày bắt đầu</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control", id = "edit-startdate", @type = "date", style = "width: 100%" })
+                                        @Html.TextBoxFor(model => model.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-startdate", @type = "date", style = "width: 100%", @required="required" })
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Ngày kết thúc</label>
                                     <div class="col-lg-4 col-md-4">
-                                        @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control", id = "edit-enddate", style = "width: 100%", @type = "date" })
+                                        @Html.TextBoxFor(model => model.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "edit-enddate", style = "width: 100%", @type = "date", @required="required" })
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -67,8 +67,16 @@
                                         @Html.TextBoxFor(model => model.NumberDay, new { @class = "form-control", type = "number", min = "0" })
                                     </div>
                                     <label class="control-label col-lg-2 col-md-2">Tổng giá trị</label>
-                                    <div class="col-lg-4 col-md-4">
+                                    <div class="col-lg-2 col-md-2">
                                         @Html.TextBoxFor(model => model.TotalPrice, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <select id="edit-currency" name="CurrencyId" style="width: 100%" class="form-control">
+                                            @foreach (var item in LoadData.CurrencyList())
+                                            {
+                                                <option value="@item.Id" @(Model != null && Model.CurrencyId == item.Id ? "selected" : "")>@item.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">

@@ -35,8 +35,8 @@
                             <td>@item.Status</td>
                             <td>@item.NumberDay</td>
                             <td>@item.NumberCustomer</td>
-                            <td>@string.Format("{0:0,0}", item.CongNoDoiTac)</td>
-                            <td>@string.Format("{0:0,0}", item.CongNoKhachHang)</td>
+                            <td>@string.Format("{0:0,0}", item.CongNoDoiTac).Replace(",", ".")</td>
+                            <td>@string.Format("{0:0,0}", item.CongNoKhachHang).Replace(",", ".")</td>
                         </tr>
                         i++;
                     }

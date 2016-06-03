@@ -9,6 +9,7 @@ $("#insert-countrypartner").select2();
 $("#insert-addresspartner").select2();
 $("#insert-stylepartner").select2();
 $("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
+$("#insert-currency1").select2();
 
 $('.dataTable').dataTable({
     order: [],
@@ -71,14 +72,16 @@ $(function () {
         newElem.find('.servicename').attr('name', 'PartnerServiceName' + newNum).val('');
         newElem.find('.serviceprice').attr('name', 'PartnerServicePrice' + newNum).val('');
         newElem.find('.servicenote').attr('id', 'insert-noteservicepartner' + newNum).attr('name', 'PartnerServiceNote' + newNum).val('');
+        newElem.find('.servicecurrency').attr('id', 'insert-currency' + newNum).attr('name', 'PartnerServiceCurrencyId' + newNum);
 
         // insert the new element after the last "duplicatable" input field
         $('#entry' + num).after(newElem);
         CKEDITOR.replace("insert-noteservicepartner" + newNum);
+        $("#insert-currency" + newNum).select2();
 
         for (var i = 1; i < newNum; i++) {
             $("#entry" + newNum).find("#cke_insert-noteservicepartner" + i).remove();
-            //$("#entry" + newNum + " #select2-countryvisa" + i + "-container").parent().parent().parent().remove();
+            $("#entry" + newNum + " #select2-insert-currency" + i + "-container").parent().parent().parent().remove();
         }
 
         // enable the "remove" button
@@ -131,6 +134,7 @@ $("#btnEdit").click(function () {
             $("#edit-stylepartner").select2();
             for (var i = 1 ; i <= $('#countServiceE').val() ; i++) {
                 CKEDITOR.replace('edit-noteservicepartnerE' + i);
+                $('#edit-currencyE' + i).select2();
             }
             $("#modal-edit-partner").modal("show");
 
@@ -145,17 +149,17 @@ $("#btnEdit").click(function () {
                     newElem.find('.servicenameE').attr('name', 'PartnerServiceNameE' + newNum).val('');
                     newElem.find('.servicepriceE').attr('name', 'PartnerServicePriceE' + newNum).val('');
                     newElem.find('.servicenoteE').attr('id', 'edit-noteservicepartnerE' + newNum).attr('name', 'PartnerServiceNoteE' + newNum).val('');
+                    newElem.find('.servicecurrencyE').attr('id', 'edit-currencyE' + newNum).attr('name', 'PartnerServiceCurrencyIdE' + newNum).val('');
 
                     // insert the new element after the last "duplicatable" input field
 
                     $('#entryE' + num).after(newElem);
                     CKEDITOR.replace("edit-noteservicepartnerE" + newNum)
+                    $("#edit-currencyE" + newNum).select2();
 
                     //for (var i = 1; i < newNum; i++) {
                     newElem.find("#cke_edit-noteservicepartnerE" + num).remove();
-                    //newElem.find("#cke_edit-noteservicepartnerE1").remove();
-                    //$("#entry" + newNum + " #select2-countryvisa" + i + "-container").parent().parent().parent().remove();
-                    //}
+                    $("#entry" + newNum + " #select2-edit-currencyE" + i + "-container").parent().parent().parent().remove();
 
                     // enable the "remove" button
                     $('#btnDelE').attr('disabled', false);

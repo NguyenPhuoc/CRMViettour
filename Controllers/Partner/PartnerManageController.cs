@@ -191,7 +191,8 @@ namespace CRMViettour.Controllers
                                 Price = form["PartnerServicePrice" + i] != null ? Convert.ToDouble(form["PartnerServicePrice" + i]) : 0,
                                 CreatedDate = DateTime.Now,
                                 ModifiedDate = DateTime.Now,
-                                Note = form["PartnerServiceNote" + i].ToString()
+                                Note = form["PartnerServiceNote" + i].ToString(),
+                                CurrencyId = Convert.ToInt32(form["PartnerServiceCurrency" + i].ToString()),
                             };
                             await _servicesPartnerRepository.Create(sv);
 
@@ -252,7 +253,8 @@ namespace CRMViettour.Controllers
                                 Price = form["PartnerServicePriceE" + i] != null ? Convert.ToDouble(form["PartnerServicePriceE" + i]) : 0,
                                 CreatedDate = DateTime.Now,
                                 ModifiedDate = DateTime.Now,
-                                Note = form["PartnerServiceNoteE" + i].ToString()
+                                Note = form["PartnerServiceNoteE" + i].ToString(),
+                                CurrencyId = Convert.ToInt32(form["PartnerServiceCurrencyE" + i].ToString())
                             };
                             await _servicesPartnerRepository.Create(sv);
 

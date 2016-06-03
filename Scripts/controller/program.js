@@ -21,8 +21,7 @@ CKEDITOR.replace("insert-note");
 $("#insert-tour").select2();
 $("#insert-customer").select2();
 $("#insert-address").select2();
-//$("#insert-startdate").datepicker();
-//$("#insert-enddate").datepicker();
+$("#insert-currency").select2();
 $("#insert-ngayhen-lichhen").val(moment(new Date()).format("YYYY-MM-DD") + "T08:30");
 
 
@@ -43,8 +42,7 @@ $("#btnEdit").click(function () {
             $("#edit-tour").select2();
             $("#edit-customer").select2();
             $("#edit-address").select2();
-            //$("#edit-startdate").datepicker();
-            //$("#edit-enddate").datepicker();
+            $("#edit-currency").select2();
             $("#modal-edit-program").modal("show");
         }
     });

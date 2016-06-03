@@ -33,9 +33,9 @@
                                                             <select class="form-control name-transport" id="name-transport1" style="width:100%;" name="name-transport1">
                                                                 <option>-- Chọn đối tác vận chuyển --</option>
                                                                 @foreach (var item in LoadData.TransportList())
-                                                            {
-                                                            <option value="@item.Id">@item.Name</option>
-                                                            }
+                                                                {
+                                                                    <option value="@item.Id">@item.Name</option>
+                                                                }
                                                             </select>
                                                         </div>
                                                         <label class="control-label col-lg-2 col-md-2">Mã đối tác</label>
@@ -77,15 +77,15 @@
                                                         <div class="col-lg-5 col-md-5">
                                                             <input type="text" class="form-control ServiceName" required="required" name="ServiceName11" id="ServiceName11" placeholder="Tên dịch vụ..." />
                                                         </div>
-                                                        <div class="col-lg-4 col-md-4">
+                                                        <div class="col-lg-5 col-md-5">
                                                             <input type="number" min="0" class="form-control ServicePrice" name="ServicePrice11" id="ServicePrice11" placeholder="Giá..." />
                                                         </div>
                                                         <div class="col-lg-2 col-md-2">
                                                             <select class="form-control ServiceCurrency" required="required" style="width: 100%" id="ServiceCurrency11" name="ServiceCurrency11">
                                                                 @foreach (var item in LoadData.CurrencyList())
-                                                            {
-                                                            <option value="@item.Id">@item.Name</option>
-                                                            }
+                                                                {
+                                                                    <option value="@item.Id">@item.Name</option>
+                                                                }
                                                             </select>
                                                         </div>
                                                         <div class=" col-lg-1 col-md-1 actionRemoveServiceTranport">

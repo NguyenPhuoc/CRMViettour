@@ -16,6 +16,8 @@ namespace CRMViettour.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private DataContext _db = new DataContext();
+
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
@@ -425,5 +427,29 @@ namespace CRMViettour.Controllers
             }
         }
         #endregion
+
+        #region Password
+        [HttpPost]
+        public async Task<ActionResult> CreatePassword(int id)
+        {
+            var staff = _db.tbl_Staff.Find(id);
+            if (UserManager.FindByName(staff.Code) != null) // đã có account
+            {
+                // change password = code
+                UserManager.RemovePassword(User.Identity.GetUserId());
+                UserManager.AddPassword(User.Identity.GetUserId(), staff.Code);
+            }
+            else // chưa có account
+            {
+                // create new
+                var user = new CRMViettour.Models.ApplicationUser() { UserName = staff.Code, Email = staff.Email };
+                var result = await UserManager.CreateAsync(user, staff.Code);
+
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
     }
 }

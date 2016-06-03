@@ -134,7 +134,7 @@ namespace CRMViettour.Controllers.Tour
                             DictionaryId = 1145,
                             Note = form["note-hotel" + i].ToString(),
                             PartnerId = service.PartnerId,
-                            Request = service.NumberRoom + " phòng, " + service.NumberNight + " đêm, giá/đơn vị: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
+                            Request = service.NumberRoom + " phòng, " + service.NumberNight + " đêm, giá/đơn vị: " + string.Format("{0:0,0}", service.Price).Replace(",", ".") + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                             StaffId = 9,
                             TourId = tourId
                         };
@@ -160,6 +160,7 @@ namespace CRMViettour.Controllers.Tour
                                         StaffId = 9,
                                         StatusId = Convert.ToInt32(form["deadline-status-hotel" + i + j].ToString()),
                                         Time = Convert.ToDateTime(form["deadline-thoigian-hotel" + i + j].ToString()),
+                                        CurrencyId = Convert.ToInt32(form["deadline-currency-hotel" + i + j].ToString())
                                     };
                                     if (await _deadlineOptionRepository.Create(deadline))
                                     {
@@ -314,7 +315,7 @@ namespace CRMViettour.Controllers.Tour
                             DictionaryId = 1145,
                             Note = service.Note,
                             PartnerId = service.PartnerId,
-                            Request = "giá: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
+                            Request = "giá: " + string.Format("{0:0,0}", service.Price).Replace(",", ".")  + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                             StaffId = 9,
                             TourId = tourId,
                             ContactDate = DateTime.Now//=========<<<=====
@@ -337,6 +338,7 @@ namespace CRMViettour.Controllers.Tour
                                         StaffId = 9,
                                         StatusId = Convert.ToInt32(form["DeadlineStatus" + i + j].ToString()),
                                         Time = Convert.ToDateTime(form["DeadlineThoiGian" + i + j].ToString()),
+                                        CurrencyId = Convert.ToInt32(form["deadline-currency-restaurant" + i + j].ToString())
                                     };
                                     if (await _deadlineOptionRepository.Create(deadline))
                                     {
@@ -491,7 +493,7 @@ namespace CRMViettour.Controllers.Tour
                                 DictionaryId = 1145,
                                 Note = service.Note,
                                 PartnerId = service.PartnerId,
-                                Request = "dịch vụ: " + service.Name + ", giá: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
+                                Request = "dịch vụ: " + service.Name + ", giá: " + string.Format("{0:0,0}", service.Price).Replace(",", ".") + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                                 StaffId = 9,
                                 TourId = tourId
                             };
@@ -588,7 +590,7 @@ namespace CRMViettour.Controllers.Tour
                             DictionaryId = 1145,
                             Note = service.Note,
                             PartnerId = service.PartnerId,
-                            Request = "Chuyến bay: " + service.Flight + ", số lượng vé: " + service.NumberTicket + ", giá/vé: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
+                            Request = "Chuyến bay: " + service.Flight + ", số lượng vé: " + service.NumberTicket + ", giá/vé: " + string.Format("{0:0,0}", service.Price).Replace(",", ".") + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                             StaffId = 9,
                             TourId = tourId
                         };
@@ -610,6 +612,7 @@ namespace CRMViettour.Controllers.Tour
                                         StaffId = 9,
                                         StatusId = Convert.ToInt32(form["tinhtrang-deadline-plane" + i + j].ToString()),
                                         Time = Convert.ToDateTime(form["thoigian-deadline-plane" + i + j].ToString()),
+                                        CurrencyId = Convert.ToInt32(form["deadline-currency-plane" + i + j].ToString())
                                     };
                                     // tài liệu
                                     HttpPostedFileBase FileName = Session["PlaneFile" + i + j] as HttpPostedFileBase;
@@ -796,7 +799,7 @@ namespace CRMViettour.Controllers.Tour
                             DictionaryId = 1145,
                             Note = service.Note,
                             PartnerId = service.PartnerId,
-                            Request = "Tổng giá trị: " + string.Format("{0:0,0}", service.Price) + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
+                            Request = "Tổng giá trị: " + string.Format("{0:0,0}", service.Price).Replace(",", ".") + " " + _dictionaryRepository.FindId(service.CurrencyId).Name,
                             StaffId = 9,
                             TourId = tourId
                         };
@@ -818,6 +821,7 @@ namespace CRMViettour.Controllers.Tour
                                         StaffId = 9,
                                         StatusId = Convert.ToInt32(form["deadline-status-event" + i + j].ToString()),
                                         Time = Convert.ToDateTime(form["deadline-thoigian-event" + i + j].ToString()),
+                                        CurrencyId = Convert.ToInt32(form["deadline-currency-event" + i + j].ToString())
                                     };
                                     if (await _deadlineOptionRepository.Create(deadline))
                                     {

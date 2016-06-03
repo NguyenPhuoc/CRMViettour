@@ -47,7 +47,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">Quốc gia</label>
                                     <div class="col-md-4">
-                                        <select id="insert-code-country" class="form-control" name="CountryId" style="width: 100%">
+                                        <select id="insert-code-country" class="form-control" name="CountryId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.DropdownlistCountry())
                                             {
                                                 <option value="@item.Id">@item.Tags</option>
@@ -56,7 +56,7 @@
                                     </div>
                                     <label class="control-label col-md-2">Tags</label>
                                     <div class="col-md-4">
-                                        <select id="insert-tags" class="form-control" multiple="multiple" name="TagsId" style="width: 100%">
+                                        <select id="insert-tags" class="form-control" multiple="multiple" name="TagsId" style="width: 100%" required="required">
                                             @foreach (var item in LoadData.DropdownlistLocation())
                                             {
                                                 <option value="@item.Id">@item.Tags</option>
@@ -70,8 +70,16 @@
                                         @Html.TextBoxFor(model => model.FileName, new { @class = "form-control", type = "file", required = "required" })
                                     </div>
                                     <label class="control-label col-md-2">Tổng giá trị</label>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2 col-lg-2">
                                         @Html.TextBoxFor(model => model.PriceTour, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <select id="insert-currency" name="CurrencyId" style="width: 100%" class="form-control">
+                                            @foreach (var item in LoadData.CurrencyList())
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">

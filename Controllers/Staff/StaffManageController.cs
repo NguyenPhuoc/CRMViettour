@@ -2,6 +2,8 @@
 using CRM.Infrastructure;
 using CRMViettour.Models;
 using CRMViettour.Utilities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
@@ -363,6 +365,10 @@ namespace CRMViettour.Controllers
             var item = await _staffRepository.GetById(id);
             item.IsLock = true;
             _db.SaveChanges();
+
+            UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+            userManager.SetLockoutEnabled(userManager.FindByName(item.Code).Id, false);
+
             return Json(JsonRequestBehavior.AllowGet);
         }
 
@@ -372,6 +378,10 @@ namespace CRMViettour.Controllers
             var item = await _staffRepository.GetById(id);
             item.IsLock = false;
             _db.SaveChanges();
+
+            UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+            userManager.SetLockoutEnabled(userManager.FindByName(item.Code).Id, true);
+
             return Json(JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -1164,6 +1174,7 @@ namespace CRMViettour.Controllers
         }
         #endregion
 
+        #region Task
         [ValidateInput(false)]
         public async Task<ActionResult> CreateTaskStaff(tbl_Task model, FormCollection form)
         {
@@ -1199,5 +1210,8 @@ namespace CRMViettour.Controllers
             //                }).ToList();
             //return PartialView("~/Views/TourTabInfo/_NhiemVu.cshtml", list);
         }
+        #endregion
+
     }
+
 }

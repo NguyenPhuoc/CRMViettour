@@ -62,8 +62,8 @@
                             <td>@item.NumberDay</td>
                             <td>@item.TourGuide</td>
                             <td>@item.TourType</td>
-                            <td id="cnkh@(item.Id)">@string.Format("{0:0,0}", item.CongNoKhachHang)</td>
-                            <td id="cndt@(item.Id)">@string.Format("{0:0,0}", item.CongNoDoiTac)</td>
+                            <td id="cnkh@(item.Id)">@string.Format("{0:0,0}", item.CongNoKhachHang).Replace(",", ".")</td>
+                            <td id="cndt@(item.Id)">@string.Format("{0:0,0}", item.CongNoDoiTac).Replace(",", ".")</td>
                         </tr>
                         i++;
                     }

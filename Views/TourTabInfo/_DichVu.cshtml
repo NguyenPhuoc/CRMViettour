@@ -38,7 +38,7 @@
                             <td>@item.Address</td>
                             <td>@item.StaffContact</td>
                             <td>@item.Phone</td>
-                            <td>@string.Format("{0:0,0}", item.Price)</td>
+                            <td>@string.Format("{0:0,0}", item.Price).Replace(',', '.') </td>
                             <td>@Html.Raw(item.Note)</td>
                             <td>
                                 @if (ViewBag.IsEdit != null && ViewBag.IsEdit)

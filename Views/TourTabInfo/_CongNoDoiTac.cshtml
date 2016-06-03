@@ -32,9 +32,9 @@
                         <td>@i</td>
                         <td>@item.tbl_Partner.Name</td>
                         <td>@(item.PaymentMethod == 1 ? "Tiền mặt" : item.PaymentMethod == 2 ? "Chuyển khoản" : item.PaymentMethod == 3 ? "Thẻ" : "Khác")</td>
-                        <td>@string.Format("{0:0,0}", item.ServicePrice)</td>
-                        <td>@string.Format("{0:0,0}", item.FirstPayment + item.SecondPayment)</td>
-                        <td>@string.Format("{0:0,0}", item.TotalRemaining)</td>
+                        <td>@string.Format("{0:0,0}", item.ServicePrice).Replace(',','.')</td>
+                        <td>@string.Format("{0:0,0}", item.FirstPayment + item.SecondPayment).Replace(',', '.')</td>
+                        <td>@string.Format("{0:0,0}", item.TotalRemaining).Replace(',', '.')</td>
                         <td>@(item.tbl_DictionaryCurrencyType1 != null ? item.tbl_DictionaryCurrencyType1.Name : "")</td>
                         <td>@Html.Raw(item.Note)</td>
                         <td>

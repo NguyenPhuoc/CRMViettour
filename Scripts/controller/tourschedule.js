@@ -104,7 +104,6 @@ $(".FilterAppoi").change(function () {
                 columnDefs: [{ orderable: false, targets: [0] }]
             });
 
-
             $(".dataTable").dataTable().columnFilter({
                 sPlaceHolder: "head:after",
                 aoColumns: [null,
@@ -114,6 +113,23 @@ $(".FilterAppoi").change(function () {
                             { type: "text" },
                             { type: "text" },
                             { type: "text" }]
+            });
+
+            $("table#table-booking").delegate("tr", "click", function () {
+                $('tr').not(this).removeClass('oneselected');
+                $(this).toggleClass('oneselected');
+
+                var dataPost = { id: $(this).find("input[type='hidden']").val() };
+                $.ajax({
+                    type: "POST",
+                    url: '/TourSchedule/InfoLichDiTour',
+                    data: JSON.stringify(dataPost),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (data) {
+                        $("#table-document").html(data);
+                    }
+                });
             });
         }
     })

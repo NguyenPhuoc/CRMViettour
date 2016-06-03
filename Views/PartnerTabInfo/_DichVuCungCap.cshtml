@@ -21,7 +21,7 @@
                     <tr class="odd gradeX">
                         <td>@i</td>
                         <td>@item.Name</td>
-                        <td>@string.Format("{0:0,0}", item.Price).Replace(',', '.')</td>
+                        <td>@string.Format("{0:0,0}", item.Price).Replace(',', '.') </td>
                         <td>@Html.Raw(item.Note)</td>
                         <td>@string.Format("{0:dd-MM-yyyy}", item.ModifiedDate)</td>
                     </tr>

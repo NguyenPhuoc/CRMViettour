@@ -29,14 +29,14 @@
                             <td>@i</td>
                             <td>@item.Code</td>
                             <td>@item.Name</td>
-                            <td>@string.Format("{0:dd-MM-yyyy}", @item.StartDate)</td>
-                            <td>@string.Format("{0:dd-MM-yyyy}", @item.EndDate)</td>
+                            <td>@string.Format("{0:dd-MM-yyyy}", item.StartDate)</td>
+                            <td>@string.Format("{0:dd-MM-yyyy}", item.EndDate)</td>
                             <td>@item.TourType</td>
                             <td>@item.Status</td>
                             <td>@item.NumberDay</td>
                             <td>@item.NumberCustomer</td>
-                            <td>@string.Format("{0:0,0}", item.CongNoDoiTac)</td>
-                            <td>@string.Format("{0:0,0}", item.CongNoKhachHang)</td>
+                            <td>@string.Format("{0:0,0}", item.CongNoDoiTac).Replace(",", ".")</td>
+                            <td>@string.Format("{0:0,0}", item.CongNoKhachHang).Replace(",", ".")</td>
                         </tr>
                         i++;
                     }
